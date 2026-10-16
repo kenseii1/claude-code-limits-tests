@@ -1,0 +1,241 @@
+{
+ "duration_api_ms": 12822,
+ "stop_reason": "end_turn",
+ "session_id": "24d3e5de-5f8d-4a06-845f-5c8d4a842b78",
+ "total_cost_usd": 0.08292290000000001,
+ "usage": {
+  "input_tokens": 10,
+  "cache_creation_input_tokens": 14707,
+  "cache_read_input_tokens": 97849,
+  "output_tokens": 1429,
+  "output_tokens_details": {
+   "thinking_tokens": 40
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 14707,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 383,
+    "cache_read_input_tokens": 24315,
+    "cache_creation_input_tokens": 676,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 676
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 10,
+   "outputTokens": 1429,
+   "cacheReadInputTokens": 97849,
+   "cacheCreationInputTokens": 14707,
+   "webSearchRequests": 0,
+   "costUSD": 0.08292290000000001,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 40,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 6,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "Call order (all under `src/tessel/`):\n\n1. `Tessel.finalize_request` (`app.py:1021`) – called at the end of dispatch (`app.py:1019`) or from the error handler path (`app.py:948`); runs `make_response`, then calls:\n2. `Tessel.finalize_reply` (`app.py:1394`) – runs post-processing, then at `app.py:1415-1416` skips null sessions and calls:\n3. `SignedCookieSessionInterface.persist_session` (`sessions.py:337`) – the method that writes the cookie. It:\n   - adds `Vary: Cookie` if the session was accessed.\n   - calls `response.delete_cookie` if the session was modified to empty.\n   - otherwise checks `cookie_needs_write` (`sessions.py:234`), signs the data with `make_signer(app).dumps(...)`, and calls `response.set_cookie(...)` (`sessions.py:374`).\n\nThe cookie attributes come from the `get_cookie_*` helpers in `sessions.py:172-221`. `testing.py:177` also calls `persist_session` directly for the test client's session transaction.",
+ "ttft_ms": 1501,
+ "type": "result",
+ "duration_ms": 12967,
+ "uuid": "d5524239-88ec-4a04-8739-17c8e638a365",
+ "ttft_stream_ms": 854,
+ "time_to_request_ms": 40,
+ "first_content_frame_ms": 854,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.300",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"save_session|saveSession|set_cookie|Set-Cookie|session.*cookie\", \"-i\": true, \"output_mode\": \"content\", \"head_limit\": 60}",
+   "sub": false,
+   "result_chars": 5389,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/testing.py:182:            resp.headers.getlist(\"Set-Cookie\"),\nsrc/tessel/app.py:45:from .sessions import SignedCookieSessionInterface\nsrc/tessel/app"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"save_session|def process_response|def finalize_request|def full_dispatch_request|def wsgi_app|def make_response|def __call__\", \"path\": \"$UL_SCRATCH/runs/main/flatmap/plain-q2-r1/src/tessel\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 252,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/helpers.py:151:def make_response(*args: t.Any) -> Response:\nsrc/tessel/app.py:1021:    def finalize_request(\nsrc/tessel/app.py:1224:    def make_resp"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/flatmap/plain-q2-r1/src/tessel/sessions.py\", \"offset\": 320, \"limit\": 70}",
+   "sub": false,
+   "result_chars": 2512,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "320\t            },\n321\t        )\n322\t\n323\t    def restore_session(self, app: Tessel, request: Request) -> SignedCookieSession | None:\n324\t        s = self.make_"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"session_interface\\\\.|finalize_request|\\\\.process_response|def wsgi_app|\\\\.persist|def .*response\", \"path\": \"$UL_SCRATCH/runs/main/flatmap/plain-q2-r1/src/tessel\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 1655,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/helpers.py:90:        def streamed_response():\nsrc/tessel/helpers.py:106:        def streamed_response():\nsrc/tessel/helpers.py:151:def make_response"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/flatmap/plain-q2-r1/src/tessel/app.py\", \"offset\": 1021, \"limit\": 32}",
+   "sub": false,
+   "result_chars": 1383,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1021\t    def finalize_request(\n1022\t        self,\n1023\t        ctx: AppContext,\n1024\t        rv: ft.ResponseReturnValue | HTTPException,\n1025\t        from_error"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed_warning",
+  "resetsAt": 1792414800,
+  "rateLimitType": "seven_day",
+  "utilization": 0.83,
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "surpassedThreshold": 0.75,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.88,
+    "resetsAt": 1792053000
+   },
+   "seven_day": {
+    "utilization": 0.83,
+    "resetsAt": 1792414800
+   }
+  },
+  "overageEnabled": false
+ },
+ "_compact": [],
+ "_wall_s": 14.0,
+ "_t_start": "2026-10-15T03:46:14.575560+00:00",
+ "_t_end": "2026-10-15T03:46:28.591295+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/flatmap/plain-q2-r1",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "In this repo, how does the session cookie get written at the end of a request? List the functions involved in call order, with file paths. Be brief."
+ },
+ "_mu_cum": {
+  "input": 10,
+  "output": 1429,
+  "cache_read": 97849,
+  "cache_creation": 14707,
+  "cost": 0.08292290000000001,
+  "total": 113995
+ },
+ "tok": {
+  "input": 10,
+  "output": 1429,
+  "cache_read": 97849,
+  "cache_creation": 14707,
+  "cost": 0.08292290000000001,
+  "total": 113995,
+  "method": "single"
+ },
+ "_tok_usage_field": 113995,
+ "_ctx_last_call": 24993,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "plain"
+}

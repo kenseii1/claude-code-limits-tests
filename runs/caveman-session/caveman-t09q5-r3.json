@@ -1,0 +1,220 @@
+{
+ "duration_api_ms": 179086,
+ "stop_reason": "end_turn",
+ "session_id": "b127d509-62a6-47af-a377-0875600bd40b",
+ "total_cost_usd": 0.7575894000000001,
+ "usage": {
+  "input_tokens": 4,
+  "cache_creation_input_tokens": 2687,
+  "cache_read_input_tokens": 188019,
+  "output_tokens": 2244,
+  "output_tokens_details": {
+   "thinking_tokens": 225
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 2687,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1748,
+    "cache_read_input_tokens": 94920,
+    "cache_creation_input_tokens": 866,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 866
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 68,
+   "outputTokens": 22540,
+   "thinkingTokens": 638,
+   "cacheReadInputTokens": 1900454,
+   "cacheCreationInputTokens": 85502,
+   "webSearchRequests": 0,
+   "costUSD": 0.7575894000000001,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 3,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "The server calls `Tessel.__call__`, which hands off to `wsgi_entry`. That builds and pushes the context, runs routing, then runs the before-request hooks and the view.\n\nOne correction to my earlier answers: the method I called `wsgi_app` is `Tessel.wsgi_entry`, at `src/tessel/app.py:1566`. There is no `wsgi_app` in this repo.\n\n## Methods in call order\n\n1. `Tessel.__call__`, `src/tessel/app.py:1618`. Calls `wsgi_entry`.\n2. `Tessel.wsgi_entry`, `src/tessel/app.py:1566`. Orchestrates the request.\n3. `Tessel.request_context`, `src/tessel/app.py:1501`. Calls `AppContext.from_environ`.\n4. `AppContext.from_environ`, `src/tessel/ctx.py:340`, then `AppContext.__init__`, `src/tessel/ctx.py:300`.\n5. `Tessel.build_url_binder`, `src/tessel/app.py:507`. Called from `__init__`.\n6. `AppContext.push`, `src/tessel/ctx.py:416`.\n7. `AppContext._get_session`, `src/tessel/ctx.py:381`. Calls `SessionInterface.restore_session`.\n8. `AppContext.match_request`, `src/tessel/ctx.py:405`.\n9. `Tessel.run_full_request`, `src/tessel/app.py:992`.\n10. `Tessel.preprocess_request`, `src/tessel/app.py:1366`.\n11. `Tessel.run_view`, `src/tessel/app.py:966`. Calls the view through `ensure_sync`.\n\n## Steps\n\n1. **Entry.** The server calls `app(environ, start_response)`. `__call__` forwards to `wsgi_entry`. It is a separate method so middleware can wrap it.\n2. **Build the context.** `wsgi_entry` calls `self.request_context(environ)`. `request_context` calls `AppContext.from_environ`, which creates `app.request_class(environ)`, sets `request.json_module = app.json`, and builds the `AppContext`.\n3. **Init the context.** `AppContext.__init__` stores `app`, creates a fresh `g` from `app.app_ctx_globals_class()`, and calls `app.build_url_binder(request)` for the URL adapter. A binding `HTTPException` is saved on `request.routing_exception` instead of raised.\n4. **Push.** `wsgi_entry` calls `ctx.push()`. On the first push it does `_app_var.set(self)` and sends `appcontext_pushed`. From here `active_app`, `g`, `request` and `session` resolve to this context.\n5. **Open the session.** Still in `push`, if there is a request, `_get_session()` calls `session_interface.restore_session(app, request)`. This reads and verifies the signed cookie. It falls back to `make_null_session` if that returns `None`.\n6. **Match the URL.** Then `push` calls `match_request()` if `url_adapter` is set. It runs `url_adapter.match(return_rule=True)` and stores `request.url_rule` and `request.view_args`. A routing `HTTPException` goes to `request.routing_exception` instead.\n7. **Dispatch.** `wsgi_entry` calls `run_full_request(ctx)`. It sets `_got_first_request`, sends `request_started`, and opens a `try`.\n8. **Preprocess.** `preprocess_request(ctx)` runs `url_value_preprocessors` and then `before_request_funcs`, app scope first and then bundle scopes. The bundle scopes come from `reversed(request.bundles)`. A `before_request` function that returns a non-`None` value ends processing, and that value becomes the response.\n9. **Run the view.** `run_view(ctx)`:\n   - raises the stored routing exception through `raise_routing_exception` if there is one (404, 405, redirect);\n   - answers `OPTIONS` automatically if the rule has `provide_automatic_options`;\n   - otherwise calls `self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)`.\n10. **Your view runs.** `view_functions[rule.endpoint]` is either your function or the closure from `View.to_view_func`.\n\n## Notes\n\n- Errors anywhere in steps 7-9 go to `route_user_fault`. An error in steps 2-6 goes to `wsgi_entry`'s `except Exception` and `route_unhandled_fault`.\n- After the view, `finalize_request` runs, the session is saved, and `wsgi_entry` calls `ctx.pop(error)` in its `finally`.",
+ "ttft_ms": 1954,
+ "type": "result",
+ "duration_ms": 16323,
+ "uuid": "c63137b9-d8c3-4783-afff-c546def8d94a",
+ "ttft_stream_ms": 1096,
+ "time_to_request_ms": 49,
+ "first_content_frame_ms": 1096,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init",
+  "system:thinking_tokens"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.300",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 31,
+  "skills_local": [
+   "caveman"
+  ],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"def __call__|def wsgi_entry|def wsgi_app|def request_context|def preprocess_request|def raise_routing_exception\", \"output_mode\": \"content\", \"path\": \"$UL_SCRATCH/runs/main/caveman-session/caveman-r3/src/tessel/app.py\"}",
+   "sub": false,
+   "result_chars": 287,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "560:    def raise_routing_exception(self, request: Request) -> t.NoReturn:\n1366:    def preprocess_request(self, ctx: AppContext) -> ft.ResponseReturnValue | No"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/caveman-session/caveman-r3/src/tessel/app.py\", \"offset\": 1618, \"limit\": 30}",
+   "sub": false,
+   "result_chars": 409,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1618\t    def __call__(\n1619\t        self, environ: WSGIEnvironment, start_response: StartResponse\n1620\t    ) -> cabc.Iterable[bytes]:\n1621\t        \"\"\"The WSGI s"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed_warning",
+  "resetsAt": 1792414800,
+  "rateLimitType": "seven_day",
+  "utilization": 0.81,
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "surpassedThreshold": 0.75,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.65,
+    "resetsAt": 1792053000
+   },
+   "seven_day": {
+    "utilization": 0.81,
+    "resetsAt": 1792414800
+   }
+  },
+  "overageEnabled": false
+ },
+ "_compact": [],
+ "_wall_s": 17.3,
+ "_t_start": "2026-10-15T03:42:28.603629+00:00",
+ "_t_end": "2026-10-15T03:42:45.866599+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": "b127d509-62a6-47af-a377-0875600bd40b",
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/caveman-session/caveman-r3",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "In this repo, what happens between the WSGI server calling the app and the view function running? List the main methods in order, with file paths. Explain how it works, step by step."
+ },
+ "_mu_cum": {
+  "input": 68,
+  "output": 22540,
+  "cache_read": 1900454,
+  "cache_creation": 85502,
+  "cost": 0.7575894000000001,
+  "total": 2008564
+ },
+ "tok": {
+  "input": 4,
+  "output": 2244,
+  "cache_read": 188019,
+  "cache_creation": 2687,
+  "total": 192954,
+  "cost": 0.051998,
+  "method": "delta"
+ },
+ "_tok_usage_field": 192954,
+ "_ctx_last_call": 95788,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "caveman",
+ "_turn": 9,
+ "_rep": 3,
+ "_target": "q5"
+}

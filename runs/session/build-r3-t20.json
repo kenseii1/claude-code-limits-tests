@@ -1,0 +1,203 @@
+{
+ "duration_api_ms": 148753,
+ "stop_reason": "end_turn",
+ "session_id": "600996ac-5111-4cfe-9c21-b6a657c31c1d",
+ "total_cost_usd": 0.9215288000000001,
+ "usage": {
+  "input_tokens": 4,
+  "cache_creation_input_tokens": 7852,
+  "cache_read_input_tokens": 235471,
+  "output_tokens": 1069,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 7852,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 927,
+    "cache_read_input_tokens": 117878,
+    "cache_creation_input_tokens": 7567,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 7567
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 84,
+   "outputTokens": 14390,
+   "thinkingTokens": 294,
+   "cacheReadInputTokens": 3161608,
+   "cacheCreationInputTokens": 115325,
+   "webSearchRequests": 0,
+   "costUSD": 0.9215288000000001,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 2,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "## `docs/cli.rst`: app discovery and custom commands\n\n### Application discovery\n- The `tessel` script is installed by Tessel, not your app, so it has to be told where the app is, via `--app` (or the `TESSEL_APP` variable, which dotenv files can supply).\n- `--app` has up to three parts: an optional path that sets the working directory, a Python file or dotted import path, and an optional instance or factory name.\n\n  | Value | Meaning |\n  |---|---|\n  | `--app src/hello` | Sets the working directory to `src`, then imports `hello` |\n  | `--app hello.web` | Imports `hello.web` |\n  | `--app hello:app2` | Uses the `app2` instance in `hello` |\n  | `--app 'hello:create_app(\"dev\")'` | Calls the factory with `'dev'` |\n\n- Without `--app`, it tries to import `app` or `wsgi` as a `.py` file or package.\n- Inside the imported module it looks, in order, for:\n  1. An instance named `app` or `application`.\n  2. Any app instance.\n  3. A factory named `create_app` or `make_app` that returns an app.\n- Factory arguments are parsed as Python literals, so strings must be quoted.\n\n### Custom commands\n- **Single command:** `@app.cli.command(\"create-user\")` plus a Click argument gives `tessel create-user admin`.\n- **Grouped commands:**\n  - Create an `AppGroup('user')`, add commands to it, then call `app.cli.add_command(user_cli)`.\n  - This gives `tessel user create demo`.\n- **Bundles:**\n  - Commands on `bundle.cli` are nested under a group named after the bundle.\n  - `cli_group='other'` renames the group, either on `Bundle(...)` or on `register_bundle`.\n  - `cli_group=None` merges the commands into the top level.\n- **App context:**\n  - Commands registered through `app.cli` or an `AppGroup`/`TesselGroup` `command()` decorator run with an app context pushed, including their parameter callbacks.\n  - `@needs_app_scope` gives the same behavior for plain Click commands, and is rarely needed.\n- **Plugins:** extensions register commands through the `tessel.commands` entry point in `pyproject.toml`, and they appear after installation.\n- **Custom scripts:**\n  - With an app factory you can define your own script with `@click.group(cls=TesselGroup, create_app=create_app)`.\n  - Expose it as a `[project.scripts]` entry point, and `--app` isn't needed.\n  - A caveat: an error in module-level code breaks the reloader, which is why the plain `tessel` command is recommended in most cases.\n- **Testing:** the page points to `testing-cli` for how to test custom commands.",
+ "ttft_ms": 2294,
+ "type": "result",
+ "duration_ms": 8943,
+ "uuid": "97f585a8-9571-4c33-957b-0ac4a1407f70",
+ "ttft_stream_ms": 1248,
+ "time_to_request_ms": 43,
+ "first_content_frame_ms": 1248,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.299",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/session/chain-r3/docs/cli.rst\"}",
+   "sub": false,
+   "result_chars": 18880,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1\t.. currentmodule:: tessel\n2\t\n3\tCommand Line Interface\n4\t======================\n5\t\n6\tInstalling Tessel installs the ``tessel`` script, a `Click`_ command line\n"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed",
+  "resetsAt": 1791981000,
+  "rateLimitType": "five_hour",
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.82,
+    "resetsAt": 1791981000
+   },
+   "seven_day": {
+    "utilization": 0.49,
+    "resetsAt": 1792414800
+   }
+  }
+ },
+ "_compact": [],
+ "_wall_s": 10.1,
+ "_t_start": "2026-10-14T08:05:49.564061+00:00",
+ "_t_end": "2026-10-14T08:05:59.651060+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": "600996ac-5111-4cfe-9c21-b6a657c31c1d",
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/session/chain-r3",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "Read the full docs page docs/cli.rst and summarize what it says about custom commands and app discovery."
+ },
+ "_mu_cum": {
+  "input": 84,
+  "output": 14390,
+  "cache_read": 3161608,
+  "cache_creation": 115325,
+  "cost": 0.9215288000000001,
+  "total": 3291407
+ },
+ "tok": {
+  "input": 4,
+  "output": 1069,
+  "cache_read": 235471,
+  "cache_creation": 7852,
+  "total": 244396,
+  "cost": 0.065653,
+  "method": "delta"
+ },
+ "_tok_usage_field": 244396,
+ "_ctx_last_call": 125447,
+ "_subagent_calls": 0,
+ "_tpl": "plain",
+ "_turn": 20,
+ "_rep": 3
+}

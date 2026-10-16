@@ -1,0 +1,267 @@
+{
+ "duration_api_ms": 26001,
+ "stop_reason": "end_turn",
+ "session_id": "7116ac4f-5c79-4ae0-96c5-648516ae6ab9",
+ "total_cost_usd": 0.263875,
+ "usage": {
+  "input_tokens": 12,
+  "cache_creation_input_tokens": 23222,
+  "cache_read_input_tokens": 156455,
+  "output_tokens": 2338,
+  "output_tokens_details": {
+   "thinking_tokens": 390
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 23222,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 825,
+    "cache_read_input_tokens": 33107,
+    "cache_creation_input_tokens": 399,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 399
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-opus-5-5": {
+   "inputTokens": 12,
+   "outputTokens": 2338,
+   "cacheReadInputTokens": 156455,
+   "cacheCreationInputTokens": 23222,
+   "webSearchRequests": 0,
+   "costUSD": 0.263875,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 390,
+   "canonicalModel": "claude-opus-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 9,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "[answer redacted: it followed the unrelated private rules file, see README]",
+ "ttft_ms": 3437,
+ "type": "result",
+ "duration_ms": 27258,
+ "uuid": "28203c62-e8c3-4481-b69e-d5627055fc3f",
+ "ttft_stream_ms": 1368,
+ "time_to_request_ms": 40,
+ "first_content_frame_ms": 1369,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init",
+  "system:thinking_tokens"
+ ],
+ "_init": {
+  "model": "claude-opus-5-5",
+  "version": "2.1.301",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 32,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"(?i)set_cookie|setcookie|session.*cookie|save_session\", \"output_mode\": \"files_with_matches\"}",
+   "sub": false,
+   "result_chars": 427,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "Found 19 files\ntests/test_testing.py\ntests/test_reqctx.py\ntests/test_basic.py\nsrc/tessel/sessions.py\nsrc/tessel/json/tag.py\nsrc/tessel/helpers.py\nsrc/tessel/app"
+  },
+  {
+   "tool": "Bash",
+   "input": "{\"command\": \"ls -la\", \"description\": \"List files in working directory\"}",
+   "sub": false,
+   "result_chars": 1112,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "total 792\ndrwxr-xr-x  18 user  wheel     576 Oct 16 00:50 .\ndrwxr-xr-x  33 user  wheel    1056 Oct 16 00:50 ..\ndrwxr-xr-x   4 user  wheel     128 Oct 1"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"def (full_dispatch_request|finalize_request|process_response|save_session|wsgi_app|should_set_cookie)|\\\\.save_session\\\\(|self\\\\.process_response\\\\(|self\\\\.finalize_request\\\\(|response\\\\.set_cookie\\\\(|is_null_session\", \"path\": \"src/tessel\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 713,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/testing.py:173:        if app.session_interface.is_null_session(sess):\nsrc/tessel/app.py:948:        return self.finalize_request(ctx, server_error, "
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/opus/u16k-medium-q2-r1/src/tessel/app.py\", \"offset\": 995, \"limit\": 60}",
+   "sub": false,
+   "result_chars": 2510,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "995\t        error handling.\n996\t\n997\t        .. versionadded:: 0.7\n998\t        \"\"\"\n999\t        if not self._got_first_request and self.should_ignore_error is no"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/opus/u16k-medium-q2-r1/src/tessel/app.py\", \"offset\": 1385, \"limit\": 40}",
+   "sub": false,
+   "result_chars": 1925,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1385\t            if name in self.before_request_funcs:\n1386\t                for before_func in self.before_request_funcs[name]:\n1387\t                    rv = se"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/opus/u16k-medium-q2-r1/src/tessel/sessions.py\", \"offset\": 255, \"limit\": 135}",
+   "sub": false,
+   "result_chars": 5193,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "255\t\n256\t        This will return ``None`` to indicate that loading failed in\n257\t        some way that is not immediately an error. The request\n258\t        con"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"    def \\\\w+\\\\(|self\\\\.(dispatch_cycle|handle_request|full_\\\\w+)\\\\(ctx\\\\)\", \"path\": \"src/tessel/app.py\", \"output_mode\": \"content\", \"offset\": 0}",
+   "sub": false,
+   "result_chars": 2099,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "86:    def wrapper(self: Tessel, *args: t.Any, **kwargs: t.Any) -> t.Any:\n98:    def wrapper(self: Tessel, *args: t.Any, **kwargs: t.Any) -> t.Any:\n252:    def "
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"run_full_request|def cookie_needs_write|def get_expiration_time\", \"path\": \"src/tessel\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 513,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/app.py:264:            cls.run_full_request,\nsrc/tessel/app.py:974:           moved to the new :meth:`run_full_request`.\nsrc/tessel/app.py:992:    de"
+  }
+ ],
+ "_models_seen": [
+  "claude-opus-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed",
+  "resetsAt": 1792117800,
+  "rateLimitType": "five_hour",
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.85,
+    "resetsAt": 1792117800
+   },
+   "seven_day": {
+    "utilization": 0.15,
+    "resetsAt": 1792681200
+   }
+  }
+ },
+ "_compact": [],
+ "_wall_s": 28.5,
+ "_t_start": "2026-10-15T21:50:06.923065+00:00",
+ "_t_end": "2026-10-15T21:50:35.401577+00:00",
+ "_cmd": {
+  "model": "opus",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/opus/u16k-medium-q2-r1",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "In this repo, how does the session cookie get written at the end of a request? List the functions involved in call order, with file paths. Be brief."
+ },
+ "_mu_cum": {
+  "input": 12,
+  "output": 2338,
+  "cache_read": 156455,
+  "cache_creation": 23222,
+  "cost": 0.263875,
+  "total": 182027
+ },
+ "tok": {
+  "input": 12,
+  "output": 2338,
+  "cache_read": 156455,
+  "cache_creation": 23222,
+  "cost": 0.263875,
+  "total": 182027,
+  "method": "single"
+ },
+ "_tok_usage_field": 182027,
+ "_ctx_last_call": 33508,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "cm-16k",
+ "_grade_before_redaction": true
+}

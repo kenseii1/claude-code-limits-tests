@@ -1,0 +1,203 @@
+{
+ "duration_api_ms": 225477,
+ "stop_reason": "end_turn",
+ "session_id": "0e258663-c5cc-43da-9a7c-0042b1b9d6d2",
+ "total_cost_usd": 1.2867739000000002,
+ "usage": {
+  "input_tokens": 4,
+  "cache_creation_input_tokens": 5333,
+  "cache_read_input_tokens": 282422,
+  "output_tokens": 807,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 5333,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 663,
+    "cache_read_input_tokens": 141332,
+    "cache_creation_input_tokens": 5091,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 5091
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 116,
+   "outputTokens": 21030,
+   "thinkingTokens": 301,
+   "cacheReadInputTokens": 5310299,
+   "cacheCreationInputTokens": 136303,
+   "webSearchRequests": 0,
+   "costUSD": 1.2867739000000002,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 2,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "`tests/test_helpers.py` tests these helper functions.\n\n**Directly from `tessel` / `tessel.helpers`**\n- `send_file`: serves a static file with direct passthrough and a `text/html` mimetype, and honours `STATIC_CACHE_SECONDS_DEFAULT` and a `static_cache_seconds` override.\n- `send_from_directory`: serves a file from a directory under `app.root_path`.\n- `link_for`: covers `_anchor`, `_scheme`, `_external` (including the `ValueError` for `_scheme` with `_external=False`), alternating schemes, `_method` for class-based views, and a `self` URL variable.\n- `redirect`: works without an app (Werkzeug path) and delegates to `app.redirect` when an app context is active.\n- `abort`: without an app it raises `Unauthorized` for 401 and `LookupError` for an unknown code. With an app it uses `app.aborter.mapping`, and `aborter_class` is overridable.\n- `stream_with_context`: used as a wrapper and as a decorator, closes a custom iterator via `close()`, keeps `session`/`request` available while streaming, and works from an async view with client context preservation.\n- `get_debug_flag`: `TESSEL_DEBUG` values `\"\"`, `\"0\"`, `\"False\"` and `\"No\"` are false, `\"True\"` is true.\n- `make_response`: no args gives an empty 200 `text/html` response, and one arg gives that body.\n\n**App methods the file also covers**\n- `app.send_static_file`\n- `app.open_resource`: read modes `r`/`rb`/`rt`, write modes raising `ValueError`, and the `encoding` argument.\n- `Tessel(...)` construction does not import the module named by `import_name`.\n\n**Not covered:** `flash`, `get_flashed_messages`, `get_template_attribute` and `get_load_dotenv`. In this file, `flash` and `get_flashed_messages` don't appear at all.",
+ "ttft_ms": 2375,
+ "type": "result",
+ "duration_ms": 8419,
+ "uuid": "30f17d59-7000-44f1-8082-a63ee2357a32",
+ "ttft_stream_ms": 1213,
+ "time_to_request_ms": 47,
+ "first_content_frame_ms": 1213,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.299",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/session/chain-r2/tests/test_helpers.py\"}",
+   "sub": false,
+   "result_chars": 12731,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1\timport io\n2\timport os\n3\t\n4\timport pytest\n5\timport werkzeug.exceptions\n6\t\n7\timport tessel\n8\tfrom tessel.helpers import get_debug_flag\n9\t\n10\t\n11\tclass FakePath:"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed",
+  "resetsAt": 1791981000,
+  "rateLimitType": "five_hour",
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.89,
+    "resetsAt": 1791981000
+   },
+   "seven_day": {
+    "utilization": 0.49,
+    "resetsAt": 1792414800
+   }
+  }
+ },
+ "_compact": [],
+ "_wall_s": 9.7,
+ "_t_start": "2026-10-14T08:06:59.925546+00:00",
+ "_t_end": "2026-10-14T08:07:09.618251+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": "0e258663-c5cc-43da-9a7c-0042b1b9d6d2",
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/session/chain-r2",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "Read the whole test file tests/test_helpers.py and list which helper functions it tests."
+ },
+ "_mu_cum": {
+  "input": 116,
+  "output": 21030,
+  "cache_read": 5310299,
+  "cache_creation": 136303,
+  "cost": 1.2867739000000002,
+  "total": 5467748
+ },
+ "tok": {
+  "input": 4,
+  "output": 807,
+  "cache_read": 282422,
+  "cache_creation": 5333,
+  "total": 288566,
+  "cost": 0.057652,
+  "method": "delta"
+ },
+ "_tok_usage_field": 288566,
+ "_ctx_last_call": 146425,
+ "_subagent_calls": 0,
+ "_tpl": "plain",
+ "_turn": 26,
+ "_rep": 2
+}

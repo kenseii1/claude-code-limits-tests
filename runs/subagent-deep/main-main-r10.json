@@ -1,0 +1,267 @@
+{
+ "duration_api_ms": 22408,
+ "stop_reason": "end_turn",
+ "session_id": "951d66ba-a871-40e1-b1e5-7490e27d7b55",
+ "total_cost_usd": 0.1197972,
+ "usage": {
+  "input_tokens": 16,
+  "cache_creation_input_tokens": 18662,
+  "cache_read_input_tokens": 189572,
+  "output_tokens": 2616,
+  "output_tokens_details": {
+   "thinking_tokens": 280
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 18662,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1430,
+    "cache_read_input_tokens": 28253,
+    "cache_creation_input_tokens": 579,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 579
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 16,
+   "outputTokens": 2616,
+   "cacheReadInputTokens": 189572,
+   "cacheCreationInputTokens": 18662,
+   "webSearchRequests": 0,
+   "costUSD": 0.1197972,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 280,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 8,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "**Result: 23 failed, 1 error, 463 passed, 1 skipped** on the latest full run. The first run showed 24 failed; the extra one, `test_open_resource_exceptions[a]`, is flaky (see below). Nothing was fixed.\n\n## Main root cause: installed Werkzeug is older than Tessel requires (19 of 23 failures)\n\n- The environment has Werkzeug **3.0.3** (and Flask 3.0.3), but `pyproject.toml:29` requires `werkzeug>=3.1.0`.\n- `SignedCookieSessionInterface.persist_session` (`src/tessel/sessions.py:374` and `:361`) passes `partitioned=` to `response.set_cookie()` and `delete_cookie()`. That keyword was added in Werkzeug 3.1, so every request that writes a session cookie raises `TypeError: Response.set_cookie() got an unexpected keyword argument 'partitioned'`.\n- Affected tests:\n  - `test_basic.py`: 13 session and flashing tests, i.e. `test_session_accessed`, `_path`, `_using_application_root`, `_using_session_settings`, `_using_samesite_attribute`, `_secret_key_fallbacks`, `_expiration`, `_stored_last`, `_special_types`, `_cookie_setting`, `_vary_cookie`, `_refresh_vary`, and `test_extended_flashing`.\n  - `test_helpers.py::TestStreaming::test_stream_keeps_session`\n  - `test_reqctx.py::test_copy_context_thread`\n  - `test_reqctx.py::test_session_dynamic_cookie_name`. Its view hits the same `TypeError`, so it returns a 500 page instead of `b\"value set\"`.\n  - `test_signals.py::test_flash_signal`\n  - `test_templating.py::test_standard_context`\n  - `test_testing.py`: `test_redirect_session`, `test_session_transactions`, `test_session_transaction_ipv6`\n\n## Secondary causes\n\n1. **Same Werkzeug mismatch, different symptom (1 failure).** `test_request.py::test_limit_config` expects `Request({}).max_form_memory_size == 500_000` outside an app context. The code in `src/tessel/wrappers.py:93-111` falls back to `super().max_form_memory_size`. Werkzeug 3.0.3 has no such attribute default, so it returns `None`.\n2. **Knock-on error from root cause 1 (1 error).** `test_stream_keeps_session` fails with the `TypeError` while streaming. The generator from `stream_with_context` (`helpers.py:133`) is then garbage-collected with its app context never popped. That produces `RuntimeError: Cannot pop this context` and the `assert not leaks` teardown error in `tests/conftest.py:79`.\n3. **Missing optional dependency (1 failure).** `TestStreaming::test_async_view` raises `RuntimeError: Install Tessel with the 'async' extra in order to use async views` (`src/tessel/app.py:1096`). The async extra (presumably asgiref) is not installed.\n4. **Flaky, not a real failure.** `test_helpers.py::test_open_resource_exceptions[a]` failed in the first run with a pytest-level error. It passes in isolation and in the later full run. Most likely it was a garbage-collection warning from the leaked generator in item 2, attributed to whichever test ran next.\n\n## Summary\n\n| Cause | Failures |\n|---|---|\n| Werkzeug 3.0.3 < required 3.1 (`partitioned` kwarg) | 19 plus 1 teardown error (knock-on) |\n| Werkzeug 3.0.3 lacks `max_form_memory_size` default | 1 |\n| Missing async extra | 1 |\n| Flaky GC-timing artifact | 0 to 1 |\n\nInstalling `werkzeug>=3.1.0` would very likely clear all but the async test, which needs the async extra installed. I didn't run either install, since you asked for no fixes.",
+ "ttft_ms": 1110,
+ "type": "result",
+ "duration_ms": 35037,
+ "uuid": "2e1dde2e-1fc8-4a0b-a9ea-48cdc2cfa3c9",
+ "ttft_stream_ms": 829,
+ "time_to_request_ms": 35,
+ "first_content_frame_ms": 830,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init",
+  "system:task_notification",
+  "system:task_started",
+  "system:thinking_tokens"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.299",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Bash",
+   "input": "{\"command\": \"PYTHONPATH=src python3 -m pytest tests -v 2>&1 | tail -150\"}",
+   "sub": false,
+   "result_chars": 6552,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "        path = self.get_cookie_path(app)\n        secure = self.get_cookie_secure(app)\n        partitioned = self.get_cookie_partitioned(app)\n        samesite = "
+  },
+  {
+   "tool": "Bash",
+   "input": "{\"command\": \"PYTHONPATH=src python3 -m pytest tests -q -k \\\"test_async_view or test_open_resource_exceptions or test_session_dynamic_cookie_name or test_limit_config or test_stream_keeps_session\\\" 2>&1 | grep -v \\\"^    \\\" | head -150; python3 -c \\\"import werkzeug;print(werkzeug.__version__, werkzeug.__file__)\\\"; pip list 2>/dev/null | grep -i -E \\\"werkzeug|flask|asgiref\\\"\"}",
+   "sub": false,
+   "result_chars": 9072,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "FEF....FF                                                                [100%]\n==================================== ERRORS ===================================="
+  },
+  {
+   "tool": "Bash",
+   "input": "{\"command\": \"PYTHONPATH=src python3 -m pytest tests/test_helpers.py -q -k \\\"open_resource_exceptions\\\" -rs 2>&1 | tail -30; grep -n -i \\\"werkzeug\\\" pyproject.toml; grep -n \\\"max_form_memory_size\\\" -r src | head; grep -n \\\"partitioned\\\" -r src | head -20; sed -n 20,40p tests/test_request.py\"}",
+   "sub": false,
+   "result_chars": 2009,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "....                                                                     [100%]\n4 passed, 31 deselected in 0.01s\n29:    \"werkzeug>=3.1.0\",\n202:        \"werkzeug"
+  },
+  {
+   "tool": "Bash",
+   "input": "{\"command\": \"PYTHONPATH=src python3 -m pytest tests/test_helpers.py -q 2>&1 | grep -B3 -A12 \\\"open_resource_exceptions\\\\[a\\\\] _\\\"\"}",
+   "sub": false,
+   "result_chars": 31,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "(Bash completed with no output)"
+  },
+  {
+   "tool": "Bash",
+   "input": "{\"command\": \"PYTHONPATH=src python3 -m pytest tests -q 2>&1 | grep -A25 \\\"test_open_resource_exceptions\\\\[a\\\\] _\\\" | head -50\"}",
+   "sub": false,
+   "result_chars": 31,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "(Bash completed with no output)"
+  },
+  {
+   "tool": "Bash",
+   "input": "{\"command\": \"PYTHONPATH=src python3 -m pytest tests -q 2>&1 | grep -n -i -B2 -A15 \\\"open_resource\\\" | head -60\"}",
+   "sub": false,
+   "result_chars": 31,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "(Bash completed with no output)"
+  },
+  {
+   "tool": "Bash",
+   "input": "{\"command\": \"PYTHONPATH=src python3 -m pytest tests -v 2>&1 | grep -E \\\"open_resource|passed|failed\\\"; PYTHONPATH=src python3 -m pytest tests -v 2>&1 | grep -E \\\"^(FAILED|ERROR)\\\" | wc -l\"}",
+   "sub": false,
+   "result_chars": 907,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "tests/test_helpers.py::test_open_resource[r] PASSED                      [ 64%]\ntests/test_helpers.py::test_open_resource[rb] PASSED                     [ 65%]\n"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed_warning",
+  "resetsAt": 1792414800,
+  "rateLimitType": "seven_day",
+  "utilization": 0.63,
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.54,
+    "resetsAt": 1792017000
+   },
+   "seven_day": {
+    "utilization": 0.63,
+    "resetsAt": 1792414800
+   }
+  },
+  "overageEnabled": false
+ },
+ "_compact": [],
+ "_wall_s": 35.9,
+ "_t_start": "2026-10-14T17:43:15.453949+00:00",
+ "_t_end": "2026-10-14T17:43:51.316314+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/subagent-deep/main-r10",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)",
+   "Bash(PYTHONPATH=src python3 -m pytest:*)",
+   "Bash(python3 -m pip show:*)",
+   "Bash(pip show:*)",
+   "Bash(pip list:*)",
+   "Bash(python3 -m pip list:*)",
+   "Bash(python3 -c:*)"
+  ],
+  "prompt": "Run the full test suite with: PYTHONPATH=src python3 -m pytest tests -v. Then, for every failing test, find the exact cause: read its traceback and the Tessel source involved, and group the failures by root cause. Report how many tests fail and what the main root cause is. Do not fix anything."
+ },
+ "_mu_cum": {
+  "input": 16,
+  "output": 2616,
+  "cache_read": 189572,
+  "cache_creation": 18662,
+  "cost": 0.1197972,
+  "total": 210866
+ },
+ "tok": {
+  "input": 16,
+  "output": 2616,
+  "cache_read": 189572,
+  "cache_creation": 18662,
+  "cost": 0.1197972,
+  "total": 210866,
+  "method": "single"
+ },
+ "_tok_usage_field": 210866,
+ "_ctx_last_call": 28834,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "plain"
+}

@@ -1,0 +1,193 @@
+{
+ "duration_api_ms": 33361,
+ "stop_reason": "end_turn",
+ "session_id": "600996ac-5111-4cfe-9c21-b6a657c31c1d",
+ "total_cost_usd": 0.2262729,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 600,
+  "cache_read_input_tokens": 49939,
+  "output_tokens": 310,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 600,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 310,
+    "cache_read_input_tokens": 49939,
+    "cache_creation_input_tokens": 600,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 600
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 20,
+   "outputTokens": 3507,
+   "thinkingTokens": 0,
+   "cacheReadInputTokens": 296869,
+   "cacheCreationInputTokens": 40369,
+   "webSearchRequests": 0,
+   "costUSD": 0.2262729,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 1,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "`routes_command` in `src/tessel/cli.py:1047-1106`, registered as the `routes` command on `TesselGroup`.\n\n**Sorting:**\n- `--sort/-s` takes one of `endpoint` (default), `methods`, `domain`, `rule` or `match`.\n- It builds rows of `[endpoint, methods, (host/subdomain if any rule has one), rule]` and sorts them with `rows.sort(key=itemgetter(sorts.index(sort)))`, so it sorts by the chosen column.\n- `domain` is only a valid column when some rule has a host or subdomain.\n- `match` isn't in the `sorts` list, so `index` raises `ValueError`, which is caught and ignored. The rows then stay in `url_map.iter_rules()` order, which is the order Tessel matches routes in.\n\n`HEAD` and `OPTIONS` are hidden unless `--all-methods` is passed.",
+ "ttft_ms": 3436,
+ "type": "result",
+ "duration_ms": 3472,
+ "uuid": "85e0262b-fe57-4052-b4ef-6bc44c026136",
+ "ttft_stream_ms": 1236,
+ "time_to_request_ms": 57,
+ "first_content_frame_ms": 1237,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.299",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed",
+  "resetsAt": 1791981000,
+  "rateLimitType": "five_hour",
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.47,
+    "resetsAt": 1791981000
+   },
+   "seven_day": {
+    "utilization": 0.46,
+    "resetsAt": 1792414800
+   }
+  }
+ },
+ "_compact": [],
+ "_wall_s": 5.0,
+ "_t_start": "2026-10-14T07:58:46.666720+00:00",
+ "_t_end": "2026-10-14T07:58:51.650390+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": "600996ac-5111-4cfe-9c21-b6a657c31c1d",
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/session/chain-r3",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "Where is the `tessel routes` CLI command implemented and how does it sort its output? Brief."
+ },
+ "_mu_cum": {
+  "input": 20,
+  "output": 3507,
+  "cache_read": 296869,
+  "cache_creation": 40369,
+  "cost": 0.2262729,
+  "total": 340765
+ },
+ "tok": {
+  "input": 2,
+  "output": 310,
+  "cache_read": 49939,
+  "cache_creation": 600,
+  "total": 50851,
+  "cost": 0.010498,
+  "method": "delta"
+ },
+ "_tok_usage_field": 50851,
+ "_ctx_last_call": 50541,
+ "_subagent_calls": 0,
+ "_tpl": "plain",
+ "_turn": 5,
+ "_rep": 3
+}

@@ -1,0 +1,201 @@
+{
+ "is_error": false,
+ "duration_api_ms": 0,
+ "num_turns": 0,
+ "stop_reason": null,
+ "session_id": "0c34dc50-1226-4cbc-9f72-65a182679287",
+ "total_cost_usd": 0.7528759,
+ "usage": {
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "input_tokens": 0,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "output_tokens": 0,
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "",
+  "iterations": [],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 3239,
+   "outputTokens": 15576,
+   "thinkingTokens": 164,
+   "cacheReadInputTokens": 2012319,
+   "cacheCreationInputTokens": 97494,
+   "webSearchRequests": 0,
+   "costUSD": 0.7528759,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "subtype": "success",
+ "result": "",
+ "local_command": "compact",
+ "type": "result",
+ "duration_ms": 19621,
+ "uuid": "6ce36c78-efc7-4499-a90a-91d8b20b4dd0",
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:compact_boundary",
+  "system:init",
+  "system:status"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.299",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [],
+ "_models_seen": [],
+ "_rate_limit": {
+  "status": "allowed",
+  "resetsAt": 1791981000,
+  "rateLimitType": "five_hour",
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.67,
+    "resetsAt": 1791981000
+   },
+   "seven_day": {
+    "utilization": 0.48,
+    "resetsAt": 1792414800
+   }
+  }
+ },
+ "_compact": [
+  {
+   "trigger": "manual",
+   "pre_tokens": 107643,
+   "post_tokens": 10016,
+   "cumulative_dropped_tokens": 97627,
+   "duration_ms": 19206,
+   "preserved_segment": {
+    "head_uuid": "0baf8086-8d39-48ba-82ac-3b7a49376e85",
+    "anchor_uuid": "0214a1c0-beb5-4124-a4b0-2f381584a8ff",
+    "tail_uuid": "0baf8086-8d39-48ba-82ac-3b7a49376e85"
+   },
+   "preserved_messages": {
+    "anchor_uuid": "0214a1c0-beb5-4124-a4b0-2f381584a8ff",
+    "uuids": [
+     "0baf8086-8d39-48ba-82ac-3b7a49376e85"
+    ],
+    "all_uuids": [
+     "0baf8086-8d39-48ba-82ac-3b7a49376e85"
+    ]
+   }
+  }
+ ],
+ "_wall_s": 20.6,
+ "_t_start": "2026-10-14T08:02:54.645040+00:00",
+ "_t_end": "2026-10-14T08:03:15.229990+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": "0e258663-c5cc-43da-9a7c-0042b1b9d6d2",
+  "fork": true,
+  "cwd": "$UL_SCRATCH/runs/main/session/chain-r2",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "/compact"
+ },
+ "_mu_cum": {
+  "input": 3239,
+  "output": 15576,
+  "cache_read": 2012319,
+  "cache_creation": 97494,
+  "cost": 0.7528759,
+  "total": 2128628
+ },
+ "tok": {
+  "input": 3177,
+  "output": 3219,
+  "cache_read": 105674,
+  "cache_creation": 380,
+  "total": 112450,
+  "cost": 0.050061,
+  "method": "delta"
+ },
+ "_tok_usage_field": 0,
+ "_ctx_last_call": null,
+ "_subagent_calls": 0,
+ "_tpl": "plain",
+ "_ctx_before": 107236,
+ "_N": 15,
+ "_arm": "compactcmd",
+ "_rep": 2,
+ "_parent_sid": "0e258663-c5cc-43da-9a7c-0042b1b9d6d2"
+}

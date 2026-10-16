@@ -1,0 +1,256 @@
+{
+ "duration_api_ms": 20142,
+ "stop_reason": "end_turn",
+ "session_id": "0c14ceb0-7882-458f-94c6-e303e039a1b1",
+ "total_cost_usd": 0.0954956,
+ "usage": {
+  "input_tokens": 10,
+  "cache_creation_input_tokens": 4113,
+  "cache_read_input_tokens": 113483,
+  "output_tokens": 1493,
+  "output_tokens_details": {
+   "thinking_tokens": 179
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 4113,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 622,
+    "cache_read_input_tokens": 24488,
+    "cache_creation_input_tokens": 370,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 370
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 14,
+   "outputTokens": 2244,
+   "thinkingTokens": 179,
+   "cacheReadInputTokens": 142756,
+   "cacheCreationInputTokens": 14688,
+   "webSearchRequests": 0,
+   "costUSD": 0.0954956,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [
+  {
+   "tool_name": "Bash",
+   "tool_use_id": "toolu_01ELMwJvp9iPep58Hi5DEd2z",
+   "tool_input": {
+    "command": "for i in 1 2 3; do PYTHONPATH=src python3 -m pytest tests -q 2>&1 | tail -30 | grep -E \"FAILED|ERROR|passed\"; echo ---; done"
+   }
+  }
+ ],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 6,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "Three of the failing tests are not caused by the Werkzeug `partitioned` error; the fourth turned out not to be a real failure.\n\n**Not caused by the main root cause**\n\n1. **`tests/test_helpers.py::TestStreaming::test_async_view`**: a missing optional dependency. The app raises `RuntimeError: Install Tessel with the 'async' extra in order to use async views.` (`src/tessel/app.py:1096`), so the async extra (the `asgiref` package) isn't installed.\n\n2. **`tests/test_request.py::test_limit_config`**: `assert None == 500000`. `Request.max_form_memory_size` is `None` instead of the configured value. That attribute was added in Werkzeug 3.1, and the installed version is 3.0.3, so it doesn't exist there. This is the same version mismatch as the main cause, but a different missing feature.\n\n**Not a real failure**\n\n3. **`tests/test_helpers.py::test_open_resource_exceptions[a]`**: this passed on its own, and all four parametrizations passed when I ran the test in isolation. It showed up as failing only in the full run, and I couldn't capture the reason. I tried re-running the full suite a few times to check whether it's flaky or order-dependent, but that command was denied, so I couldn't confirm. Treat it as unconfirmed and likely order-dependent.\n\n**Correction to my earlier answer**\n\n`tests/test_reqctx.py::test_session_dynamic_cookie_name` does come from the main cause. The `AssertionError` is just the response body being an HTML 500 page instead of `b'value set'`. The 500 comes from the same `set_cookie(partitioned=...)` `TypeError`.\n\nThe `ERROR` entry on `test_stream_keeps_session` goes with the main cause too, so the main cause accounts for 21 of the 24 failures plus that error.",
+ "ttft_ms": 1225,
+ "type": "result",
+ "duration_ms": 17291,
+ "uuid": "733a8089-1eab-4f7f-a2ee-2c21cca17e28",
+ "ttft_stream_ms": 1005,
+ "time_to_request_ms": 39,
+ "first_content_frame_ms": 1006,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init",
+  "system:permission_denied",
+  "system:thinking_tokens"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.299",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Bash",
+   "input": "{\"command\": \"PYTHONPATH=src python3 -m pytest \\\"tests/test_helpers.py::TestStreaming::test_async_view\\\" \\\"tests/test_helpers.py::test_open_resource_exceptions\\\" tests/test_reqctx.py::test_session_dynamic_cookie_name tests/test_request.py::test_limit_config -q 2>&1 | grep -E \\\"^(E |tests/|src/|FAILED|____)|Error\\\" | head -60; python3 -c \\\"import werkzeug;print(werkzeug.__version__)\\\"\"}",
+   "sub": false,
+   "result_chars": 1803,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "________________________ TestStreaming.test_async_view _________________________\ntests/test_helpers.py:313: \nsrc/tessel/testing.py:235: in open\nsrc/tessel/app.p"
+  },
+  {
+   "tool": "Bash",
+   "input": "{\"command\": \"PYTHONPATH=src python3 -m pytest \\\"tests/test_helpers.py::test_open_resource_exceptions\\\" -q 2>&1 | tail -30; grep -n \\\"open_resource_exceptions\\\" -B6 -A12 tests/test_helpers.py | head -50\"}",
+   "sub": false,
+   "result_chars": 833,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "....                                                                     [100%]\n4 passed in 0.01s\n358-\n359-    with app.open_resource(\"static/index.html\", mode)"
+  },
+  {
+   "tool": "Bash",
+   "input": "{\"command\": \"PYTHONPATH=src python3 -m pytest tests/test_reqctx.py::test_session_dynamic_cookie_name -q 2>&1 | grep -B5 \\\"TypeError\\\" | head -30\"}",
+   "sub": false,
+   "result_chars": 1970,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"$TMPDIR/..."
+  },
+  {
+   "tool": "Bash",
+   "input": "{\"command\": \"PYTHONPATH=src python3 -m pytest tests -q 2>&1 | grep -n \\\"test_open_resource_exceptions\\\" -A25 | head -60\"}",
+   "sub": false,
+   "result_chars": 31,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "(Bash completed with no output)"
+  },
+  {
+   "tool": "Bash",
+   "input": "{\"command\": \"for i in 1 2 3; do PYTHONPATH=src python3 -m pytest tests -q 2>&1 | tail -30 | grep -E \\\"FAILED|ERROR|passed\\\"; echo ---; done\"}",
+   "sub": false,
+   "result_chars": 727,
+   "vendor_hits": 0,
+   "is_error": true,
+   "result_head": "Permission to use Bash has been denied because Claude Code is running in don't ask mode. IMPORTANT: You *may* attempt to accomplish this action using other tool"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed_warning",
+  "resetsAt": 1792414800,
+  "rateLimitType": "seven_day",
+  "utilization": 0.6,
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.14,
+    "resetsAt": 1792017000
+   },
+   "seven_day": {
+    "utilization": 0.6,
+    "resetsAt": 1792414800
+   }
+  },
+  "overageEnabled": false
+ },
+ "_compact": [],
+ "_wall_s": 18.2,
+ "_t_start": "2026-10-14T17:34:13.751576+00:00",
+ "_t_end": "2026-10-14T17:34:31.937150+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": "0c14ceb0-7882-458f-94c6-e303e039a1b1",
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/subagent/main-r10",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)",
+   "Bash(PYTHONPATH=src python3 -m pytest:*)",
+   "Bash(python3 -m pip show:*)",
+   "Bash(pip show:*)",
+   "Bash(pip list:*)",
+   "Bash(python3 -m pip list:*)",
+   "Bash(python3 -c:*)"
+  ],
+  "prompt": "Which of the failing tests are NOT caused by that main root cause? Name them and say briefly why each fails."
+ },
+ "_mu_cum": {
+  "input": 14,
+  "output": 2244,
+  "cache_read": 142756,
+  "cache_creation": 14688,
+  "cost": 0.0954956,
+  "total": 159702
+ },
+ "tok": {
+  "input": 10,
+  "output": 1493,
+  "cache_read": 113483,
+  "cache_creation": 4113,
+  "total": 119099,
+  "cost": 0.04275,
+  "method": "delta"
+ },
+ "_tok_usage_field": 119099,
+ "_ctx_last_call": 24860,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "plain"
+}

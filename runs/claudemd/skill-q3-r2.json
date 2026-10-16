@@ -1,0 +1,242 @@
+{
+ "duration_api_ms": 9654,
+ "stop_reason": "end_turn",
+ "session_id": "7ccc3488-a75d-4c86-898d-6070d0bcb2cb",
+ "total_cost_usd": 0.0650288,
+ "usage": {
+  "input_tokens": 10,
+  "cache_creation_input_tokens": 11532,
+  "cache_read_input_tokens": 91508,
+  "output_tokens": 973,
+  "output_tokens_details": {
+   "thinking_tokens": 26
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 11532,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 235,
+    "cache_read_input_tokens": 21436,
+    "cache_creation_input_tokens": 266,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 266
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 10,
+   "outputTokens": 973,
+   "cacheReadInputTokens": 91508,
+   "cacheCreationInputTokens": 11532,
+   "webSearchRequests": 0,
+   "costUSD": 0.0650288,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 26,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 6,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "**Decorator:** `@needs_app_scope` (`src/tessel/cli.py:380`). You usually don't need to apply it yourself. Registering with `@app.cli.command()` or `@AppGroup.command()` wraps the callback in it automatically (`src/tessel/cli.py:405-427`). Pass `needs_app_scope=False` to opt out.\n\n**App loader:** `LaunchInfo` (`src/tessel/cli.py:293`). Its `load_app()` method (`src/tessel/cli.py:333`) loads the app. The `tessel` CLI group itself is `TesselGroup` (`src/tessel/cli.py:531`), a subclass of `AppGroup`.",
+ "ttft_ms": 1173,
+ "type": "result",
+ "duration_ms": 9787,
+ "uuid": "77d39e8d-13a4-49db-9e28-3de05890761f",
+ "ttft_stream_ms": 808,
+ "time_to_request_ms": 43,
+ "first_content_frame_ms": 808,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.299",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 31,
+  "skills_local": [
+   "project-rules"
+  ],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"with_appcontext|FlaskGroup|AppGroup|ScriptInfo|cli\\\\.command\", \"output_mode\": \"content\", \"head_limit\": 20}",
+   "sub": false,
+   "result_chars": 1233,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/app.py:338:        self.cli = cli.AppGroup()\nsrc/tessel/cli.py:405:class AppGroup(click.Group):\nsrc/tessel/cli.py:425:            return super(AppGro"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"^def with_appcontext|^class ScriptInfo|^class TesselGroup|^def load_app|    def load_app\", \"path\": \"src/tessel/cli.py\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 70,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "333:    def load_app(self) -> Tessel:\n531:class TesselGroup(AppGroup):"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"^class |^def .*(appcontext|pass_)\", \"path\": \"src/tessel/cli.py\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 239,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "37:class NoAppException(click.UsageError):\n293:class LaunchInfo:\n405:class AppGroup(click.Group):\n531:class TesselGroup(AppGroup):\n780:class CertParamType(click"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/claudemd/skill-q3-r2/src/tessel/cli.py\", \"offset\": 405, \"limit\": 30}",
+   "sub": false,
+   "result_chars": 1434,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "405\tclass AppGroup(click.Group):\n406\t    \"\"\"This works similar to a regular click :class:`~click.Group` but it\n407\t    changes the behavior of the :meth:`comman"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"def needs_app_scope|class .*Group|def load_app|class LaunchInfo\", \"path\": \"src/tessel/cli.py\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 234,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "293:class LaunchInfo:\n333:    def load_app(self) -> Tessel:\n380:def needs_app_scope(f: F) -> F:\n405:class AppGroup(click.Group):\n531:class TesselGroup(AppGroup)"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed_warning",
+  "resetsAt": 1792414800,
+  "rateLimitType": "seven_day",
+  "utilization": 0.64,
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.72,
+    "resetsAt": 1792017000
+   },
+   "seven_day": {
+    "utilization": 0.64,
+    "resetsAt": 1792414800
+   }
+  },
+  "overageEnabled": false
+ },
+ "_compact": [],
+ "_wall_s": 10.9,
+ "_t_start": "2026-10-14T17:45:29.653125+00:00",
+ "_t_end": "2026-10-14T17:45:40.548186+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/claudemd/skill-q3-r2",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "In this repo, I want to add a custom CLI command that needs the app (and app context). Which decorator should I use, and which class loads the app for CLI commands? Give file paths. Be brief."
+ },
+ "_mu_cum": {
+  "input": 10,
+  "output": 973,
+  "cache_read": 91508,
+  "cache_creation": 11532,
+  "cost": 0.0650288,
+  "total": 104023
+ },
+ "tok": {
+  "input": 10,
+  "output": 973,
+  "cache_read": 91508,
+  "cache_creation": 11532,
+  "cost": 0.0650288,
+  "total": 104023,
+  "method": "single"
+ },
+ "_tok_usage_field": 104023,
+ "_ctx_last_call": 21704,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "skill"
+}

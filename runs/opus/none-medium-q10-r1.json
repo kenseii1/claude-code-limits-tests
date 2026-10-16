@@ -1,0 +1,275 @@
+{
+ "duration_api_ms": 31091,
+ "stop_reason": "end_turn",
+ "session_id": "43c58df7-7b37-479d-ad03-ddf08466d387",
+ "total_cost_usd": 0.21062579999999997,
+ "usage": {
+  "input_tokens": 20,
+  "cache_creation_input_tokens": 15734,
+  "cache_read_input_tokens": 206669,
+  "output_tokens": 2167,
+  "output_tokens_details": {
+   "thinking_tokens": 276
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 15734,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 791,
+    "cache_read_input_tokens": 25683,
+    "cache_creation_input_tokens": 335,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 335
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-opus-5-5": {
+   "inputTokens": 20,
+   "outputTokens": 2167,
+   "cacheReadInputTokens": 206669,
+   "cacheCreationInputTokens": 15734,
+   "webSearchRequests": 0,
+   "costUSD": 0.21062579999999997,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 276,
+   "canonicalModel": "claude-opus-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 10,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "This repo is a renamed Flask fork called `tessel`, so the names differ from Flask's (Flask's `context_processor` is `ctx_injector` here).\n\n**How `request`, `session` and `g` get into every template**\n\n1. **Environment globals.** `Tessel.create_jinja_environment()` (`src/tessel/app.py:467`) adds the `request`, `session` and `g` proxies to `rv.globals` (lines 493–503), along with `link_for`, `get_flashed_messages` and `config`. Because they are globals, imported templates and macros can use them too.\n2. **Default context processor.** `_base_template_vars()` (`src/tessel/templating.py:21`) returns the real `g` object and, when a request is active, the real `request` object instead of the proxies, which is faster. `session` is left as the proxy so that reading it still sets `session.accessed`.\n3. **Registration.** `Scaffold.__init__` puts `_base_template_vars` in `template_ctx_injectors` under the `None` (global) key (`src/tessel/sansio/scaffold.py:182-184`).\n4. **At render time.** `_render` and `_stream` (`src/tessel/templating.py:123`, `:163`) call `App.fill_template_scope(ctx, context)` (`src/tessel/app.py:588`). It runs the global injectors and then those of the request's bundles. It re-applies the original context last, so values passed to `render_template` take precedence.\n\n**Adding your own variables**\n\nUse the `@app.ctx_injector` decorator (`src/tessel/sansio/scaffold.py:550`). It appends your function to `template_ctx_injectors`, and the dict your function returns is merged into the template context:\n\n```python\n@app.ctx_injector\ndef inject_user():\n    return {\"user\": current_user}\n```\n\n- `@bundle.ctx_injector` is meant for templates rendered by that bundle's views.\n- `@bundle.app_ctx_injector` (`src/tessel/sansio/bundles.py:644`) registers the function for every template in the app.",
+ "ttft_ms": 2496,
+ "type": "result",
+ "duration_ms": 32813,
+ "uuid": "e719e984-7a4a-4f7f-a66c-fb404f1ccc32",
+ "ttft_stream_ms": 1721,
+ "time_to_request_ms": 259,
+ "first_content_frame_ms": 1721,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init",
+  "system:thinking_tokens"
+ ],
+ "_init": {
+  "model": "claude-opus-5-5",
+  "version": "2.1.301",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 32,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"def _default_template_ctx_processor|def update_template_context|def context_processor|template_context_processors\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 16,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "No matches found"
+  },
+  {
+   "tool": "Bash",
+   "input": "{\"command\": \"ls -la; ls -R | head -50\", \"description\": \"List directory contents\"}",
+   "sub": false,
+   "result_chars": 1623,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "total 760\ndrwxr-xr-x  17 user  wheel     544 Oct 16 00:50 .\ndrwxr-xr-x  36 user  wheel    1152 Oct 16 00:50 ..\ndrwxr-xr-x   4 user  wheel     128 Oct 1"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"_default_template_ctx_processor|def update_template_context|def context_processor|template_context_processors\\\\b\", \"path\": \"src\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 16,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "No matches found"
+  },
+  {
+   "tool": "Bash",
+   "input": "{\"command\": \"ls -R src | head -40; grep -rn \\\"context_processor\\\\|ctx_processor\\\\|update_template_context\\\" src | head -30\", \"description\": \"List src and search for context processor code\"}",
+   "sub": false,
+   "result_chars": 390,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "tessel\ntessel.egg-info\n\nsrc/tessel:\n__init__.py\n__main__.py\napp.py\nbundles.py\ncli.py\nconfig.py\nctx.py\ndebughelpers.py\nglobals.py\nhelpers.py\njson\nlogging.py\npy.t"
+  },
+  {
+   "tool": "Bash",
+   "input": "{\"command\": \"grep -n \\\"def \\\\|session\\\\|\\\\\\\"g\\\\\\\"\\\\|request\\\" src/tessel/templating.py | head -50\", \"description\": \"Inspect templating module definitions\"}",
+   "sub": false,
+   "result_chars": 1056,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "21:def _base_template_vars() -> dict[str, t.Any]:\n22:    \"\"\"Default template context processor.  Replaces the ``request`` and ``g``\n26:    rv: dict[str, t.Any] "
+  },
+  {
+   "tool": "Bash",
+   "input": "{\"command\": \"sed -n 15,40p src/tessel/templating.py; sed -n 120,135p src/tessel/templating.py; grep -rn \\\"_base_template_vars\\\\|def .*context\\\\b\\\\|def .*template_context\\\\|def .*_vars\\\\|context_processor\\\\|template_vars\\\" src/tessel | grep -v \\\"^src/tessel/templating.py:2[12]\\\"\", \"description\": \"Show processor and find registration sites\"}",
+   "sub": false,
+   "result_chars": 2494,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "if t.TYPE_CHECKING:  # pragma: no cover\n    from .sansio.app import App\n    from .sansio.scaffold import Scaffold\n\n\ndef _base_template_vars() -> dict[str, t.Any"
+  },
+  {
+   "tool": "Bash",
+   "input": "{\"command\": \"sed -n 175,190p src/tessel/sansio/scaffold.py; grep -n \\\"\\\\[_base_template_vars\\\\]\\\\|template_scope\\\\|ctx_funcs\\\\|def fill_template_scope\\\\|session=\\\\|globals.update\\\\|rv.globals\\\" -r src/tessel | head; \", \"description\": \"Find registry, fill function, and env globals\"}",
+   "sub": false,
+   "result_chars": 1176,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "        #: requests.\n        #:\n        #: To register a function, use the :meth:`ctx_injector`\n        #: decorator.\n        #:\n        #: This data structure "
+  },
+  {
+   "tool": "Bash",
+   "input": "{\"command\": \"sed -n 470,505p src/tessel/app.py; sed -n 588,617p src/tessel/app.py; grep -n \\\"def ctx_injector\\\\|def app_ctx_injector\\\" -A12 -r src/tessel\", \"description\": \"Show env globals, fill function, and decorators\"}",
+   "sub": false,
+   "result_chars": 4503,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "        :attr:`jinja_options` after this will have no effect. Also adds\n        Tessel-related globals and filters to the environment.\n\n        .. versionchange"
+  },
+  {
+   "tool": "Bash",
+   "input": "{\"command\": \"grep -n \\\"def create_jinja_environment\\\" src/tessel/app.py; sed -n 563,570p src/tessel/sansio/scaffold.py\", \"description\": \"Get line numbers for remaining functions\"}",
+   "sub": false,
+   "result_chars": 263,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "467:    def create_jinja_environment(self) -> Environment:\n        self.template_ctx_injectors[None].append(f)\n        return f\n\n    @setupmethod\n    def url_va"
+  }
+ ],
+ "_models_seen": [
+  "claude-opus-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed",
+  "resetsAt": 1792117800,
+  "rateLimitType": "five_hour",
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.89,
+    "resetsAt": 1792117800
+   },
+   "seven_day": {
+    "utilization": 0.15,
+    "resetsAt": 1792681200
+   }
+  }
+ },
+ "_compact": [],
+ "_wall_s": 33.8,
+ "_t_start": "2026-10-15T21:50:33.447939+00:00",
+ "_t_end": "2026-10-15T21:51:07.229131+00:00",
+ "_cmd": {
+  "model": "opus",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/opus/none-medium-q10-r1",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "In this repo, how do request, session and g become available inside every Jinja template, and how can an app add its own variables? Name the functions and the decorator involved, with file paths. Be brief."
+ },
+ "_mu_cum": {
+  "input": 20,
+  "output": 2167,
+  "cache_read": 206669,
+  "cache_creation": 15734,
+  "cost": 0.21062579999999997,
+  "total": 224590
+ },
+ "tok": {
+  "input": 20,
+  "output": 2167,
+  "cache_read": 206669,
+  "cache_creation": 15734,
+  "cost": 0.21062579999999997,
+  "total": 224590,
+  "method": "single"
+ },
+ "_tok_usage_field": 224590,
+ "_ctx_last_call": 26020,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "plain"
+}

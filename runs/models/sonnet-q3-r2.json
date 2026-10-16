@@ -1,0 +1,211 @@
+{
+ "duration_api_ms": 7064,
+ "stop_reason": "end_turn",
+ "session_id": "33f137ce-2e63-4e5f-a728-c52cf6d57ea4",
+ "total_cost_usd": 0.0599924,
+ "usage": {
+  "input_tokens": 6,
+  "cache_creation_input_tokens": 12130,
+  "cache_read_input_tokens": 50604,
+  "output_tokens": 640,
+  "output_tokens_details": {
+   "thinking_tokens": 16
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 12130,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 379,
+    "cache_read_input_tokens": 20827,
+    "cache_creation_input_tokens": 1587,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 1587
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 6,
+   "outputTokens": 640,
+   "cacheReadInputTokens": 50604,
+   "cacheCreationInputTokens": 12130,
+   "webSearchRequests": 0,
+   "costUSD": 0.0599924,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 16,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 3,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "**Decorator:** `needs_app_scope`, defined in `src/tessel/cli.py:380`. It loads the app and pushes `app.app_context()` before your callback runs. It skips this if an app is already active.\n\nYou often don't need to apply it yourself. Commands registered with `@app.cli.command()` or `@bundle.cli.command()` get wrapped automatically, because those groups are `AppGroup` instances (`src/tessel/app.py:338`, `src/tessel/bundles.py:49`). Pass `needs_app_scope=False` to opt out. If you use a plain `@click.command()`, add `@needs_app_scope` yourself.\n\n**Class that loads the app:** `LaunchInfo` (`src/tessel/cli.py:293`), through its `load_app()` method (`cli.py:333`). `needs_app_scope` calls it via `ctx.ensure_object(LaunchInfo).load_app()` (`cli.py:397`). `TesselGroup` (`cli.py:531`) is the top-level group that creates `LaunchInfo`. It is not the same as `AppGroup` (`cli.py:405`).",
+ "ttft_ms": 1296,
+ "type": "result",
+ "duration_ms": 8679,
+ "uuid": "8bf4c6ad-c16c-49b9-a63f-b5cc559b30d9",
+ "ttft_stream_ms": 907,
+ "time_to_request_ms": 50,
+ "first_content_frame_ms": 907,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.301",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 32,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"with_appcontext|ScriptInfo|AppGroup|FlaskGroup|load_app|click\\\\.group|@cli\\\\.command\", \"output_mode\": \"content\", \"head_limit\": 40}",
+   "sub": false,
+   "result_chars": 2386,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/bundles.py:7:from .cli import AppGroup\nsrc/tessel/bundles.py:49:        self.cli = AppGroup()\nsrc/tessel/cli.py:333:    def load_app(self) -> Tessel:"
+  },
+  {
+   "tool": "Bash",
+   "input": "{\"command\": \"cd src/tessel; sed -n 385,430p cli.py; grep -n \\\"^class \\\\|^def with_appcontext\\\\|^def \\\" cli.py | sed -n 1,40p\"}",
+   "sub": false,
+   "result_chars": 3035,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "    ``bundle.cli`` will always have an app context available, this\n    decorator is not required in that case.\n\n    .. versionchanged:: 2.2\n        The app cont"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed",
+  "resetsAt": 1792117800,
+  "rateLimitType": "five_hour",
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.09,
+    "resetsAt": 1792117800
+   },
+   "seven_day": {
+    "utilization": 0.08,
+    "resetsAt": 1792681200
+   }
+  }
+ },
+ "_compact": [],
+ "_wall_s": 9.8,
+ "_t_start": "2026-10-15T21:31:28.902929+00:00",
+ "_t_end": "2026-10-15T21:31:38.681470+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/models/sonnet-q3-r2",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "In this repo, I want to add a custom CLI command that needs the app (and app context). Which decorator should I use, and which class loads the app for CLI commands? Give file paths. Be brief."
+ },
+ "_mu_cum": {
+  "input": 6,
+  "output": 640,
+  "cache_read": 50604,
+  "cache_creation": 12130,
+  "cost": 0.0599924,
+  "total": 63380
+ },
+ "tok": {
+  "input": 6,
+  "output": 640,
+  "cache_read": 50604,
+  "cache_creation": 12130,
+  "cost": 0.0599924,
+  "total": 63380,
+  "method": "single"
+ },
+ "_tok_usage_field": 63380,
+ "_ctx_last_call": 22416,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "plain"
+}

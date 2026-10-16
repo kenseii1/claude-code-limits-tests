@@ -1,0 +1,256 @@
+{
+ "duration_api_ms": 22638,
+ "stop_reason": "end_turn",
+ "session_id": "dc970cad-afb9-4541-8988-0b50cca95bcc",
+ "total_cost_usd": 0.10090260000000001,
+ "usage": {
+  "input_tokens": 12,
+  "cache_creation_input_tokens": 4378,
+  "cache_read_input_tokens": 137313,
+  "output_tokens": 1761,
+  "output_tokens_details": {
+   "thinking_tokens": 263
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 4378,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 701,
+    "cache_read_input_tokens": 24676,
+    "cache_creation_input_tokens": 447,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 447
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 16,
+   "outputTokens": 2440,
+   "thinkingTokens": 263,
+   "cacheReadInputTokens": 166586,
+   "cacheCreationInputTokens": 14953,
+   "webSearchRequests": 0,
+   "costUSD": 0.10090260000000001,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [
+  {
+   "tool_name": "Bash",
+   "tool_use_id": "toolu_016dRFPvx68tJAogpFieJN1B",
+   "tool_input": {
+    "command": "for i in 1 2 3; do PYTHONPATH=src python3 -m pytest tests -q 2>&1 | grep -E \"open_resource|passed|failed\"; done"
+   }
+  }
+ ],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 6,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "I was re-running the full suite a few times to check whether `test_open_resource_exceptions[a]` fails consistently, but Bash is now denied, so I'll report what I already have.\n\n**Not caused by the `partitioned` / `set_cookie` error:**\n\n| Test | Why it fails |\n|---|---|\n| `test_helpers.py::TestStreaming::test_async_view` | `RuntimeError: Install Tessel with the 'async' extra in order to use async views.` The optional async dependency (asgiref) is not installed, so this is an environment issue. |\n| `test_request.py::test_limit_config` | `request.max_form_memory_size` is `None` instead of `500000`. Werkzeug 3.0.3 doesn't have that attribute, which is a separate Werkzeug version gap, and the expected value isn't applied. |\n| `test_helpers.py::test_open_resource_exceptions[a]` | Unclear. It showed up as a failure in the first full run, but it passed when I ran it in isolation and again when I ran all of `test_helpers.py`. It looks flaky or order-dependent, and I can't confirm a cause. |\n| ERROR at teardown of `TestStreaming::test_stream_keeps_session` | Secondary effect. The test itself fails with the `partitioned` TypeError, and the exception leaves an `AppContext` un-popped, so the `conftest.py:79` \"no leftover contexts\" check also fails. |\n\n**Correction to my earlier summary:** `test_reqctx.py::test_session_dynamic_cookie_name` does share the main root cause. The `/set` route hits the same `partitioned` TypeError, and the test then received the 500 error page instead of `b\"value set\"`. So the independent failures are `test_async_view` and `test_limit_config`, plus the possibly flaky `open_resource[a]`.\n\nI also said `test_open_resource_exceptions[a]` was probably a pytest-version issue. That was a guess from a truncated line and I couldn't back it up.",
+ "ttft_ms": 1291,
+ "type": "result",
+ "duration_ms": 21335,
+ "uuid": "43eb646d-029c-47ef-b873-051c29b5356d",
+ "ttft_stream_ms": 1020,
+ "time_to_request_ms": 46,
+ "first_content_frame_ms": 1020,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init",
+  "system:permission_denied",
+  "system:thinking_tokens"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.299",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Bash",
+   "input": "{\"command\": \"PYTHONPATH=src python3 -m pytest \\\"tests/test_helpers.py::TestStreaming::test_async_view\\\" \\\"tests/test_helpers.py::test_open_resource_exceptions\\\" tests/test_reqctx.py::test_session_dynamic_cookie_name tests/test_request.py::test_limit_config \\\"tests/test_helpers.py::TestStreaming::test_stream_keeps_session\\\" 2>&1 | grep -E \\\"^(E |FAILED|ERROR|tests/|src/|____)\\\" | head -60; python3 ",
+   "sub": false,
+   "result_chars": 2754,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "tests/test_helpers.py F....                                              [ 62%]\ntests/test_reqctx.py F                                                   [ 75%]\n"
+  },
+  {
+   "tool": "Bash",
+   "input": "{\"command\": \"PYTHONPATH=src python3 -m pytest \\\"tests/test_helpers.py::test_open_resource_exceptions\\\" tests/test_reqctx.py::test_session_dynamic_cookie_name 2>&1 | grep -vE \\\"^\\\\s*$\\\" | grep -E \\\"Error|error|Failed|DID NOT|Exception|\\\\.py:[0-9]+\\\" | head -30; sed -n 225,242p tests/test_reqctx.py\"}",
+   "sub": false,
+   "result_chars": 1129,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "E       AssertionError: assert b'<!doctype h...cation.</p>\\n' == b'value set'\ntests/test_reqctx.py:240: AssertionError\nERROR    test_reqctx:app.py:962 Exception"
+  },
+  {
+   "tool": "Bash",
+   "input": "{\"command\": \"PYTHONPATH=src python3 -m pytest tests/test_helpers.py -k \\\"open_resource_exceptions\\\" -v 2>&1 | tail -40\"}",
+   "sub": false,
+   "result_chars": 867,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "============================= test session starts ==============================\nplatform darwin -- Python 3.12.7, pytest-7.4.4, pluggy-1.0.0 -- /opt/anaconda3/"
+  },
+  {
+   "tool": "Bash",
+   "input": "{\"command\": \"PYTHONPATH=src python3 -m pytest tests/test_helpers.py 2>&1 | grep -E \\\"^E |FAILED|ERROR|passed|failed\\\" | head; PYTHONPATH=src python3 -m pytest tests -v 2>&1 | grep -B2 -A25 \\\"test_open_resource_exceptions.a. _\\\" | head -60\"}",
+   "sub": false,
+   "result_chars": 769,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "==================================== ERRORS ====================================\n_________ ERROR at teardown of TestStreaming.test_stream_keeps_session ________"
+  },
+  {
+   "tool": "Bash",
+   "input": "{\"command\": \"for i in 1 2 3; do PYTHONPATH=src python3 -m pytest tests -q 2>&1 | grep -E \\\"open_resource|passed|failed\\\"; done\"}",
+   "sub": false,
+   "result_chars": 727,
+   "vendor_hits": 0,
+   "is_error": true,
+   "result_head": "Permission to use Bash has been denied because Claude Code is running in don't ask mode. IMPORTANT: You *may* attempt to accomplish this action using other tool"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed_warning",
+  "resetsAt": 1792414800,
+  "rateLimitType": "seven_day",
+  "utilization": 0.58,
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.8,
+    "resetsAt": 1791999000
+   },
+   "seven_day": {
+    "utilization": 0.58,
+    "resetsAt": 1792414800
+   }
+  },
+  "overageEnabled": false
+ },
+ "_compact": [],
+ "_wall_s": 22.3,
+ "_t_start": "2026-10-14T16:47:29.980760+00:00",
+ "_t_end": "2026-10-14T16:47:52.274684+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": "dc970cad-afb9-4541-8988-0b50cca95bcc",
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/subagent/main-r1",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)",
+   "Bash(PYTHONPATH=src python3 -m pytest:*)",
+   "Bash(python3 -m pip show:*)",
+   "Bash(pip show:*)",
+   "Bash(pip list:*)",
+   "Bash(python3 -m pip list:*)",
+   "Bash(python3 -c:*)"
+  ],
+  "prompt": "Which of the failing tests are NOT caused by that main root cause? Name them and say briefly why each fails."
+ },
+ "_mu_cum": {
+  "input": 16,
+  "output": 2440,
+  "cache_read": 166586,
+  "cache_creation": 14953,
+  "cost": 0.10090260000000001,
+  "total": 183995
+ },
+ "tok": {
+  "input": 12,
+  "output": 1761,
+  "cache_read": 137313,
+  "cache_creation": 4378,
+  "total": 143464,
+  "cost": 0.048877,
+  "method": "delta"
+ },
+ "_tok_usage_field": 143464,
+ "_ctx_last_call": 25125,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "plain"
+}

@@ -1,0 +1,241 @@
+{
+ "duration_api_ms": 33123,
+ "stop_reason": "end_turn",
+ "session_id": "5f7bff43-0992-4a88-af6f-72f35c562ae2",
+ "total_cost_usd": 0.14750709999999997,
+ "usage": {
+  "input_tokens": 4,
+  "cache_creation_input_tokens": 1674,
+  "cache_read_input_tokens": 23486,
+  "output_tokens": 610,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 1674,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 4,
+    "output_tokens": 610,
+    "cache_read_input_tokens": 23486,
+    "cache_creation_input_tokens": 1674,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 1674
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 24,
+   "outputTokens": 4073,
+   "thinkingTokens": 196,
+   "cacheReadInputTokens": 177341,
+   "cacheCreationInputTokens": 26604,
+   "webSearchRequests": 0,
+   "costUSD": 0.14750709999999997,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "origin": {
+  "kind": "task-notification",
+  "producer": "session-task",
+  "runId": "0mv8e0h5e-8cb4ab5e"
+ },
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 1,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "Only two of the 24 failures are independent of the `set_cookie` `partitioned` TypeError, and a third did not reproduce. I should correct my earlier list: `test_session_dynamic_cookie_name` is a `set_cookie` failure after all.\n\n**Not caused by the `partitioned` TypeError**\n\n1. **`tests/test_helpers.py::TestStreaming::test_async_view`**\n   - It fails with `RuntimeError: Install Tessel with the 'async' extra in order to use async views` (raised at `src/tessel/app.py:1096`).\n   - The optional async dependency is not installed in this environment.\n\n2. **`tests/test_request.py::test_limit_config`**\n   - It fails with `assert None == 500000` (`tests/test_request.py:33`).\n   - The installed Werkzeug's `Request` has no `max_form_memory_size` attribute. This is the same older-Werkzeug mismatch as the main cause, but a different symptom.\n\n**Not reproducible**\n\n3. **`tests/test_helpers.py::test_open_resource_exceptions[a]`**\n   - It failed in the full run with a pytest error, but passed when re-run in isolation.\n   - It is likely order-dependent or flaky, and no root cause was found.\n\n**Caused by the TypeError after all**\n\n- `test_reqctx.py::test_session_dynamic_cookie_name` shows an `AssertionError` on the response body, but the log shows a 500 from the `set_cookie` TypeError.\n- The teardown error for `test_stream_keeps_session` is a leftover app context from that test crashing mid-request.\n\nUpgrading Werkzeug would probably fix the main failures and `test_limit_config`. `test_async_view` needs the async extra installed, and the flaky `test_open_resource_exceptions[a]` needs separate investigation.",
+ "ttft_ms": 4348,
+ "type": "result",
+ "duration_ms": 4376,
+ "uuid": "f2979385-a7bb-4cfa-8a27-853f261616d7",
+ "ttft_stream_ms": 1001,
+ "time_to_request_ms": 10,
+ "first_content_frame_ms": 1001,
+ "queued_turn_count": 0,
+ "result_index": 1,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:background_tasks_changed",
+  "system:init",
+  "system:task_notification",
+  "system:task_progress",
+  "system:task_started",
+  "system:task_updated",
+  "system:thinking_tokens"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.299",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "ToolSearch",
+   "input": "{\"query\": \"select:SendMessage\", \"max_results\": 1}",
+   "sub": false,
+   "result_chars": 56,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "[{\"type\": \"tool_reference\", \"tool_name\": \"SendMessage\"}]"
+  },
+  {
+   "tool": "SendMessage",
+   "input": "{\"to\": \"ae0c05fc9144d68a3\", \"summary\": \"Ask for non-set_cookie failures detail\", \"message\": \"Which of the 24 failing tests (plus the 1 error) are NOT caused by the set_cookie 'partitioned' TypeError? Please list each by full test id with the exact exception/assertion message and a one-line reason why it fails. Re-run only those tests if needed (PYTHONPATH=src python3 -m pytest <ids> -v). Do not mo",
+   "sub": false,
+   "result_chars": 217,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "[{\"type\": \"text\", \"text\": \"{\\\"success\\\":true,\\\"message\\\":\\\"Resuming agent ae0c05f\\\",\\\"resumedAgentId\\\":\\\"ae0c05fc9144d68a3\\\",\\\"pin\\\":{\\\"id\\\":\\\"ae0c05fc9144d68a3"
+  },
+  {
+   "tool": "Bash",
+   "input": "{\"command\": \"PYTHONPATH=src python3 -m pytest \\\"tests/test_helpers.py::TestStreaming::test_async_view\\\" \\\"tests/test_helpers.py::test_open_resource_exceptions\\\" tests/test_reqctx.py::test_session_dynamic_cookie_name tests/test_request.py::test_limit_config tests/test_helpers.py::TestStreaming::test_stream_keeps_session -v 2>&1 | grep -E \\\"^(E |FAILED|ERROR|tests/|_____|src/|.*Error)\\\" | head -80\"}",
+   "sub": true,
+   "result_chars": 3884,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "tests/test_helpers.py::TestStreaming::test_async_view FAILED             [ 12%]\ntests/test_helpers.py::test_open_resource_exceptions[w] PASSED           [ 25%]\n"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed_warning",
+  "resetsAt": 1792414800,
+  "rateLimitType": "seven_day",
+  "utilization": 0.6,
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.06,
+    "resetsAt": 1792017000
+   },
+   "seven_day": {
+    "utilization": 0.6,
+    "resetsAt": 1792414800
+   }
+  },
+  "overageEnabled": false
+ },
+ "_compact": [],
+ "_wall_s": 20.9,
+ "_t_start": "2026-10-14T17:32:02.791321+00:00",
+ "_t_end": "2026-10-14T17:32:23.730959+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": "5f7bff43-0992-4a88-af6f-72f35c562ae2",
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/subagent/sub-r8",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)",
+   "Bash(PYTHONPATH=src python3 -m pytest:*)",
+   "Bash(python3 -m pip show:*)",
+   "Bash(pip show:*)",
+   "Bash(pip list:*)",
+   "Bash(python3 -m pip list:*)",
+   "Bash(python3 -c:*)",
+   "Agent",
+   "Task"
+  ],
+  "prompt": "Which of the failing tests are NOT caused by that main root cause? Name them and say briefly why each fails."
+ },
+ "_mu_cum": {
+  "input": 24,
+  "output": 4073,
+  "cache_read": 177341,
+  "cache_creation": 26604,
+  "cost": 0.14750709999999997,
+  "total": 208042
+ },
+ "tok": {
+  "input": 16,
+  "output": 2545,
+  "cache_read": 123808,
+  "cache_creation": 7605,
+  "total": 133974,
+  "cost": 0.064215,
+  "method": "delta"
+ },
+ "_tok_usage_field": 25774,
+ "_ctx_last_call": 25164,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "plain"
+}

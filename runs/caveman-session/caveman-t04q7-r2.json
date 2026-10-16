@@ -1,0 +1,228 @@
+{
+ "duration_api_ms": 66741,
+ "stop_reason": "end_turn",
+ "session_id": "44add762-fce5-4ca0-812d-ea4617408ef7",
+ "total_cost_usd": 0.3022045,
+ "usage": {
+  "input_tokens": 6,
+  "cache_creation_input_tokens": 7713,
+  "cache_read_input_tokens": 133165,
+  "output_tokens": 2106,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 7713,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1427,
+    "cache_read_input_tokens": 46753,
+    "cache_creation_input_tokens": 3706,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 3706
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 34,
+   "outputTokens": 8574,
+   "thinkingTokens": 60,
+   "cacheReadInputTokens": 556965,
+   "cacheCreationInputTokens": 40175,
+   "webSearchRequests": 0,
+   "costUSD": 0.3022045,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 4,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "Types survive because `TypedCookieSerializer` wraps each non-JSON value in a one-key dict, such as `{\" t\": [...]}`. On load it unwraps those dicts back into the original types. I read `tag.py` and `sessions.py` and did not run it.\n\n**Classes**\n\n- `TypedCookieSerializer` (`src/tessel/json/tag.py:219`) drives the process.\n- `TypeMarker` (`src/tessel/json/tag.py:60`) is the base class for the tags.\n- `TagTuple` (key `\" t\"`), `TagBytes` (`\" b\"`), `TagDateTime` (`\" d\"`), `TagUUID`, `TagMarkup`, `TagDict` (`\" di\"`), `PassDict` and `PassList` are the tags (`tag.py:93`–`216`).\n- `session_json_serializer = TypedCookieSerializer()` (`src/tessel/sessions.py:273`) is the shared instance.\n- `SecureCookieSessionInterface` (`sessions.py:300`) uses it as `serializer`. I read the attribute and `make_signer`, not the class line, so I am inferring the class name.\n- `URLSafeTimedSerializer` from `itsdangerous` (`sessions.py:313`) signs the payload and receives `serializer=self.serializer`.\n\n**Step by step**\n\n1. **Setup.** `TypedCookieSerializer.__init__` (`tag.py:249`) registers `default_tags` in order through `register` (`tag.py:256`). Each tag instance goes into `self.tags[key]` for lookup and into `self.order` for matching. Order matters because the first match wins.\n\n2. **Wire.** `make_signer` (`sessions.py:303`) passes the serializer into `URLSafeTimedSerializer`. itsdangerous calls its `dumps` and `loads` for the session cookie.\n\n3. **Save: `dumps`** (`tag.py:321`). It calls `self.tag(value)`, then `json.dumps` with compact separators.\n\n4. **Tag.** `tag` (`tag.py:289`) walks `self.order` and uses the first tag whose `check` matches. It then calls `tag.tag(value)`, which returns `{self.key: self.to_json(value)}`.\n   - Tuple: `TagTuple` gives `{\" t\": [tagged items...]}`.\n   - Bytes: `TagBytes` gives `{\" b\": base64 string}`.\n   - Datetime: `TagDateTime` gives `{\" d\": http_date(value)}`.\n   - Dict and list: `PassDict` and `PassList` have no key. They recurse into their items and add no wrapper.\n   - Plain JSON types match nothing and pass through unchanged.\n\n5. **Signing.** itsdangerous signs and base64-encodes the JSON string, and that becomes the cookie value.\n\n6. **Load: `loads`** (`tag.py:325`). itsdangerous verifies the signature. `json.loads` parses the string, then `_untag_scan` (`tag.py:309`) runs.\n\n7. **Untag.** `_untag_scan` recurses depth-first into dicts and lists, so inner values are restored first. After a dict's items are restored, it calls `untag` (`tag.py:297`).\n\n8. **Restore.** `untag` returns the value as-is unless the dict has exactly one key and that key is a registered tag. When it matches, it calls `self.tags[key].to_python(...)`:\n   - `tuple(value)` for tuples.\n   - `b64decode` for bytes.\n   - `parse_date` for datetimes.\n\n9. **Collision guard.** A user dict with a single key like `\" t\"` would be mistaken for a tag. `TagDict` (`tag.py:93`) handles this. On save it renames the key to `\" t__\"` and wraps it as `{\" di\": {\" t__\": ...}}`. On load, `to_python` strips the trailing `__` (`key[:-2]`).\n\n**Caveats**\n\n- Datetimes go through `http_date`, so they have one-second resolution and microseconds are lost. I did not check how `http_date` treats timezones.\n- `Markup` always comes back as `Markup`.\n- A tuple restored from a tagged list is a `tuple` again. Plain lists stay lists.",
+ "ttft_ms": 2857,
+ "type": "result",
+ "duration_ms": 16441,
+ "uuid": "1cc31769-7c65-4ed1-93ee-6c73254687ba",
+ "ttft_stream_ms": 1075,
+ "time_to_request_ms": 46,
+ "first_content_frame_ms": 1075,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.300",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 31,
+  "skills_local": [
+   "caveman"
+  ],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"^class |def (dumps|loads|tag|untag|check|to_json|to_python|register|dump|load)\\\\b|^\\\\s+key = |serializer\", \"path\": \"$UL_SCRATCH/runs/main/caveman-session/caveman-r2/src/tessel\", \"glob\": \"json/tag.py\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 4898,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/json/tag.py:20:identify the type. The session serializer processes dicts first, so\nsrc/tessel/json/tag.py:29:        __slots__ = ('serializer',)\nsrc/"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"TaggedJSONSerializer|serializer|URLSafeTimedSerializer\", \"path\": \"$UL_SCRATCH/runs/main/caveman-session/caveman-r2/src/tessel/sessions.py\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 463,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "11:from itsdangerous import URLSafeTimedSerializer\n273:session_json_serializer = TypedCookieSerializer()\n297:    #: A python serializer for the payload.  The de"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/caveman-session/caveman-r2/src/tessel/json/tag.py\", \"offset\": 60, \"limit\": 275}",
+   "sub": false,
+   "result_chars": 8731,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "60\tclass TypeMarker:\n61\t    \"\"\"Base class for defining type tags for :class:`TypedCookieSerializer`.\"\"\"\n62\t\n63\t    __slots__ = (\"serializer\",)\n64\t\n65\t    #: The"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed_warning",
+  "resetsAt": 1792414800,
+  "rateLimitType": "seven_day",
+  "utilization": 0.8,
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "surpassedThreshold": 0.75,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.48,
+    "resetsAt": 1792053000
+   },
+   "seven_day": {
+    "utilization": 0.8,
+    "resetsAt": 1792414800
+   }
+  },
+  "overageEnabled": false
+ },
+ "_compact": [],
+ "_wall_s": 17.3,
+ "_t_start": "2026-10-15T03:38:54.343693+00:00",
+ "_t_end": "2026-10-15T03:39:11.629513+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": "44add762-fce5-4ca0-812d-ea4617408ef7",
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/caveman-session/caveman-r2",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "In this repo, the default session can store tuples, bytes and datetimes in a JSON cookie and get them back with the right types. How does that work? Name the classes involved, with file paths. Explain how it works, step by step."
+ },
+ "_mu_cum": {
+  "input": 34,
+  "output": 8574,
+  "cache_read": 556965,
+  "cache_creation": 40175,
+  "cost": 0.3022045,
+  "total": 605748
+ },
+ "tok": {
+  "input": 6,
+  "output": 2106,
+  "cache_read": 133165,
+  "cache_creation": 7713,
+  "total": 142990,
+  "cost": 0.065241,
+  "method": "delta"
+ },
+ "_tok_usage_field": 142990,
+ "_ctx_last_call": 50461,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "caveman",
+ "_turn": 4,
+ "_rep": 2,
+ "_target": "q7"
+}

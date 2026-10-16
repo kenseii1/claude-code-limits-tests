@@ -1,0 +1,229 @@
+{
+ "duration_api_ms": 15886,
+ "stop_reason": "end_turn",
+ "session_id": "4899735d-faef-4979-b014-7f3e27755b4c",
+ "total_cost_usd": 0.16561,
+ "usage": {
+  "input_tokens": 8,
+  "cache_creation_input_tokens": 14972,
+  "cache_read_input_tokens": 72210,
+  "output_tokens": 1568,
+  "output_tokens_details": {
+   "thinking_tokens": 41
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 14972,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 918,
+    "cache_read_input_tokens": 22791,
+    "cache_creation_input_tokens": 2465,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 2465
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-opus-5-5": {
+   "inputTokens": 8,
+   "outputTokens": 1568,
+   "cacheReadInputTokens": 72210,
+   "cacheCreationInputTokens": 14972,
+   "webSearchRequests": 0,
+   "costUSD": 0.16561,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 41,
+   "canonicalModel": "claude-opus-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 5,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "Here's the call order when a view raises:\n\n1. **`Tessel.wsgi_entry`**, `src/tessel/app.py:1566`. This is the WSGI entry point. It calls `run_full_request`.\n2. **`Tessel.run_full_request`**, `src/tessel/app.py:992`. It runs `preprocess_request` and then `run_view` (`:966`). If the view raises, it catches the exception and calls `route_user_fault(ctx, e)` (`:1018`).\n3. **`Tessel.route_user_fault`**, `src/tessel/app.py:865`.\n   - If the exception is an `HTTPException`, it first checks **`trap_http_exception`** (`src/tessel/sansio/app.py:894`). That method returns True when `TRAP_HTTP_EXCEPTIONS` is set, or for `BadRequest` errors when `TRAP_BAD_REQUEST_ERRORS` is set. When `TRAP_BAD_REQUEST_ERRORS` is unset, it also returns True for `BadRequestKeyError` in debug mode.\n   - An HTTP exception that isn't trapped goes to **`Tessel.route_http_fault`** (`src/tessel/app.py:830`), which looks up a handler at `:860`.\n   - Any other exception is looked up directly at `:890`. If no handler is found, it is re-raised.\n4. **`_pick_fault_handler(e, request.bundles)`**, `src/tessel/sansio/app.py:869`. This is where the handler is chosen. It searches in this order and returns the first match:\n   1. Bundle handler registered for the HTTP status code\n   2. App handler for that status code\n   3. Bundle handler for the exception class\n   4. App handler for the exception class\n\n   Within each of these, it walks the exception's MRO (`exc_class.__mro__`), so the most specific class wins. A request nested in several bundles checks each bundle in turn before the app.\n5. **Fallback for unhandled exceptions:** if the exception propagates out, `wsgi_entry` catches it at `:1600` and calls **`Tessel.route_unhandled_fault`** (`src/tessel/app.py:897`). That method calls `log_exception` (`:950`), wraps the error as an `InternalServerError`, and looks up a 500 handler with `_pick_fault_handler` (`:943`).\n\nHandlers get into the lookup table through `register_error_handler` and `fault_handler` (`src/tessel/sansio/scaffold.py:650` and `:606`), which fill `error_handler_spec[bundle_or_None][code][exc_class]`.",
+ "ttft_ms": 2175,
+ "type": "result",
+ "duration_ms": 16047,
+ "uuid": "1df4464e-b8dc-4da2-bd89-1c90ff0d3c09",
+ "ttft_stream_ms": 886,
+ "time_to_request_ms": 52,
+ "first_content_frame_ms": 886,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-opus-5-5",
+  "version": "2.1.301",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 32,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"def (handle_user_exception|handle_exception|handle_http_exception|_find_error_handler|full_dispatch_request|dispatch_request|wsgi_app|finalize_request)\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 48,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/app.py:1021:    def finalize_request("
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"def \\\\w*(error|exception|dispatch|handler|wsgi)\\\\w*\", \"output_mode\": \"content\", \"-i\": true}",
+   "sub": false,
+   "result_chars": 6994,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/debughelpers.py:81:def attach_enctype_error_multidict(request: Request) -> None:\nsrc/tessel/logging.py:16:def wsgi_errors_stream() -> t.TextIO:\nsrc/t"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"^    def |_pick_fault_handler\\\\(|trap_http_exception\\\\(|self\\\\.\\\\w+\\\\(e\\\\)|self\\\\.\\\\w+\\\\(ctx, e\\\\)\", \"path\": \"src/tessel/app.py\", \"output_mode\": \"content\", \"offset\": 0}",
+   "sub": false,
+   "result_chars": 2519,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "86:    def wrapper(self: Tessel, *args: t.Any, **kwargs: t.Any) -> t.Any:\n98:    def wrapper(self: Tessel, *args: t.Any, **kwargs: t.Any) -> t.Any:\n252:    def "
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/opus/none-low-q1-r1/src/tessel/sansio/app.py\", \"offset\": 869, \"limit\": 60}",
+   "sub": false,
+   "result_chars": 2469,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "869\t    def _pick_fault_handler(\n870\t        self, e: Exception, bundles: list[str]\n871\t    ) -> ft.ErrorHandlerCallable | None:\n872\t        \"\"\"Return a registe"
+  }
+ ],
+ "_models_seen": [
+  "claude-opus-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed",
+  "resetsAt": 1792117800,
+  "rateLimitType": "five_hour",
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.57,
+    "resetsAt": 1792117800
+   },
+   "seven_day": {
+    "utilization": 0.13,
+    "resetsAt": 1792681200
+   }
+  }
+ },
+ "_compact": [],
+ "_wall_s": 17.0,
+ "_t_start": "2026-10-15T21:46:48.660216+00:00",
+ "_t_end": "2026-10-15T21:47:05.678056+00:00",
+ "_cmd": {
+  "model": "opus",
+  "effort": "low",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/opus/none-low-q1-r1",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "In this repo, when a view raises an exception, how does Tessel decide which error handler runs? List the methods involved in call order, with file paths. Be brief."
+ },
+ "_mu_cum": {
+  "input": 8,
+  "output": 1568,
+  "cache_read": 72210,
+  "cache_creation": 14972,
+  "cost": 0.16561,
+  "total": 88758
+ },
+ "tok": {
+  "input": 8,
+  "output": 1568,
+  "cache_read": 72210,
+  "cache_creation": 14972,
+  "cost": 0.16561,
+  "total": 88758,
+  "method": "single"
+ },
+ "_tok_usage_field": 88758,
+ "_ctx_last_call": 25258,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "plain"
+}

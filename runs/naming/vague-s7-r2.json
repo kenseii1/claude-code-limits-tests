@@ -1,0 +1,214 @@
+{
+ "duration_api_ms": 7770,
+ "stop_reason": "end_turn",
+ "session_id": "c520523f-0df0-4a07-971e-6a30eeff49b4",
+ "total_cost_usd": 0.0552448,
+ "usage": {
+  "input_tokens": 6,
+  "cache_creation_input_tokens": 10583,
+  "cache_read_input_tokens": 49108,
+  "output_tokens": 799,
+  "output_tokens_details": {
+   "thinking_tokens": 43
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 10583,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 406,
+    "cache_read_input_tokens": 19620,
+    "cache_creation_input_tokens": 1247,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 1247
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 6,
+   "outputTokens": 799,
+   "cacheReadInputTokens": 49108,
+   "cacheCreationInputTokens": 10583,
+   "webSearchRequests": 0,
+   "costUSD": 0.0552448,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 43,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 3,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "Start with these spots in `src/tessel/`:\n\n- **`app.py:364-409`**: `static_cache_seconds(filename)` sets the `max_age` for static files, and the static-file view (`app.py:407`) passes it to `send_file`. The default is `None`, which means `no-cache` with conditional (ETag) requests, so browsers revalidate rather than reuse stale files blindly.\n- **`bundles.py:56-101`**: the same logic for bundle static folders. Check whether a bundle overrides it.\n- **`helpers.py:405-406`**: the fallback to `ctx.app.static_cache_seconds` when `max_age` isn't passed, plus the `send_file` docs on `conditional`, `etag` and `max_age` (~lines 422-480).\n\nAlso check:\n\n- **Overrides**: grep your own app code for a `static_cache_seconds` override or a configured value, since a long `max_age` there would explain stale CSS.\n- **Front server or CDN**: any nginx/CDN `Cache-Control` or `expires` rules sit outside this code and can override it.\n- **Filenames**: if the CSS filenames don't change per deploy (no hash or `?v=`), a long cache will serve the old file.",
+ "ttft_ms": 1360,
+ "type": "result",
+ "duration_ms": 7858,
+ "uuid": "a57856fb-f660-4cd6-9bfe-1e183e13a548",
+ "ttft_stream_ms": 900,
+ "time_to_request_ms": 39,
+ "first_content_frame_ms": 900,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.300",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"Cache-Control|max-age|expires|STATIC_URL|send_file_max_age|maxAge|ManifestStaticFiles|immutable\", \"-i\": true, \"output_mode\": \"files_with_matches\", \"head_limit\": 20}",
+   "sub": false,
+   "result_chars": 325,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "Found 13 files\ntests/test_basic.py\nsrc/tessel/sessions.py\nsrc/tessel/sansio/scaffold.py\nsrc/tessel/sansio/bundles.py\nsrc/tessel/sansio/app.py\nsrc/tessel/helpers"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"max_age|send_file_max_age|SEND_FILE_MAX_AGE|conditional|etag\", \"-i\": true, \"output_mode\": \"content\", \"path\": \"src/tessel\", \"head_limit\": 30}",
+   "sub": false,
+   "result_chars": 2524,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/helpers.py:405:    if kwargs.get(\"max_age\") is None:\nsrc/tessel/helpers.py:406:        kwargs[\"max_age\"] = ctx.app.static_cache_seconds\nsrc/tessel/he"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed_warning",
+  "resetsAt": 1792414800,
+  "rateLimitType": "seven_day",
+  "utilization": 0.76,
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "surpassedThreshold": 0.75,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.04,
+    "resetsAt": 1792053000
+   },
+   "seven_day": {
+    "utilization": 0.76,
+    "resetsAt": 1792414800
+   }
+  },
+  "overageEnabled": false
+ },
+ "_compact": [],
+ "_wall_s": 8.9,
+ "_t_start": "2026-10-15T03:31:25.111451+00:00",
+ "_t_end": "2026-10-15T03:31:34.012527+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/naming/vague-s7-r2",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "Browsers keep using old static CSS files after a deploy. In this repo, where would you look to see how long static files are cached and why? Be brief."
+ },
+ "_mu_cum": {
+  "input": 6,
+  "output": 799,
+  "cache_read": 49108,
+  "cache_creation": 10583,
+  "cost": 0.0552448,
+  "total": 60496
+ },
+ "tok": {
+  "input": 6,
+  "output": 799,
+  "cache_read": 49108,
+  "cache_creation": 10583,
+  "cost": 0.0552448,
+  "total": 60496,
+  "method": "single"
+ },
+ "_tok_usage_field": 60496,
+ "_ctx_last_call": 20869,
+ "_subagent_calls": 0,
+ "_correct": false,
+ "_tpl": "plain"
+}

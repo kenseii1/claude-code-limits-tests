@@ -1,0 +1,261 @@
+{
+ "duration_api_ms": 21521,
+ "stop_reason": "end_turn",
+ "session_id": "80377036-e9c3-42be-b9bb-905b7c8bc82d",
+ "total_cost_usd": 0.1104271,
+ "usage": {
+  "input_tokens": 16,
+  "cache_creation_input_tokens": 17610,
+  "cache_read_input_tokens": 175051,
+  "output_tokens": 2245,
+  "output_tokens_details": {
+   "thinking_tokens": 32
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 17610,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 874,
+    "cache_read_input_tokens": 27357,
+    "cache_creation_input_tokens": 537,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 537
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 16,
+   "outputTokens": 2245,
+   "cacheReadInputTokens": 175051,
+   "cacheCreationInputTokens": 17610,
+   "webSearchRequests": 0,
+   "costUSD": 0.1104271,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 32,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 8,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "Repo is `tessel` (Flask-like). Paths under `src/tessel/`.\n\n**How `request`, `session`, `g` reach templates**\n\n1. `templating.py:21` `_base_template_vars()` is the default context processor. Returns `{\"g\": ctx.g}` and, if `ctx.has_request`, `{\"request\": ctx.request}`. It swaps the proxies for real objects for speed. `session` is not swapped: proxy access goes through `RequestContext.session`, which sets `session.accessed`.\n2. `sansio/scaffold.py:182-184` `Scaffold.__init__` pre-registers it: `template_ctx_injectors = defaultdict(list, {None: [_base_template_vars]})`. Key `None` means app-wide.\n3. `templating.py:136` `render_template()` gets the current app context and template, then calls `_render()` (`templating.py:123`).\n4. `_render()` calls `app.fill_template_scope(ctx, context)` before `template.render`.\n5. `app.py:~588` `Tessel.fill_template_scope()`:\n   - Builds key list: `None`, plus request's bundle names (`reversed(ctx.request.bundles)`) when a request exists.\n   - Copies `context` as `orig_ctx`.\n   - Calls every injector for each key and `context.update(...)` with the result.\n   - Re-applies `orig_ctx`, so values passed to `render_template` win over injectors.\n6. Fallback: `app.py:~493` in the Jinja env creation, `rv.globals.update(request=request, session=session, g=g, config=..., ...)`. Proxies as globals cover imported templates/macros, which do not get the render context.\n\n**Add your own variables**\n\n- `@app.ctx_injector` (defined `sansio/scaffold.py:550`, `Scaffold.ctx_injector`). Decorate a function returning a dict; keys become template variables.\n  ```python\n  @app.ctx_injector\n  def inject_site():\n      return {\"site_name\": \"Demo\"}\n  ```\n- On a bundle, `@bundle.ctx_injector`: runs only for templates rendered by that bundle's views (stored under the bundle name key).\n- `@bundle.app_ctx_injector` (`sansio/bundles.py:644`): registered on a bundle but applies to every template (appends to `app.template_ctx_injectors[None]`).\n- Injectors take no args, run on each render, and cannot override keys passed to `render_template`.\n\nNote: `app.shell_ctx_injector` (`sansio/app.py:859`) is the separate hook for the interactive shell, not templates.",
+ "ttft_ms": 2233,
+ "type": "result",
+ "duration_ms": 23114,
+ "uuid": "292cf83e-2572-4f3a-84e8-2fdb7fea1579",
+ "ttft_stream_ms": 1189,
+ "time_to_request_ms": 39,
+ "first_content_frame_ms": 1189,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.300",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 31,
+  "skills_local": [
+   "caveman"
+  ],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"def (update_template_context|context_processor)|_default_template_ctx_processor|template_context_processors\", \"output_mode\": \"content\", \"-n\": true, \"glob\": \"**/*.py\", \"head_limit\": 30}",
+   "sub": false,
+   "result_chars": 16,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "No matches found"
+  },
+  {
+   "tool": "Bash",
+   "input": "{\"command\": \"ls -a | head -30 && grep -rIl \\\"context_processor\\\" . 2>/dev/null | head\"}",
+   "sub": false,
+   "result_chars": 182,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": ".\n..\n.claude\n.devcontainer\n.editorconfig\n.github\n.gitignore\n.pre-commit-config.yaml\n.readthedocs.yaml\nCHANGES.rst\nLICENSE.txt\nREADME.md\ndocs\nexamples\npyproject."
+  },
+  {
+   "tool": "Bash",
+   "input": "{\"command\": \"find src | head -40; grep -rn \\\"context_processor\\\\|template_context\\\" src | head -30\"}",
+   "sub": false,
+   "result_chars": 700,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src\nsrc/tessel.egg-info\nsrc/tessel.egg-info/PKG-INFO\nsrc/tessel\nsrc/tessel/logging.py\nsrc/tessel/sansio\nsrc/tessel/sansio/bundles.py\nsrc/tessel/sansio/README.md"
+  },
+  {
+   "tool": "Bash",
+   "input": "{\"command\": \"cd $UL_SCRATCH/runs/main/caveman/caveman-q10-r1/src/tessel && grep -rn -i \\\"processor\\\\|inject\\\\|ctx_proc\\\" . | head -40; sed -n 1,60p templating.py\"}",
+   "sub": false,
+   "result_chars": 5027,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "./sansio/bundles.py:22:T_template_ctx_injector = t.TypeVar(\n./sansio/bundles.py:23:    \"T_template_ctx_injector\", bound=ft.TemplateContextProcessorCallable\n./sa"
+  },
+  {
+   "tool": "Bash",
+   "input": "{\"command\": \"grep -rn \\\"_base_template_vars\\\\|template_ctx_injectors\\\\|def update_template_context\\\\|def ctx_injector\\\\|session\\\" templating.py app.py sansio/app.py sansio/scaffold.py | grep -v \\\"^.*#\\\" | head -40; sed -n 545,580p sansio/scaffold.py\"}",
+   "sub": false,
+   "result_chars": 3109,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "templating.py:21:def _base_template_vars() -> dict[str, t.Any]:\napp.py:38:from .globals import session\napp.py:45:from .sessions import SignedCookieSessionInterf"
+  },
+  {
+   "tool": "Bash",
+   "input": "{\"command\": \"sed -n 488,510p app.py; sed -n 585,630p app.py; grep -n \\\"update_template_context\\\\|def _render\\\\|def render_template\\\" templating.py app.py\"}",
+   "sub": false,
+   "result_chars": 2859,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "                auto_reload = self.debug\n\n            options[\"auto_reload\"] = auto_reload\n\n        rv = self.jinja_environment(self, **options)\n        rv.glob"
+  },
+  {
+   "tool": "Bash",
+   "input": "{\"command\": \"sed -n 120,150p templating.py\"}",
+   "sub": false,
+   "result_chars": 1012,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "        return list(result)\n\n\ndef _render(ctx: AppContext, template: Template, context: dict[str, t.Any]) -> str:\n    app = ctx.app\n    app.fill_template_scope("
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed_warning",
+  "resetsAt": 1792414800,
+  "rateLimitType": "seven_day",
+  "utilization": 0.78,
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "surpassedThreshold": 0.75,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.23,
+    "resetsAt": 1792053000
+   },
+   "seven_day": {
+    "utilization": 0.78,
+    "resetsAt": 1792414800
+   }
+  },
+  "overageEnabled": false
+ },
+ "_compact": [],
+ "_wall_s": 24.0,
+ "_t_start": "2026-10-15T03:34:13.002003+00:00",
+ "_t_end": "2026-10-15T03:34:36.999737+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/caveman/caveman-q10-r1",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "/caveman In this repo, how do request, session and g become available inside every Jinja template, and how can an app add its own variables? Name the functions and the decorator involved, with file paths. Explain how it works, step by step."
+ },
+ "_mu_cum": {
+  "input": 16,
+  "output": 2245,
+  "cache_read": 175051,
+  "cache_creation": 17610,
+  "cost": 0.1104271,
+  "total": 194922
+ },
+ "tok": {
+  "input": 16,
+  "output": 2245,
+  "cache_read": 175051,
+  "cache_creation": 17610,
+  "cost": 0.1104271,
+  "total": 194922,
+  "method": "single"
+ },
+ "_tok_usage_field": 194922,
+ "_ctx_last_call": 27896,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "caveman"
+}

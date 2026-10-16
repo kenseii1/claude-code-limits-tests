@@ -1,0 +1,294 @@
+{
+ "duration_api_ms": 19976,
+ "stop_reason": "end_turn",
+ "session_id": "89d36543-64d0-4c3c-96aa-1277a6f3210d",
+ "total_cost_usd": 0.09768330000000001,
+ "usage": {
+  "input_tokens": 18,
+  "cache_creation_input_tokens": 14944,
+  "cache_read_input_tokens": 178513,
+  "output_tokens": 2002,
+  "output_tokens_details": {
+   "thinking_tokens": 85
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 14944,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 486,
+    "cache_read_input_tokens": 24819,
+    "cache_creation_input_tokens": 409,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 409
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 18,
+   "outputTokens": 2002,
+   "cacheReadInputTokens": 178513,
+   "cacheCreationInputTokens": 14944,
+   "webSearchRequests": 0,
+   "costUSD": 0.09768330000000001,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 85,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [
+  {
+   "tool_name": "Bash",
+   "tool_use_id": "toolu_01RTmBxsoqJKsJacFuamPZJo",
+   "tool_input": {
+    "command": "cd src/tessel; grep -n \"processor\" templating.py app.py ctx.py sansio/*.py | head -40"
+   }
+  }
+ ],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 11,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "**How they get there**\n\n- `_base_template_vars()` in `src/tessel/templating.py:21` is the default injector. It returns `g` and, if a request is active, `request`. The `session` proxy is deliberately left alone so access is tracked.\n- `src/tessel/sansio/scaffold.py:184` pre-registers it in `template_ctx_injectors`: `defaultdict(list, {None: [_base_template_vars]})`.\n- `fill_template_scope()` in `src/tessel/app.py:588` runs at render time. It calls each registered injector for the app (key `None`) and then for each active bundle, merges the results into the context, and re-applies the values passed to `render_template` so they win.\n\n`session` itself isn't in that dict. Its proxy is made available as a template global through the Jinja environment setup around `src/tessel/app.py:498`, which I didn't read in full, so that part is not confirmed.\n\n**Adding your own variables**\n\nUse the `@ctx_injector` decorator (this repo's name for Flask's `context_processor`):\n\n```python\n@app.ctx_injector\ndef inject():\n    return {\"site_name\": \"Foo\"}\n```\n\n- It's defined in `src/tessel/sansio/scaffold.py:550` and is available on both app and bundle objects.\n- On a bundle it only affects that bundle's views.\n- `Bundle.app_ctx_injector` (`src/tessel/sansio/bundles.py:644`) registers one that applies to every template.",
+ "ttft_ms": 1342,
+ "type": "result",
+ "duration_ms": 22559,
+ "uuid": "3d05c77d-5e42-4c3d-915d-49f32c4ac150",
+ "ttft_stream_ms": 1135,
+ "time_to_request_ms": 35,
+ "first_content_frame_ms": 1135,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init",
+  "system:permission_denied"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.300",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"def (update_template_context|_default_template_ctx_processor|context_processor)\\\\b\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 16,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "No matches found"
+  },
+  {
+   "tool": "Bash",
+   "input": "{\"command\": \"ls -la; grep -rIl \\\"template_context_processors\\\\|context_processor\\\" . 2>/dev/null | head\"}",
+   "sub": false,
+   "result_chars": 1168,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "total 760\ndrwxr-xr-x  19 user  wheel     608 Oct 15 01:40 .\ndrwxr-xr-x  42 user  wheel    1344 Oct 15 01:40 ..\ndrwxr-xr-x   3 user  wheel      96 Oct 1"
+  },
+  {
+   "tool": "Bash",
+   "input": "{\"command\": \"grep -rn \\\"context_processor\\\\|_default_template_ctx_processor\\\\|def update_template_context\\\" src | head -20\"}",
+   "sub": false,
+   "result_chars": 31,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "(Bash completed with no output)"
+  },
+  {
+   "tool": "Bash",
+   "input": "{\"command\": \"ls src src/*; grep -rIn \\\"context_processor\\\" . --include=*.py --include=*.rst -l | head\"}",
+   "sub": false,
+   "result_chars": 329,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src:\ntessel\ntessel.egg-info\n\nsrc/tessel:\n__init__.py\n__main__.py\napp.py\nbundles.py\ncli.py\nconfig.py\nctx.py\ndebughelpers.py\nglobals.py\nhelpers.py\njson\nlogging.py"
+  },
+  {
+   "tool": "Bash",
+   "input": "{\"command\": \"cd src/tessel; grep -n \\\"processor\\\" templating.py app.py ctx.py sansio/*.py | head -40\"}",
+   "sub": false,
+   "result_chars": 727,
+   "vendor_hits": 0,
+   "is_error": true,
+   "result_head": "Permission to use Bash has been denied because Claude Code is running in don't ask mode. IMPORTANT: You *may* attempt to accomplish this action using other tool"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"processor\", \"path\": \"$UL_SCRATCH/runs/main/deny/deny-q10-r2/src/tessel\", \"output_mode\": \"content\", \"head_limit\": 40}",
+   "sub": false,
+   "result_chars": 3006,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/typing.py:71:URLValuePreprocessorCallable = t.Callable[[str | None, dict[str, t.Any] | None], None]\nsrc/tessel/app.py:498:            # context proce"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/deny/deny-q10-r2/src/tessel/templating.py\", \"limit\": 45}",
+   "sub": false,
+   "result_chars": 1561,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1\tfrom __future__ import annotations\n2\t\n3\timport typing as t\n4\t\n5\tfrom jinja2 import BaseLoader\n6\tfrom jinja2 import Environment as BaseEnvironment\n7\tfrom jinja"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/deny/deny-q10-r2/src/tessel/sansio/scaffold.py\", \"offset\": 548, \"limit\": 20}",
+   "sub": false,
+   "result_chars": 864,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "548\t\n549\t    @setupmethod\n550\t    def ctx_injector(\n551\t        self,\n552\t        f: T_template_ctx_injector,\n553\t    ) -> T_template_ctx_injector:\n554\t        "
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/deny/deny-q10-r2/src/tessel/app.py\", \"offset\": 588, \"limit\": 50}",
+   "sub": false,
+   "result_chars": 2050,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "588\t    def fill_template_scope(\n589\t        self, ctx: AppContext, context: dict[str, t.Any]\n590\t    ) -> None:\n591\t        \"\"\"Update the template context with"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"_base_template_vars|def app_ctx_injector\", \"path\": \"$UL_SCRATCH/runs/main/deny/deny-q10-r2/src/tessel\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 306,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/templating.py:21:def _base_template_vars() -> dict[str, t.Any]:\nsrc/tessel/sansio/scaffold.py:19:from ..templating import _base_template_vars\nsrc/tes"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed_warning",
+  "resetsAt": 1792414800,
+  "rateLimitType": "seven_day",
+  "utilization": 0.74,
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.78,
+    "resetsAt": 1792035000
+   },
+   "seven_day": {
+    "utilization": 0.74,
+    "resetsAt": 1792414800
+   }
+  },
+  "overageEnabled": false
+ },
+ "_compact": [],
+ "_wall_s": 23.5,
+ "_t_start": "2026-10-14T22:40:46.983803+00:00",
+ "_t_end": "2026-10-14T22:41:10.453085+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/deny/deny-q10-r2",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "In this repo, how do request, session and g become available inside every Jinja template, and how can an app add its own variables? Name the functions and the decorator involved, with file paths. Be brief."
+ },
+ "_mu_cum": {
+  "input": 18,
+  "output": 2002,
+  "cache_read": 178513,
+  "cache_creation": 14944,
+  "cost": 0.09768330000000001,
+  "total": 195477
+ },
+ "tok": {
+  "input": 18,
+  "output": 2002,
+  "cache_read": 178513,
+  "cache_creation": 14944,
+  "cost": 0.09768330000000001,
+  "total": 195477,
+  "method": "single"
+ },
+ "_tok_usage_field": 195477,
+ "_ctx_last_call": 25230,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "noise-deny"
+}

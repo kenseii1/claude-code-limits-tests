@@ -1,0 +1,214 @@
+{
+ "duration_api_ms": 221587,
+ "stop_reason": "end_turn",
+ "session_id": "35715622-fb03-425f-ba07-695217399ba9",
+ "total_cost_usd": 1.9791338,
+ "usage": {
+  "input_tokens": 6,
+  "cache_creation_input_tokens": 143212,
+  "cache_read_input_tokens": 314268,
+  "output_tokens": 545,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 143212,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 153,
+    "cache_read_input_tokens": 152259,
+    "cache_creation_input_tokens": 1123,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 1123
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 132,
+   "outputTokens": 21082,
+   "thinkingTokens": 224,
+   "cacheReadInputTokens": 6318498,
+   "cacheCreationInputTokens": 284050,
+   "webSearchRequests": 0,
+   "costUSD": 1.9791338,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 3,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "In `Tessel.default_config` (`src/tessel/app.py:206-236`):\n\n**Templates**\n- `EXPLAIN_TEMPLATE_LOADING`\n- `TEMPLATES_AUTO_RELOAD`\n\n**JSON**\n- None. There are no JSON keys in `default_config`. The old `JSON_*` and `JSONIFY_*` keys were removed, and JSON behavior now lives on the `app.json` provider.",
+ "ttft_ms": 5960,
+ "type": "result",
+ "duration_ms": 10341,
+ "uuid": "a6b6172b-2fa3-4179-bc94-5af84965fea0",
+ "ttft_stream_ms": 4625,
+ "time_to_request_ms": 91,
+ "first_content_frame_ms": 4625,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.299",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"default_config\", \"path\": \"$UL_SCRATCH/runs/main/session/chain-r1/src\", \"output_mode\": \"content\", \"-n\": true}",
+   "sub": false,
+   "result_chars": 468,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/sansio/app.py:277:    default_config: cabc.Mapping[str, t.Any]\nsrc/tessel/sansio/app.py:492:        defaults = dict(self.default_config)\nsrc/tessel/a"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/session/chain-r1/src/tessel/app.py\", \"offset\": 204, \"limit\": 45}",
+   "sub": false,
+   "result_chars": 1804,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "204\t    \"\"\"\n205\t\n206\t    default_config: cabc.Mapping[str, t.Any] = {\n207\t        \"DEBUG\": None,\n208\t        \"TESTING\": False,\n209\t        \"PROPAGATE_EXCEPTIONS"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed_warning",
+  "resetsAt": 1792414800,
+  "rateLimitType": "seven_day",
+  "utilization": 0.56,
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.52,
+    "resetsAt": 1791999000
+   },
+   "seven_day": {
+    "utilization": 0.56,
+    "resetsAt": 1792414800
+   }
+  },
+  "overageEnabled": false
+ },
+ "_compact": [],
+ "_wall_s": 12.0,
+ "_t_start": "2026-10-14T16:43:43.960102+00:00",
+ "_t_end": "2026-10-14T16:43:55.924372+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": "35715622-fb03-425f-ba07-695217399ba9",
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/session/chain-r1",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "Which keys in Tessel.default_config are about JSON or templates? Just list them."
+ },
+ "_mu_cum": {
+  "input": 132,
+  "output": 21082,
+  "cache_read": 6318498,
+  "cache_creation": 284050,
+  "cost": 1.9791338,
+  "total": 6623762
+ },
+ "tok": {
+  "input": 6,
+  "output": 545,
+  "cache_read": 314268,
+  "cache_creation": 143212,
+  "total": 458031,
+  "cost": 0.609737,
+  "method": "delta"
+ },
+ "_tok_usage_field": 458031,
+ "_ctx_last_call": 153384,
+ "_subagent_calls": 0,
+ "_tpl": "plain",
+ "_turn": 30,
+ "_rep": 1
+}

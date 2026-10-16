@@ -1,0 +1,196 @@
+{
+ "duration_api_ms": 6449,
+ "stop_reason": "end_turn",
+ "session_id": "92b1d448-dca9-413b-81f2-a75d6d765854",
+ "total_cost_usd": 0.0436244,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 8923,
+  "cache_read_input_tokens": 10284,
+  "output_tokens": 690,
+  "output_tokens_details": {
+   "thinking_tokens": 178
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 8923,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 690,
+    "cache_read_input_tokens": 10284,
+    "cache_creation_input_tokens": 8923,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 8923
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 2,
+   "outputTokens": 690,
+   "cacheReadInputTokens": 10284,
+   "cacheCreationInputTokens": 8923,
+   "webSearchRequests": 0,
+   "costUSD": 0.0436244,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 178,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 1,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "I haven't opened the repo, so this is where I'd start rather than a finding.\n\n\"Bundle\" suggests Symfony, but the same cause applies in most frameworks. A check meant for admin pages usually ends up global because it was registered at the app level instead of being scoped to the admin routes.\n\n1. **The bundle's config and routing** (`config/packages/security.yaml`, the bundle's `Resources/config` or `DependencyInjection/` extension, and `routes.yaml`). I'd look for a firewall or `access_control` rule with no path pattern, or a pattern like `^/` instead of `^/admin`.\n2. **Event listeners, subscribers and middleware** the bundle registers (`kernel.request` listeners, `EventSubscriberInterface` classes, global middleware). These run on every request unless they check the route or path prefix themselves, and they are the most likely culprit.\n3. **Service tags and autoconfiguration** (`services.yaml`). `autoconfigure: true` with a resource glob can register a listener globally without anyone intending it.\n4. **The app's own bootstrap** (`Kernel`, `bundles.php`, `app.php`/`bootstrap`). It shows what is loaded for all environments and whether the bundle's config is imported at the top level.\n\nI'd start with a grep for `kernel.request`, `onKernelRequest`, `access_control`, and `isGranted`/`denyAccessUnlessGranted` inside the admin bundle. That should show quickly where the check is attached and what, if anything, scopes it to admin.",
+ "ttft_ms": 2122,
+ "type": "result",
+ "duration_ms": 6489,
+ "uuid": "2c954dc3-6c40-4e90-bcfe-9c3c006e19cf",
+ "ttft_stream_ms": 851,
+ "time_to_request_ms": 35,
+ "first_content_frame_ms": 852,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init",
+  "system:thinking_tokens"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.300",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed_warning",
+  "resetsAt": 1792414800,
+  "rateLimitType": "seven_day",
+  "utilization": 0.76,
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "surpassedThreshold": 0.75,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.05,
+    "resetsAt": 1792053000
+   },
+   "seven_day": {
+    "utilization": 0.76,
+    "resetsAt": 1792414800
+   }
+  },
+  "overageEnabled": false
+ },
+ "_compact": [],
+ "_wall_s": 7.5,
+ "_t_start": "2026-10-15T03:31:36.740349+00:00",
+ "_t_end": "2026-10-15T03:31:44.237343+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/naming/vague-s9-r2",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "A login check we put in our admin bundle runs for every request in the whole app, not just the admin pages. In this repo, where would you look and why? Be brief."
+ },
+ "_mu_cum": {
+  "input": 2,
+  "output": 690,
+  "cache_read": 10284,
+  "cache_creation": 8923,
+  "cost": 0.0436244,
+  "total": 19899
+ },
+ "tok": {
+  "input": 2,
+  "output": 690,
+  "cache_read": 10284,
+  "cache_creation": 8923,
+  "cost": 0.0436244,
+  "total": 19899,
+  "method": "single"
+ },
+ "_tok_usage_field": 19899,
+ "_ctx_last_call": 19209,
+ "_subagent_calls": 0,
+ "_correct": false,
+ "_tpl": "plain"
+}

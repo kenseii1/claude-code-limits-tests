@@ -1,0 +1,239 @@
+{
+ "duration_api_ms": 14768,
+ "stop_reason": "end_turn",
+ "session_id": "0fc64f09-f8ab-44d6-9935-89eed3f5f23c",
+ "total_cost_usd": 0.0064332700000000005,
+ "usage": {
+  "input_tokens": 8,
+  "cache_creation_input_tokens": 22636,
+  "cache_read_input_tokens": 89627,
+  "output_tokens": 2018,
+  "output_tokens_details": {
+   "thinking_tokens": 203
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 22636,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 887,
+    "cache_read_input_tokens": 32333,
+    "cache_creation_input_tokens": 587,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 587
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-haiku-5-5": {
+   "inputTokens": 8,
+   "outputTokens": 2018,
+   "cacheReadInputTokens": 89627,
+   "cacheCreationInputTokens": 22636,
+   "webSearchRequests": 0,
+   "costUSD": 0.0064332700000000005,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 203,
+   "canonicalModel": "claude-haiku-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 6,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "The default session uses a tagged-JSON serializer, then signs the result as a cookie.\n\n- **`TypedCookieSerializer`** (`src/tessel/json/tag.py:219`) does the work. `dumps()` (line 321) tags the value and writes compact JSON. `loads()` (line 325) parses it and walks it back to restore the original types.\n- **`TypeMarker`** (`src/tag.py:60`) is the base class for each type. Each subclass has a `key`, a `check()` for whether it applies, `to_json()` for encoding, and `to_python()` for decoding. The default tags are listed at `tag.py:238`:\n  - `TagTuple` (`\" t\"`, line 133): tuples become lists under a `\" t\"` key.\n  - `TagBytes` (`\" b\"`, line 159): base64 string.\n  - `TagDateTime` (`\" d\"`, line 205): HTTP date string via werkzeug, so it round-trips at one-second precision.\n  - `TagUUID` (`\" u\"`, line 191) and `TagMarkup` (`\" m\"`, line 173) are also included.\n  - `TagDict` (`\" di\"`, line 93) and `PassDict` (line 119) escape single-key dicts whose key collides with a tag name.\n- **`session_json_serializer`** (`src/tessel/sessions.py:273`) is a module-level `TypedCookieSerializer()` instance. The session interface uses it as its `serializer` (`sessions.py:300`).\n- **`SignedCookieSessionInterface`** (`src/tessel/sessions.py:284`) passes that serializer to an itsdangerous `URLSafeTimedSerializer` in `make_signer()` (line 303). `restore_session()` (line 323) calls `s.loads()`, which runs the tagged deserializer, and `persist_session()` (line 337) writes the cookie.\n- **`SignedCookieSession`** (`src/tessel/sessions.py:57`) is the dict-like session object the app sees.\n\nDecoding only happens after the signature check, so the tags are trusted only in signed cookies. I didn't run the tests; `tests/test_json_tag.py` and `tests/test_basic.py:471-497` cover the round-trip.",
+ "ttft_ms": 2838,
+ "type": "result",
+ "duration_ms": 14910,
+ "uuid": "ee0373b7-a949-436e-9abc-a8f20f60b29a",
+ "ttft_stream_ms": 2577,
+ "time_to_request_ms": 49,
+ "first_content_frame_ms": 2578,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init",
+  "system:thinking_tokens"
+ ],
+ "_init": {
+  "model": "claude-haiku-5-5",
+  "version": "2.1.300",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 32,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"(?i)(class \\\\w*(Tag|Json|Serializer)\\\\w*|tuple|datetime|bytes)\", \"path\": \"$UL_SCRATCH/runs/main/models/haiku-q7-r1\", \"glob\": \"*.py\", \"output_mode\": \"content\", \"-n\": true}",
+   "sub": false,
+   "result_chars": 11931,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/bundles.py:5:from datetime import timedelta\nsrc/tessel/typing.py:15:    bytes,\nsrc/tessel/typing.py:20:    t.Iterator[bytes],\nsrc/tessel/typing.py:22"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"cookie\", \"path\": \"$UL_SCRATCH/runs/main/models/haiku-q7-r1\", \"-i\": true, \"output_mode\": \"files_with_matches\"}",
+   "sub": false,
+   "result_chars": 558,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "Found 25 files\ntests/test_testing.py\ntests/test_reqctx.py\ntests/test_json_tag.py\ntests/test_basic.py\nsrc/tessel/wrappers.py\nsrc/tessel/testing.py\nsrc/tessel/ses"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/models/haiku-q7-r1/src/tessel/json/tag.py\"}",
+   "sub": false,
+   "result_chars": 10539,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1\t\"\"\"\n2\tTagged JSON\n3\t~~~~~~~~~~~\n4\t\n5\tA compact representation for lossless serialization of non-standard JSON\n6\ttypes. :class:`~tessel.sessions.SignedCookieSe"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/models/haiku-q7-r1/src/tessel/sessions.py\", \"offset\": 290, \"limit\": 60}",
+   "sub": false,
+   "result_chars": 2541,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "290\t    #: signing of cookie based sessions.\n291\t    salt = \"cookie-session\"\n292\t    #: the hash function to use for the signature.  The default is sha1\n293\t   "
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"session_json_serializer|class SessionMixin|class SignedCookieSession|TaggedJSONSerializer|class .*Serializer\", \"path\": \"$UL_SCRATCH/runs/main/models/haiku-q7-r1/src/tessel\", \"output_mode\": \"content\", \"-n\": true}",
+   "sub": false,
+   "result_chars": 652,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/json/tag.py:61:    \"\"\"Base class for defining type tags for :class:`TypedCookieSerializer`.\"\"\"\nsrc/tessel/json/tag.py:219:class TypedCookieSerializer"
+  }
+ ],
+ "_models_seen": [
+  "claude-haiku-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed",
+  "resetsAt": 1792099800,
+  "rateLimitType": "five_hour",
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.86,
+    "resetsAt": 1792099800
+   },
+   "seven_day": {
+    "utilization": 0.06,
+    "resetsAt": 1792681200
+   }
+  }
+ },
+ "_compact": [],
+ "_wall_s": 16.1,
+ "_t_start": "2026-10-15T16:42:39.653817+00:00",
+ "_t_end": "2026-10-15T16:42:55.739379+00:00",
+ "_cmd": {
+  "model": "haiku",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/models/haiku-q7-r1",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "In this repo, the default session can store tuples, bytes and datetimes in a JSON cookie and get them back with the right types. How does that work? Name the classes involved, with file paths. Be brief."
+ },
+ "_mu_cum": {
+  "input": 8,
+  "output": 2018,
+  "cache_read": 89627,
+  "cache_creation": 22636,
+  "cost": 0.0064332700000000005,
+  "total": 114289
+ },
+ "tok": {
+  "input": 8,
+  "output": 2018,
+  "cache_read": 89627,
+  "cache_creation": 22636,
+  "cost": 0.0064332700000000005,
+  "total": 114289,
+  "method": "single"
+ },
+ "_tok_usage_field": 114289,
+ "_ctx_last_call": 32922,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "plain"
+}

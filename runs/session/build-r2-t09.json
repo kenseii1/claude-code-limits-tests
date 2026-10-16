@@ -1,0 +1,204 @@
+{
+ "duration_api_ms": 61135,
+ "stop_reason": "end_turn",
+ "session_id": "0e258663-c5cc-43da-9a7c-0042b1b9d6d2",
+ "total_cost_usd": 0.36048389999999997,
+ "usage": {
+  "input_tokens": 4,
+  "cache_creation_input_tokens": 1019,
+  "cache_read_input_tokens": 130442,
+  "output_tokens": 568,
+  "output_tokens_details": {
+   "thinking_tokens": 112
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 1019,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 270,
+    "cache_read_input_tokens": 65556,
+    "cache_creation_input_tokens": 349,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 349
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 34,
+   "outputTokens": 6673,
+   "thinkingTokens": 112,
+   "cacheReadInputTokens": 705459,
+   "cacheCreationInputTokens": 55785,
+   "webSearchRequests": 0,
+   "costUSD": 0.36048389999999997,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 2,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "`send_from_directory` is defined once, at `src/tessel/helpers.py:543`.\n\nIt delegates to `werkzeug.utils.send_from_directory(directory, path, **_prepare_send_file_kwargs(**kwargs))` (line 582). The private helper `_prepare_send_file_kwargs` (line 402) fills in the Tessel-specific arguments from the active app context:\n\n- `max_age`, defaulting to `app.static_cache_seconds`\n- `environ`, taken from the current request\n- `use_x_sendfile`, from `config[\"USE_X_SENDFILE\"]`\n- `response_class`, taken from the app\n- `_root_path`, the app's root path\n\nWerkzeug does the path-safety check (`safe_join`) and the 404 for missing files, then calls its own `send_file`.",
+ "ttft_ms": 2362,
+ "type": "result",
+ "duration_ms": 6069,
+ "uuid": "044346ac-d7b3-459d-be7e-e648c90e3758",
+ "ttft_stream_ms": 1270,
+ "time_to_request_ms": 44,
+ "first_content_frame_ms": 1270,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init",
+  "system:thinking_tokens"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.299",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"def send_from_directory\", \"path\": \"$UL_SCRATCH/runs/main/session/chain-r2\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 50,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/helpers.py:543:def send_from_directory("
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed",
+  "resetsAt": 1791981000,
+  "rateLimitType": "five_hour",
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.6,
+    "resetsAt": 1791981000
+   },
+   "seven_day": {
+    "utilization": 0.47,
+    "resetsAt": 1792414800
+   }
+  }
+ },
+ "_compact": [],
+ "_wall_s": 7.2,
+ "_t_start": "2026-10-14T08:01:30.019090+00:00",
+ "_t_end": "2026-10-14T08:01:37.193379+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": "0e258663-c5cc-43da-9a7c-0042b1b9d6d2",
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/session/chain-r2",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "Where is send_from_directory defined in this repo and what does it delegate to?"
+ },
+ "_mu_cum": {
+  "input": 34,
+  "output": 6673,
+  "cache_read": 705459,
+  "cache_creation": 55785,
+  "cost": 0.36048389999999997,
+  "total": 767951
+ },
+ "tok": {
+  "input": 4,
+  "output": 568,
+  "cache_read": 130442,
+  "cache_creation": 1019,
+  "total": 132033,
+  "cost": 0.022808,
+  "method": "delta"
+ },
+ "_tok_usage_field": 132033,
+ "_ctx_last_call": 65907,
+ "_subagent_calls": 0,
+ "_tpl": "plain",
+ "_turn": 9,
+ "_rep": 2
+}

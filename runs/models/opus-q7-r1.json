@@ -1,0 +1,229 @@
+{
+ "duration_api_ms": 17116,
+ "stop_reason": "end_turn",
+ "session_id": "7d194dc1-40a5-4592-baf7-9d906fbf0453",
+ "total_cost_usd": 0.16820140000000003,
+ "usage": {
+  "input_tokens": 8,
+  "cache_creation_input_tokens": 15494,
+  "cache_read_input_tokens": 74487,
+  "output_tokens": 1466,
+  "output_tokens_details": {
+   "thinking_tokens": 59
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 15494,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 818,
+    "cache_read_input_tokens": 24742,
+    "cache_creation_input_tokens": 1036,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 1036
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-opus-5-5": {
+   "inputTokens": 8,
+   "outputTokens": 1466,
+   "cacheReadInputTokens": 74487,
+   "cacheCreationInputTokens": 15494,
+   "webSearchRequests": 0,
+   "costUSD": 0.16820140000000003,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 59,
+   "canonicalModel": "claude-opus-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 5,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "It works by tagging: before encoding to JSON, each value that isn't a plain JSON type is wrapped in a single-key dict whose key names the original type. On load, those dicts are turned back into the original type.\n\n**Wiring (`src/tessel/sessions.py`)**\n- `SignedCookieSessionInterface` (line 284) is the default session interface. It sets `serializer = session_json_serializer` (line 300), which is a module-level `TypedCookieSerializer()` (line 273).\n- `make_signer` passes that serializer to itsdangerous's `URLSafeTimedSerializer` (line 313). itsdangerous signs the cookie and calls the serializer's `dumps`/`loads`.\n- The session object itself is `SignedCookieSession` (line 57).\n\n**Tagging (`src/tessel/json/tag.py`)**\n- **`TypedCookieSerializer`** (line 219):\n  - `dumps` calls `tag()`, which walks `order` and uses the first tag whose `check()` matches. It then writes compact JSON.\n  - `loads` parses the JSON, and `_untag_scan` goes through it recursively. Any one-key dict whose key is a registered tag is passed to that tag's `to_python()`.\n- **`TypeMarker`** (line 60) is the base class. It defines `key`, `check`, `to_json` and `to_python`, and `tag()` returns `{key: to_json(value)}`.\n- The tags for the types you asked about:\n  - `TagTuple`, key `\" t\"`: stored as a list, rebuilt with `tuple(...)`.\n  - `TagBytes`, key `\" b\"`: stored as base64, read back with `b64decode`.\n  - `TagDateTime`, key `\" d\"`: stored as an HTTP date string via werkzeug's `http_date`, read back with `parse_date`.\n- Other tags:\n  - `TagMarkup` (`\" m\"`) and `TagUUID` (`\" u\"`) handle Markup and UUID values.\n  - `PassDict` and `PassList` have no key. They just recurse into containers so nested values get tagged too.\n  - `TagDict` (`\" di\"`) handles a user dict whose only key happens to match a tag name. It escapes the key with a `__` suffix so it isn't mistaken for a tag on load.\n\nTag keys start with a space so they're unlikely to clash with real keys. You can add your own types with `serializer.register(MyTag, index=...)`.",
+ "ttft_ms": 1816,
+ "type": "result",
+ "duration_ms": 17501,
+ "uuid": "3a33d424-a2fd-4823-a4b2-348cf3166cc6",
+ "ttft_stream_ms": 1694,
+ "time_to_request_ms": 302,
+ "first_content_frame_ms": 1695,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-opus-5-5",
+  "version": "2.1.300",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 32,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"class (TaggedJSONSerializer|JSONTag|Tag\\\\w+|SecureCookieSession\\\\w*)\\\\b\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 615,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/json/tag.py:28:    class TagOrderedDict(TypeMarker):\nsrc/tessel/json/tag.py:93:class TagDict(TypeMarker):\nsrc/tessel/json/tag.py:133:class TagTuple(T"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/models/opus-q7-r1/src/tessel/json/tag.py\"}",
+   "sub": false,
+   "result_chars": 10539,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1\t\"\"\"\n2\tTagged JSON\n3\t~~~~~~~~~~~\n4\t\n5\tA compact representation for lossless serialization of non-standard JSON\n6\ttypes. :class:`~tessel.sessions.SignedCookieSe"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"TaggedSerializer|TypeMarker|class \\\\w*Session\\\\w*|serializer\\\\s*=\", \"path\": \"src/tessel/sessions.py\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 439,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "24:class SessionMixin(MutableMapping[str, t.Any]):\n57:class SignedCookieSession(CallbackDict[str, t.Any], SessionMixin):\n83:class NullSession(SignedCookieSessio"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/models/opus-q7-r1/src/tessel/sessions.py\", \"offset\": 270, \"limit\": 50}",
+   "sub": false,
+   "result_chars": 2034,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "270\t        raise NotImplementedError()\n271\t\n272\t\n273\tsession_json_serializer = TypedCookieSerializer()\n274\t\n275\t\n276\tdef _lazy_sha1(string: bytes = b\"\") -> t.A"
+  }
+ ],
+ "_models_seen": [
+  "claude-opus-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed",
+  "resetsAt": 1792099800,
+  "rateLimitType": "five_hour",
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.88,
+    "resetsAt": 1792099800
+   },
+   "seven_day": {
+    "utilization": 0.06,
+    "resetsAt": 1792681200
+   }
+  }
+ },
+ "_compact": [],
+ "_wall_s": 18.4,
+ "_t_start": "2026-10-15T16:42:55.792733+00:00",
+ "_t_end": "2026-10-15T16:43:14.178563+00:00",
+ "_cmd": {
+  "model": "opus",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/models/opus-q7-r1",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "In this repo, the default session can store tuples, bytes and datetimes in a JSON cookie and get them back with the right types. How does that work? Name the classes involved, with file paths. Be brief."
+ },
+ "_mu_cum": {
+  "input": 8,
+  "output": 1466,
+  "cache_read": 74487,
+  "cache_creation": 15494,
+  "cost": 0.16820140000000003,
+  "total": 91455
+ },
+ "tok": {
+  "input": 8,
+  "output": 1466,
+  "cache_read": 74487,
+  "cache_creation": 15494,
+  "cost": 0.16820140000000003,
+  "total": 91455,
+  "method": "single"
+ },
+ "_tok_usage_field": 91455,
+ "_ctx_last_call": 25780,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "plain"
+}

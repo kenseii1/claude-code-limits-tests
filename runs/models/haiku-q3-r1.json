@@ -1,0 +1,248 @@
+{
+ "duration_api_ms": 11359,
+ "stop_reason": "end_turn",
+ "session_id": "7cc3a6f5-a6e0-444b-ae4c-ec5d84a55895",
+ "total_cost_usd": 0.0047082999999999995,
+ "usage": {
+  "input_tokens": 10,
+  "cache_creation_input_tokens": 14184,
+  "cache_read_input_tokens": 97600,
+  "output_tokens": 1789,
+  "output_tokens_details": {
+   "thinking_tokens": 310
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 14184,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 405,
+    "cache_read_input_tokens": 23967,
+    "cache_creation_input_tokens": 501,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 501
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-haiku-5-5": {
+   "inputTokens": 10,
+   "outputTokens": 1789,
+   "cacheReadInputTokens": 97600,
+   "cacheCreationInputTokens": 14184,
+   "webSearchRequests": 0,
+   "costUSD": 0.0047082999999999995,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 310,
+   "canonicalModel": "claude-haiku-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 7,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "Use `@pass_script_info`, defined in `src/tessel/cli.py:375`. It injects the `LaunchInfo` object, and you call `info.load_app()` inside the command to get the app.\n\n- **Decorator:** `@pass_script_info` (`src/tessel/cli.py:375`), used by `run_command` at `src/tessel/cli.py:933`.\n- **Class that loads the app:** `LaunchInfo` (`src/tessel/cli.py:293`). Its `load_app()` method (`src/tessel/cli.py:333`) resolves the app from `--app`, `TESSEL_APP`, or `wsgi.py`/`app.py`, and caches it.\n- **Registration:** the root group is `cli = TesselGroup(...)` at `src/tessel/cli.py:1109`. Attach your command with `@cli.command(...)` or `@click.command(...)` plus `cli.add_command(...)`, following the existing `shell` and `routes` commands (`src/tessel/cli.py:998`, `1047`).\n\nExample:\n\n```python\n@click.command(\"my-cmd\")\n@pass_script_info\ndef my_cmd(info: LaunchInfo):\n    app = info.load_app()\n```",
+ "ttft_ms": 2775,
+ "type": "result",
+ "duration_ms": 11522,
+ "uuid": "1dc34072-02f3-4603-b4ae-97a30a87d17a",
+ "ttft_stream_ms": 1152,
+ "time_to_request_ms": 43,
+ "first_content_frame_ms": 1152,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init",
+  "system:thinking_tokens"
+ ],
+ "_init": {
+  "model": "claude-haiku-5-5",
+  "version": "2.1.300",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 32,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"@(click\\\\.|app\\\\.)?(command|cli\\\\.command)\\\\b|@typer|argparse|click\\\\.group|@cli\\\\.command|@app\\\\.command\", \"output_mode\": \"content\", \"-n\": true, \"head_limit\": 50}",
+   "sub": false,
+   "result_chars": 1207,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/cli.py:881:@click.command(\"run\", short_help=\"Run a development server.\")\nsrc/tessel/cli.py:998:@click.command(\"shell\", short_help=\"Run a shell in the"
+  },
+  {
+   "tool": "Glob",
+   "input": "{\"pattern\": \"**/*cli*.py\"}",
+   "sub": false,
+   "result_chars": 35,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/cli.py\ntests/test_cli.py"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"^class \\\\w+|with_appcontext|pass_script_info|def load_app|def create_app|ScriptInfo|def cli\\\\b|cli\\\\s*=|AppGroup|TesselGroup\", \"path\": \"$UL_SCRATCH/runs/main/models/haiku-q3-r1/src/tessel/cli.py\", \"output_mode\": \"content\", \"-n\": true}",
+   "sub": false,
+   "result_chars": 783,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "37:class NoAppException(click.UsageError):\n293:class LaunchInfo:\n298:    :class:`TesselGroup` but you can also manually create it and pass it\n333:    def load_a"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/models/haiku-q3-r1/src/tessel/cli.py\", \"offset\": 290, \"limit\": 90}",
+   "sub": false,
+   "result_chars": 3597,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "290\t)\n291\t\n292\t\n293\tclass LaunchInfo:\n294\t    \"\"\"Helper object to deal with Tessel applications.  This is usually not\n295\t    necessary to interface with as it'"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/models/haiku-q3-r1/src/tessel/cli.py\", \"offset\": 1100, \"limit\": 20}",
+   "sub": false,
+   "result_chars": 659,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1100\t    rows.insert(0, headers)\n1101\t    widths = [max(len(row[i]) for row in rows) for i in range(len(headers))]\n1102\t    rows.insert(1, [\"-\" * w for w in wid"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/models/haiku-q3-r1/src/tessel/cli.py\", \"offset\": 930, \"limit\": 10}",
+   "sub": false,
+   "result_chars": 206,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "930\t        f\" {os.path.pathsep!r}.\"\n931\t    ),\n932\t)\n933\t@pass_script_info\n934\tdef run_command(\n935\t    info: LaunchInfo,\n936\t    host: str,\n937\t    port: int,"
+  }
+ ],
+ "_models_seen": [
+  "claude-haiku-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed",
+  "resetsAt": 1792099800,
+  "rateLimitType": "five_hour",
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.86,
+    "resetsAt": 1792099800
+   },
+   "seven_day": {
+    "utilization": 0.06,
+    "resetsAt": 1792681200
+   }
+  }
+ },
+ "_compact": [],
+ "_wall_s": 12.6,
+ "_t_start": "2026-10-15T16:42:41.709548+00:00",
+ "_t_end": "2026-10-15T16:42:54.323239+00:00",
+ "_cmd": {
+  "model": "haiku",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/models/haiku-q3-r1",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "In this repo, I want to add a custom CLI command that needs the app (and app context). Which decorator should I use, and which class loads the app for CLI commands? Give file paths. Be brief."
+ },
+ "_mu_cum": {
+  "input": 10,
+  "output": 1789,
+  "cache_read": 97600,
+  "cache_creation": 14184,
+  "cost": 0.0047082999999999995,
+  "total": 113583
+ },
+ "tok": {
+  "input": 10,
+  "output": 1789,
+  "cache_read": 97600,
+  "cache_creation": 14184,
+  "cost": 0.0047082999999999995,
+  "total": 113583,
+  "method": "single"
+ },
+ "_tok_usage_field": 113583,
+ "_ctx_last_call": 24470,
+ "_subagent_calls": 0,
+ "_correct": false,
+ "_tpl": "plain"
+}

@@ -1,0 +1,212 @@
+{
+ "duration_api_ms": 7326,
+ "stop_reason": "end_turn",
+ "session_id": "0e258663-c5cc-43da-9a7c-0042b1b9d6d2",
+ "total_cost_usd": 0.0550186,
+ "usage": {
+  "input_tokens": 6,
+  "cache_creation_input_tokens": 10743,
+  "cache_read_input_tokens": 49046,
+  "output_tokens": 713,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 10743,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 278,
+    "cache_read_input_tokens": 19806,
+    "cache_creation_input_tokens": 1107,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 1107
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 6,
+   "outputTokens": 713,
+   "cacheReadInputTokens": 49046,
+   "cacheCreationInputTokens": 10743,
+   "webSearchRequests": 0,
+   "costUSD": 0.0550186,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 0,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 3,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "The Tessel logger is created in `create_logger()` at `src/tessel/logging.py:58`, via `logging.getLogger(app.name)`.\n\n- **Default handler:** `default_handler` (`src/tessel/logging.py:52`) is a `logging.StreamHandler` that writes to `wsgi_errors_stream`. That resolves to the request's `wsgi.errors` stream, or `sys.stderr` outside a request.\n- **Format:** `[%(asctime)s] %(levelname)s in %(module)s: %(message)s`.\n- **When it's added:** only if `has_level_handler(logger)` finds no handler in the logger's chain that covers its effective level (line 76).\n- **Debug level:** when `app.debug` is on and the logger has no level set, `create_logger()` also sets it to `DEBUG`.",
+ "ttft_ms": 2414,
+ "type": "result",
+ "duration_ms": 7453,
+ "uuid": "0dda6cc4-fc45-42b0-93ea-0370e2f9faf5",
+ "ttft_stream_ms": 1276,
+ "time_to_request_ms": 65,
+ "first_content_frame_ms": 1276,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.299",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"getLogger|logging\\\\.getLogger|addHandler|createLogger\", \"path\": \"$UL_SCRATCH/runs/main/session/chain-r2\", \"output_mode\": \"content\", \"-i\": true, \"head_limit\": 30}",
+   "sub": false,
+   "result_chars": 1056,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/logging.py:71:    logger = logging.getLogger(app.name)\nsrc/tessel/logging.py:77:        logger.addHandler(default_handler)\ntests/test_logging.py:18: "
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/session/chain-r2/src/tessel/logging.py\", \"offset\": 20, \"limit\": 70}",
+   "sub": false,
+   "result_chars": 2143,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "20\t    If you configure your own :class:`logging.StreamHandler`, you may want to\n21\t    use this for the stream. If you are using file or dict configuration and"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed",
+  "resetsAt": 1791981000,
+  "rateLimitType": "five_hour",
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.43,
+    "resetsAt": 1791981000
+   },
+   "seven_day": {
+    "utilization": 0.46,
+    "resetsAt": 1792414800
+   }
+  }
+ },
+ "_compact": [],
+ "_wall_s": 9.1,
+ "_t_start": "2026-10-14T07:58:10.293647+00:00",
+ "_t_end": "2026-10-14T07:58:19.366795+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/session/chain-r2",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "In this repo, where is the Tessel logger created and what handler does it add by default? Brief, with file path."
+ },
+ "_mu_cum": {
+  "input": 6,
+  "output": 713,
+  "cache_read": 49046,
+  "cache_creation": 10743,
+  "cost": 0.0550186,
+  "total": 60508
+ },
+ "tok": {
+  "input": 6,
+  "output": 713,
+  "cache_read": 49046,
+  "cache_creation": 10743,
+  "cost": 0.0550186,
+  "total": 60508,
+  "method": "single"
+ },
+ "_tok_usage_field": 60508,
+ "_ctx_last_call": 20915,
+ "_subagent_calls": 0,
+ "_tpl": "plain",
+ "_turn": 1,
+ "_rep": 2
+}

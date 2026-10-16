@@ -1,0 +1,256 @@
+{
+ "duration_api_ms": 19053,
+ "stop_reason": "end_turn",
+ "session_id": "5ca5838b-29c8-4ac5-b37e-2f551c0b8b44",
+ "total_cost_usd": 0.18173100000000003,
+ "usage": {
+  "input_tokens": 10,
+  "cache_creation_input_tokens": 14993,
+  "cache_read_input_tokens": 96735,
+  "output_tokens": 2120,
+  "output_tokens_details": {
+   "thinking_tokens": 35
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 14993,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 707,
+    "cache_read_input_tokens": 23980,
+    "cache_creation_input_tokens": 1297,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 1297
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-opus-5-5": {
+   "inputTokens": 10,
+   "outputTokens": 2120,
+   "cacheReadInputTokens": 96735,
+   "cacheCreationInputTokens": 14993,
+   "webSearchRequests": 0,
+   "costUSD": 0.18173100000000003,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 35,
+   "canonicalModel": "claude-opus-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 8,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "The session cookie is written after the view runs and the `after_request` hooks finish. Call order:\n\n1. **`Tessel.__call__`**, `src/tessel/app.py:1618`. This is the WSGI entry point, and it calls `wsgi_entry`.\n2. **`Tessel.wsgi_entry`**, `src/tessel/app.py:1566`. It builds the context and calls `run_full_request(ctx)` at line 1597.\n3. **`Tessel.run_full_request`**, `src/tessel/app.py:992`. It runs `preprocess_request`, then `run_view` (or `route_user_fault` if an exception is raised), then `finalize_request` at line 1019.\n4. **`Tessel.finalize_request`**, `src/tessel/app.py:1021`. It calls `make_response(rv)`, then `finalize_reply` at line 1041.\n5. **`Tessel.finalize_reply`**, `src/tessel/app.py:1394`. It runs the `after_request` functions. Then, if `session_interface.is_null_session(...)` is false, it calls `session_interface.persist_session(self, session, response)` at lines 1415–1416.\n6. **`SignedCookieSessionInterface.persist_session`**, `src/tessel/sessions.py:337`. It works out the cookie settings from the `get_cookie_*` helpers and adds `Vary: Cookie` if the session was accessed:\n   - If the session is empty and was modified, it deletes the cookie with `response.delete_cookie(...)`.\n   - Otherwise it checks `cookie_needs_write`, then signs the data with `make_signer(app).dumps(dict(session))` and calls `response.set_cookie(...)` at line 374.\n\nThe error path reaches the same place. `route_unhandled_fault` (`app.py:897`) calls `finalize_request(..., from_error_handler=True)` at line 948, which then follows steps 5–6. The test client does the same thing directly in `src/tessel/testing.py:177`.",
+ "ttft_ms": 2042,
+ "type": "result",
+ "duration_ms": 19191,
+ "uuid": "aa058f91-f46e-4193-b7f2-347d629dca8a",
+ "ttft_stream_ms": 753,
+ "time_to_request_ms": 40,
+ "first_content_frame_ms": 753,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-opus-5-5",
+  "version": "2.1.300",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 32,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"save_session|set_cookie|session_interface\", \"output_mode\": \"content\", \"head_limit\": 60}",
+   "sub": false,
+   "result_chars": 1960,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/testing.py:165:            sess = app.session_interface.restore_session(app, ctx.request)\nsrc/tessel/testing.py:173:        if app.session_interface."
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/models/opus-q2-r1/src/tessel/app.py\", \"offset\": 1385, \"limit\": 40}",
+   "sub": false,
+   "result_chars": 1925,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1385\t            if name in self.before_request_funcs:\n1386\t                for before_func in self.before_request_funcs[name]:\n1387\t                    rv = se"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"def (process_response|finalize_request|full_dispatch_request|wsgi_app)|self\\\\.(process_response|finalize_request|full_dispatch_request)\\\\(\", \"path\": \"$UL_SCRATCH/runs/main/models/opus-q2-r1/src/tessel/app.py\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 166,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "948:        return self.finalize_request(ctx, server_error, from_error_handler=True)\n1019:        return self.finalize_request(ctx, rv)\n1021:    def finalize_re"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/models/opus-q2-r1/src/tessel/sessions.py\", \"offset\": 330, \"limit\": 60}",
+   "sub": false,
+   "result_chars": 2153,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "330\t        max_age = int(app.permanent_session_lifetime.total_seconds())\n331\t        try:\n332\t            data = s.loads(val, max_age=max_age)\n333\t            "
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/models/opus-q2-r1/src/tessel/app.py\", \"offset\": 995, \"limit\": 55}",
+   "sub": false,
+   "result_chars": 2295,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "995\t        error handling.\n996\t\n997\t        .. versionadded:: 0.7\n998\t        \"\"\"\n999\t        if not self._got_first_request and self.should_ignore_error is no"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"def (full_dispatch_request|wsgi_app|__call__)|full_dispatch_request\\\\(|finalize_reply\\\\(\", \"path\": \"$UL_SCRATCH/runs/main/models/opus-q2-r1/src/tessel\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 223,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/app.py:1041:            response = self.finalize_reply(ctx, response)\nsrc/tessel/app.py:1394:    def finalize_reply(self, ctx: AppContext, response: "
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"^    def \\\\w+|self\\\\.\\\\w+_request\\\\(ctx\\\\)|self\\\\.\\\\w+\\\\(environ\", \"path\": \"$UL_SCRATCH/runs/main/models/opus-q2-r1/src/tessel/app.py\", \"output_mode\": \"content\", \"offset\": 0}",
+   "sub": false,
+   "result_chars": 2312,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "86:    def wrapper(self: Tessel, *args: t.Any, **kwargs: t.Any) -> t.Any:\n98:    def wrapper(self: Tessel, *args: t.Any, **kwargs: t.Any) -> t.Any:\n252:    def "
+  }
+ ],
+ "_models_seen": [
+  "claude-opus-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed",
+  "resetsAt": 1792099800,
+  "rateLimitType": "five_hour",
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.68,
+    "resetsAt": 1792099800
+   },
+   "seven_day": {
+    "utilization": 0.05,
+    "resetsAt": 1792681200
+   }
+  }
+ },
+ "_compact": [],
+ "_wall_s": 20.2,
+ "_t_start": "2026-10-15T16:40:20.127716+00:00",
+ "_t_end": "2026-10-15T16:40:40.336516+00:00",
+ "_cmd": {
+  "model": "opus",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/models/opus-q2-r1",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "In this repo, how does the session cookie get written at the end of a request? List the functions involved in call order, with file paths. Be brief."
+ },
+ "_mu_cum": {
+  "input": 10,
+  "output": 2120,
+  "cache_read": 96735,
+  "cache_creation": 14993,
+  "cost": 0.18173100000000003,
+  "total": 113858
+ },
+ "tok": {
+  "input": 10,
+  "output": 2120,
+  "cache_read": 96735,
+  "cache_creation": 14993,
+  "cost": 0.18173100000000003,
+  "total": 113858,
+  "method": "single"
+ },
+ "_tok_usage_field": 113858,
+ "_ctx_last_call": 25279,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "plain"
+}

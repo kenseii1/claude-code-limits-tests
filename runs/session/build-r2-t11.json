@@ -1,0 +1,204 @@
+{
+ "duration_api_ms": 77557,
+ "stop_reason": "end_turn",
+ "session_id": "0e258663-c5cc-43da-9a7c-0042b1b9d6d2",
+ "total_cost_usd": 0.45749709999999993,
+ "usage": {
+  "input_tokens": 4,
+  "cache_creation_input_tokens": 2199,
+  "cache_read_input_tokens": 153508,
+  "output_tokens": 668,
+  "output_tokens_details": {
+   "thinking_tokens": 52
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 2199,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 390,
+    "cache_read_input_tokens": 77289,
+    "cache_creation_input_tokens": 1129,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 1129
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 42,
+   "outputTokens": 8511,
+   "thinkingTokens": 164,
+   "cacheReadInputTokens": 991111,
+   "cacheCreationInputTokens": 68298,
+   "webSearchRequests": 0,
+   "costUSD": 0.45749709999999993,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 2,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "`abort` is defined in `src/tessel/helpers.py:281` and re-exported as `tessel.abort` from `src/tessel/__init__.py:13`.\n\n**How it works**\n- `abort(code, *args, **kwargs)` raises an `HTTPException` for the given status code, or for a response object. It never returns.\n- If an app context is active, it calls `ctx.app.aborter(code, *args, **kwargs)`, so an app can customise which exceptions are raised.\n- Otherwise it falls back to Werkzeug's `abort`, imported as `_wz_abort` (`werkzeug.exceptions.abort`).\n\n**Where `aborter` comes from**\n- `src/tessel/sansio/app.py:165`: `aborter_class = Aborter`, the class used by default. It's a Werkzeug `Aborter`, and an app subclass can override it.\n- `src/tessel/sansio/app.py:325`: `self.aborter = self.make_aborter()` in `App.__init__`.\n- `src/tessel/sansio/app.py:496`: `make_aborter()` returns `self.aborter_class()`, and can be overridden to supply a custom aborter.",
+ "ttft_ms": 2046,
+ "type": "result",
+ "duration_ms": 6821,
+ "uuid": "1719df3a-ec9a-4d29-a4f8-0301f9ad3501",
+ "ttft_stream_ms": 1279,
+ "time_to_request_ms": 39,
+ "first_content_frame_ms": 1280,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init",
+  "system:thinking_tokens"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.299",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"aborter|import abort|abort\\\\b.*import|\\\\babort\\\\b\", \"path\": \"$UL_SCRATCH/runs/main/session/chain-r2/src\", \"output_mode\": \"content\", \"head_limit\": 30}",
+   "sub": false,
+   "result_chars": 1828,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/helpers.py:13:from werkzeug.exceptions import abort as _wz_abort\nsrc/tessel/helpers.py:281:def abort(code: int | BaseResponse, *args: t.Any, **kwargs"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed",
+  "resetsAt": 1791981000,
+  "rateLimitType": "five_hour",
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.61,
+    "resetsAt": 1791981000
+   },
+   "seven_day": {
+    "utilization": 0.47,
+    "resetsAt": 1792414800
+   }
+  }
+ },
+ "_compact": [],
+ "_wall_s": 8.0,
+ "_t_start": "2026-10-14T08:01:48.114416+00:00",
+ "_t_end": "2026-10-14T08:01:56.068692+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": "0e258663-c5cc-43da-9a7c-0042b1b9d6d2",
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/session/chain-r2",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "How does abort work in this repo and where does it come from?"
+ },
+ "_mu_cum": {
+  "input": 42,
+  "output": 8511,
+  "cache_read": 991111,
+  "cache_creation": 68298,
+  "cost": 0.45749709999999993,
+  "total": 1067962
+ },
+ "tok": {
+  "input": 4,
+  "output": 668,
+  "cache_read": 153508,
+  "cache_creation": 2199,
+  "total": 156379,
+  "cost": 0.030835,
+  "method": "delta"
+ },
+ "_tok_usage_field": 156379,
+ "_ctx_last_call": 78420,
+ "_subagent_calls": 0,
+ "_tpl": "plain",
+ "_turn": 11,
+ "_rep": 2
+}

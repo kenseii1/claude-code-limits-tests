@@ -1,0 +1,205 @@
+{
+ "duration_api_ms": 4823,
+ "stop_reason": "end_turn",
+ "session_id": "eb0af8d0-bf43-4873-a77b-3195ca455676",
+ "total_cost_usd": 0.052310800000000005,
+ "usage": {
+  "input_tokens": 4,
+  "cache_creation_input_tokens": 11005,
+  "cache_read_input_tokens": 30128,
+  "output_tokens": 527,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 11005,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 354,
+    "cache_read_input_tokens": 19844,
+    "cache_creation_input_tokens": 1445,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 1445
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 4,
+   "outputTokens": 527,
+   "cacheReadInputTokens": 30128,
+   "cacheCreationInputTokens": 11005,
+   "webSearchRequests": 0,
+   "costUSD": 0.052310800000000005,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 0,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 2,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "Call order when a view raises (from `brain/request-lifecycle.md`):\n\n1. `Tessel.wsgi_entry` — `src/tessel/app.py`\n2. `run_full_request(ctx)` — `src/tessel/app.py` (catches the exception from `run_view`)\n3. `route_user_fault` — `src/tessel/app.py`\n4. `_pick_fault_handler` — `src/tessel/sansio/app.py` (chooses the registered handler)\n5. The chosen registered handler runs, or `route_http_fault` — `src/tessel/app.py` — for HTTP exceptions\n6. If nothing handles it, `route_unhandled_fault` — `src/tessel/app.py` (logs, sends `got_request_exception`, returns 500 or re-raises under `PROPAGATE_EXCEPTIONS`/debug)\n\nThe note doesn't say how `_pick_fault_handler` ranks handlers (for example bundle vs. app-level, or by exception class). Open `src/tessel/sansio/app.py` if you need that.",
+ "ttft_ms": 1273,
+ "type": "result",
+ "duration_ms": 4890,
+ "uuid": "34e3663a-fd3d-42ae-9423-6c12b4cf77e1",
+ "ttft_stream_ms": 1131,
+ "time_to_request_ms": 49,
+ "first_content_frame_ms": 1131,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.300",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/flatmap/brain-q1-r2/brain/request-lifecycle.md\"}",
+   "sub": false,
+   "result_chars": 2733,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1\t# Request lifecycle\n2\t\n3\tEvery handler method below takes `ctx: AppContext` as its first arg (3.2 change).\n4\tAll in `src/tessel/app.py` unless noted.\n5\t\n6\t1. "
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed_warning",
+  "resetsAt": 1792414800,
+  "rateLimitType": "seven_day",
+  "utilization": 0.82,
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "surpassedThreshold": 0.75,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.7,
+    "resetsAt": 1792053000
+   },
+   "seven_day": {
+    "utilization": 0.82,
+    "resetsAt": 1792414800
+   }
+  },
+  "overageEnabled": false
+ },
+ "_compact": [],
+ "_wall_s": 6.0,
+ "_t_start": "2026-10-15T03:43:46.292575+00:00",
+ "_t_end": "2026-10-15T03:43:52.251884+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/flatmap/brain-q1-r2",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "In this repo, when a view raises an exception, how does Tessel decide which error handler runs? List the methods involved in call order, with file paths. Be brief."
+ },
+ "_mu_cum": {
+  "input": 4,
+  "output": 527,
+  "cache_read": 30128,
+  "cache_creation": 11005,
+  "cost": 0.052310800000000005,
+  "total": 41664
+ },
+ "tok": {
+  "input": 4,
+  "output": 527,
+  "cache_read": 30128,
+  "cache_creation": 11005,
+  "cost": 0.052310800000000005,
+  "total": 41664,
+  "method": "single"
+ },
+ "_tok_usage_field": 41664,
+ "_ctx_last_call": 21291,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "brain"
+}

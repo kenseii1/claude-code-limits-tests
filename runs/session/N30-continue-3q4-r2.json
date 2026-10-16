@@ -1,0 +1,238 @@
+{
+ "duration_api_ms": 294486,
+ "stop_reason": "end_turn",
+ "session_id": "cdccbc88-56ca-47ad-96a8-cf385bcb4f04",
+ "total_cost_usd": 2.3065481999999995,
+ "usage": {
+  "input_tokens": 6,
+  "cache_creation_input_tokens": 8773,
+  "cache_read_input_tokens": 504241,
+  "output_tokens": 1702,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 8773,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 850,
+    "cache_read_input_tokens": 168878,
+    "cache_creation_input_tokens": 7265,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 7265
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 154,
+   "outputTokens": 27780,
+   "thinkingTokens": 410,
+   "cacheReadInputTokens": 8138882,
+   "cacheCreationInputTokens": 303638,
+   "webSearchRequests": 0,
+   "costUSD": 2.3065481999999995,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 5,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "Rules are recorded on the bundle at definition time and replayed onto the app at registration time.\n\n**1. Recording (before registration): `Bundle.attach_route_rule` (`src/tessel/sansio/bundles.py:413`)**\n- It rejects dots in the endpoint and view function name, then wraps the call in a closure and passes it to `Bundle.record()` (L224).\n- `record()` appends the closure to `self.deferred_functions`.\n- The same happens for route decorators such as `@bundle.route`, which go through `attach_route_rule`.\n- Nothing touches the app yet.\n\n**2. Registering: `App.register_bundle` (`src/tessel/sansio/app.py:571`)**\n- It simply calls `bundle.register(self, options)`.\n\n**3. Replaying: `Bundle.register(app, options)` (`bundles.py:273`)**\n- It computes the dotted name from `name_prefix` and `name`, raises `ValueError` if that name is already registered, and stores the bundle in `app.bundles[name]`.\n- `make_setup_state()` (L246) builds a `BundleSetupState` (L34) with the resolved `url_prefix`, `subdomain`, `url_defaults` and `name_prefix`.\n- If the bundle has a static folder, it adds the static route through the state.\n- `_merge_bundle_funcs()` (L379) copies the bundle's view functions, error handlers and request hooks onto the app, with name-qualified keys.\n- It then runs `for deferred in self.deferred_functions: deferred(state)` (L334).\n- Nested bundles are registered recursively with combined prefixes and subdomains.\n\n**4. Adding the rule: `BundleSetupState.attach_route_rule` (`bundles.py:87`)**\n- It joins `url_prefix` with the rule, sets the default `subdomain`, and merges `url_defaults`.\n- It qualifies the endpoint as `<name_prefix>.<bundle name>.<endpoint>`.\n- It calls `self.app.attach_route_rule(...)`.\n\n**5. App-level add: `App.attach_route_rule` (`sansio/app.py:606`)**\n- It resolves methods, which come from `methods`, then `view_func.methods`, then `(\"GET\",)`, and handles automatic OPTIONS.\n- It builds the `url_rule_class` object and calls `self.url_map.add(rule_obj)`.\n- It stores the view in `self.view_functions[endpoint]`, raising `AssertionError` if a different function already owns that endpoint.",
+ "ttft_ms": 3272,
+ "type": "result",
+ "duration_ms": 15392,
+ "uuid": "49809cf2-005c-4910-aea1-eca0035de316",
+ "ttft_stream_ms": 1124,
+ "time_to_request_ms": 53,
+ "first_content_frame_ms": 1125,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.299",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"def register_bundle|def register\\\\(|def record|deferred_functions|def make_setup_state|class BundleSetupState|def attach_route_rule|def add_url_rule|def _merge_bundle_dict|def iter_bundles\", \"path\": \"$UL_SCRATCH/runs/main/session/chain-r2/src/tessel\", \"output_mode\": \"content\",",
+   "sub": false,
+   "result_chars": 1234,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/json/tag.py:256:    def register(\nsrc/tessel/sansio/app.py:571:    def register_bundle(self, bundle: Bundle, **options: t.Any) -> None:\nsrc/tessel/sa"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/session/chain-r2/src/tessel/sansio/bundles.py\", \"offset\": 34, \"limit\": 90}",
+   "sub": false,
+   "result_chars": 3508,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "34\tclass BundleSetupState:\n35\t    \"\"\"Temporary holder object for registering a bundle with the\n36\t    application.  An instance of this class is created by the\n"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/session/chain-r2/src/tessel/sansio/bundles.py\", \"offset\": 220, \"limit\": 240}",
+   "sub": false,
+   "result_chars": 10609,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "220\t                \" the bundle are done before registering it.\"\n221\t            )\n222\t\n223\t    @setupmethod\n224\t    def record(self, func: DeferredSetupFuncti"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/session/chain-r2/src/tessel/sansio/app.py\", \"offset\": 568, \"limit\": 100}",
+   "sub": false,
+   "result_chars": 4330,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "568\t            self.jinja_env.auto_reload = value\n569\t\n570\t    @setupmethod\n571\t    def register_bundle(self, bundle: Bundle, **options: t.Any) -> None:\n572\t  "
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed_warning",
+  "resetsAt": 1792414800,
+  "rateLimitType": "seven_day",
+  "utilization": 0.57,
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.67,
+    "resetsAt": 1791999000
+   },
+   "seven_day": {
+    "utilization": 0.57,
+    "resetsAt": 1792414800
+   }
+  },
+  "overageEnabled": false
+ },
+ "_compact": [],
+ "_wall_s": 16.4,
+ "_t_start": "2026-10-14T16:45:14.540197+00:00",
+ "_t_end": "2026-10-14T16:45:30.954762+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": "cdccbc88-56ca-47ad-96a8-cf385bcb4f04",
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/session/chain-r2",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "In this repo, how does a bundle get its URL rules onto the app when it is registered? Name the classes and methods involved, with file paths. Be brief."
+ },
+ "_mu_cum": {
+  "input": 154,
+  "output": 27780,
+  "cache_read": 8138882,
+  "cache_creation": 303638,
+  "cost": 2.3065481999999995,
+  "total": 8470454
+ },
+ "tok": {
+  "input": 6,
+  "output": 1702,
+  "cache_read": 504241,
+  "cache_creation": 8773,
+  "total": 514722,
+  "cost": 0.102548,
+  "method": "delta"
+ },
+ "_tok_usage_field": 514722,
+ "_ctx_last_call": 176145,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "plain",
+ "_ctx_before": 158341,
+ "_N": 30,
+ "_arm": "continue",
+ "_pos": 3,
+ "_target": "q4",
+ "_rep": 2,
+ "_parent_sid": "0e258663-c5cc-43da-9a7c-0042b1b9d6d2"
+}

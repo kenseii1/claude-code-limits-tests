@@ -1,0 +1,204 @@
+{
+ "duration_api_ms": 72702,
+ "stop_reason": "end_turn",
+ "session_id": "600996ac-5111-4cfe-9c21-b6a657c31c1d",
+ "total_cost_usd": 0.43317039999999996,
+ "usage": {
+  "input_tokens": 4,
+  "cache_creation_input_tokens": 1773,
+  "cache_read_input_tokens": 151918,
+  "output_tokens": 573,
+  "output_tokens_details": {
+   "thinking_tokens": 76
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 1773,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 305,
+    "cache_read_input_tokens": 76413,
+    "cache_creation_input_tokens": 865,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 865
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 40,
+   "outputTokens": 7227,
+   "thinkingTokens": 199,
+   "cacheReadInputTokens": 921884,
+   "cacheCreationInputTokens": 67158,
+   "webSearchRequests": 0,
+   "costUSD": 0.43317039999999996,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 2,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "`abort` is defined in `src/tessel/helpers.py:281` and re-exported as `tessel.abort` from `src/tessel/__init__.py:13`.\n\n**How it works:**\n- If an app context is active, it calls `ctx.app.aborter(code, *args, **kwargs)`.\n- Otherwise, it falls back to Werkzeug's `abort` (imported as `_wz_abort`).\n- Either way it raises an `HTTPException` for the status code, and its return type is `NoReturn`.\n\n**Where the aborter comes from:**\n- `aborter_class = Aborter` is declared on the app class in `src/tessel/sansio/app.py:165`.\n- `self.aborter = self.make_aborter()` creates the instance (L325), and `make_aborter()` (L496) returns `self.aborter_class()`.\n- An app can override `aborter_class` or `make_aborter` to register custom status codes.",
+ "ttft_ms": 2269,
+ "type": "result",
+ "duration_ms": 6285,
+ "uuid": "d176d6bf-f3b4-484b-9b78-c80b1b86e0b0",
+ "ttft_stream_ms": 1197,
+ "time_to_request_ms": 39,
+ "first_content_frame_ms": 1197,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init",
+  "system:thinking_tokens"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.299",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"aborter|import abort|abort as\", \"path\": \"$UL_SCRATCH/runs/main/session/chain-r3/src\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 1296,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/__init__.py:13:from .helpers import abort as abort\nsrc/tessel/helpers.py:13:from werkzeug.exceptions import abort as _wz_abort\nsrc/tessel/helpers.py:"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed",
+  "resetsAt": 1791981000,
+  "rateLimitType": "five_hour",
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.61,
+    "resetsAt": 1791981000
+   },
+   "seven_day": {
+    "utilization": 0.47,
+    "resetsAt": 1792414800
+   }
+  }
+ },
+ "_compact": [],
+ "_wall_s": 7.5,
+ "_t_start": "2026-10-14T08:01:46.882751+00:00",
+ "_t_end": "2026-10-14T08:01:54.340849+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": "600996ac-5111-4cfe-9c21-b6a657c31c1d",
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/session/chain-r3",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "How does abort work in this repo and where does it come from?"
+ },
+ "_mu_cum": {
+  "input": 40,
+  "output": 7227,
+  "cache_read": 921884,
+  "cache_creation": 67158,
+  "cost": 0.43317039999999996,
+  "total": 996309
+ },
+ "tok": {
+  "input": 4,
+  "output": 573,
+  "cache_read": 151918,
+  "cache_creation": 1773,
+  "total": 154268,
+  "cost": 0.028022,
+  "method": "delta"
+ },
+ "_tok_usage_field": 154268,
+ "_ctx_last_call": 77280,
+ "_subagent_calls": 0,
+ "_tpl": "plain",
+ "_turn": 11,
+ "_rep": 3
+}

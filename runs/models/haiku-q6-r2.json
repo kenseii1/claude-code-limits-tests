@@ -1,0 +1,221 @@
+{
+ "duration_api_ms": 8964,
+ "stop_reason": "end_turn",
+ "session_id": "c57a7acc-934f-49bd-adba-a35a29a9ae1f",
+ "total_cost_usd": 0.004760780000000001,
+ "usage": {
+  "input_tokens": 8,
+  "cache_creation_input_tokens": 16289,
+  "cache_read_input_tokens": 79518,
+  "output_tokens": 1414,
+  "output_tokens_details": {
+   "thinking_tokens": 207
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 16289,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 666,
+    "cache_read_input_tokens": 25903,
+    "cache_creation_input_tokens": 670,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 670
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-haiku-5-5": {
+   "inputTokens": 8,
+   "outputTokens": 1414,
+   "cacheReadInputTokens": 79518,
+   "cacheCreationInputTokens": 16289,
+   "webSearchRequests": 0,
+   "costUSD": 0.004760780000000001,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 207,
+   "canonicalModel": "claude-haiku-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 4,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "The mechanism is `Config.load_env_prefixed()` in `src/tessel/config.py:126-185`. It is a method on the config dict, not a standalone function.\n\n- **Selection:** it iterates `sorted(os.environ)` and keeps keys starting with `TESSEL_` (the `prefix` argument, default `\"TESSEL\"`, plus `_`). The prefix is stripped, so `TESSEL_SECRET_KEY` becomes `SECRET_KEY`.\n- **Type conversion:** each value goes through the `loads` argument, which defaults to `json.loads` (`config.py:127`, `162`). Valid JSON becomes a typed value: `false` becomes a bool, `1` an int, `1.2` a float, `[1, 2]` a list, `{\"k\": \"v\"}` a dict. If parsing raises, the raw string is kept (`config.py:163-165`).\n- **Nested keys:** a key containing `__` is split with `key.split(\"__\")` (`config.py:174`). Every part but the last is walked or created as an empty dict (`config.py:176-181`), and the last part is set (`config.py:183`). So `TESSEL_MYAPI__credentials__username` sets `config[\"MYAPI\"][\"credentials\"][\"username\"]`.\n\nNothing calls this automatically in the source. Apps opt in by calling `app.config.load_env_prefixed()` (see `docs/lifecycle.rst:25` and `docs/config.rst:597`). Until that call runs, `TESSEL_SECRET_KEY` and `TESSEL_DB__HOST` are not read into the config.",
+ "ttft_ms": 1403,
+ "type": "result",
+ "duration_ms": 9104,
+ "uuid": "095bbce1-d0e5-49a3-ba7f-a698555fee07",
+ "ttft_stream_ms": 1169,
+ "time_to_request_ms": 53,
+ "first_content_frame_ms": 1170,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init",
+  "system:thinking_tokens"
+ ],
+ "_init": {
+  "model": "claude-haiku-5-5",
+  "version": "2.1.300",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 32,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"TESSEL_|split\\\\(\\\"__\\\"\\\\)|separator\\\\(\\\"__\\\"\\\\)|Environment::|with_prefix|env::var\", \"path\": \"$UL_SCRATCH/runs/main/models/haiku-q6-r2\", \"output_mode\": \"content\", \"-n\": true, \"head_limit\": 60}",
+   "sub": false,
+   "result_chars": 4700,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/helpers.py:30:    :envvar:`TESSEL_DEBUG` environment variable. The default is ``False``.\nsrc/tessel/helpers.py:32:    val = os.environ.get(\"TESSEL_DE"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/models/haiku-q6-r2/src/tessel/config.py\", \"offset\": 1, \"limit\": 200}",
+   "sub": false,
+   "result_chars": 7629,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1\tfrom __future__ import annotations\n2\t\n3\timport errno\n4\timport json\n5\timport os\n6\timport types\n7\timport typing as t\n8\t\n9\tfrom werkzeug.utils import import_stri"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"load_env_prefixed\", \"path\": \"$UL_SCRATCH/runs/main/models/haiku-q6-r2\", \"output_mode\": \"content\", \"-n\": true}",
+   "sub": false,
+   "result_chars": 845,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/config.py:126:    def load_env_prefixed(\nCHANGES.rst:483:-   Add ``Config.load_env_prefixed()`` to load config values from\ndocs/config.rst:549:prefix"
+  }
+ ],
+ "_models_seen": [
+  "claude-haiku-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed",
+  "resetsAt": 1792099800,
+  "rateLimitType": "five_hour",
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.57,
+    "resetsAt": 1792099800
+   },
+   "seven_day": {
+    "utilization": 0.04,
+    "resetsAt": 1792681200
+   }
+  }
+ },
+ "_compact": [],
+ "_wall_s": 10.3,
+ "_t_start": "2026-10-15T16:38:58.920698+00:00",
+ "_t_end": "2026-10-15T16:39:09.183606+00:00",
+ "_cmd": {
+  "model": "haiku",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/models/haiku-q6-r2",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "In this repo, how are environment variables like TESSEL_SECRET_KEY or TESSEL_DB__HOST turned into config values, including type conversion and nested keys? Name the method and the conversion function, with file paths. Be brief."
+ },
+ "_mu_cum": {
+  "input": 8,
+  "output": 1414,
+  "cache_read": 79518,
+  "cache_creation": 16289,
+  "cost": 0.004760780000000001,
+  "total": 97229
+ },
+ "tok": {
+  "input": 8,
+  "output": 1414,
+  "cache_read": 79518,
+  "cache_creation": 16289,
+  "cost": 0.004760780000000001,
+  "total": 97229,
+  "method": "single"
+ },
+ "_tok_usage_field": 97229,
+ "_ctx_last_call": 26575,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "plain"
+}

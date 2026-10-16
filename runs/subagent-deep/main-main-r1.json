@@ -1,0 +1,258 @@
+{
+ "duration_api_ms": 25011,
+ "stop_reason": "end_turn",
+ "session_id": "875ee5ab-9acd-4da1-96b6-3213635939c8",
+ "total_cost_usd": 0.130214,
+ "usage": {
+  "input_tokens": 14,
+  "cache_creation_input_tokens": 20524,
+  "cache_read_input_tokens": 165600,
+  "output_tokens": 3153,
+  "output_tokens_details": {
+   "thinking_tokens": 378
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 20524,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1725,
+    "cache_read_input_tokens": 29681,
+    "cache_creation_input_tokens": 1013,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 1013
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 14,
+   "outputTokens": 3153,
+   "cacheReadInputTokens": 165600,
+   "cacheCreationInputTokens": 20524,
+   "webSearchRequests": 0,
+   "costUSD": 0.130214,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 378,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 7,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "**Result: 24 failed, 462 passed, 1 skipped, plus 1 teardown error (`PYTHONPATH=src python3 -m pytest tests -v`).**\n\n## Main root cause: `Response.set_cookie()` doesn't accept `partitioned` (20 of 24 failures)\n\nTessel's session code passes `partitioned=` to `set_cookie` and `delete_cookie`, but the installed Werkzeug (3.0.3, with Flask 3.0.3) doesn't support that keyword. It was added in Werkzeug 3.1.\n\n- **Where:** `src/tessel/sessions.py:374` in `persist_session` (the `set_cookie` call, which passes `partitioned=partitioned` at line 382). The `delete_cookie` call at line 361 has the same problem.\n- **Why:** `get_cookie_partitioned` is at `sessions.py:215`. `pyproject.toml:29` declares `werkzeug>=3.1.0`, but the environment has 3.0.3 (`/opt/anaconda3/lib/python3.12`).\n- **Effect:** any request that writes a session raises `TypeError` during `finalize_reply` (`app.py:1416`).\n\nTests failing with this error:\n- **`test_basic.py` (13):** `test_session_accessed`, `test_session_path`, `test_session_using_application_root`, `test_session_using_session_settings`, `test_session_using_samesite_attribute`, `test_session_secret_key_fallbacks`, `test_session_expiration`, `test_session_stored_last`, `test_session_special_types`, `test_session_cookie_setting`, `test_session_vary_cookie`, `test_session_refresh_vary`, `test_extended_flashing`\n- **`test_helpers.py` (1):** `TestStreaming::test_stream_keeps_session`\n- **`test_reqctx.py` (1):** `test_copy_context_thread`\n- **`test_signals.py` (1):** `test_flash_signal`\n- **`test_templating.py` (1):** `test_standard_context`\n- **`test_testing.py` (3):** `test_redirect_session`, `test_session_transactions`, `test_session_transaction_ipv6`\n\n## Other causes\n\n| Test | Cause |\n|---|---|\n| `test_reqctx.py::test_session_dynamic_cookie_name` | Same `partitioned` `TypeError`, but the test only sees the resulting 500 HTML page. Its assertion compares that page against `b\"value set\"`, so the failure looks different. That makes 21 `partitioned` failures in total. |\n| `test_request.py::test_limit_config` | Werkzeug 3.0.3's base `Request` has `max_form_memory_size = None`, not 500,000. With no app context, `wrappers.py:111` falls back to `super().max_form_memory_size`, so the test's \"Werkzeug defaults\" assertion (`== 500_000`) fails. This is also a Werkzeug <3.1 mismatch, a different symptom. |\n| `test_helpers.py::TestStreaming::test_async_view` | `app.py:1096` raises `RuntimeError: Install Tessel with the 'async' extra`. `asgiref` isn't installed (it's the optional `async` extra in `pyproject.toml:33`). This is an environment problem. |\n\n## Secondary and flaky items\n\n- **Teardown error on `test_stream_keeps_session`:** the `leak_detector` fixture (`tests/conftest.py:79`) found a leaked `AppContext`. It is a knock-on of the `TypeError`: the `stream_with_context` generator (`helpers.py:133`) never finishes cleanly. Its `__exit__` then fails with `Cannot pop this context ... it is not pushed` (`ctx.py:466`).\n- **`test_helpers.py::test_open_resource_exceptions[a]`:** this failed in my first run with a `PytestUnraisableExceptionWarning`-style error, but it passed in the second run and in isolation. That warning comes from the \"Exception ignored in generator\" above. The leaked generator is garbage-collected during an unrelated test, so the failure lands on whichever test happens to be running. It isn't a real defect in `open_resource`. That is why the count varies between runs (24 failures plus 1 error in the first run; 23 failures in the second).\n\n## Summary\n\nNearly everything traces to the environment having Werkzeug 3.0.3 while Tessel requires `>=3.1.0`. This accounts for 21 failures, the `test_limit_config` failure, the teardown error and the flaky `[a]` failure. The only independent cause is the missing `asgiref` for `test_async_view`. Nothing was changed.",
+ "ttft_ms": 1078,
+ "type": "result",
+ "duration_ms": 41317,
+ "uuid": "dcad4083-b63f-4e22-9513-29b703ad6cd3",
+ "ttft_stream_ms": 802,
+ "time_to_request_ms": 38,
+ "first_content_frame_ms": 802,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init",
+  "system:task_notification",
+  "system:task_started",
+  "system:thinking_tokens"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.299",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Bash",
+   "input": "{\"command\": \"PYTHONPATH=src python3 -m pytest tests -v 2>&1 | tail -150\"}",
+   "sub": false,
+   "result_chars": 6552,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "        path = self.get_cookie_path(app)\n        secure = self.get_cookie_secure(app)\n        partitioned = self.get_cookie_partitioned(app)\n        samesite = "
+  },
+  {
+   "tool": "Bash",
+   "input": "{\"command\": \"PYTHONPATH=src python3 -m pytest tests -q -x --no-header -rN 2>&1 | head -0; PYTHONPATH=src python3 -m pytest \\\"tests/test_helpers.py::TestStreaming::test_async_view\\\" \\\"tests/test_helpers.py::test_open_resource_exceptions\\\" tests/test_reqctx.py::test_session_dynamic_cookie_name tests/test_request.py::test_limit_config \\\"tests/test_helpers.py::TestStreaming::test_stream_keeps_session\\",
+   "sub": false,
+   "result_chars": 10776,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "head: illegal line count -- 0\nF....FFFE                                                                [100%]\n==================================== ERRORS ======"
+  },
+  {
+   "tool": "Bash",
+   "input": "{\"command\": \"PYTHONPATH=src python3 -m pytest tests -q 2>&1 | grep -B5 -A40 \\\"test_open_resource_exceptions\\\\[a\\\\] _\\\" | head -90; grep -n \\\"max_form_memory_size\\\\|MAX_FORM_MEMORY\\\" -r src | head; grep -n \\\"partitioned\\\" -r src | head -20; grep -n \\\"async\\\" pyproject.toml\"}",
+   "sub": false,
+   "result_chars": 1289,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "Binary file src/tessel/__pycache__/wrappers.cpython-312.pyc matches\nBinary file src/tessel/__pycache__/app.cpython-312.pyc matches\nsrc/tessel/wrappers.py:56:   "
+  },
+  {
+   "tool": "Bash",
+   "input": "{\"command\": \"PYTHONPATH=src python3 -m pytest tests -q 2>&1 | grep -n \\\"open_resource\\\" | head; PYTHONPATH=src python3 -m pytest tests/test_helpers.py -q 2>&1 | grep -A40 \\\"open_resource_exceptions.a. _\\\" | head -60; sed -n 85,125p src/tessel/wrappers.py; sed -n 20,40p tests/test_request.py; grep -n \\\"MAX_FORM_MEMORY_SIZE\\\" src/tessel/*.py; grep -n \\\"Werkzeug\\\\|werkzeug\\\" pyproject.toml\"}",
+   "sub": false,
+   "result_chars": 2819,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "        return active_app.config[\"MAX_CONTENT_LENGTH\"]  # type: ignore[no-any-return]\n\n    @max_content_length.setter\n    def max_content_length(self, value: in"
+  },
+  {
+   "tool": "Bash",
+   "input": "{\"command\": \"PYTHONPATH=src python3 -m pytest tests -q 2>&1 | grep -A30 \\\"test_open_resource_exceptions\\\" | head -60; id -u\"}",
+   "sub": false,
+   "result_chars": 3,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "501"
+  },
+  {
+   "tool": "Bash",
+   "input": "{\"command\": \"PYTHONPATH=src python3 -m pytest tests -v 2>&1 | grep -n \\\"open_resource\\\" ; PYTHONPATH=src python3 -m pytest tests -v 2>&1 | grep -B2 -A25 \\\"_ test_open_resource_exceptions\\\"|head -60; grep -n \\\"def test_open_resource_exceptions\\\" -B6 -A12 tests/test_helpers.py\"}",
+   "sub": false,
+   "result_chars": 1492,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "334:tests/test_helpers.py::test_open_resource[r] PASSED                      [ 64%]\n335:tests/test_helpers.py::test_open_resource[rb] PASSED                    "
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed_warning",
+  "resetsAt": 1792414800,
+  "rateLimitType": "seven_day",
+  "utilization": 0.61,
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.2,
+    "resetsAt": 1792017000
+   },
+   "seven_day": {
+    "utilization": 0.61,
+    "resetsAt": 1792414800
+   }
+  },
+  "overageEnabled": false
+ },
+ "_compact": [],
+ "_wall_s": 42.3,
+ "_t_start": "2026-10-14T17:34:41.486178+00:00",
+ "_t_end": "2026-10-14T17:35:23.791792+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/subagent-deep/main-r1",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)",
+   "Bash(PYTHONPATH=src python3 -m pytest:*)",
+   "Bash(python3 -m pip show:*)",
+   "Bash(pip show:*)",
+   "Bash(pip list:*)",
+   "Bash(python3 -m pip list:*)",
+   "Bash(python3 -c:*)"
+  ],
+  "prompt": "Run the full test suite with: PYTHONPATH=src python3 -m pytest tests -v. Then, for every failing test, find the exact cause: read its traceback and the Tessel source involved, and group the failures by root cause. Report how many tests fail and what the main root cause is. Do not fix anything."
+ },
+ "_mu_cum": {
+  "input": 14,
+  "output": 3153,
+  "cache_read": 165600,
+  "cache_creation": 20524,
+  "cost": 0.130214,
+  "total": 189291
+ },
+ "tok": {
+  "input": 14,
+  "output": 3153,
+  "cache_read": 165600,
+  "cache_creation": 20524,
+  "cost": 0.130214,
+  "total": 189291,
+  "method": "single"
+ },
+ "_tok_usage_field": 189291,
+ "_ctx_last_call": 30696,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "plain"
+}

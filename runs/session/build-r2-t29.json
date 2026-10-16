@@ -1,0 +1,214 @@
+{
+ "duration_api_ms": 251792,
+ "stop_reason": "end_turn",
+ "session_id": "0e258663-c5cc-43da-9a7c-0042b1b9d6d2",
+ "total_cost_usd": 2.0033909,
+ "usage": {
+  "input_tokens": 6,
+  "cache_creation_input_tokens": 6127,
+  "cache_read_input_tokens": 449843,
+  "output_tokens": 1267,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 6127,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 962,
+    "cache_read_input_tokens": 150195,
+    "cache_creation_input_tokens": 5585,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 5585
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 132,
+   "outputTokens": 23395,
+   "thinkingTokens": 301,
+   "cacheReadInputTokens": 6360769,
+   "cacheCreationInputTokens": 283275,
+   "webSearchRequests": 0,
+   "costUSD": 2.0033909,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 3,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "`docs/web-security.rst` recommends the following under its \"Security Headers\" and \"Set-Cookie options\" sections.\n\n## Security headers\n\n| Header | Suggested value | Purpose |\n|---|---|---|\n| `Strict-Transport-Security` (HSTS) | `max-age=31536000; includeSubDomains` | Makes the browser convert HTTP requests to HTTPS, preventing MITM attacks. |\n| `Content-Security-Policy` (CSP) | `default-src 'self'` as a very strict example | Tells the browser where it may load resources from. It is also the mitigation for `javascript:` URIs in `href` attributes, which Jinja escaping doesn't stop. |\n| `X-Content-Type-Options` | `nosniff` | Stops the browser from guessing content types, which can be abused for XSS. |\n| `X-Frame-Options` | `SAMEORIGIN` | Prevents other sites from embedding yours in an iframe (clickjacking). |\n\nThe page also suggests the `Tessel-Talisman` extension to manage HTTPS and these headers.\n\n## Cookie options\n\n- **`Secure`** (`SESSION_COOKIE_SECURE=True`): sends the cookie over HTTPS only.\n- **`HttpOnly`** (`SESSION_COOKIE_HTTPONLY=True`): hides the cookie from JavaScript.\n- **`SameSite`** (`SESSION_COOKIE_SAMESITE='Lax'`): `Lax` is recommended and blocks cookies on CSRF-prone cross-site requests such as form submits. `Strict` blocks them on all external requests, including plain links.\n- **`Expires` / `Max-Age`**: without either, the cookie is removed when the browser closes.\n- **`PERMANENT_SESSION_LIFETIME`** (for the session cookie with `session.permanent = True`): lowering it, for example to `600`, limits replay of intercepted cookies, because the signature is validated against this age.\n- **Other cookie values:** sign and validate them with `itsdangerous.TimedSerializer`.\n\nThe same options can be set on other cookies through `response.set_cookie('name', 'value', secure=True, httponly=True, samesite='Lax')`.\n\n## Related, non-header recommendations on the page\n\n- **`TRUSTED_HOSTS`:** set it in deployment to restrict `Host` header values, and configure proxy handling via `deploying/proxy_fix` if proxies are involved.\n- **Resource limits:** `MAX_CONTENT_LENGTH`, `MAX_FORM_MEMORY_SIZE` and `MAX_FORM_PARTS`.\n- **XSS:** always quote attributes that contain Jinja expressions.\n- **CSRF:** Tessel doesn't provide protection itself, so it needs to be added at the form-validation layer.",
+ "ttft_ms": 2247,
+ "type": "result",
+ "duration_ms": 11507,
+ "uuid": "49694d45-57b9-43aa-a7ee-3c2242665639",
+ "ttft_stream_ms": 1233,
+ "time_to_request_ms": 44,
+ "first_content_frame_ms": 1234,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.299",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Glob",
+   "input": "{\"pattern\": \"**/web-security.rst\", \"path\": \"$UL_SCRATCH/runs/main/session/chain-r2\"}",
+   "sub": false,
+   "result_chars": 21,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "docs/web-security.rst"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/session/chain-r2/docs/web-security.rst\"}",
+   "sub": false,
+   "result_chars": 14265,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1\tSecurity Considerations\n2\t=======================\n3\t\n4\tWeb applications face many types of potential security problems, and it can be\n5\thard to get everything"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed_warning",
+  "resetsAt": 1792414800,
+  "rateLimitType": "seven_day",
+  "utilization": 0.57,
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.54,
+    "resetsAt": 1791999000
+   },
+   "seven_day": {
+    "utilization": 0.57,
+    "resetsAt": 1792414800
+   }
+  },
+  "overageEnabled": false
+ },
+ "_compact": [],
+ "_wall_s": 12.7,
+ "_t_start": "2026-10-14T16:43:55.407113+00:00",
+ "_t_end": "2026-10-14T16:44:08.116957+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": "0e258663-c5cc-43da-9a7c-0042b1b9d6d2",
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/session/chain-r2",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "Read the full docs page docs/web-security.rst and list the security headers and cookie options it recommends."
+ },
+ "_mu_cum": {
+  "input": 132,
+  "output": 23395,
+  "cache_read": 6360769,
+  "cache_creation": 283275,
+  "cost": 2.0033909,
+  "total": 6667571
+ },
+ "tok": {
+  "input": 6,
+  "output": 1267,
+  "cache_read": 449843,
+  "cache_creation": 6127,
+  "total": 457243,
+  "cost": 0.082174,
+  "method": "delta"
+ },
+ "_tok_usage_field": 457243,
+ "_ctx_last_call": 155782,
+ "_subagent_calls": 0,
+ "_tpl": "plain",
+ "_turn": 29,
+ "_rep": 2
+}

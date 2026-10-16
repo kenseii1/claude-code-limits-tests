@@ -1,0 +1,227 @@
+{
+ "duration_api_ms": 168472,
+ "stop_reason": "end_turn",
+ "session_id": "47a6a6ec-b7ab-4133-ae51-64ddab8796c8",
+ "total_cost_usd": 0.9553974999999999,
+ "usage": {
+  "input_tokens": 6,
+  "cache_creation_input_tokens": 2415,
+  "cache_read_input_tokens": 133880,
+  "output_tokens": 1118,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 2415,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 522,
+    "cache_read_input_tokens": 45450,
+    "cache_creation_input_tokens": 827,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 827
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 3532,
+   "outputTokens": 18949,
+   "thinkingTokens": 166,
+   "cacheReadInputTokens": 2289015,
+   "cacheCreationInputTokens": 132628,
+   "webSearchRequests": 0,
+   "costUSD": 0.9553974999999999,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 4,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "All of this is in `src/tessel/views.py`.\n\n**Class-based view to view function**\n- `View.to_view_func(name)` (L86) is a classmethod that builds a plain `view(**kwargs)` function.\n- On each request, `view` instantiates the class (L106–107) and returns `self.run_view(**kwargs)`.\n  - If `init_every_request = False`, one shared instance is created up front (L115) and reused.\n- It copies the class attributes onto the function: `view.view_class` (L129) and `view.methods` (L133). It also copies the decorators from `View.decorators`.\n- You register it with `app.attach_route_rule(path, view_func=Cls.to_view_func(\"name\"))`.\n  - `attach_route_rule` (`src/tessel/sansio/app.py:606`) reads `view_func.methods` to decide which HTTP methods the rule accepts.\n\n**Method routing**\n- `VerbView` (L138) subclasses `View` and does two things:\n  - Its `__init_subclass__` (L165) scans the class and its bases for lowercase `get`/`post`/etc. It uppercases the names and sets `cls.methods` unless `methods` is already defined on the class.\n  - Its `run_view` (L182) runs per request.\n    - It looks up `getattr(self, request.method.lower())`.\n    - A `HEAD` request falls back to `get` if there is no `head`.\n    - It asserts that a handler exists.\n    - It calls the handler via `active_app.ensure_sync(meth)(**kwargs)`, so `async` handlers also work.",
+ "ttft_ms": 2564,
+ "type": "result",
+ "duration_ms": 10783,
+ "uuid": "b9016f18-8e49-42ba-90b5-581b0d3a8b31",
+ "ttft_stream_ms": 1243,
+ "time_to_request_ms": 39,
+ "first_content_frame_ms": 1243,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.299",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"^class |    def |methods|dispatch|init_every_request|view_class\", \"path\": \"$UL_SCRATCH/runs/main/session/chain-r1/src/tessel/views.py\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 1712,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "16:class View:\n28:            init_every_request = False\n30:            def run_view(self, name):\n37:    Set :attr:`methods` on the class to change what methods"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/session/chain-r1/src/tessel/views.py\", \"offset\": 180, \"limit\": 20}",
+   "sub": false,
+   "result_chars": 581,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "180\t                cls.methods = methods\n181\t\n182\t    def run_view(self, **kwargs: t.Any) -> ft.ResponseReturnValue:\n183\t        meth = getattr(self, request.m"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"def attach_view|to_view_func|\\\\.as_view\", \"path\": \"$UL_SCRATCH/runs/main/session/chain-r1/src/tessel\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 327,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/views.py:18:    create a generic class-based view. Call :meth:`to_view_func` to create a\nsrc/tessel/views.py:34:            \"/hello/<name>\", view_fun"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed",
+  "resetsAt": 1791981000,
+  "rateLimitType": "five_hour",
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.79,
+    "resetsAt": 1791981000
+   },
+   "seven_day": {
+    "utilization": 0.49,
+    "resetsAt": 1792414800
+   }
+  }
+ },
+ "_compact": [],
+ "_wall_s": 12.0,
+ "_t_start": "2026-10-14T08:05:06.724028+00:00",
+ "_t_end": "2026-10-14T08:05:18.723165+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": "47a6a6ec-b7ab-4133-ae51-64ddab8796c8",
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/session/chain-r1",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "In this repo, how does a class-based view with get() and post() methods become a view function and route each HTTP method to the right handler? Name the classes and methods, with file paths. Be brief."
+ },
+ "_mu_cum": {
+  "input": 3532,
+  "output": 18949,
+  "cache_read": 2289015,
+  "cache_creation": 132628,
+  "cost": 0.9553974999999999,
+  "total": 2444124
+ },
+ "tok": {
+  "input": 6,
+  "output": 1118,
+  "cache_read": 133880,
+  "cache_creation": 2415,
+  "total": 137419,
+  "cost": 0.03424,
+  "method": "delta"
+ },
+ "_tok_usage_field": 137419,
+ "_ctx_last_call": 46279,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "plain",
+ "_ctx_before": 108125,
+ "_N": 15,
+ "_arm": "compact",
+ "_pos": 3,
+ "_target": "q9",
+ "_rep": 1,
+ "_parent_sid": "35715622-fb03-425f-ba07-695217399ba9"
+}

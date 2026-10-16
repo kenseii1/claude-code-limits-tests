@@ -1,0 +1,203 @@
+{
+ "duration_api_ms": 99207,
+ "stop_reason": "end_turn",
+ "session_id": "600996ac-5111-4cfe-9c21-b6a657c31c1d",
+ "total_cost_usd": 0.6207462,
+ "usage": {
+  "input_tokens": 4,
+  "cache_creation_input_tokens": 13530,
+  "cache_read_input_tokens": 178488,
+  "output_tokens": 1118,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 13530,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 977,
+    "cache_read_input_tokens": 89521,
+    "cache_creation_input_tokens": 12976,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 12976
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 54,
+   "outputTokens": 9983,
+   "thinkingTokens": 199,
+   "cacheReadInputTokens": 1513002,
+   "cacheCreationInputTokens": 92377,
+   "webSearchRequests": 0,
+   "costUSD": 0.6207462,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 2,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "Built-in config keys documented in `docs/config.rst` (lines 68-395), with defaults:\n\n| Key | Default |\n|---|---|\n| `DEBUG` | `False` |\n| `TESTING` | `False` |\n| `PROPAGATE_EXCEPTIONS` | `None` |\n| `TRAP_HTTP_EXCEPTIONS` | `False` |\n| `TRAP_BAD_REQUEST_ERRORS` | `None` |\n| `SECRET_KEY` | `None` |\n| `SECRET_KEY_HISTORY` | `None` |\n| `SESSION_COOKIE_NAME` | `'session'` |\n| `SESSION_COOKIE_DOMAIN` | `None` |\n| `SESSION_COOKIE_PATH` | `None` |\n| `SESSION_COOKIE_HTTPONLY` | `True` |\n| `SESSION_COOKIE_SECURE` | `False` |\n| `SESSION_COOKIE_PARTITIONED` | `False` |\n| `SESSION_COOKIE_SAMESITE` | `None` |\n| `PERMANENT_SESSION_LIFETIME` | `timedelta(days=31)` (2678400 seconds) |\n| `SESSION_REFRESH_EACH_REQUEST` | `True` |\n| `USE_X_SENDFILE` | `False` |\n| `STATIC_CACHE_SECONDS_DEFAULT` | `None` |\n| `TRUSTED_HOSTS` | `None` |\n| `SERVER_NAME` | `None` |\n| `APPLICATION_ROOT` | `'/'` |\n| `PREFERRED_URL_SCHEME` | `'http'` |\n| `MAX_CONTENT_LENGTH` | `None` |\n| `MAX_FORM_MEMORY_SIZE` | `500_000` |\n| `MAX_FORM_PARTS` | `1_000` |\n| `TEMPLATES_AUTO_RELOAD` | `None` (enabled in debug mode) |\n| `EXPLAIN_TEMPLATE_LOADING` | `False` |\n| `MAX_COOKIE_SIZE` | `4093`, stated in the prose rather than in a `Default:` line |\n| `PROVIDE_AUTOMATIC_OPTIONS` | no default stated; the text only says `False` disables automatic OPTIONS responses |\n\nThe changelog notes at the bottom mention removed keys: `LOGGER_NAME`, `LOGGER_HANDLER_POLICY`, `PRESERVE_CONTEXT_ON_EXCEPTION`, `ENV`, `JSON_AS_ASCII`, `JSON_SORT_KEYS`, `JSONIFY_MIMETYPE` and `JSONIFY_PRETTYPRINT_REGULAR`.",
+ "ttft_ms": 2448,
+ "type": "result",
+ "duration_ms": 9608,
+ "uuid": "3cc76b9c-f110-44ec-afc3-1eb1572e227d",
+ "ttft_stream_ms": 1313,
+ "time_to_request_ms": 41,
+ "first_content_frame_ms": 1313,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.299",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/session/chain-r3/docs/config.rst\"}",
+   "sub": false,
+   "result_chars": 32315,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1\tConfiguration Handling\n2\t======================\n3\t\n4\tApplications need some kind of configuration.  There are different settings\n5\tyou might want to change de"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed",
+  "resetsAt": 1791981000,
+  "rateLimitType": "five_hour",
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.64,
+    "resetsAt": 1791981000
+   },
+   "seven_day": {
+    "utilization": 0.47,
+    "resetsAt": 1792414800
+   }
+  }
+ },
+ "_compact": [],
+ "_wall_s": 10.9,
+ "_t_start": "2026-10-14T08:02:14.150975+00:00",
+ "_t_end": "2026-10-14T08:02:25.077226+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": "600996ac-5111-4cfe-9c21-b6a657c31c1d",
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/session/chain-r3",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "Read the whole docs page docs/config.rst and list the built-in config keys it documents, with their defaults."
+ },
+ "_mu_cum": {
+  "input": 54,
+  "output": 9983,
+  "cache_read": 1513002,
+  "cache_creation": 92377,
+  "cost": 0.6207462,
+  "total": 1615416
+ },
+ "tok": {
+  "input": 4,
+  "output": 1118,
+  "cache_read": 178488,
+  "cache_creation": 13530,
+  "total": 193140,
+  "cost": 0.083157,
+  "method": "delta"
+ },
+ "_tok_usage_field": 193140,
+ "_ctx_last_call": 102499,
+ "_subagent_calls": 0,
+ "_tpl": "plain",
+ "_turn": 14,
+ "_rep": 3
+}

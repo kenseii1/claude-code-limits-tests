@@ -1,0 +1,219 @@
+{
+ "duration_api_ms": 143908,
+ "stop_reason": "end_turn",
+ "session_id": "9a5b4388-c5a3-4e85-b30c-5167cb0ba7d6",
+ "total_cost_usd": 0.5889087,
+ "usage": {
+  "input_tokens": 4,
+  "cache_creation_input_tokens": 4303,
+  "cache_read_input_tokens": 148110,
+  "output_tokens": 1508,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 4303,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1155,
+    "cache_read_input_tokens": 74926,
+    "cache_creation_input_tokens": 2561,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 2561
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 60,
+   "outputTokens": 18055,
+   "thinkingTokens": 481,
+   "cacheReadInputTokens": 1394267,
+   "cacheCreationInputTokens": 67203,
+   "webSearchRequests": 0,
+   "costUSD": 0.5889087,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 3,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "They are `werkzeug.local.LocalProxy` objects over one `contextvars.ContextVar` named `_app_var`, which holds the current `AppContext`. Paths are under `src/tessel/`.\n\n## Objects\n\n- `_app_var` is a `ContextVar[AppContext]` named `\"tessel.app_ctx\"` (`globals.py:40`).\n- Each proxy is a `LocalProxy` built from `_app_var` and an attribute name (`globals.py:41-62`):\n\n  | Proxy | Resolves to | Line |\n  |---|---|---|\n  | `app_ctx` | the `AppContext` itself | 41 |\n  | `active_app` | `ctx.app` | 44 |\n  | `g` | `ctx.g` | 47 |\n  | `request` | `ctx.request` | 57 |\n  | `session` | `ctx.session` | 60 |\n\n- `AppContext` is in `ctx.py`. Its `push` (line 416) and `pop` (line 446) write to the variable.\n\n## Step by step\n\n1. `AppContext.__init__` (`ctx.py:300`) creates a fresh `g` through `app.app_ctx_globals_class()` and holds the request, if any. It sets `_cv_token = None`.\n2. `AppContext.push` (`ctx.py:416`) increments `_push_count`. If it is the first push, it runs `self._cv_token = _app_var.set(self)` (`ctx.py:433`). The context is now stored in the `ContextVar` for the current thread or async task, and `set` returns a token for restoring the previous value.\n3. Module-level `active_app`, `g` and `request` never hold an object. A `LocalProxy` is created once, in `globals.py`.\n4. On each access, such as `request.args` or `g.user`, `LocalProxy` does the following:\n   1. It reads `_app_var.get()`, which returns the `AppContext` for the current execution context.\n   2. It applies the stored attribute name: `.app`, `.g` or `.request`.\n   3. It forwards the operation to that object.\n5. `request` and `session` resolve through `ctx.request` and `ctx.session` (`ctx.py:371`, `ctx.py:396`). Those raise `RuntimeError` if the context has no request. Reading `session` also sets `accessed = True`.\n6. If nothing is pushed, `_app_var.get()` finds no value and the proxy raises `RuntimeError` with `unbound_message`. `_no_app_msg` is for `app_ctx`, `active_app` and `g`. `_no_req_msg` is for `request` and `session`.\n7. Nested pushes of the same context only bump `_push_count` and return early (`ctx.py:430`). `pop` (`ctx.py:446`) calls `_app_var.reset(self._cv_token)` (`ctx.py:498`), which restores the previous context. A new context pushed inside another one shadows it until popped.\n8. Internal code that needs the raw object or a \"no context\" check calls `_app_var.get(None)` directly, for example `ctx.py:232` and `helpers.py:127`. `proxy._get_current_object()` returns the real object, as in `cli.py:631`.\n\nBecause the lookup is a `ContextVar`, each thread or asyncio task sees its own context. Two concurrent requests do not see each other's `request` or `g`. A new thread or task starts without the context unless it is copied (`ctx.py` has `copy` at line 355 for this).",
+ "ttft_ms": 2513,
+ "type": "result",
+ "duration_ms": 11806,
+ "uuid": "82ce81ee-e2da-4d85-8cf0-5876ea51504b",
+ "ttft_stream_ms": 1206,
+ "time_to_request_ms": 50,
+ "first_content_frame_ms": 1207,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.300",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 31,
+  "skills_local": [
+   "caveman"
+  ],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/caveman-session/caveman-r1/src/tessel/globals.py\"}",
+   "sub": false,
+   "result_chars": 2651,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1\tfrom __future__ import annotations\n2\t\n3\timport typing as t\n4\tfrom contextvars import ContextVar\n5\t\n6\tfrom werkzeug.local import LocalProxy\n7\t\n8\tif t.TYPE_CHEC"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"_app_var|_cv_token|def _get_current_object\", \"path\": \"$UL_SCRATCH/runs/main/caveman-session/caveman-r1/src/tessel\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 1995,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/globals.py:18:        def _get_current_object(self) -> T: ...\nsrc/tessel/globals.py:40:_app_var: ContextVar[AppContext] = ContextVar(\"tessel.app_ctx\""
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed_warning",
+  "resetsAt": 1792414800,
+  "rateLimitType": "seven_day",
+  "utilization": 0.81,
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "surpassedThreshold": 0.75,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.6,
+    "resetsAt": 1792053000
+   },
+   "seven_day": {
+    "utilization": 0.81,
+    "resetsAt": 1792414800
+   }
+  },
+  "overageEnabled": false
+ },
+ "_compact": [],
+ "_wall_s": 12.9,
+ "_t_start": "2026-10-15T03:41:25.351271+00:00",
+ "_t_end": "2026-10-15T03:41:38.255987+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": "9a5b4388-c5a3-4e85-b30c-5167cb0ba7d6",
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/caveman-session/caveman-r1",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "In this repo, how do active_app, g and request find the right object for the current context? Name the mechanism and the objects involved, with file paths. Explain how it works, step by step."
+ },
+ "_mu_cum": {
+  "input": 60,
+  "output": 18055,
+  "cache_read": 1394267,
+  "cache_creation": 67203,
+  "cost": 0.5889087,
+  "total": 1479585
+ },
+ "tok": {
+  "input": 4,
+  "output": 1508,
+  "cache_read": 148110,
+  "cache_creation": 4303,
+  "total": 153925,
+  "cost": 0.047111,
+  "method": "delta"
+ },
+ "_tok_usage_field": 153925,
+ "_ctx_last_call": 77489,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "caveman",
+ "_turn": 8,
+ "_rep": 1,
+ "_target": "q8"
+}

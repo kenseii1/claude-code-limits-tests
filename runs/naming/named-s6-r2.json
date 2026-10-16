@@ -1,0 +1,214 @@
+{
+ "duration_api_ms": 7290,
+ "stop_reason": "end_turn",
+ "session_id": "d171fe6c-0925-46bd-a0e3-c127c86c706a",
+ "total_cost_usd": 0.054671800000000007,
+ "usage": {
+  "input_tokens": 6,
+  "cache_creation_input_tokens": 10550,
+  "cache_read_input_tokens": 49398,
+  "output_tokens": 752,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 10550,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 460,
+    "cache_read_input_tokens": 19879,
+    "cache_creation_input_tokens": 955,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 955
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 6,
+   "outputTokens": 752,
+   "cacheReadInputTokens": 49398,
+   "cacheCreationInputTokens": 10550,
+   "webSearchRequests": 0,
+   "costUSD": 0.054671800000000007,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 0,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 3,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "**Where it's decided:** `src/tessel/wrappers.py:59-86`. The `Request.max_content_length` property returns, in order:\n\n1. `self._max_content_length`, if it has been set on the request.\n2. Otherwise `active_app.config[\"MAX_CONTENT_LENGTH\"]`, which defaults to `None` (no limit). Without an active app it falls back to `super().max_content_length`.\n\n**Per request:** yes. The property has a setter (line 88-90), which was added in 3.1 per the docstring and `CHANGES.rst:83`. In the one view that needs a bigger limit, set it before the body is read:\n\n```python\n@app.post(\"/big-upload\")\ndef big_upload():\n    request.max_content_length = 100 * 1024 * 1024  # 100 MB\n    f = request.files[\"file\"]\n    ...\n```\n\nNotes:\n- Set it before anything accesses `request.files`, `request.form`, `request.data` or `request.get_json()`. The 413 is raised when the body is first read, so setting it afterwards has no effect.\n- A per-request value overrides the global `MAX_CONTENT_LENGTH`. If the global limit is what's rejecting the upload, you can raise it for that one view this way without changing the config.\n- `max_form_memory_size` and `max_form_parts` (lines 56-57) work the same way. If large multipart forms still fail, check those too.",
+ "ttft_ms": 1234,
+ "type": "result",
+ "duration_ms": 7370,
+ "uuid": "084677b4-24a2-4528-ac0b-fc975142dc8c",
+ "ttft_stream_ms": 879,
+ "time_to_request_ms": 35,
+ "first_content_frame_ms": 879,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.300",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"max_content_length\", \"output_mode\": \"content\", \"-n\": true}",
+   "sub": false,
+   "result_chars": 1280,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/wrappers.py:55:    _max_content_length: int | None = None\nsrc/tessel/wrappers.py:60:    def max_content_length(self) -> int | None:\nsrc/tessel/wrappe"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/naming/named-s6-r2/src/tessel/wrappers.py\", \"offset\": 50, \"limit\": 45}",
+   "sub": false,
+   "result_chars": 2032,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "50\t    #: raised / was raised as part of the request handling.  This is\n51\t    #: usually a :exc:`~werkzeug.exceptions.NotFound` exception or\n52\t    #: somethin"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed_warning",
+  "resetsAt": 1792414800,
+  "rateLimitType": "seven_day",
+  "utilization": 0.76,
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "surpassedThreshold": 0.75,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.04,
+    "resetsAt": 1792053000
+   },
+   "seven_day": {
+    "utilization": 0.76,
+    "resetsAt": 1792414800
+   }
+  },
+  "overageEnabled": false
+ },
+ "_compact": [],
+ "_wall_s": 8.4,
+ "_t_start": "2026-10-15T03:31:20.992809+00:00",
+ "_t_end": "2026-10-15T03:31:29.397234+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/naming/named-s6-r2",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "Look at Request.max_content_length in src/tessel/wrappers.py. Large uploads are rejected with 413 and we want a bigger limit on one route only. In this repo, where is the limit decided and can it be changed per request? Be brief."
+ },
+ "_mu_cum": {
+  "input": 6,
+  "output": 752,
+  "cache_read": 49398,
+  "cache_creation": 10550,
+  "cost": 0.054671800000000007,
+  "total": 60706
+ },
+ "tok": {
+  "input": 6,
+  "output": 752,
+  "cache_read": 49398,
+  "cache_creation": 10550,
+  "cost": 0.054671800000000007,
+  "total": 60706,
+  "method": "single"
+ },
+ "_tok_usage_field": 60706,
+ "_ctx_last_call": 20836,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "plain"
+}

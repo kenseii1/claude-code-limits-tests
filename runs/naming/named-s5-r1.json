@@ -1,0 +1,205 @@
+{
+ "duration_api_ms": 4814,
+ "stop_reason": "end_turn",
+ "session_id": "92632bca-7aac-418b-ba1d-53e92c1dcdb0",
+ "total_cost_usd": 0.0447832,
+ "usage": {
+  "input_tokens": 4,
+  "cache_creation_input_tokens": 9326,
+  "cache_read_input_tokens": 29512,
+  "output_tokens": 452,
+  "output_tokens_details": {
+   "thinking_tokens": 95
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 9326,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 268,
+    "cache_read_input_tokens": 19228,
+    "cache_creation_input_tokens": 382,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 382
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 4,
+   "outputTokens": 452,
+   "cacheReadInputTokens": 29512,
+   "cacheCreationInputTokens": 9326,
+   "webSearchRequests": 0,
+   "costUSD": 0.0447832,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 95,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 2,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "Start at `src/tessel/json/provider.py`.\n\n- **Line 150:** `StandardJSONProvider.sort_keys = True` is the class attribute that causes the alphabetical ordering.\n- **Line 178:** `dumps` passes that attribute through with `kwargs.setdefault(\"sort_keys\", self.sort_keys)`. Per-call `sort_keys=False` kwargs would also override it.\n\nTo get insertion order, set `app.json.sort_keys = False`, or subclass and override the attribute, rather than editing the default.\n\nAlso check `tests/test_json.py:272`. It asserts `app.json.sort_keys` is true, so it will need updating if you change the default.\n\nI haven't checked whether the response path (`response()` or `jsonify`) goes through `dumps` or builds output some other way.",
+ "ttft_ms": 1603,
+ "type": "result",
+ "duration_ms": 4898,
+ "uuid": "442a5aa5-6d71-4087-a959-7cd0383e92ad",
+ "ttft_stream_ms": 763,
+ "time_to_request_ms": 37,
+ "first_content_frame_ms": 764,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init",
+  "system:thinking_tokens"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.300",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"sort_keys|class StandardJSONProvider\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 362,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/json/provider.py:124:class StandardJSONProvider(JSONProvider):\nsrc/tessel/json/provider.py:150:    sort_keys = True\nsrc/tessel/json/provider.py:171: "
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed_warning",
+  "resetsAt": 1792414800,
+  "rateLimitType": "seven_day",
+  "utilization": 0.74,
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.84,
+    "resetsAt": 1792035000
+   },
+   "seven_day": {
+    "utilization": 0.74,
+    "resetsAt": 1792414800
+   }
+  },
+  "overageEnabled": false
+ },
+ "_compact": [],
+ "_wall_s": 5.9,
+ "_t_start": "2026-10-14T22:41:59.557048+00:00",
+ "_t_end": "2026-10-14T22:42:05.502968+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/naming/named-s5-r1",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "Look at StandardJSONProvider in src/tessel/json/provider.py. Our JSON responses come back with keys sorted alphabetically and we want insertion order. In this repo, where would you look and why? Be brief."
+ },
+ "_mu_cum": {
+  "input": 4,
+  "output": 452,
+  "cache_read": 29512,
+  "cache_creation": 9326,
+  "cost": 0.0447832,
+  "total": 39294
+ },
+ "tok": {
+  "input": 4,
+  "output": 452,
+  "cache_read": 29512,
+  "cache_creation": 9326,
+  "cost": 0.0447832,
+  "total": 39294,
+  "method": "single"
+ },
+ "_tok_usage_field": 39294,
+ "_ctx_last_call": 19612,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "plain"
+}

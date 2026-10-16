@@ -1,0 +1,213 @@
+{
+ "duration_api_ms": 6964,
+ "stop_reason": "end_turn",
+ "session_id": "7cc82ade-d056-4661-b49c-4b097ca409a2",
+ "total_cost_usd": 0.055318599999999996,
+ "usage": {
+  "input_tokens": 4,
+  "cache_creation_input_tokens": 10987,
+  "cache_read_input_tokens": 30126,
+  "output_tokens": 835,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 10987,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 442,
+    "cache_read_input_tokens": 19842,
+    "cache_creation_input_tokens": 1429,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 1429
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 4,
+   "outputTokens": 835,
+   "cacheReadInputTokens": 30126,
+   "cacheCreationInputTokens": 10987,
+   "webSearchRequests": 0,
+   "costUSD": 0.055318599999999996,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 0,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 3,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "The default session (`SignedCookieSessionInterface`) serializes its cookie payload with a tagged JSON serializer.\n\n- **`src/tessel/sessions.py`**:\n  - `SignedCookieSessionInterface` sets `serializer = session_json_serializer`, a module-level `TypedCookieSerializer()` instance.\n  - It passes that serializer into the signing serializer for the cookie (around line 316).\n  - `SignedCookieSession` is the session object itself.\n- **`src/tessel/json/tag.py`**:\n  - `TypedCookieSerializer` (line 219) runs the tagging on `dumps` and untagging on `loads`.\n  - `TypeMarker` (line 60) is the base class. Each subclass checks for a Python type, converts it to a JSON-safe form under a one-key tag dict, and converts it back on load.\n  - `TagTuple` handles tuples.\n  - `TagBytes` handles bytes.\n  - `TagDateTime` handles datetimes.\n  - `TagDict`, `PassDict` and `PassList` handle dicts and lists that would otherwise be mistaken for tags.\n  - `TagMarkup` and `TagUUID` handle markup and UUIDs.\n\nI haven't read the method bodies, so the exact tag keys and ordering are not confirmed.",
+ "ttft_ms": 2191,
+ "type": "result",
+ "duration_ms": 7016,
+ "uuid": "0b1b91ee-2fc8-43bb-a3e6-b59571772ed6",
+ "ttft_stream_ms": 1212,
+ "time_to_request_ms": 46,
+ "first_content_frame_ms": 1213,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.300",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"^class |^def \", \"path\": \"$UL_SCRATCH/runs/main/claudemd/short-q7-r2/src/tessel/json\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 1161,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/json/tag.py:60:class TypeMarker:\nsrc/tessel/json/tag.py:93:class TagDict(TypeMarker):\nsrc/tessel/json/tag.py:119:class PassDict(TypeMarker):\nsrc/tess"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"serializer|class \", \"path\": \"$UL_SCRATCH/runs/main/claudemd/short-q7-r2/src/tessel/sessions.py\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 886,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "24:class SessionMixin(MutableMapping[str, t.Any]):\n57:class SignedCookieSession(CallbackDict[str, t.Any], SessionMixin):\n58:    \"\"\"Base class for sessions based"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed_warning",
+  "resetsAt": 1792414800,
+  "rateLimitType": "seven_day",
+  "utilization": 0.7,
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.31,
+    "resetsAt": 1792035000
+   },
+   "seven_day": {
+    "utilization": 0.7,
+    "resetsAt": 1792414800
+   }
+  },
+  "overageEnabled": false
+ },
+ "_compact": [],
+ "_wall_s": 8.1,
+ "_t_start": "2026-10-14T22:33:46.347232+00:00",
+ "_t_end": "2026-10-14T22:33:54.448817+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/claudemd/short-q7-r2",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "In this repo, the default session can store tuples, bytes and datetimes in a JSON cookie and get them back with the right types. How does that work? Name the classes involved, with file paths. Be brief."
+ },
+ "_mu_cum": {
+  "input": 4,
+  "output": 835,
+  "cache_read": 30126,
+  "cache_creation": 10987,
+  "cost": 0.055318599999999996,
+  "total": 41952
+ },
+ "tok": {
+  "input": 4,
+  "output": 835,
+  "cache_read": 30126,
+  "cache_creation": 10987,
+  "cost": 0.055318599999999996,
+  "total": 41952,
+  "method": "single"
+ },
+ "_tok_usage_field": 41952,
+ "_ctx_last_call": 21273,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "cm-short"
+}

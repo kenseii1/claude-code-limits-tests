@@ -1,0 +1,203 @@
+{
+ "duration_api_ms": 49970,
+ "stop_reason": "end_turn",
+ "session_id": "e138d9d9-9cf4-4003-b718-1803b458db48",
+ "total_cost_usd": 0.1977553,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 781,
+  "cache_read_input_tokens": 21236,
+  "output_tokens": 821,
+  "output_tokens_details": {
+   "thinking_tokens": 260
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 781,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 821,
+    "cache_read_input_tokens": 21236,
+    "cache_creation_input_tokens": 781,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 781
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 22,
+   "outputTokens": 6644,
+   "thinkingTokens": 1293,
+   "cacheReadInputTokens": 230533,
+   "cacheCreationInputTokens": 36179,
+   "webSearchRequests": 0,
+   "costUSD": 0.1977553,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 1,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "Going only by the subagent's report, two tests don't fail from the `set_cookie(partitioned=...)` TypeError itself. A third is uncertain.\n\n- **`test_request.py::test_limit_config`**: This is not the cookie error. `wrappers.py:111` and `:138` fall back to Werkzeug's own `max_form_memory_size` and `max_form_parts`, which are `None` in 3.0.3. The test expects the 3.1 defaults (500_000 and 1_000). It is still the installed old Werkzeug, but a different mechanism. The subagent didn't re-run it to see which assert trips.\n\n- **`test_helpers.py::test_open_resource_exceptions[a]`**: Tessel's `app.open_resource` (`app.py:435`) correctly raises `ValueError`. The failure appears as a pytest error that looks like a leaked unraisable-exception warning from the preceding streaming test. This is likely test pollution, not a Tessel bug, but the subagent did not confirm it by running the test alone.\n\n- **`test_helpers.py::TestStreaming::test_async_view`** (uncertain): It fails with `RuntimeError: Cannot pop this context`. The subagent says it \"most likely\" follows from the failed `set_cookie` leaving the streaming context in a bad state, but that was inferred from reading source, not verified.\n\nThe report named only about 16 of the 24 failures. The remaining ones were grouped under the cookie error by count, so I can't individually vouch for each. If you want certainty, I can send the subagent back to run `test_limit_config`, `test_open_resource_exceptions[a]`, and `test_async_view` in isolation and list all 24 by name.",
+ "ttft_ms": 3087,
+ "type": "result",
+ "duration_ms": 6311,
+ "uuid": "a033ec8f-5a57-4e5d-80f3-d7850270fe2c",
+ "ttft_stream_ms": 1070,
+ "time_to_request_ms": 38,
+ "first_content_frame_ms": 1071,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init",
+  "system:thinking_tokens"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.299",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed_warning",
+  "resetsAt": 1792414800,
+  "rateLimitType": "seven_day",
+  "utilization": 0.63,
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.51,
+    "resetsAt": 1792017000
+   },
+   "seven_day": {
+    "utilization": 0.63,
+    "resetsAt": 1792414800
+   }
+  },
+  "overageEnabled": false
+ },
+ "_compact": [],
+ "_wall_s": 7.5,
+ "_t_start": "2026-10-14T17:43:04.022242+00:00",
+ "_t_end": "2026-10-14T17:43:11.509175+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": "e138d9d9-9cf4-4003-b718-1803b458db48",
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/subagent-deep/sub-r9",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)",
+   "Bash(PYTHONPATH=src python3 -m pytest:*)",
+   "Bash(python3 -m pip show:*)",
+   "Bash(pip show:*)",
+   "Bash(pip list:*)",
+   "Bash(python3 -m pip list:*)",
+   "Bash(python3 -c:*)",
+   "Agent",
+   "Task"
+  ],
+  "prompt": "Which of the failing tests are NOT caused by that main root cause? Name them and say briefly why each fails."
+ },
+ "_mu_cum": {
+  "input": 22,
+  "output": 6644,
+  "cache_read": 230533,
+  "cache_creation": 36179,
+  "cost": 0.1977553,
+  "total": 273378
+ },
+ "tok": {
+  "input": 2,
+  "output": 821,
+  "cache_read": 21236,
+  "cache_creation": 781,
+  "total": 22840,
+  "cost": 0.013462,
+  "method": "delta"
+ },
+ "_tok_usage_field": 22840,
+ "_ctx_last_call": 22019,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "plain"
+}

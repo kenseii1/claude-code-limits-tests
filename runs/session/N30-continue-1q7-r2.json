@@ -1,0 +1,230 @@
+{
+ "duration_api_ms": 271909,
+ "stop_reason": "end_turn",
+ "session_id": "cdccbc88-56ca-47ad-96a8-cf385bcb4f04",
+ "total_cost_usd": 2.1484365999999997,
+ "usage": {
+  "input_tokens": 6,
+  "cache_creation_input_tokens": 5198,
+  "cache_read_input_tokens": 476245,
+  "output_tokens": 1420,
+  "output_tokens_details": {
+   "thinking_tokens": 57
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 5198,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 677,
+    "cache_read_input_tokens": 159351,
+    "cache_creation_input_tokens": 4186,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 4186
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 144,
+   "outputTokens": 25334,
+   "thinkingTokens": 358,
+   "cacheReadInputTokens": 7306806,
+   "cacheCreationInputTokens": 291032,
+   "webSearchRequests": 0,
+   "costUSD": 2.1484365999999997,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 4,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "The mechanism is a tag system that wraps non-JSON values in a one-key marker dict on save and unwraps it on load.\n\n**Classes**\n- `SignedCookieSessionInterface` in `src/tessel/sessions.py:284` is the default session interface. Its `serializer` attribute (line 300) is the module-level `session_json_serializer = TypedCookieSerializer()` (line 273), which it passes to `itsdangerous`'s signing serializer (line 316).\n- `TypedCookieSerializer` in `src/tessel/json/tag.py:219` does the work.\n  - `dumps()` calls `tag()` and then JSON-dumps the result compactly.\n  - `loads()` parses the JSON and runs `_untag_scan()` recursively.\n- The tag classes in the same file all subclass `TypeMarker` (line 60). Each defines `check()`, `to_json()` and `to_python()`, plus a short `key`:\n  - `TagTuple` (key `\" t\"`) turns a tuple into a list and back into a tuple.\n  - `TagBytes` (key `\" b\"`) uses base64.\n  - `TagDateTime` (key `\" d\"`) uses `http_date` and `parse_date`.\n- The other tags (`TagDict`, `PassDict`, `PassList`, `TagMarkup`, `TagUUID`) cover dicts, lists, `Markup` and UUIDs.\n\n**Flow**\n1. `tag()` tries each registered tag in order and wraps the first match as `{\" t\": [...]}`, `{\" b\": \"<b64>\"}`, `{\" d\": \"<rfc822 date>\"}`, and so on.\n2. `loads()` walks the parsed JSON, and any one-key dict whose key is a registered tag is converted back by that tag's `to_python()`.\n3. A user dict that happens to have a single key matching a tag key is escaped by `TagDict`, which suffixes the key with `__`, so it round-trips safely.\n\nAdditional types can be added with `TypedCookieSerializer.register()`.",
+ "ttft_ms": 3063,
+ "type": "result",
+ "duration_ms": 13338,
+ "uuid": "393d2120-211a-401f-9c57-0b34b607349e",
+ "ttft_stream_ms": 1248,
+ "time_to_request_ms": 49,
+ "first_content_frame_ms": 1248,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init",
+  "system:thinking_tokens"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.299",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"^class |^def |TaggedJSONSerializer|JSONTag\", \"path\": \"$UL_SCRATCH/runs/main/session/chain-r2/src/tessel\", \"glob\": \"{json/tag.py,sessions.py}\", \"output_mode\": \"content\", \"-n\": true}",
+   "sub": false,
+   "result_chars": 978,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/json/tag.py:60:class TypeMarker:\nsrc/tessel/json/tag.py:93:class TagDict(TypeMarker):\nsrc/tessel/json/tag.py:119:class PassDict(TypeMarker):\nsrc/tess"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/session/chain-r2/src/tessel/json/tag.py\", \"offset\": 55, \"limit\": 280}",
+   "sub": false,
+   "result_chars": 8799,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "55\t\n56\tfrom ..json import dumps\n57\tfrom ..json import loads\n58\t\n59\t\n60\tclass TypeMarker:\n61\t    \"\"\"Base class for defining type tags for :class:`TypedCookieSeri"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"serializer|TypedCookieSerializer|session_json_serializer\", \"path\": \"$UL_SCRATCH/runs/main/session/chain-r2/src/tessel/sessions.py\", \"output_mode\": \"content\", \"-n\": true}",
+   "sub": false,
+   "result_chars": 339,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "14:from .json.tag import TypedCookieSerializer\n273:session_json_serializer = TypedCookieSerializer()\n297:    #: A python serializer for the payload.  The defaul"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed_warning",
+  "resetsAt": 1792414800,
+  "rateLimitType": "seven_day",
+  "utilization": 0.57,
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.61,
+    "resetsAt": 1791999000
+   },
+   "seven_day": {
+    "utilization": 0.57,
+    "resetsAt": 1792414800
+   }
+  },
+  "overageEnabled": false
+ },
+ "_compact": [],
+ "_wall_s": 14.5,
+ "_t_start": "2026-10-14T16:44:51.433002+00:00",
+ "_t_end": "2026-10-14T16:45:05.965293+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": "0e258663-c5cc-43da-9a7c-0042b1b9d6d2",
+  "fork": true,
+  "cwd": "$UL_SCRATCH/runs/main/session/chain-r2",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "In this repo, the default session can store tuples, bytes and datetimes in a JSON cookie and get them back with the right types. How does that work? Name the classes involved, with file paths. Be brief."
+ },
+ "_mu_cum": {
+  "input": 144,
+  "output": 25334,
+  "cache_read": 7306806,
+  "cache_creation": 291032,
+  "cost": 2.1484365999999997,
+  "total": 7623316
+ },
+ "tok": {
+  "input": 6,
+  "output": 1420,
+  "cache_read": 476245,
+  "cache_creation": 5198,
+  "total": 482869,
+  "cost": 0.082628,
+  "method": "delta"
+ },
+ "_tok_usage_field": 482869,
+ "_ctx_last_call": 163539,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "plain",
+ "_ctx_before": 158341,
+ "_N": 30,
+ "_arm": "continue",
+ "_pos": 1,
+ "_target": "q7",
+ "_rep": 2,
+ "_parent_sid": "0e258663-c5cc-43da-9a7c-0042b1b9d6d2"
+}

@@ -1,0 +1,203 @@
+{
+ "duration_api_ms": 20344,
+ "stop_reason": "end_turn",
+ "session_id": "0e258663-c5cc-43da-9a7c-0042b1b9d6d2",
+ "total_cost_usd": 0.14205610000000002,
+ "usage": {
+  "input_tokens": 4,
+  "cache_creation_input_tokens": 16208,
+  "cache_read_input_tokens": 42175,
+  "output_tokens": 1798,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 16208,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1654,
+    "cache_read_input_tokens": 21262,
+    "cache_creation_input_tokens": 15859,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 15859
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 10,
+   "outputTokens": 2511,
+   "thinkingTokens": 0,
+   "cacheReadInputTokens": 91221,
+   "cacheCreationInputTokens": 26951,
+   "webSearchRequests": 0,
+   "costUSD": 0.14205610000000002,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 2,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "One-line summaries for `src/tessel/cli.py` (1127 lines), in file order:\n\n**Exceptions and app discovery**\n- `NoAppException` (L37): a `click.UsageError` raised when an application can't be found or loaded.\n- `locate_main_app` (L41): finds the app in a module by checking `app`/`application`, then the sole `Tessel` instance, then `create_app`/`make_app` factories.\n- `_bad_factory_args` (L94): inspects the traceback to tell whether a `TypeError` came from a bad call signature or from inside the factory.\n- `find_app_by_string` (L120): parses `name` or `name(args)` with `ast`, fetches the attribute, calls it if it's a function, and validates it is a `Tessel`.\n- `prepare_import` (L200): converts a file path to a module name and inserts the right root directory on `sys.path`.\n- `locate_app` (L241, with two `@overload`s above it): imports the module and returns the app via `locate_main_app` or `find_app_by_string`, with import-error handling.\n\n**Version option**\n- `get_version` (L267): eager callback that prints the Python, Tessel and Werkzeug versions and exits.\n- `version_option` (L283): the `--version` `click.Option` built on `get_version`.\n\n**Launch info and scoping**\n- `LaunchInfo` (L293): holds the app import path, factory, debug and dotenv settings, and lazily loads and caches the app via `load_app` (L333).\n- `pass_script_info` (L375): `click.make_pass_decorator` that injects the `LaunchInfo`.\n- `F` (L377): `TypeVar` used to type the decorator below.\n- `needs_app_scope` (L380): decorator that makes sure a command callback runs inside the app context.\n\n**Click groups**\n- `AppGroup` (L405): a `click.Group` whose `command()` wraps callbacks in `needs_app_scope` and whose `group()` defaults to `AppGroup`.\n- `TesselGroup` (L531): the top-level group that adds the env-file, app, debug and version options, built-in `run`/`shell`/`routes` commands, plugin commands, and app-provided commands.\n  - `__init__` (L563): registers the options and default commands.\n  - `_load_plugin_commands` (L600): loads `tessel.commands` entry points once.\n  - `get_command` (L609): looks up built-in and plugin commands, then the app's `cli` commands, pushing an app context.\n  - `list_commands` (L636): merges built-in, plugin and app commands, printing load errors instead of failing.\n  - `make_context` (L657): sets `TESSEL_RUN_FROM_CLI` and creates the `LaunchInfo` object.\n  - `parse_args` (L678): processes `--env-file` and `--app` early so `no_args_is_help` can see app commands.\n\n**Option callbacks**\n- `_set_app` (L440): stores the `--app` value on `LaunchInfo`.\n- `_app_option` (L453): the eager `-A/--app` option.\n- `_set_debug` (L468): sets `TESSEL_DEBUG` from `--debug/--no-debug` when it was given explicitly.\n- `_debug_option` (L485): the `--debug/--no-debug` option.\n- `_env_file_callback` (L493): loads dotenv files, erroring if `python-dotenv` is missing and an `--env-file` value was given.\n- `_env_file_option` (L517): the eager `-e/--env-file` option.\n\n**Helpers**\n- `_path_is_ancestor` (L691): checks whether one path is an ancestor of another.\n- `load_dotenv` (L698): loads `.tesselenv`, `.env` and an explicit file into `os.environ` without overriding existing keys.\n- `show_server_banner` (L766): prints the app and debug-mode startup messages, skipping the reloader process.\n\n**Run command support**\n- `CertParamType` (L780): `--cert` type accepting a file path, `'adhoc'`, or an importable `SSLContext`.\n- `_validate_key` (L828): `--key` callback that validates it against `--cert` and combines them into a `(cert, key)` pair.\n- `SeparatedPathType` (L867): `click.Path` subclass that splits values on the OS path separator and validates each.\n\n**Commands**\n- `run_command` (L934): the `run` command that loads the app and starts Werkzeug's dev server with reloader, debugger, TLS and extra-file options.\n- `shell_command` (L1000): the `shell` command, an interactive Python shell in the app context with the app's shell context populated.\n- `routes_command` (L1060): the `routes` command, which prints a sorted table of the URL rules.\n\n**Entry point**\n- `cli` (L1109): the `TesselGroup` instance named `tessel`.\n- `main` (L1121): calls `cli.main()`, also run under `if __name__ == \"__main__\"`.",
+ "ttft_ms": 2042,
+ "type": "result",
+ "duration_ms": 13330,
+ "uuid": "fcf29533-0ab0-45d9-afd8-cde9d5796421",
+ "ttft_stream_ms": 1528,
+ "time_to_request_ms": 55,
+ "first_content_frame_ms": 1529,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.299",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/session/chain-r2/src/tessel/cli.py\"}",
+   "sub": false,
+   "result_chars": 41319,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1\tfrom __future__ import annotations\n2\t\n3\timport ast\n4\timport collections.abc as cabc\n5\timport importlib.metadata\n6\timport inspect\n7\timport os\n8\timport platform"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed",
+  "resetsAt": 1791981000,
+  "rateLimitType": "five_hour",
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.44,
+    "resetsAt": 1791981000
+   },
+   "seven_day": {
+    "utilization": 0.46,
+    "resetsAt": 1792414800
+   }
+  }
+ },
+ "_compact": [],
+ "_wall_s": 14.5,
+ "_t_start": "2026-10-14T07:58:19.367299+00:00",
+ "_t_end": "2026-10-14T07:58:33.902629+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": "0e258663-c5cc-43da-9a7c-0042b1b9d6d2",
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/session/chain-r2",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "Read the whole file src/tessel/cli.py from top to bottom (all of it) and give me a one-line summary of each class and function in it."
+ },
+ "_mu_cum": {
+  "input": 10,
+  "output": 2511,
+  "cache_read": 91221,
+  "cache_creation": 26951,
+  "cost": 0.14205610000000002,
+  "total": 120693
+ },
+ "tok": {
+  "input": 4,
+  "output": 1798,
+  "cache_read": 42175,
+  "cache_creation": 16208,
+  "total": 60185,
+  "cost": 0.087038,
+  "method": "delta"
+ },
+ "_tok_usage_field": 60185,
+ "_ctx_last_call": 37123,
+ "_subagent_calls": 0,
+ "_tpl": "plain",
+ "_turn": 2,
+ "_rep": 2
+}

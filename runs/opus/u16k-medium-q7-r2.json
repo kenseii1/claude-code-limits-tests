@@ -1,0 +1,231 @@
+{
+ "duration_api_ms": 25145,
+ "stop_reason": "end_turn",
+ "session_id": "ef88b139-a50d-4796-acda-f118326e3eaf",
+ "total_cost_usd": 0.2374662,
+ "usage": {
+  "input_tokens": 10,
+  "cache_creation_input_tokens": 22338,
+  "cache_read_input_tokens": 121611,
+  "output_tokens": 1720,
+  "output_tokens_details": {
+   "thinking_tokens": 250
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 22338,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1047,
+    "cache_read_input_tokens": 31469,
+    "cache_creation_input_tokens": 1153,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 1153
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-opus-5-5": {
+   "inputTokens": 10,
+   "outputTokens": 1720,
+   "cacheReadInputTokens": 121611,
+   "cacheCreationInputTokens": 22338,
+   "webSearchRequests": 0,
+   "costUSD": 0.2374662,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 250,
+   "canonicalModel": "claude-opus-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 5,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "[answer redacted: it followed the unrelated private rules file, see README]",
+ "ttft_ms": 3129,
+ "type": "result",
+ "duration_ms": 25228,
+ "uuid": "151209bd-11ad-409e-8987-c33170d44a0c",
+ "ttft_stream_ms": 1798,
+ "time_to_request_ms": 29,
+ "first_content_frame_ms": 1799,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init",
+  "system:thinking_tokens"
+ ],
+ "_init": {
+  "model": "claude-opus-5-5",
+  "version": "2.1.301",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 32,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"class TaggedJSONSerializer|class SecureCookieSessionInterface|class TagTuple\"}",
+   "sub": false,
+   "result_chars": 35,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "Found 1 file\nsrc/tessel/json/tag.py"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"^class |session_json_serializer|serializer =|TaggedJSONSerializer\", \"path\": \"src/tessel\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 2919,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/views.py:16:class View:\nsrc/tessel/views.py:138:class VerbView(View):\nsrc/tessel/helpers.py:654:class _CollectErrors:\nsrc/tessel/testing.py:27:class "
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/opus/u16k-medium-q7-r2/src/tessel/json/tag.py\", \"offset\": 55}",
+   "sub": false,
+   "result_chars": 8799,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "55\t\n56\tfrom ..json import dumps\n57\tfrom ..json import loads\n58\t\n59\t\n60\tclass TypeMarker:\n61\t    \"\"\"Base class for defining type tags for :class:`TypedCookieSeri"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/opus/u16k-medium-q7-r2/src/tessel/sessions.py\", \"offset\": 270, \"limit\": 60}",
+   "sub": false,
+   "result_chars": 2393,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "270\t        raise NotImplementedError()\n271\t\n272\t\n273\tsession_json_serializer = TypedCookieSerializer()\n274\t\n275\t\n276\tdef _lazy_sha1(string: bytes = b\"\") -> t.A"
+  }
+ ],
+ "_models_seen": [
+  "claude-opus-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed",
+  "resetsAt": 1792135800,
+  "rateLimitType": "five_hour",
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.12,
+    "resetsAt": 1792135800
+   },
+   "seven_day": {
+    "utilization": 0.17,
+    "resetsAt": 1792681200
+   }
+  }
+ },
+ "_compact": [],
+ "_wall_s": 26.4,
+ "_t_start": "2026-10-16T02:32:06.578443+00:00",
+ "_t_end": "2026-10-16T02:32:32.990622+00:00",
+ "_cmd": {
+  "model": "opus",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/opus/u16k-medium-q7-r2",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "In this repo, the default session can store tuples, bytes and datetimes in a JSON cookie and get them back with the right types. How does that work? Name the classes involved, with file paths. Be brief."
+ },
+ "_mu_cum": {
+  "input": 10,
+  "output": 1720,
+  "cache_read": 121611,
+  "cache_creation": 22338,
+  "cost": 0.2374662,
+  "total": 145679
+ },
+ "tok": {
+  "input": 10,
+  "output": 1720,
+  "cache_read": 121611,
+  "cache_creation": 22338,
+  "cost": 0.2374662,
+  "total": 145679,
+  "method": "single"
+ },
+ "_tok_usage_field": 145679,
+ "_ctx_last_call": 32624,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "cm-16k",
+ "_grade_before_redaction": true
+}

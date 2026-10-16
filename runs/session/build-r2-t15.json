@@ -1,0 +1,221 @@
+{
+ "duration_api_ms": 130829,
+ "stop_reason": "end_turn",
+ "session_id": "0e258663-c5cc-43da-9a7c-0042b1b9d6d2",
+ "total_cost_usd": 0.7028145,
+ "usage": {
+  "input_tokens": 6,
+  "cache_creation_input_tokens": 3078,
+  "cache_read_input_tokens": 315147,
+  "output_tokens": 975,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 3078,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 407,
+    "cache_read_input_tokens": 105674,
+    "cache_creation_input_tokens": 1560,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 1560
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 62,
+   "outputTokens": 12357,
+   "thinkingTokens": 164,
+   "cacheReadInputTokens": 1906645,
+   "cacheCreationInputTokens": 97114,
+   "webSearchRequests": 0,
+   "costUSD": 0.7028145,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 4,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "`jsonify` is defined at `src/tessel/json/__init__.py:138`. It is a thin wrapper that calls `active_app.json.response(*args, **kwargs)` (line 170), so it needs an active app context.\n\n**What it calls internally**\n\n- `active_app.json` is the app's JSON provider. The default implementation is `DefaultJSONProvider` in `src/tessel/json/provider.py`.\n- `response()` (`provider.py:189`) does the work:\n  - `_prepare_response_obj(args, kwargs)` turns positional args into a single value or list, and kwargs into a dict. It rejects both together.\n  - It indents with 2 spaces if `compact` is `False`, or if `compact` is `None` and the app is in debug mode. Otherwise it uses compact separators `(\",\", \":\")`.\n  - It serialises with `self.dumps(obj, **dump_args)`, which wraps `json.dumps`.\n  - It returns `app.response_class(f\"{...}\\n\", mimetype=self.mimetype)`.\n\nBecause it goes through `app.json`, an app can override the behaviour by supplying its own provider. There's also an abstract `response` at `provider.py:89` on the base `JSONProvider`.",
+ "ttft_ms": 2971,
+ "type": "result",
+ "duration_ms": 11615,
+ "uuid": "12f7427a-1bd6-4656-bb3a-0be60afdefaf",
+ "ttft_stream_ms": 1347,
+ "time_to_request_ms": 46,
+ "first_content_frame_ms": 1347,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.299",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"def jsonify|def response\\\\(\", \"path\": \"$UL_SCRATCH/runs/main/session/chain-r2/src\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 284,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/json/__init__.py:138:def jsonify(*args: t.Any, **kwargs: t.Any) -> Response:\nsrc/tessel/json/provider.py:89:    def response(self, *args: t.Any, **kw"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/session/chain-r2/src/tessel/json/__init__.py\", \"offset\": 135, \"limit\": 40}",
+   "sub": false,
+   "result_chars": 1560,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "135\t    return _json.load(fp, **kwargs)\n136\t\n137\t\n138\tdef jsonify(*args: t.Any, **kwargs: t.Any) -> Response:\n139\t    \"\"\"Serialize the given arguments as JSON, "
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/session/chain-r2/src/tessel/json/provider.py\", \"offset\": 185, \"limit\": 40}",
+   "sub": false,
+   "result_chars": 1377,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "185\t        :param kwargs: Passed to :func:`json.loads`.\n186\t        \"\"\"\n187\t        return json.loads(s, **kwargs)\n188\t\n189\t    def response(self, *args: t.Any"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed",
+  "resetsAt": 1791981000,
+  "rateLimitType": "five_hour",
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.67,
+    "resetsAt": 1791981000
+   },
+   "seven_day": {
+    "utilization": 0.48,
+    "resetsAt": 1792414800
+   }
+  }
+ },
+ "_compact": [],
+ "_wall_s": 12.8,
+ "_t_start": "2026-10-14T08:02:41.880354+00:00",
+ "_t_end": "2026-10-14T08:02:54.643791+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": "0e258663-c5cc-43da-9a7c-0042b1b9d6d2",
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/session/chain-r2",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "Where is jsonify defined and what does it call internally?"
+ },
+ "_mu_cum": {
+  "input": 62,
+  "output": 12357,
+  "cache_read": 1906645,
+  "cache_creation": 97114,
+  "cost": 0.7028145,
+  "total": 2016178
+ },
+ "tok": {
+  "input": 6,
+  "output": 975,
+  "cache_read": 315147,
+  "cache_creation": 3078,
+  "total": 319206,
+  "cost": 0.053589,
+  "method": "delta"
+ },
+ "_tok_usage_field": 319206,
+ "_ctx_last_call": 107236,
+ "_subagent_calls": 0,
+ "_tpl": "plain",
+ "_turn": 15,
+ "_rep": 2
+}

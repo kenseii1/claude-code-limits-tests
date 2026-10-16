@@ -1,0 +1,211 @@
+{
+ "duration_api_ms": 9568,
+ "stop_reason": "end_turn",
+ "session_id": "8319ef02-beb9-4a37-9d9e-bf4d2e76f8ff",
+ "total_cost_usd": 0.0570767,
+ "usage": {
+  "input_tokens": 6,
+  "cache_creation_input_tokens": 10882,
+  "cache_read_input_tokens": 49567,
+  "output_tokens": 858,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 10882,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 578,
+    "cache_read_input_tokens": 19803,
+    "cache_creation_input_tokens": 1363,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 1363
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 6,
+   "outputTokens": 858,
+   "cacheReadInputTokens": 49567,
+   "cacheCreationInputTokens": 10882,
+   "webSearchRequests": 0,
+   "costUSD": 0.0570767,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 0,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 3,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "**Mechanism:** context-local proxies. All of them are defined in `src/tessel/globals.py`.\n\n- There is one `ContextVar`, `_app_var` (line 40). It holds the current `AppContext`, which is defined in `src/tessel/ctx.py`.\n- Each name is a werkzeug `LocalProxy` bound to that variable. On every access, the proxy reads the `AppContext` that is current for the thread or task, then fetches an attribute from it:\n  - `active_app` is `_app_var` → `.app`, the `Tessel` instance (`src/tessel/app.py`). See line 44.\n  - `g` is `_app_var` → `.g`, an `_AppCtxGlobals` object (`src/tessel/ctx.py`). See line 47.\n  - `request` is `_app_var` → `.request`, a `Request` (`src/tessel/wrappers.py`). See line 57.\n  - `session` (line 60) and `app_ctx` (line 41) work the same way. `app_ctx` has no attribute, so it is the context itself.\n- Pushing an `AppContext` (for example with `app.app_context()` or while handling a request) sets `_app_var`. Popping it resets the variable.\n- If nothing is set, the proxy raises a \"Working outside of application context\" error. For `request` and `session`, the error says \"outside of request context\" instead.\n- Because the variable is a `ContextVar`, each thread, greenlet or asyncio task sees its own context.\n- The request and app contexts have merged into one `AppContext`. The old `request_ctx` name is now a deprecated alias for `app_ctx` (line 65).\n\nI read only `globals.py`. I did not open `ctx.py` to check how it pushes and pops the context.",
+ "ttft_ms": 2423,
+ "type": "result",
+ "duration_ms": 9686,
+ "uuid": "ccc00382-b45f-411f-bf05-6961f7574874",
+ "ttft_stream_ms": 1347,
+ "time_to_request_ms": 44,
+ "first_content_frame_ms": 1348,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.300",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 32,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"^(current_app|g|request|_cv_app|_cv_request)\\\\b.*=|ContextVar\", \"output_mode\": \"content\", \"glob\": \"**/*.py\"}",
+   "sub": false,
+   "result_chars": 326,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/globals.py:4:from contextvars import ContextVar\nsrc/tessel/globals.py:40:_app_var: ContextVar[AppContext] = ContextVar(\"tessel.app_ctx\")\nsrc/tessel/g"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/models/sonnet-q8-r1/src/tessel/globals.py\"}",
+   "sub": false,
+   "result_chars": 2651,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1\tfrom __future__ import annotations\n2\t\n3\timport typing as t\n4\tfrom contextvars import ContextVar\n5\t\n6\tfrom werkzeug.local import LocalProxy\n7\t\n8\tif t.TYPE_CHEC"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed",
+  "resetsAt": 1792099800,
+  "rateLimitType": "five_hour",
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.72,
+    "resetsAt": 1792099800
+   },
+   "seven_day": {
+    "utilization": 0.05,
+    "resetsAt": 1792681200
+   }
+  }
+ },
+ "_compact": [],
+ "_wall_s": 11.1,
+ "_t_start": "2026-10-15T16:40:52.926651+00:00",
+ "_t_end": "2026-10-15T16:41:04.060627+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/models/sonnet-q8-r1",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "In this repo, how do active_app, g and request find the right object for the current context? Name the mechanism and the objects involved, with file paths. Be brief."
+ },
+ "_mu_cum": {
+  "input": 6,
+  "output": 858,
+  "cache_read": 49567,
+  "cache_creation": 10882,
+  "cost": 0.0570767,
+  "total": 61313
+ },
+ "tok": {
+  "input": 6,
+  "output": 858,
+  "cache_read": 49567,
+  "cache_creation": 10882,
+  "cost": 0.0570767,
+  "total": 61313,
+  "method": "single"
+ },
+ "_tok_usage_field": 61313,
+ "_ctx_last_call": 21168,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "plain"
+}

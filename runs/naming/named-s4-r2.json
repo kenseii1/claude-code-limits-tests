@@ -1,0 +1,232 @@
+{
+ "duration_api_ms": 12603,
+ "stop_reason": "end_turn",
+ "session_id": "40ac009d-1334-4726-9466-c3e4e751b269",
+ "total_cost_usd": 0.07201969999999999,
+ "usage": {
+  "input_tokens": 8,
+  "cache_creation_input_tokens": 12642,
+  "cache_read_input_tokens": 72157,
+  "output_tokens": 1422,
+  "output_tokens_details": {
+   "thinking_tokens": 56
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 12642,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 569,
+    "cache_read_input_tokens": 22038,
+    "cache_creation_input_tokens": 888,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 888
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 8,
+   "outputTokens": 1422,
+   "cacheReadInputTokens": 72157,
+   "cacheCreationInputTokens": 12642,
+   "webSearchRequests": 0,
+   "costUSD": 0.07201969999999999,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 56,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 5,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "The argument is decided by who calls `AppContext.pop`, so look at these places:\n\n1. **`src/tessel/ctx.py:446` (`AppContext.pop(exc=None)`)**: `exc` defaults to `None`. Line 496 forwards it unchanged to `self.app.run_app_teardowns(self, exc)`. Teardown only runs once `_push_count` reaches 0 (lines 481–484). A nested pop returns early and calls nothing.\n\n2. **`src/tessel/app.py:1453–1474` (`run_app_teardowns`)**: loops over `reversed(self.on_app_teardown_funcs)` and calls each as `func(exc)`. The registration is in `src/tessel/sansio/app.py:828–855`.\n\n3. **The callers of `pop` decide what `exc` is:**\n   - `src/tessel/ctx.py:516` (`__exit__`) calls `self.pop(exc_value)`. A `with` block that raises passes the exception, and a clean exit passes `None`.\n   - `src/tessel/app.py:1616` calls `ctx.pop(error)`. This is the WSGI path, and `error` is whatever was caught there. Check how it is set earlier in that function.\n   - Any bare `ctx.pop()` call passes `None`.\n\n4. **Tests showing the behavior:** `tests/test_appctx.py` (around lines 47–230, especially line 223, where `app_teardown(e: Exception | None)` is defined) and `tests/test_bundles.py:920–928`.\n\nSo a teardown function gets an exception only when the context was exited through a raised error, or when the WSGI handler caught one at `app.py:1616`. In every other case it gets `None`.",
+ "ttft_ms": 1642,
+ "type": "result",
+ "duration_ms": 12713,
+ "uuid": "c42c352a-4634-43e7-ac5a-e241c7e30a27",
+ "ttft_stream_ms": 1418,
+ "time_to_request_ms": 37,
+ "first_content_frame_ms": 1419,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.300",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"run_app_teardowns|teardown_appcontext|app_teardown\", \"path\": \"$UL_SCRATCH/runs/main/naming/named-s4-r2\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 2166,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/ctx.py:273:    request) then :meth:`.Tessel.on_app_teardown`.\nsrc/tessel/ctx.py:496:            self.app.run_app_teardowns(self, exc)\nsrc/tessel/app."
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/naming/named-s4-r2/src/tessel/ctx.py\", \"offset\": 465, \"limit\": 45}",
+   "sub": false,
+   "result_chars": 1442,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "465\t        if self._cv_token is None:\n466\t            raise RuntimeError(f\"Cannot pop this context ({self!r}), it is not pushed.\")\n467\t\n468\t        ctx = _app_"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/naming/named-s4-r2/src/tessel/app.py\", \"offset\": 1450, \"limit\": 30}",
+   "sub": false,
+   "result_chars": 1214,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1450\t\n1451\t        collect_errors.raise_any(\"Errors during request teardown\")\n1452\t\n1453\t    def run_app_teardowns(\n1454\t        self, ctx: AppContext, exc: Bas"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"def pop|def __exit__|self\\\\.pop\\\\(|\\\\.pop\\\\(\", \"path\": \"$UL_SCRATCH/runs/main/naming/named-s4-r2/src/tessel\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 1379,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/helpers.py:393:        flashes = session.pop(\"_flashes\") if \"_flashes\" in session else []\nsrc/tessel/helpers.py:665:    def __exit__(\nsrc/tessel/app."
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed_warning",
+  "resetsAt": 1792035000,
+  "rateLimitType": "five_hour",
+  "utilization": 0.91,
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "surpassedThreshold": 0.9,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.91,
+    "resetsAt": 1792035000
+   },
+   "seven_day": {
+    "utilization": 0.75,
+    "resetsAt": 1792414800
+   }
+  },
+  "overageEnabled": false
+ },
+ "_compact": [],
+ "_wall_s": 13.8,
+ "_t_start": "2026-10-14T22:42:42.697231+00:00",
+ "_t_end": "2026-10-14T22:42:56.483692+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/naming/named-s4-r2",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "Look at Tessel.run_app_teardowns in src/tessel/app.py and AppContext.pop in src/tessel/ctx.py. A function we registered with on_app_teardown sometimes gets an exception argument and sometimes None. In this repo, where would you look to see when it is called and with what? Be brief."
+ },
+ "_mu_cum": {
+  "input": 8,
+  "output": 1422,
+  "cache_read": 72157,
+  "cache_creation": 12642,
+  "cost": 0.07201969999999999,
+  "total": 86229
+ },
+ "tok": {
+  "input": 8,
+  "output": 1422,
+  "cache_read": 72157,
+  "cache_creation": 12642,
+  "cost": 0.07201969999999999,
+  "total": 86229,
+  "method": "single"
+ },
+ "_tok_usage_field": 86229,
+ "_ctx_last_call": 22928,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "plain"
+}

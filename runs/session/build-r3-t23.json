@@ -1,0 +1,212 @@
+{
+ "duration_api_ms": 172887,
+ "stop_reason": "end_turn",
+ "session_id": "600996ac-5111-4cfe-9c21-b6a657c31c1d",
+ "total_cost_usd": 1.0548347000000002,
+ "usage": {
+  "input_tokens": 4,
+  "cache_creation_input_tokens": 2795,
+  "cache_read_input_tokens": 257716,
+  "output_tokens": 995,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 2795,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 666,
+    "cache_read_input_tokens": 129018,
+    "cache_creation_input_tokens": 2475,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 2475
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 98,
+   "outputTokens": 16380,
+   "thinkingTokens": 294,
+   "cacheReadInputTokens": 4053467,
+   "cacheCreationInputTokens": 121373,
+   "webSearchRequests": 0,
+   "costUSD": 1.0548347000000002,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 3,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "`src/tessel/testing.py` has three classes plus one private helper.\n\n**`EnvironBuilder`** (L27, extends `werkzeug.test.EnvironBuilder`): builds a WSGI environ with defaults taken from the app.\n- `__init__`: builds `base_url` from `SERVER_NAME`, `APPLICATION_ROOT`, `PREFERRED_URL_SCHEME` and the optional `subdomain`/`url_scheme`, and asserts those aren't combined with `base_url`.\n- `json_dumps`: serializes `json=` data using the app's JSON provider.\n\n**`TesselClient`** (L109, extends `werkzeug.test.Client`): the test client.\n- `__init__`: sets up context preservation state and a default `environ_base` (`REMOTE_ADDR`, `HTTP_USER_AGENT`).\n- `session_transaction`: context manager that opens the session, yields it for modification, then saves it back to the client cookies.\n- `_copy_environ`: merges `environ_base` into a request environ and hooks context preservation when it is active.\n- `_request_from_builder_args`: builds a request from arguments using the app-aware `EnvironBuilder`.\n- `open`: sends the request, manages preserved contexts across requests, and sets `response.json_module` to the app's JSON provider.\n- `__enter__`: turns on context preservation for the `with` block and refuses nesting.\n- `__exit__`: turns off preservation and closes the preserved contexts.\n\n**`TesselCliRunner`** (L265, extends `click.testing.CliRunner`): runs a Tessel app's CLI commands in tests.\n- `__init__`: stores the app.\n- `invoke`: runs a command, defaulting to `app.cli` and passing a `LaunchInfo` that loads the app under test as `obj`.\n\n**Helper**\n- `_get_werkzeug_version` (L100): returns the Werkzeug version, cached in a module global, for the default user agent.",
+ "ttft_ms": 2868,
+ "type": "result",
+ "duration_ms": 9992,
+ "uuid": "9c3f0970-7e1c-45d6-8082-e3125677bb98",
+ "ttft_stream_ms": 1406,
+ "time_to_request_ms": 43,
+ "first_content_frame_ms": 1407,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.299",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/session/chain-r3/src/tessel/testing.py\", \"limit\": 100}",
+   "sub": false,
+   "result_chars": 3509,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1\tfrom __future__ import annotations\n2\t\n3\timport importlib.metadata\n4\timport typing as t\n5\tfrom contextlib import contextmanager\n6\tfrom contextlib import ExitSt"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/session/chain-r3/src/tessel/testing.py\", \"offset\": 264}",
+   "sub": false,
+   "result_chars": 1445,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "264\t\n265\tclass TesselCliRunner(CliRunner):\n266\t    \"\"\"A :class:`~click.testing.CliRunner` for testing a Tessel app's\n267\t    CLI commands. Typically created usi"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed",
+  "resetsAt": 1791981000,
+  "rateLimitType": "five_hour",
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.85,
+    "resetsAt": 1791981000
+   },
+   "seven_day": {
+    "utilization": 0.49,
+    "resetsAt": 1792414800
+   }
+  }
+ },
+ "_compact": [],
+ "_wall_s": 11.1,
+ "_t_start": "2026-10-14T08:06:16.419964+00:00",
+ "_t_end": "2026-10-14T08:06:27.502311+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": "600996ac-5111-4cfe-9c21-b6a657c31c1d",
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/session/chain-r3",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "Read all of src/tessel/testing.py and list its classes and methods with one line each."
+ },
+ "_mu_cum": {
+  "input": 98,
+  "output": 16380,
+  "cache_read": 4053467,
+  "cache_creation": 121373,
+  "cost": 1.0548347000000002,
+  "total": 4191318
+ },
+ "tok": {
+  "input": 4,
+  "output": 995,
+  "cache_read": 257716,
+  "cache_creation": 2795,
+  "total": 261510,
+  "cost": 0.04691,
+  "method": "delta"
+ },
+ "_tok_usage_field": 261510,
+ "_ctx_last_call": 131495,
+ "_subagent_calls": 0,
+ "_tpl": "plain",
+ "_turn": 23,
+ "_rep": 3
+}

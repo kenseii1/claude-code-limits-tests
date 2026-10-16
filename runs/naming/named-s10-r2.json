@@ -1,0 +1,214 @@
+{
+ "duration_api_ms": 9933,
+ "stop_reason": "end_turn",
+ "session_id": "a22d1acb-92e2-48b5-8083-90cf7280583c",
+ "total_cost_usd": 0.06070819999999999,
+ "usage": {
+  "input_tokens": 6,
+  "cache_creation_input_tokens": 11302,
+  "cache_read_input_tokens": 50582,
+  "output_tokens": 1043,
+  "output_tokens_details": {
+   "thinking_tokens": 24
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 11302,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 599,
+    "cache_read_input_tokens": 21061,
+    "cache_creation_input_tokens": 525,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 525
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 6,
+   "outputTokens": 1043,
+   "cacheReadInputTokens": 50582,
+   "cacheCreationInputTokens": 11302,
+   "webSearchRequests": 0,
+   "costUSD": 0.06070819999999999,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 24,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 3,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "**Where to look:** `src/tessel/sessions.py:303-312`, `make_signer`. It builds the signer from `SECRET_KEY_HISTORY` plus the current `SECRET_KEY`. Old cookies only validate if the previous key is in that history list.\n\n**Likely cause:** you replaced `SECRET_KEY` without adding the old value to `SECRET_KEY_HISTORY` (default `None`, `src/tessel/app.py:211`). Cookies signed with the old key then fail verification and users get a fresh session.\n\n**Rotate without logout:**\n```python\nSECRET_KEY = \"<new key>\"\nSECRET_KEY_HISTORY = [\"<old key>\"]  # keep until old sessions expire\n```\n- The old key stays verify-only. New cookies are signed with the current key, and old ones get re-signed on the next session write.\n- Keep the old key for at least `PERMANENT_SESSION_LIFETIME`, then drop it.\n- All workers need the same config at deploy time, or some will still reject cookies.\n\n**Also check:**\n- The key order in `make_signer` looks right. The comment says itsdangerous expects the current key last in the list, but it's described as \"at top\", which is a misleading comment, not a bug.\n- If the history is already set, confirm that the env/config loader actually populates it. Env vars like `TESSEL_SECRET_KEY` won't give you a list without explicit parsing (`docs/config.rst:128`).\n- `tests/test_basic.py:396` covers the fallback behavior, so it's a good reference.\n\nI can recover the old key from your deploy history if you want to hot-fix by adding it to `SECRET_KEY_HISTORY`. Users logged out already will stay out, but anyone returning with an old cookie within its lifetime would be restored.",
+ "ttft_ms": 1358,
+ "type": "result",
+ "duration_ms": 10028,
+ "uuid": "25c92d4e-dc23-4229-a565-0132593ac28a",
+ "ttft_stream_ms": 1103,
+ "time_to_request_ms": 38,
+ "first_content_frame_ms": 1104,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.300",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"make_signer|SECRET_KEY|secret_key|fallback\", \"path\": \"$UL_SCRATCH/runs/main/naming/named-s10-r2\", \"output_mode\": \"content\", \"head_limit\": 40}",
+   "sub": false,
+   "result_chars": 3089,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/config.py:66:        SECRET_KEY = 'development key'\nsrc/tessel/app.py:210:        \"SECRET_KEY\": None,\nsrc/tessel/app.py:211:        \"SECRET_KEY_HISTO"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/naming/named-s10-r2/src/tessel/sessions.py\", \"offset\": 300, \"limit\": 20}",
+   "sub": false,
+   "result_chars": 788,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "300\t    serializer = session_json_serializer\n301\t    session_class = SignedCookieSession\n302\t\n303\t    def make_signer(self, app: Tessel) -> URLSafeTimedSerializ"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed_warning",
+  "resetsAt": 1792414800,
+  "rateLimitType": "seven_day",
+  "utilization": 0.76,
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "surpassedThreshold": 0.75,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.05,
+    "resetsAt": 1792053000
+   },
+   "seven_day": {
+    "utilization": 0.76,
+    "resetsAt": 1792414800
+   }
+  },
+  "overageEnabled": false
+ },
+ "_compact": [],
+ "_wall_s": 11.1,
+ "_t_start": "2026-10-15T03:31:36.860297+00:00",
+ "_t_end": "2026-10-15T03:31:47.911452+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/naming/named-s10-r2",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "Look at SignedCookieSessionInterface.make_signer in src/tessel/sessions.py. After we rotated SECRET_KEY, every user was logged out. In this repo, where would you look and how can we rotate keys without that? Be brief."
+ },
+ "_mu_cum": {
+  "input": 6,
+  "output": 1043,
+  "cache_read": 50582,
+  "cache_creation": 11302,
+  "cost": 0.06070819999999999,
+  "total": 62933
+ },
+ "tok": {
+  "input": 6,
+  "output": 1043,
+  "cache_read": 50582,
+  "cache_creation": 11302,
+  "cost": 0.06070819999999999,
+  "total": 62933,
+  "method": "single"
+ },
+ "_tok_usage_field": 62933,
+ "_ctx_last_call": 21588,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "plain"
+}

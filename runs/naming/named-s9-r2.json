@@ -1,0 +1,205 @@
+{
+ "duration_api_ms": 6109,
+ "stop_reason": "end_turn",
+ "session_id": "857c2414-111f-45d5-9d07-6931b6bf6c17",
+ "total_cost_usd": 0.07081660000000001,
+ "usage": {
+  "input_tokens": 4,
+  "cache_creation_input_tokens": 15261,
+  "cache_read_input_tokens": 29546,
+  "output_tokens": 681,
+  "output_tokens_details": {
+   "thinking_tokens": 24
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 15261,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 429,
+    "cache_read_input_tokens": 19262,
+    "cache_creation_input_tokens": 6283,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 6283
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 4,
+   "outputTokens": 681,
+   "cacheReadInputTokens": 29546,
+   "cacheCreationInputTokens": 15261,
+   "webSearchRequests": 0,
+   "costUSD": 0.07081660000000001,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 24,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 2,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "Look at where the login check is registered in your admin bundle. It is almost certainly decorated with `@admin.before_any_request` and should be `@admin.before_request`.\n\n**Why**\n\n- `Bundle.before_any_request` (`src/tessel/sansio/bundles.py:614`) is documented as running \"before every request, not only those handled by the bundle.\" It registers via `record_once` into `app.before_request_funcs[None]`, which is the app-wide scope. Every request in the app runs it.\n- `Scaffold.before_request` (`src/tessel/sansio/scaffold.py:468`) on a bundle stores into the bundle's own `before_request_funcs`. When the bundle is registered, `bundles.py:402` merges those under the bundle's name. `preprocess_request` (`src/tessel/app.py:1385`) then runs them only for requests the bundle handles.\n\n**Fix**\n\nChange `@admin.before_any_request` to `@admin.before_request`. Keep `before_any_request` only for things that really are app-wide, like `load_logged_in_user` in `examples/tutorial/tesselr/auth.py:32`.\n\nAlso check that nothing in your admin bundle uses `before_any_request` for the check indirectly, for example through a shared helper or a bundle that is nested or registered twice.",
+ "ttft_ms": 1380,
+ "type": "result",
+ "duration_ms": 6189,
+ "uuid": "cfc16986-4689-4e82-875e-702d98f9ff1e",
+ "ttft_stream_ms": 1160,
+ "time_to_request_ms": 44,
+ "first_content_frame_ms": 1160,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.300",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"def before_any_request|def before_request|before_request_funcs|before_any_request\", \"path\": \"$UL_SCRATCH/runs/main/naming/named-s9-r2\", \"output_mode\": \"content\", \"context\": 6}",
+   "sub": false,
+   "result_chars": 13901,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/sansio/bundles.py-396-            )\nsrc/tessel/sansio/bundles.py-397-            app.error_handler_spec[key] = value\nsrc/tessel/sansio/bundles.py-398"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed_warning",
+  "resetsAt": 1792414800,
+  "rateLimitType": "seven_day",
+  "utilization": 0.76,
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "surpassedThreshold": 0.75,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.05,
+    "resetsAt": 1792053000
+   },
+   "seven_day": {
+    "utilization": 0.76,
+    "resetsAt": 1792414800
+   }
+  },
+  "overageEnabled": false
+ },
+ "_compact": [],
+ "_wall_s": 7.2,
+ "_t_start": "2026-10-15T03:31:29.453913+00:00",
+ "_t_end": "2026-10-15T03:31:36.684344+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/naming/named-s9-r2",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "Look at Bundle.before_any_request in src/tessel/sansio/bundles.py and Scaffold.before_request in src/tessel/sansio/scaffold.py. A login check we put in our admin bundle runs for every request in the whole app, not just the admin pages. In this repo, where would you look and why? Be brief."
+ },
+ "_mu_cum": {
+  "input": 4,
+  "output": 681,
+  "cache_read": 29546,
+  "cache_creation": 15261,
+  "cost": 0.07081660000000001,
+  "total": 45492
+ },
+ "tok": {
+  "input": 4,
+  "output": 681,
+  "cache_read": 29546,
+  "cache_creation": 15261,
+  "cost": 0.07081660000000001,
+  "total": 45492,
+  "method": "single"
+ },
+ "_tok_usage_field": 45492,
+ "_ctx_last_call": 25547,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "plain"
+}

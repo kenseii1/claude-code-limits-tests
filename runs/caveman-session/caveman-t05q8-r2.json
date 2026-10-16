@@ -1,0 +1,237 @@
+{
+ "duration_api_ms": 82704,
+ "stop_reason": "end_turn",
+ "session_id": "44add762-fce5-4ca0-812d-ea4617408ef7",
+ "total_cost_usd": 0.3619682,
+ "usage": {
+  "input_tokens": 6,
+  "cache_creation_input_tokens": 5786,
+  "cache_read_input_tokens": 156077,
+  "output_tokens": 2100,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 5786,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1289,
+    "cache_read_input_tokens": 53652,
+    "cache_creation_input_tokens": 2593,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 2593
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 40,
+   "outputTokens": 10674,
+   "thinkingTokens": 60,
+   "cacheReadInputTokens": 713042,
+   "cacheCreationInputTokens": 45961,
+   "webSearchRequests": 0,
+   "costUSD": 0.3619682,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 5,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "The mechanism is one `ContextVar` holding the current `AppContext`, plus Werkzeug `LocalProxy` objects that read an attribute from it on every access. I read the code and did not run it.\n\n**Objects**\n\n- `_app_var`, a `contextvars.ContextVar[AppContext]` (`src/tessel/globals.py:40`).\n- `AppContext` (`src/tessel/ctx.py`, `__init__` at line 300). It holds `app`, `g`, `_request` and `_session`.\n- The `werkzeug.local.LocalProxy` instances `app_ctx`, `active_app`, `g`, `request` and `session` (`src/tessel/globals.py:41`–`62`).\n\n**Step by step**\n\n1. **Create.** `Tessel.wsgi_entry` calls `request_context(environ)`, which calls `AppContext.from_environ` (`ctx.py:340`). This builds the `Request` and an `AppContext` whose `__init__` sets:\n   - `self.app = app` (`ctx.py:307`)\n   - `self.g = app.app_ctx_globals_class()` (`ctx.py:312`)\n   - `self._request` and `self._session`\n\n2. **Bind.** `AppContext.push` (`ctx.py:416`) runs `self._cv_token = _app_var.set(self)` (`ctx.py:433`). The `ContextVar` now points at this context for the current thread or task. The token is saved so the old value can be restored.\n\n3. **Define proxies.** `globals.py` creates each global once at import time. Each proxy takes the `ContextVar` and an attribute name:\n\n   | Global | Proxy target | Source lines |\n   |---|---|---|\n   | `active_app` | `_app_var` + `\"app\"` | `globals.py:44` |\n   | `g` | `_app_var` + `\"g\"` | `globals.py:47` |\n   | `request` | `_app_var` + `\"request\"` | `globals.py:57` |\n   | `session` | `_app_var` + `\"session\"` | `globals.py:60` |\n\n4. **Resolve.** On each attribute access or call on a proxy, such as `request.args`, `LocalProxy` does these steps:\n   - It calls `_app_var.get()`.\n   - It takes the named attribute from that `AppContext`.\n   - It forwards the operation to the real object.\n\n   The proxy holds no object itself, so two threads or async tasks each see their own context.\n\n5. **Lazy attributes.** `AppContext.request` (`ctx.py:371`) raises `RuntimeError(\"There is no request in this context.\")` if `_request` is `None`. `AppContext.session` (`ctx.py:396`) opens the session on first access through `_get_session`.\n\n6. **Unbound.** If nothing was pushed, `_app_var.get()` has no value and the proxy raises `RuntimeError` with `unbound_message`:\n   - `active_app` and `g` use `_no_app_msg` (\"Working outside of application context\").\n   - `request` and `session` use `_no_req_msg` (\"Working outside of request context\").\n\n7. **Unbind.** `AppContext.pop` (`ctx.py:446`) checks that it is the active context, runs teardowns, then calls `_app_var.reset(self._cv_token)` (`ctx.py:498`). The proxies then see the previous context, or none.\n\n**Caveats**\n\n- Code that needs the real object (for `isinstance` checks or to pass it to another thread) can call `_get_current_object()` on the proxy. It is declared at `globals.py:18`.\n- Nested pushes of the same context are counted in `_push_count`. The var is only reset when the count returns to 0 (`ctx.py:481`–`484`).\n- A new thread does not inherit the context unless it is copied explicitly, as `copy_current_request_context` does via `AppContext.copy` (`ctx.py:355`).",
+ "ttft_ms": 2619,
+ "type": "result",
+ "duration_ms": 16054,
+ "uuid": "b629d102-be0e-4dff-9122-5fc5abd68e3d",
+ "ttft_stream_ms": 1110,
+ "time_to_request_ms": 45,
+ "first_content_frame_ms": 1111,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.300",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 31,
+  "skills_local": [
+   "caveman"
+  ],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"LocalProxy|_app_var|ContextVar|^active_app|^g\\\\b|^request\\\\b|^session\\\\b|def _get_|_cv_\", \"path\": \"$UL_SCRATCH/runs/main/caveman-session/caveman-r2/src/tessel\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 2979,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/helpers.py:17:from .globals import _app_var\nsrc/tessel/helpers.py:127:        if (ctx := _app_var.get(None)) is None:\nsrc/tessel/helpers.py:275:    i"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/caveman-session/caveman-r2/src/tessel/globals.py\", \"offset\": 25, \"limit\": 40}",
+   "sub": false,
+   "result_chars": 1450,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "25\t\n26\t    class _AppCtxGlobalsProxy(ProxyMixin[_AppCtxGlobals], _AppCtxGlobals): ...\n27\t\n28\t    class RequestProxy(ProxyMixin[Request], Request): ...\n29\t\n30\t  "
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/caveman-session/caveman-r2/src/tessel/ctx.py\", \"offset\": 290, \"limit\": 50}",
+   "sub": false,
+   "result_chars": 1934,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "290\t    .. versionchanged:: 3.2\n291\t        A combined app and request context is pushed for every request and CLI\n292\t        command, rather than trying to de"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/caveman-session/caveman-r2/src/tessel/ctx.py\", \"offset\": 464, \"limit\": 50}",
+   "sub": false,
+   "result_chars": 1593,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "464\t        \"\"\"\n465\t        if self._cv_token is None:\n466\t            raise RuntimeError(f\"Cannot pop this context ({self!r}), it is not pushed.\")\n467\t\n468\t   "
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed_warning",
+  "resetsAt": 1792414800,
+  "rateLimitType": "seven_day",
+  "utilization": 0.8,
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "surpassedThreshold": 0.75,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.52,
+    "resetsAt": 1792053000
+   },
+   "seven_day": {
+    "utilization": 0.8,
+    "resetsAt": 1792414800
+   }
+  },
+  "overageEnabled": false
+ },
+ "_compact": [],
+ "_wall_s": 17.0,
+ "_t_start": "2026-10-15T03:39:38.901004+00:00",
+ "_t_end": "2026-10-15T03:39:55.853393+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": "44add762-fce5-4ca0-812d-ea4617408ef7",
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/caveman-session/caveman-r2",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "In this repo, how do active_app, g and request find the right object for the current context? Name the mechanism and the objects involved, with file paths. Explain how it works, step by step."
+ },
+ "_mu_cum": {
+  "input": 40,
+  "output": 10674,
+  "cache_read": 713042,
+  "cache_creation": 45961,
+  "cost": 0.3619682,
+  "total": 769717
+ },
+ "tok": {
+  "input": 6,
+  "output": 2100,
+  "cache_read": 156077,
+  "cache_creation": 5786,
+  "total": 163969,
+  "cost": 0.059764,
+  "method": "delta"
+ },
+ "_tok_usage_field": 163969,
+ "_ctx_last_call": 56247,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "caveman",
+ "_turn": 5,
+ "_rep": 2,
+ "_target": "q8"
+}

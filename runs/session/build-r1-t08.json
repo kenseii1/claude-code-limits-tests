@@ -1,0 +1,203 @@
+{
+ "duration_api_ms": 51737,
+ "stop_reason": "end_turn",
+ "session_id": "35715622-fb03-425f-ba07-695217399ba9",
+ "total_cost_usd": 0.33390390000000003,
+ "usage": {
+  "input_tokens": 4,
+  "cache_creation_input_tokens": 5546,
+  "cache_read_input_tokens": 119163,
+  "output_tokens": 626,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 5546,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 483,
+    "cache_read_input_tokens": 59736,
+    "cache_creation_input_tokens": 5237,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 5237
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 32,
+   "outputTokens": 5421,
+   "thinkingTokens": 0,
+   "cacheReadInputTokens": 602179,
+   "cacheCreationInputTokens": 54853,
+   "webSearchRequests": 0,
+   "costUSD": 0.33390390000000003,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 2,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "Methods of `Config` in `src/tessel/config.py` (a `dict` subclass):\n\n- `__init__` (L94): creates the config with a `root_path` for resolving relative files and optional default values.\n- `from_envvar` (L102): loads a Python config file whose path is in the named environment variable, with a clear error or silent `False` if it's unset.\n- `load_env_prefixed` (L126): loads `TESSEL_*` environment variables into the config, stripping the prefix, parsing values with `json.loads` by default, and supporting nested keys via `__`.\n- `from_pyfile` (L187): executes a Python file and copies its uppercase names into the config.\n- `from_object` (L218): copies uppercase attributes from an object or import-string module or class into the config.\n- `from_file` (L256): loads a file (JSON, TOML and so on) with a caller-supplied `load` callable and passes the mapping to `from_mapping`.\n- `from_mapping` (L304): updates the config from a mapping and keyword args, keeping only uppercase keys, and always returns `True`.\n- `get_namespace` (L323): returns a dict of the options sharing a prefix, optionally trimming the prefix and lowercasing keys.\n- `__repr__` (L366): returns `<Config {...}>`.\n\nThe same file also defines `ConfigAttribute`, a descriptor that forwards attribute access to `obj.config[name]`, but it isn't a method of `Config`.",
+ "ttft_ms": 2330,
+ "type": "result",
+ "duration_ms": 6706,
+ "uuid": "d4c2ee58-f6a3-453d-a6e3-56ddadb3804e",
+ "ttft_stream_ms": 1233,
+ "time_to_request_ms": 42,
+ "first_content_frame_ms": 1234,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.299",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/session/chain-r1/src/tessel/config.py\"}",
+   "sub": false,
+   "result_chars": 14587,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1\tfrom __future__ import annotations\n2\t\n3\timport errno\n4\timport json\n5\timport os\n6\timport types\n7\timport typing as t\n8\t\n9\tfrom werkzeug.utils import import_stri"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed",
+  "resetsAt": 1791981000,
+  "rateLimitType": "five_hour",
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.6,
+    "resetsAt": 1791981000
+   },
+   "seven_day": {
+    "utilization": 0.47,
+    "resetsAt": 1792414800
+   }
+  }
+ },
+ "_compact": [],
+ "_wall_s": 7.9,
+ "_t_start": "2026-10-14T08:01:32.977896+00:00",
+ "_t_end": "2026-10-14T08:01:40.828110+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": "35715622-fb03-425f-ba07-695217399ba9",
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/session/chain-r1",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "Read the full file src/tessel/config.py and list every method of Config with a one-line description."
+ },
+ "_mu_cum": {
+  "input": 32,
+  "output": 5421,
+  "cache_read": 602179,
+  "cache_creation": 54853,
+  "cost": 0.33390390000000003,
+  "total": 662485
+ },
+ "tok": {
+  "input": 4,
+  "output": 626,
+  "cache_read": 119163,
+  "cache_creation": 5546,
+  "total": 125339,
+  "cost": 0.040368,
+  "method": "delta"
+ },
+ "_tok_usage_field": 125339,
+ "_ctx_last_call": 64975,
+ "_subagent_calls": 0,
+ "_tpl": "plain",
+ "_turn": 8,
+ "_rep": 1
+}

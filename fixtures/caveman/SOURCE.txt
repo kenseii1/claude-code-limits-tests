@@ -1,0 +1,3 @@
+Source: https://github.com/JuliusBrussee/caveman (Apache-2.0, ~111.8k stars on 14.10.2026)
+File: skills/caveman/SKILL.md at commit d262ab3882952a59312ff3537cd86d894523c5ab (repo pushed 2026-10-14T08:22Z), downloaded 14.10 19:45, verbatim, 4,678 bytes.
+Activation in the test: the documented manual command `/caveman` (README "How to invoke"). The full plugin install (hooks, proxy) is NOT used.

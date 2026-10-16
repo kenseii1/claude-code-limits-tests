@@ -1,0 +1,222 @@
+{
+ "duration_api_ms": 13530,
+ "stop_reason": "end_turn",
+ "session_id": "53750168-e247-4e03-9ca5-38b57eef9258",
+ "total_cost_usd": 0.1858054,
+ "usage": {
+  "input_tokens": 8,
+  "cache_creation_input_tokens": 17883,
+  "cache_read_input_tokens": 90247,
+  "output_tokens": 1233,
+  "output_tokens_details": {
+   "thinking_tokens": 271
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 17883,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 528,
+    "cache_read_input_tokens": 27184,
+    "cache_creation_input_tokens": 983,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 983
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-opus-5-5": {
+   "inputTokens": 8,
+   "outputTokens": 1233,
+   "cacheReadInputTokens": 90247,
+   "cacheCreationInputTokens": 17883,
+   "webSearchRequests": 0,
+   "costUSD": 0.1858054,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 271,
+   "canonicalModel": "claude-opus-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 4,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "[answer redacted: it followed the unrelated private rules file, see README]",
+ "ttft_ms": 3182,
+ "type": "result",
+ "duration_ms": 13606,
+ "uuid": "9086a86e-d3a6-4531-b18f-df4ad34c4771",
+ "ttft_stream_ms": 1011,
+ "time_to_request_ms": 31,
+ "first_content_frame_ms": 1011,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init",
+  "system:thinking_tokens"
+ ],
+ "_init": {
+  "model": "claude-opus-5-5",
+  "version": "2.1.301",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 32,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"TESSEL_|__\", \"glob\": \"!**/node_modules/**\", \"output_mode\": \"files_with_matches\", \"head_limit\": 30}",
+   "sub": false,
+   "result_chars": 909,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "Found 30 files limit: 30\ntests/type_check/typing_route.py\ntests/type_check/typing_error_handler.py\ntests/type_check/typing_app_decorators.py\ntests/test_views.py"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"def from_prefixed_env|loads|def from_envvar\", \"glob\": \"src/**/config.py\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 538,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/config.py:102:    def from_envvar(self, variable_name: str, silent: bool = False) -> bool:\nsrc/tessel/config.py:127:        self, prefix: str = \"TESS"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/opus/u16k-medium-q6-r1/src/tessel/config.py\", \"offset\": 126, \"limit\": 60}",
+   "sub": false,
+   "result_chars": 2363,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "126\t    def load_env_prefixed(\n127\t        self, prefix: str = \"TESSEL\", *, loads: t.Callable[[str], t.Any] = json.loads\n128\t    ) -> bool:\n129\t        \"\"\"Load "
+  }
+ ],
+ "_models_seen": [
+  "claude-opus-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed",
+  "resetsAt": 1792135800,
+  "rateLimitType": "five_hour",
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.15,
+    "resetsAt": 1792135800
+   },
+   "seven_day": {
+    "utilization": 0.17,
+    "resetsAt": 1792681200
+   }
+  }
+ },
+ "_compact": [],
+ "_wall_s": 14.6,
+ "_t_start": "2026-10-16T02:32:33.038012+00:00",
+ "_t_end": "2026-10-16T02:32:47.676930+00:00",
+ "_cmd": {
+  "model": "opus",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/opus/u16k-medium-q6-r1",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "In this repo, how are environment variables like TESSEL_SECRET_KEY or TESSEL_DB__HOST turned into config values, including type conversion and nested keys? Name the method and the conversion function, with file paths. Be brief."
+ },
+ "_mu_cum": {
+  "input": 8,
+  "output": 1233,
+  "cache_read": 90247,
+  "cache_creation": 17883,
+  "cost": 0.1858054,
+  "total": 109371
+ },
+ "tok": {
+  "input": 8,
+  "output": 1233,
+  "cache_read": 90247,
+  "cache_creation": 17883,
+  "cost": 0.1858054,
+  "total": 109371,
+  "method": "single"
+ },
+ "_tok_usage_field": 109371,
+ "_ctx_last_call": 28169,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "cm-16k",
+ "_grade_before_redaction": true
+}

@@ -1,0 +1,265 @@
+{
+ "duration_api_ms": 25922,
+ "stop_reason": "end_turn",
+ "session_id": "17e16cac-aca8-453a-b2de-72b36b313ec5",
+ "total_cost_usd": 0.2752076,
+ "usage": {
+  "input_tokens": 16,
+  "cache_creation_input_tokens": 22969,
+  "cache_read_input_tokens": 206358,
+  "output_tokens": 2506,
+  "output_tokens_details": {
+   "thinking_tokens": 127
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 22969,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1046,
+    "cache_read_input_tokens": 32996,
+    "cache_creation_input_tokens": 257,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 257
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-opus-5-5": {
+   "inputTokens": 16,
+   "outputTokens": 2506,
+   "cacheReadInputTokens": 206358,
+   "cacheCreationInputTokens": 22969,
+   "webSearchRequests": 0,
+   "costUSD": 0.2752076,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 127,
+   "canonicalModel": "claude-opus-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 9,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "Tessel uses its own method names (not Flask's `handle_user_exception` and similar). Call order when a view raises:\n\n1. **`Tessel.__call__`**, `src/tessel/app.py:1618`, calls `wsgi_entry`.\n2. **`wsgi_entry`**, `src/tessel/app.py:1566`, calls `run_full_request`. Anything that escapes it is caught at line 1598 and sent to `route_unhandled_fault` (step 7).\n3. **`run_full_request`**, `src/tessel/app.py:992`, calls `preprocess_request` and then `run_view` inside a `try`. On an `Exception` it calls `route_user_fault` (line 1018).\n4. **`run_view`**, `src/tessel/app.py:966`, calls the view function. This is where the exception is raised.\n5. **`route_user_fault`**, `src/tessel/app.py:865`:\n   - An `HTTPException` that isn't trapped (checked by `trap_http_exception`, `src/tessel/sansio/app.py:894`) goes to **`route_http_fault`** (`src/tessel/app.py:830`). That method returns the exception unchanged if it has no code or is a `RoutingException`. Otherwise it looks up a handler and returns the exception itself if none is found.\n   - Any other exception goes to `_pick_fault_handler`. If no handler is found, it re-raises.\n6. **`_pick_fault_handler`**, `src/tessel/sansio/app.py:869`, makes the actual choice:\n   - It gets `(exc_class, code)` from `_get_exc_class_and_code` (`src/tessel/sansio/scaffold.py:665`).\n   - It checks the status code first, then `None` (handlers registered by exception class). For each, it checks the request's bundles first and then the app.\n   - For each map it tries, it walks `exc_class.__mro__` and returns the first match.\n   - Resulting priority: bundle handler for the code → app handler for the code → bundle handler for the class → app handler for the class.\n7. **`route_unhandled_fault`**, `src/tessel/app.py:897`, runs if the exception wasn't handled or a handler raised:\n   - It sends `got_request_exception`.\n   - If `PROPAGATE_EXCEPTIONS` is on (it defaults to on in debug or testing), it re-raises.\n   - Otherwise it calls `log_exception`, wraps the error in `InternalServerError(original_exception=e)`, and runs `_pick_fault_handler` again to find a 500 handler.\n8. **`finalize_request`**, `src/tessel/app.py:1021`, turns the handler's return value into the response.\n\nHandlers are stored in `error_handler_spec[bundle_name][code][exc_class]`. They're added through `errorhandler` and `register_error_handler` in `src/tessel/sansio/scaffold.py:607` and `:650`, and bundle handlers are merged into the app in `src/tessel/sansio/bundles.py:388`.",
+ "ttft_ms": 2179,
+ "type": "result",
+ "duration_ms": 27261,
+ "uuid": "10047f2f-6f8c-40a2-b501-e798cd1dea66",
+ "ttft_stream_ms": 879,
+ "time_to_request_ms": 37,
+ "first_content_frame_ms": 879,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-opus-5-5",
+  "version": "2.1.301",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 32,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"def .*(handle_user_exception|handle_exception|handle_http_exception|_find_error_handler|full_dispatch_request|errorhandler|register_error_handler)\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 65,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/sansio/scaffold.py:650:    def register_error_handler("
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"error_handler|_spec_handlers|exception\", \"path\": \"src/tessel\", \"output_mode\": \"content\", \"-i\": true}",
+   "sub": false,
+   "result_chars": 18231,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/helpers.py:13:from werkzeug.exceptions import abort as _wz_abort\nsrc/tessel/helpers.py:282:    \"\"\"Raise an :exc:`~werkzeug.exceptions.HTTPException` "
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/models/opus-q1-r2/src/tessel/app.py\", \"offset\": 828, \"limit\": 195}",
+   "sub": false,
+   "result_chars": 8544,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "828\t        return cls(self, **kwargs)  # type: ignore\n829\t\n830\t    def route_http_fault(\n831\t        self, ctx: AppContext, e: HTTPException\n832\t    ) -> HTTPE"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/models/opus-q1-r2/src/tessel/sansio/app.py\", \"offset\": 866, \"limit\": 50}",
+   "sub": false,
+   "result_chars": 2180,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "866\t        self.shell_ctx_injectors.append(f)\n867\t        return f\n868\t\n869\t    def _pick_fault_handler(\n870\t        self, e: Exception, bundles: list[str]\n871"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/models/opus-q1-r2/src/tessel/app.py\", \"offset\": 1590, \"limit\": 20}",
+   "sub": false,
+   "result_chars": 761,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1590\t            start the response.\n1591\t        \"\"\"\n1592\t        ctx = self.request_context(environ)\n1593\t        error: BaseException | None = None\n1594\t    "
+  },
+  {
+   "tool": "Bash",
+   "input": "{\"command\": \"grep -n \\\"def wsgi_app\\\\|def __call__\\\" src/tessel/app.py\", \"description\": \"Find the WSGI entry point methods\"}",
+   "sub": false,
+   "result_chars": 22,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1618:    def __call__("
+  },
+  {
+   "tool": "Bash",
+   "input": "{\"command\": \"sed -n '1570,1580p;1618,1630p' src/tessel/app.py\", \"description\": \"Show the WSGI entry method names\"}",
+   "sub": false,
+   "result_chars": 762,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "        :meth:`__call__` so that middlewares can be applied without\n        losing a reference to the app object. Instead of doing this::\n\n            app = MyM"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"wsgi_entry\\\\b.*[=(]\", \"path\": \"src/tessel/app.py\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 148,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1566:    def wsgi_entry(\n1577:            app.wsgi_entry = MyMiddleware(app.wsgi_entry)\n1625:        return self.wsgi_entry(environ, start_response)"
+  }
+ ],
+ "_models_seen": [
+  "claude-opus-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed",
+  "resetsAt": 1792117800,
+  "rateLimitType": "five_hour",
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.19,
+    "resetsAt": 1792117800
+   },
+   "seven_day": {
+    "utilization": 0.09,
+    "resetsAt": 1792681200
+   }
+  }
+ },
+ "_compact": [],
+ "_wall_s": 28.3,
+ "_t_start": "2026-10-15T21:39:43.024100+00:00",
+ "_t_end": "2026-10-15T21:40:11.358140+00:00",
+ "_cmd": {
+  "model": "opus",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/models/opus-q1-r2",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "In this repo, when a view raises an exception, how does Tessel decide which error handler runs? List the methods involved in call order, with file paths. Be brief."
+ },
+ "_mu_cum": {
+  "input": 16,
+  "output": 2506,
+  "cache_read": 206358,
+  "cache_creation": 22969,
+  "cost": 0.2752076,
+  "total": 231849
+ },
+ "tok": {
+  "input": 16,
+  "output": 2506,
+  "cache_read": 206358,
+  "cache_creation": 22969,
+  "cost": 0.2752076,
+  "total": 231849,
+  "method": "single"
+ },
+ "_tok_usage_field": 231849,
+ "_ctx_last_call": 33255,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "plain"
+}

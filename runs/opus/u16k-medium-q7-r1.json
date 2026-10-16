@@ -1,0 +1,289 @@
+{
+ "duration_api_ms": 29582,
+ "stop_reason": "end_turn",
+ "session_id": "430b2a4a-562c-45eb-bfa6-3100bcf7df08",
+ "total_cost_usd": 0.26970019999999995,
+ "usage": {
+  "input_tokens": 18,
+  "cache_creation_input_tokens": 22727,
+  "cache_read_input_tokens": 238161,
+  "output_tokens": 2009,
+  "output_tokens_details": {
+   "thinking_tokens": 234
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 22727,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 949,
+    "cache_read_input_tokens": 31789,
+    "cache_creation_input_tokens": 1222,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 1222
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-opus-5-5": {
+   "inputTokens": 18,
+   "outputTokens": 2009,
+   "cacheReadInputTokens": 238161,
+   "cacheCreationInputTokens": 22727,
+   "webSearchRequests": 0,
+   "costUSD": 0.26970019999999995,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 234,
+   "canonicalModel": "claude-opus-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [
+  {
+   "tool_name": "Bash",
+   "tool_use_id": "toolu_015wUwXrSD94WvMSvqS2WK1w",
+   "tool_input": {
+    "command": "cd \"$PWD\"; ls -la; grep -rlE \"TaggedJSON|SessionInterface|JSONTag\" . 2>/dev/null | head",
+    "description": "List directory and search for session serializer code"
+   }
+  }
+ ],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 10,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "[answer redacted: it followed the unrelated private rules file, see README]",
+ "ttft_ms": 3514,
+ "type": "result",
+ "duration_ms": 29791,
+ "uuid": "a473636d-5c9f-4b66-901c-698da164a53d",
+ "ttft_stream_ms": 825,
+ "time_to_request_ms": 42,
+ "first_content_frame_ms": 825,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init",
+  "system:permission_denied",
+  "system:thinking_tokens"
+ ],
+ "_init": {
+  "model": "claude-opus-5-5",
+  "version": "2.1.301",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 32,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"class TaggedJSONSerializer|class SecureCookieSessionInterface|class JSONTag\"}",
+   "sub": false,
+   "result_chars": 14,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "No files found"
+  },
+  {
+   "tool": "Bash",
+   "input": "{\"command\": \"cd \\\"$PWD\\\"; ls -la; grep -rlE \\\"TaggedJSON|SessionInterface|JSONTag\\\" . 2>/dev/null | head\", \"description\": \"List directory and search for session serializer code\"}",
+   "sub": false,
+   "result_chars": 727,
+   "vendor_hits": 0,
+   "is_error": true,
+   "result_head": "Permission to use Bash has been denied because Claude Code is running in don't ask mode. IMPORTANT: You *may* attempt to accomplish this action using other tool"
+  },
+  {
+   "tool": "Glob",
+   "input": "{\"pattern\": \"**/*\"}",
+   "sub": false,
+   "result_chars": 2595,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "docs/_static/debugger.png\ndocs/_static/pycharm-run-config.png\ndocs/tutorial/tesselr_edit.png\ndocs/tutorial/tesselr_index.png\ndocs/tutorial/tesselr_login.png\n.de"
+  },
+  {
+   "tool": "Glob",
+   "input": "{\"pattern\": \"src/**/*.py\"}",
+   "sub": false,
+   "result_chars": 554,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/__init__.py\nsrc/tessel/__main__.py\nsrc/tessel/app.py\nsrc/tessel/bundles.py\nsrc/tessel/cli.py\nsrc/tessel/config.py\nsrc/tessel/ctx.py\nsrc/tessel/debugh"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"^class |serializer|key = \", \"path\": \"src/tessel/json/tag.py\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 1622,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "20:identify the type. The session serializer processes dicts first, so\n29:        __slots__ = ('serializer',)\n30:        key = ' od'\n36:            return [[k, "
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"^class |serializer|Tagged\", \"path\": \"src/tessel/sessions.py\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 542,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "24:class SessionMixin(MutableMapping[str, t.Any]):\n57:class SignedCookieSession(CallbackDict[str, t.Any], SessionMixin):\n83:class NullSession(SignedCookieSessio"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"src/tessel/json/tag.py\", \"offset\": 219, \"limit\": 110}",
+   "sub": false,
+   "result_chars": 3820,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "219\tclass TypedCookieSerializer:\n220\t    \"\"\"Serializer that uses a tag system to compactly represent objects that\n221\t    are not JSON types. Passed as the inte"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"src/tessel/json/tag.py\", \"offset\": 60, \"limit\": 32}",
+   "sub": false,
+   "result_chars": 1277,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "60\tclass TypeMarker:\n61\t    \"\"\"Base class for defining type tags for :class:`TypedCookieSerializer`.\"\"\"\n62\t\n63\t    __slots__ = (\"serializer\",)\n64\t\n65\t    #: The"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"src/tessel/json/tag.py\", \"offset\": 133, \"limit\": 85}",
+   "sub": false,
+   "result_chars": 2404,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "133\tclass TagTuple(TypeMarker):\n134\t    __slots__ = ()\n135\t    key = \" t\"\n136\t\n137\t    def check(self, value: t.Any) -> bool:\n138\t        return isinstance(valu"
+  }
+ ],
+ "_models_seen": [
+  "claude-opus-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed_warning",
+  "resetsAt": 1792117800,
+  "rateLimitType": "five_hour",
+  "utilization": 0.92,
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "surpassedThreshold": 0.9,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.92,
+    "resetsAt": 1792117800
+   },
+   "seven_day": {
+    "utilization": 0.16,
+    "resetsAt": 1792681200
+   }
+  },
+  "overageEnabled": false
+ },
+ "_compact": [],
+ "_wall_s": 30.9,
+ "_t_start": "2026-10-15T21:51:07.286915+00:00",
+ "_t_end": "2026-10-15T21:51:38.189136+00:00",
+ "_cmd": {
+  "model": "opus",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/opus/u16k-medium-q7-r1",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "In this repo, the default session can store tuples, bytes and datetimes in a JSON cookie and get them back with the right types. How does that work? Name the classes involved, with file paths. Be brief."
+ },
+ "_mu_cum": {
+  "input": 18,
+  "output": 2009,
+  "cache_read": 238161,
+  "cache_creation": 22727,
+  "cost": 0.26970019999999995,
+  "total": 262915
+ },
+ "tok": {
+  "input": 18,
+  "output": 2009,
+  "cache_read": 238161,
+  "cache_creation": 22727,
+  "cost": 0.26970019999999995,
+  "total": 262915,
+  "method": "single"
+ },
+ "_tok_usage_field": 262915,
+ "_ctx_last_call": 33013,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "cm-16k",
+ "_grade_before_redaction": true
+}

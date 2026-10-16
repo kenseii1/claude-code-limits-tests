@@ -1,0 +1,302 @@
+{
+ "duration_api_ms": 28349,
+ "stop_reason": "end_turn",
+ "session_id": "b4084ef2-f7c9-4c67-9841-fc0b0f12279a",
+ "total_cost_usd": 0.09958729999999999,
+ "usage": {
+  "input_tokens": 18,
+  "cache_creation_input_tokens": 14388,
+  "cache_read_input_tokens": 183493,
+  "output_tokens": 2365,
+  "output_tokens_details": {
+   "thinking_tokens": 75
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 14388,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 626,
+    "cache_read_input_tokens": 24266,
+    "cache_creation_input_tokens": 406,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 406
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 18,
+   "outputTokens": 2365,
+   "cacheReadInputTokens": 183493,
+   "cacheCreationInputTokens": 14388,
+   "webSearchRequests": 0,
+   "costUSD": 0.09958729999999999,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 75,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 13,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "This repo is Tessel, a Flask-like framework. There are two mechanisms.\n\n**Defaults**\n- **Jinja globals:** `create_jinja_environment()` in `src/tessel/app.py:492-501` puts `config`, `request`, `session` and `g` into `jinja_env.globals`. The `request`, `session` and `g` entries are the context-local proxies, so imported templates and macros also see them.\n- **Default injector:** `_base_template_vars()` in `src/tessel/templating.py:21` is registered as the first injector in `Scaffold.__init__` (`src/tessel/sansio/scaffold.py:184`, `{None: [_base_template_vars]}`). It swaps the `g` and `request` proxies for the real objects, for speed. It leaves `session` as the proxy so access is still tracked.\n- **When it runs:** `render_template()` and `render_template_string()` (`templating.py:125` and `:167`) call `App.fill_template_scope()` (`src/tessel/app.py:588`). That runs every injector for the app (the `None` key) and for the request's bundles, then re-applies the values passed to `render_template` so they take precedence.\n\n**Adding your own variables**\n- **Decorator:** `@app.ctx_injector` is defined as `Scaffold.ctx_injector` in `src/tessel/sansio/scaffold.py:550`. The decorated function takes no arguments and returns a dict, and its keys become template variables. On the app it applies to every template. On a bundle it applies only to that bundle's views.\n- **Bundle-wide:** `Bundle.app_ctx_injector` in `src/tessel/sansio/bundles.py:645` registers an injector that applies to every template in the app.\n- **Plain constants or functions:** `jinja_env.globals`, which `src/tessel/sansio/app.py:825` also uses to register template globals.",
+ "ttft_ms": 2101,
+ "type": "result",
+ "duration_ms": 28601,
+ "uuid": "e1fe433b-88d8-47a9-8bfb-a3aabaa1aca7",
+ "ttft_stream_ms": 1391,
+ "time_to_request_ms": 37,
+ "first_content_frame_ms": 1391,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init",
+  "system:thinking_tokens"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.300",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 32,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"def (update_template_context|context_processor|_default_template_ctx_processor)\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 16,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "No matches found"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"context_processor|template_ctx\", \"output_mode\": \"files_with_matches\", \"head_limit\": 20}",
+   "sub": false,
+   "result_chars": 90,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "Found 3 files\nsrc/tessel/sansio/scaffold.py\nsrc/tessel/sansio/bundles.py\nsrc/tessel/app.py"
+  },
+  {
+   "tool": "Glob",
+   "input": "{\"pattern\": \"**/templating.py\"}",
+   "sub": false,
+   "result_chars": 24,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/templating.py"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"context_processor|template_ctx\", \"path\": \"src/tessel\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 1170,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/app.py:612:            if name in self.template_ctx_injectors:\nsrc/tessel/app.py:613:                for func in self.template_ctx_injectors[name]:\ns"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/effort/medium-q10-r1/src/tessel/app.py\", \"offset\": 585, \"limit\": 50}",
+   "sub": false,
+   "result_chars": 2024,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "585\t\n586\t        raise FormDataRoutingRedirect(request)\n587\t\n588\t    def fill_template_scope(\n589\t        self, ctx: AppContext, context: dict[str, t.Any]\n590\t "
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/effort/medium-q10-r1/src/tessel/sansio/scaffold.py\", \"offset\": 545, \"limit\": 22}",
+   "sub": false,
+   "result_chars": 936,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "545\t        \"\"\"\n546\t        self.teardown_request_funcs.setdefault(None, []).append(f)\n547\t        return f\n548\t\n549\t    @setupmethod\n550\t    def ctx_injector(\n"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"update_template_ctx|_default_template_ctx|inject_default|def render_template|before_render\", \"path\": \"src/tessel\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 527,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/signals.py:9:before_render_template = _signals.signal(\"before-render-template\")\nsrc/tessel/__init__.py:27:from .signals import before_render_template"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"fill_template_scope|globals\\\\[|jinja_env\\\\.globals|\\\\\\\"session\\\\\\\"|\\\\\\\"request\\\\\\\"\", \"path\": \"src/tessel\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 560,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/app.py:217:        \"SESSION_COOKIE_NAME\": \"session\",\nsrc/tessel/app.py:588:    def fill_template_scope(\nsrc/tessel/globals.py:58:    _app_var, \"reque"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/effort/medium-q10-r1/src/tessel/templating.py\", \"offset\": 15, \"limit\": 45}",
+   "sub": false,
+   "result_chars": 1562,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "15\t\n16\tif t.TYPE_CHECKING:  # pragma: no cover\n17\t    from .sansio.app import App\n18\t    from .sansio.scaffold import Scaffold\n19\t\n20\t\n21\tdef _base_template_var"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"default_ctx|_default_ctx\", \"path\": \"src/tessel\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 16,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "No matches found"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"_base_template_vars|jinja_env.globals.update|globals.update\", \"path\": \"src/tessel\", \"output_mode\": \"content\", \"-n\": true}",
+   "sub": false,
+   "result_chars": 296,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/app.py:493:        rv.globals.update(\nsrc/tessel/templating.py:21:def _base_template_vars() -> dict[str, t.Any]:\nsrc/tessel/sansio/scaffold.py:19:fro"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/effort/medium-q10-r1/src/tessel/app.py\", \"offset\": 488, \"limit\": 14}",
+   "sub": false,
+   "result_chars": 604,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "488\t                auto_reload = self.debug\n489\t\n490\t            options[\"auto_reload\"] = auto_reload\n491\t\n492\t        rv = self.jinja_environment(self, **opti"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed",
+  "resetsAt": 1792099800,
+  "rateLimitType": "five_hour",
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.55,
+    "resetsAt": 1792099800
+   },
+   "seven_day": {
+    "utilization": 0.04,
+    "resetsAt": 1792681200
+   }
+  }
+ },
+ "_compact": [],
+ "_wall_s": 29.7,
+ "_t_start": "2026-10-15T16:38:29.136895+00:00",
+ "_t_end": "2026-10-15T16:38:58.805294+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/effort/medium-q10-r1",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "In this repo, how do request, session and g become available inside every Jinja template, and how can an app add its own variables? Name the functions and the decorator involved, with file paths. Be brief."
+ },
+ "_mu_cum": {
+  "input": 18,
+  "output": 2365,
+  "cache_read": 183493,
+  "cache_creation": 14388,
+  "cost": 0.09958729999999999,
+  "total": 200264
+ },
+ "tok": {
+  "input": 18,
+  "output": 2365,
+  "cache_read": 183493,
+  "cache_creation": 14388,
+  "cost": 0.09958729999999999,
+  "total": 200264,
+  "method": "single"
+ },
+ "_tok_usage_field": 200264,
+ "_ctx_last_call": 24674,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "plain"
+}

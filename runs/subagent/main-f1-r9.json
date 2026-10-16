@@ -1,0 +1,240 @@
+{
+ "duration_api_ms": 19711,
+ "stop_reason": "end_turn",
+ "session_id": "aa803655-d2ba-4fb4-91a7-979bea55f4c8",
+ "total_cost_usd": 0.089138,
+ "usage": {
+  "input_tokens": 10,
+  "cache_creation_input_tokens": 2843,
+  "cache_read_input_tokens": 111407,
+  "output_tokens": 1367,
+  "output_tokens_details": {
+   "thinking_tokens": 61
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 2843,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 639,
+    "cache_read_input_tokens": 23351,
+    "cache_creation_input_tokens": 237,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 237
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 14,
+   "outputTokens": 2137,
+   "thinkingTokens": 141,
+   "cacheReadInputTokens": 140680,
+   "cacheCreationInputTokens": 13418,
+   "webSearchRequests": 0,
+   "costUSD": 0.089138,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 5,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "Of the 24 failures and 1 error, 3 failures are independent of the `partitioned` cookie problem, and one more is only a side effect of it. `test_open_resource_exceptions[a]` passed this time, so it is flaky.\n\n**Independent failures**\n\n- **`tests/test_helpers.py::TestStreaming::test_async_view`** raises `RuntimeError: Install Tessel with the 'async' extra in order to use async views` (`src/tessel/app.py:1096`). It fails because the async extra (asgiref) isn't installed, so this is an environment problem.\n- **`tests/test_request.py::test_limit_config`** fails on `assert r.max_form_memory_size == 500_000` and gets `None`. Werkzeug 3.0.3 is installed, and its `Request` has no non-`None` default for `max_form_memory_size` (that came in 3.1). It is a Werkzeug version mismatch, though a different one from the `partitioned` cookie issue.\n- **`tests/test_helpers.py::test_open_resource_exceptions[a]`** failed in the first full run and passed in the two runs after it, so it is flaky. I didn't see its error output. I'd guess it is order- or filesystem-dependent, but I haven't confirmed that.\n\n**Side effect of the main cause**\n\n- **`ERROR ... TestStreaming::test_stream_keeps_session`** is a teardown error from `conftest.py:79`: `assert not [<AppContext ...>]`, \"Cannot pop this context\". The test itself failed on the `partitioned` `TypeError`, which left a context un-popped.\n\n`test_session_dynamic_cookie_name` is not independent either. The 500 it receives comes from the same `partitioned` `TypeError`, as the log shows.\n\nThe common thread is that the installed Werkzeug 3.0.3 is older than this code expects, which affects both the cookie failures and `test_limit_config`.",
+ "ttft_ms": 1223,
+ "type": "result",
+ "duration_ms": 21099,
+ "uuid": "8b4cf4e5-ca6a-471f-8aeb-f1921e6c9f24",
+ "ttft_stream_ms": 1072,
+ "time_to_request_ms": 35,
+ "first_content_frame_ms": 1073,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init",
+  "system:task_notification",
+  "system:task_started",
+  "system:thinking_tokens"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.299",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Bash",
+   "input": "{\"command\": \"PYTHONPATH=src python3 -m pytest tests/test_helpers.py::TestStreaming::test_async_view \\\"tests/test_helpers.py::test_open_resource_exceptions\\\" tests/test_reqctx.py::test_session_dynamic_cookie_name tests/test_request.py::test_limit_config \\\"tests/test_helpers.py::TestStreaming::test_stream_keeps_session\\\" 2>&1 | grep -E \\\"^E |^(FAILED|ERROR)|^____|Error\\\" | head -50; pip list 2>/dev/",
+   "sub": false,
+   "result_chars": 2221,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "_________ ERROR at teardown of TestStreaming.test_stream_keeps_session _________\nE       AssertionError: assert not [<AppContext 4377040448 of tessel_test, GET "
+  },
+  {
+   "tool": "Bash",
+   "input": "{\"command\": \"PYTHONPATH=src python3 -m pytest \\\"tests/test_helpers.py::test_open_resource_exceptions\\\" 2>&1 | grep -E \\\"^E |^tests|^src\\\" | head; sed -n 20,40p tests/test_request.py; pip list 2>/dev/null | grep -i asgiref\"}",
+   "sub": false,
+   "result_chars": 698,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "tests/test_helpers.py ....                                               [100%]\n\n    rv = client.post(\"/\", data={\"myfile\": \"foo\" * 50})\n    assert rv.data == b\""
+  },
+  {
+   "tool": "Bash",
+   "input": "{\"command\": \"PYTHONPATH=src python3 -m pytest tests -q 2>&1 | grep -B5 -A25 \\\"test_open_resource_exceptions\\\\[a\\\\] _\\\" | head -70\"}",
+   "sub": false,
+   "result_chars": 31,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "(Bash completed with no output)"
+  },
+  {
+   "tool": "Bash",
+   "input": "{\"command\": \"PYTHONPATH=src python3 -m pytest tests -q 2>&1 | grep -E \\\"open_resource|passed|failed\\\"; PYTHONPATH=src python3 -m pytest tests -q 2>&1 | grep -A30 \\\"test_open_resource_exceptions\\\" | head -60\"}",
+   "sub": false,
+   "result_chars": 147,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "ERROR    test_reqctx:app.py:1048 Request finalizing failed with an error while handling an error\n23 failed, 463 passed, 1 skipped, 1 error in 1.59s"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed_warning",
+  "resetsAt": 1792414800,
+  "rateLimitType": "seven_day",
+  "utilization": 0.6,
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.09,
+    "resetsAt": 1792017000
+   },
+   "seven_day": {
+    "utilization": 0.6,
+    "resetsAt": 1792414800
+   }
+  },
+  "overageEnabled": false
+ },
+ "_compact": [],
+ "_wall_s": 21.9,
+ "_t_start": "2026-10-14T17:32:50.988852+00:00",
+ "_t_end": "2026-10-14T17:33:12.914932+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": "aa803655-d2ba-4fb4-91a7-979bea55f4c8",
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/subagent/main-r9",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)",
+   "Bash(PYTHONPATH=src python3 -m pytest:*)",
+   "Bash(python3 -m pip show:*)",
+   "Bash(pip show:*)",
+   "Bash(pip list:*)",
+   "Bash(python3 -m pip list:*)",
+   "Bash(python3 -c:*)"
+  ],
+  "prompt": "Which of the failing tests are NOT caused by that main root cause? Name them and say briefly why each fails."
+ },
+ "_mu_cum": {
+  "input": 14,
+  "output": 2137,
+  "cache_read": 140680,
+  "cache_creation": 13418,
+  "cost": 0.089138,
+  "total": 156249
+ },
+ "tok": {
+  "input": 10,
+  "output": 1367,
+  "cache_read": 111407,
+  "cache_creation": 2843,
+  "total": 115627,
+  "cost": 0.036203,
+  "method": "delta"
+ },
+ "_tok_usage_field": 115627,
+ "_ctx_last_call": 23590,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "plain"
+}

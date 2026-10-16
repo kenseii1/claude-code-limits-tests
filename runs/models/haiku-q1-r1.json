@@ -1,0 +1,275 @@
+{
+ "duration_api_ms": 21901,
+ "stop_reason": "end_turn",
+ "session_id": "402d0210-99a4-4f83-a677-a3aed55747c0",
+ "total_cost_usd": 0.00736603,
+ "usage": {
+  "input_tokens": 14,
+  "cache_creation_input_tokens": 19154,
+  "cache_read_input_tokens": 152083,
+  "output_tokens": 4026,
+  "output_tokens_details": {
+   "thinking_tokens": 1246
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 19154,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1703,
+    "cache_read_input_tokens": 28313,
+    "cache_creation_input_tokens": 1125,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 1125
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-haiku-5-5": {
+   "inputTokens": 14,
+   "outputTokens": 4026,
+   "cacheReadInputTokens": 152083,
+   "cacheCreationInputTokens": 19154,
+   "webSearchRequests": 0,
+   "costUSD": 0.00736603,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 1246,
+   "canonicalModel": "claude-haiku-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 10,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "Tessel picks the handler in `route_user_fault` → `_pick_fault_handler`, and the order is driven by the request's bundles and the exception's MRO. Call order, with paths relative to the repo root:\n\n1. `src/tessel/app.py:1597` `wsgi_app` calls `run_full_request`.\n2. `src/tessel/app.py:992` `run_full_request` runs `preprocess_request`, then `run_view`.\n3. `src/tessel/app.py:966` `run_view` calls the view at `app.py:990`. The exception is caught in `run_full_request` at `app.py:1018`, which calls `route_user_fault`.\n4. `src/tessel/app.py:865` `route_user_fault`:\n   - If the exception is an `HTTPException` that isn't trapped, it goes to `route_http_fault` (`app.py:830`), which calls `_pick_fault_handler` at `app.py:860`.\n   - Otherwise it calls `_pick_fault_handler` directly at `app.py:890`.\n   - If no handler is found, it re-raises.\n5. `src/tessel/sansio/app.py:869` `_pick_fault_handler` checks handlers in this order:\n   - bundle handler for the exception's status code, then app handler for that code\n   - bundle handler for the exception class, then app handler for that class\n   - Each class lookup walks `exc_class.__mro__`. The class-level lookup uses `_get_exc_class_and_code` in `src/tessel/sansio/scaffold.py:665`.\n   - Bundles come from `ctx.request.bundles`, with the app-level `None` key last.\n6. If nothing was found, the exception propagates to `wsgi_app` at `app.py:1600`, which calls `route_unhandled_fault` (`app.py:897`). That method sends the signal, logs via `log_exception` (`app.py:950`) unless propagation is on, and builds an `InternalServerError`. It then looks up a 500 handler with `_pick_fault_handler` (`app.py:943`) and calls `finalize_request` (`app.py:1021`).\n\nHandlers are stored by `register_error_handler` in `src/tessel/sansio/scaffold.py:650`, in `error_handler_spec[bundle_or_None][code][exc_class]`.",
+ "ttft_ms": 1461,
+ "type": "result",
+ "duration_ms": 22116,
+ "uuid": "3c206234-71d0-44fe-aeaf-3de9532df380",
+ "ttft_stream_ms": 1172,
+ "time_to_request_ms": 88,
+ "first_content_frame_ms": 1173,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init",
+  "system:thinking_tokens"
+ ],
+ "_init": {
+  "model": "claude-haiku-5-5",
+  "version": "2.1.301",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 32,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"handler_500|handle_uncaught_exception|handle_exception|get_exception_handler|exception_handler\", \"path\": \"$UL_SCRATCH/runs/main/models/haiku-q1-r1~3\", \"output_mode\": \"files_with_matches\"}",
+   "sub": false,
+   "result_chars": 98,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "Found 3 files\ntests/test_user_error_handler.py\ntests/test_bundles.py\nsrc/tessel/sansio/scaffold.py"
+  },
+  {
+   "tool": "Glob",
+   "input": "{\"pattern\": \"**/*tessel*/**/*.py\", \"path\": \"$UL_SCRATCH/runs/main/models/haiku-q1-r1~3\"}",
+   "sub": false,
+   "result_chars": 692,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "examples/tutorial/tesselr/__init__.py\nexamples/tutorial/tesselr/auth.py\nexamples/tutorial/tesselr/blog.py\nexamples/tutorial/tesselr/db.py\nsrc/tessel/__init__.py"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"def (handle_user_exception|handle_http_exception|_find_error_handler|handle_exception|full_dispatch_request|dispatch_request|finalize_request|_get_exc_class_and_code|log_exception|raise_routing_exception|wsgi_app)\\\\b|_find_error_handler\\\\(|handle_user_exception\\\\(|handle_http_exception\\\\(|handle_exception\\\\(\", \"path\": \"$TMPDIR/...",
+   "sub": false,
+   "result_chars": 253,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/app.py:560:    def raise_routing_exception(self, request: Request) -> t.NoReturn:\nsrc/tessel/app.py:950:    def log_exception(\nsrc/tessel/app.py:1021"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"error_handler|errorhandler|def .*exception|def full_dispatch|def dispatch_request|def wsgi_app|def handle_\", \"path\": \"$UL_SCRATCH/runs/main/models/haiku-q1-r1~3/src/tessel\", \"output_mode\": \"content\", \"-n\": true}",
+   "sub": false,
+   "result_chars": 2347,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/app.py:560:    def raise_routing_exception(self, request: Request) -> t.NoReturn:\nsrc/tessel/app.py:948:        return self.finalize_request(ctx, ser"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/models/haiku-q1-r1~3/src/tessel/sansio/app.py\", \"offset\": 855, \"limit\": 45}",
+   "sub": false,
+   "result_chars": 1830,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "855\t        self.on_app_teardown_funcs.append(f)\n856\t        return f\n857\t\n858\t    @setupmethod\n859\t    def shell_ctx_injector(\n860\t        self, f: T_shell_ctx"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/models/haiku-q1-r1~3/src/tessel/app.py\", \"offset\": 860, \"limit\": 190}",
+   "sub": false,
+   "result_chars": 8477,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "860\t        handler = self._pick_fault_handler(e, ctx.request.bundles)\n861\t        if handler is None:\n862\t            return e\n863\t        return self.ensure_s"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"route_unhandled_fault|route_user_fault|route_http_fault|run_full_request|_pick_fault_handler\", \"path\": \"$UL_SCRATCH/runs/main/models/haiku-q1-r1~3/src/tessel\", \"output_mode\": \"content\", \"-n\": true}",
+   "sub": false,
+   "result_chars": 1414,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/app.py:259:            cls.route_http_fault,\nsrc/tessel/app.py:260:            cls.route_user_fault,\nsrc/tessel/app.py:261:            cls.route_unha"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/models/haiku-q1-r1~3/src/tessel/app.py\", \"offset\": 828, \"limit\": 32}",
+   "sub": false,
+   "result_chars": 1346,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "828\t        return cls(self, **kwargs)  # type: ignore\n829\t\n830\t    def route_http_fault(\n831\t        self, ctx: AppContext, e: HTTPException\n832\t    ) -> HTTPE"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/models/haiku-q1-r1~3/src/tessel/app.py\", \"offset\": 1590, \"limit\": 16}",
+   "sub": false,
+   "result_chars": 598,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1590\t            start the response.\n1591\t        \"\"\"\n1592\t        ctx = self.request_context(environ)\n1593\t        error: BaseException | None = None\n1594\t    "
+  }
+ ],
+ "_models_seen": [
+  "claude-haiku-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed",
+  "resetsAt": 1792117800,
+  "rateLimitType": "five_hour",
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.15,
+    "resetsAt": 1792117800
+   },
+   "seven_day": {
+    "utilization": 0.09,
+    "resetsAt": 1792681200
+   }
+  }
+ },
+ "_compact": [],
+ "_wall_s": 23.5,
+ "_t_start": "2026-10-15T21:39:11.704281+00:00",
+ "_t_end": "2026-10-15T21:39:35.245779+00:00",
+ "_cmd": {
+  "model": "haiku",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/models/haiku-q1-r1~3",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "In this repo, when a view raises an exception, how does Tessel decide which error handler runs? List the methods involved in call order, with file paths. Be brief."
+ },
+ "_mu_cum": {
+  "input": 14,
+  "output": 4026,
+  "cache_read": 152083,
+  "cache_creation": 19154,
+  "cost": 0.00736603,
+  "total": 175277
+ },
+ "tok": {
+  "input": 14,
+  "output": 4026,
+  "cache_read": 152083,
+  "cache_creation": 19154,
+  "cost": 0.00736603,
+  "total": 175277,
+  "method": "single"
+ },
+ "_tok_usage_field": 175277,
+ "_ctx_last_call": 29440,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "plain"
+}

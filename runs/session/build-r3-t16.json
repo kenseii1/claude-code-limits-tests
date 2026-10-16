@@ -1,0 +1,213 @@
+{
+ "duration_api_ms": 121532,
+ "stop_reason": "end_turn",
+ "session_id": "600996ac-5111-4cfe-9c21-b6a657c31c1d",
+ "total_cost_usd": 0.7326477,
+ "usage": {
+  "input_tokens": 6,
+  "cache_creation_input_tokens": 2254,
+  "cache_read_input_tokens": 317428,
+  "output_tokens": 886,
+  "output_tokens_details": {
+   "thinking_tokens": 95
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 2254,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 377,
+    "cache_read_input_tokens": 106369,
+    "cache_creation_input_tokens": 1197,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 1197
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 68,
+   "outputTokens": 11818,
+   "thinkingTokens": 294,
+   "cacheReadInputTokens": 2245477,
+   "cacheCreationInputTokens": 97446,
+   "webSearchRequests": 0,
+   "costUSD": 0.7326477,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 3,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "It's all done by the module-level function `_default` in `src/tessel/json/provider.py:108`. `StandardJSONProvider` (L124) sets it as its `default` attribute (L138). `dumps()` passes it to `json.dumps(default=...)`, so it only runs for objects the standard `json` module can't serialize.\n\n- **Dates:** any `date`, which includes `datetime`, becomes `http_date(o)`, an RFC 822 / HTTP-date string.\n- **UUIDs:** `uuid.UUID` becomes `str(o)`. `decimal.Decimal` gets the same treatment.\n- **Dataclasses:** `dataclasses.is_dataclass(o)` objects become `dataclasses.asdict(o)`, a dict that is then serialized normally.\n- **Other types:** objects with `__html__` (such as `Markup`) become `str(o.__html__())`, and anything else raises `TypeError`.\n\nMy earlier answer called the default provider `DefaultJSONProvider`, which was wrong. The class in this repo is `StandardJSONProvider`. The `response()` behavior I described is correct.",
+ "ttft_ms": 1905,
+ "type": "result",
+ "duration_ms": 10208,
+ "uuid": "f0ff1500-a7a7-4886-ad85-9ee1ca8a711c",
+ "ttft_stream_ms": 1195,
+ "time_to_request_ms": 43,
+ "first_content_frame_ms": 1196,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init",
+  "system:thinking_tokens"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.299",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"class \\\\w*JSONProvider|def _default|dataclass|UUID|http_date|__html__\", \"path\": \"$UL_SCRATCH/runs/main/session/chain-r3/src/tessel/json/provider.py\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 748,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "3:import dataclasses\n11:from werkzeug.http import http_date\n19:class JSONProvider:\n108:def _default(o: t.Any) -> t.Any:\n110:        return http_date(o)\n112:    "
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/session/chain-r3/src/tessel/json/provider.py\", \"offset\": 106, \"limit\": 60}",
+   "sub": false,
+   "result_chars": 2330,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "106\t\n107\t\n108\tdef _default(o: t.Any) -> t.Any:\n109\t    if isinstance(o, date):\n110\t        return http_date(o)\n111\t\n112\t    if isinstance(o, (decimal.Decimal, u"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed",
+  "resetsAt": 1791981000,
+  "rateLimitType": "five_hour",
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.79,
+    "resetsAt": 1791981000
+   },
+   "seven_day": {
+    "utilization": 0.49,
+    "resetsAt": 1792414800
+   }
+  }
+ },
+ "_compact": [],
+ "_wall_s": 11.4,
+ "_t_start": "2026-10-14T08:05:15.833804+00:00",
+ "_t_end": "2026-10-14T08:05:27.220995+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": "600996ac-5111-4cfe-9c21-b6a657c31c1d",
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/session/chain-r3",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "How does StandardJSONProvider serialize dates, UUIDs and dataclasses? Point to the function."
+ },
+ "_mu_cum": {
+  "input": 68,
+  "output": 11818,
+  "cache_read": 2245477,
+  "cache_creation": 97446,
+  "cost": 0.7326477,
+  "total": 2354809
+ },
+ "tok": {
+  "input": 6,
+  "output": 886,
+  "cache_read": 317428,
+  "cache_creation": 2254,
+  "total": 320574,
+  "cost": 0.049631,
+  "method": "delta"
+ },
+ "_tok_usage_field": 320574,
+ "_ctx_last_call": 107568,
+ "_subagent_calls": 0,
+ "_tpl": "plain",
+ "_turn": 16,
+ "_rep": 3
+}

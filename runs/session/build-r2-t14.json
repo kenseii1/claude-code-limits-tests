@@ -1,0 +1,203 @@
+{
+ "duration_api_ms": 119321,
+ "stop_reason": "end_turn",
+ "session_id": "0e258663-c5cc-43da-9a7c-0042b1b9d6d2",
+ "total_cost_usd": 0.6492258,
+ "usage": {
+  "input_tokens": 4,
+  "cache_creation_input_tokens": 13551,
+  "cache_read_input_tokens": 181785,
+  "output_tokens": 1258,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 13551,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1117,
+    "cache_read_input_tokens": 91180,
+    "cache_creation_input_tokens": 12976,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 12976
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 56,
+   "outputTokens": 11382,
+   "thinkingTokens": 164,
+   "cacheReadInputTokens": 1591498,
+   "cacheCreationInputTokens": 94036,
+   "webSearchRequests": 0,
+   "costUSD": 0.6492258,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 2,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "Built-in config keys documented in `docs/config.rst` (lines 68-395), with their defaults.\n\n**Debug and testing**\n\n| Key | Default |\n|---|---|\n| `DEBUG` | `False` |\n| `TESTING` | `False` |\n| `PROPAGATE_EXCEPTIONS` | `None` |\n| `TRAP_HTTP_EXCEPTIONS` | `False` |\n| `TRAP_BAD_REQUEST_ERRORS` | `None` |\n\n**Secrets**\n\n| Key | Default |\n|---|---|\n| `SECRET_KEY` | `None` |\n| `SECRET_KEY_HISTORY` | `None` |\n\n**Session cookie**\n\n| Key | Default |\n|---|---|\n| `SESSION_COOKIE_NAME` | `'session'` |\n| `SESSION_COOKIE_DOMAIN` | `None` |\n| `SESSION_COOKIE_PATH` | `None` |\n| `SESSION_COOKIE_HTTPONLY` | `True` |\n| `SESSION_COOKIE_SECURE` | `False` |\n| `SESSION_COOKIE_PARTITIONED` | `False` |\n| `SESSION_COOKIE_SAMESITE` | `None` |\n| `PERMANENT_SESSION_LIFETIME` | `timedelta(days=31)` (`2678400` seconds) |\n| `SESSION_REFRESH_EACH_REQUEST` | `True` |\n\n**Files and static**\n\n| Key | Default |\n|---|---|\n| `USE_X_SENDFILE` | `False` |\n| `STATIC_CACHE_SECONDS_DEFAULT` | `None` |\n\n**Hosts and URLs**\n\n| Key | Default |\n|---|---|\n| `TRUSTED_HOSTS` | `None` |\n| `SERVER_NAME` | `None` |\n| `APPLICATION_ROOT` | `'/'` |\n| `PREFERRED_URL_SCHEME` | `'http'` |\n\n**Request limits**\n\n| Key | Default |\n|---|---|\n| `MAX_CONTENT_LENGTH` | `None` |\n| `MAX_FORM_MEMORY_SIZE` | `500_000` |\n| `MAX_FORM_PARTS` | `1_000` |\n\n**Templates**\n\n| Key | Default |\n|---|---|\n| `TEMPLATES_AUTO_RELOAD` | `None` (enabled in debug mode) |\n| `EXPLAIN_TEMPLATE_LOADING` | `False` |\n\n**Other**\n\n| Key | Default |\n|---|---|\n| `MAX_COOKIE_SIZE` | `4093` per the prose; no `Default:` line is given |\n| `PROVIDE_AUTOMATIC_OPTIONS` | no default is stated |\n\nThe page also names keys that were removed: `LOGGER_NAME`, `LOGGER_HANDLER_POLICY`, `PRESERVE_CONTEXT_ON_EXCEPTION`, `JSON_AS_ASCII`, `JSON_SORT_KEYS`, `JSONIFY_MIMETYPE`, `JSONIFY_PRETTYPRINT_REGULAR` and `ENV`. These aren't documented as current keys.",
+ "ttft_ms": 2549,
+ "type": "result",
+ "duration_ms": 11012,
+ "uuid": "b3750197-cbc0-4d04-bd21-3e58205bf0d8",
+ "ttft_stream_ms": 1215,
+ "time_to_request_ms": 40,
+ "first_content_frame_ms": 1216,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.299",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/session/chain-r2/docs/config.rst\"}",
+   "sub": false,
+   "result_chars": 32315,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1\tConfiguration Handling\n2\t======================\n3\t\n4\tApplications need some kind of configuration.  There are different settings\n5\tyou might want to change de"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed",
+  "resetsAt": 1791981000,
+  "rateLimitType": "five_hour",
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.65,
+    "resetsAt": 1791981000
+   },
+   "seven_day": {
+    "utilization": 0.47,
+    "resetsAt": 1792414800
+   }
+  }
+ },
+ "_compact": [],
+ "_wall_s": 12.3,
+ "_t_start": "2026-10-14T08:02:29.576016+00:00",
+ "_t_end": "2026-10-14T08:02:41.879073+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": "0e258663-c5cc-43da-9a7c-0042b1b9d6d2",
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/session/chain-r2",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "Read the whole docs page docs/config.rst and list the built-in config keys it documents, with their defaults."
+ },
+ "_mu_cum": {
+  "input": 56,
+  "output": 11382,
+  "cache_read": 1591498,
+  "cache_creation": 94036,
+  "cost": 0.6492258,
+  "total": 1696972
+ },
+ "tok": {
+  "input": 4,
+  "output": 1258,
+  "cache_read": 181785,
+  "cache_creation": 13551,
+  "total": 196598,
+  "cost": 0.084971,
+  "method": "delta"
+ },
+ "_tok_usage_field": 196598,
+ "_ctx_last_call": 104158,
+ "_subagent_calls": 0,
+ "_tpl": "plain",
+ "_turn": 14,
+ "_rep": 2
+}

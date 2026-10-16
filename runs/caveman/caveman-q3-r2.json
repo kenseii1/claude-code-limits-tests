@@ -1,0 +1,235 @@
+{
+ "duration_api_ms": 14763,
+ "stop_reason": "end_turn",
+ "session_id": "6b59012a-755f-4d9e-a441-52941073310d",
+ "total_cost_usd": 0.09732020000000001,
+ "usage": {
+  "input_tokens": 8,
+  "cache_creation_input_tokens": 17612,
+  "cache_read_input_tokens": 75362,
+  "output_tokens": 1932,
+  "output_tokens_details": {
+   "thinking_tokens": 86
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 17612,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1143,
+    "cache_read_input_tokens": 22542,
+    "cache_creation_input_tokens": 5354,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 5354
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 8,
+   "outputTokens": 1932,
+   "cacheReadInputTokens": 75362,
+   "cacheCreationInputTokens": 17612,
+   "webSearchRequests": 0,
+   "costUSD": 0.09732020000000001,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 86,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 5,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "Use `@needs_app_scope`. `LaunchInfo` loads the app. Both are in `src/tessel/cli.py`.\n\n**Decorator:** `needs_app_scope` (`src/tessel/cli.py:380`). Put it under `@click.command(...)`, as the built-in `shell` and `routes` commands do (`cli.py:998-999`, `1047-1059`):\n\n```python\n@click.command(\"mycmd\")\n@needs_app_scope\ndef mycmd() -> None:\n    ...\n```\n\n**Class that loads the app:** `LaunchInfo`, method `load_app()` (`cli.py:293`, `333`). `TesselGroup` (`cli.py:531`) creates it.\n\n**How it works:**\n1. The `tessel` entry point runs `main()` (`cli.py:1121`), which invokes `TesselGroup`.\n2. `TesselGroup.make_context` (`cli.py:657`) builds a `LaunchInfo` and stores it as `ctx.obj`. It carries `create_app`, `set_debug_flag`, and `load_dotenv_defaults`.\n3. `--env-file`, `--app`, and `--debug` option callbacks run (`_env_file_callback`, `_set_app`, `_set_debug`). `_set_app` stores the import path in `LaunchInfo.app_import_path`.\n4. Your command's callback is wrapped by `needs_app_scope`. At call time, `decorator` (`cli.py:395`) runs first.\n5. If `active_app` is not set, `decorator` calls `ctx.ensure_object(LaunchInfo).load_app()`.\n6. `load_app()` (`cli.py:333`) works in this order:\n   - It returns the cached `_loaded_app` if one exists.\n   - Otherwise it calls `create_app()` if one was given.\n   - Otherwise it imports from `app_import_path` via `prepare_import` and `locate_app`.\n   - Otherwise it tries `wsgi.py`, then `app.py`.\n   - If nothing is found, it raises `NoAppException`.\n   - It sets `app.debug` when `set_debug_flag` is true, caches the app, and returns it.\n7. `decorator` calls `ctx.with_resource(app.app_context())`. The app context stays pushed until the click context closes.\n8. `ctx.invoke(f, ...)` runs your function inside that app context.\n\n**When you do not need the decorator:**\n- **Commands registered on `app.cli`:** `TesselGroup.get_command` (`cli.py:609-634`) loads the app and pushes the app context itself. Use `@app.cli.command()` and the decorator is not required (see the docstring at `cli.py:384`).\n- **Commands in your own `AppGroup`:** `AppGroup.command` (`cli.py:413`) wraps callbacks with `needs_app_scope` automatically. Pass `needs_app_scope=False` to opt out.\n- **Plugin commands:** these are registered under entry-point group `tessel.commands` (`cli.py:604`) and load without the app. They do need `@needs_app_scope` to get app context.\n\n**Need the `LaunchInfo` object itself?** Use `@pass_script_info` (`cli.py:375`), as `run_command` does at `cli.py:933`. Call `info.load_app()` manually.",
+ "ttft_ms": 1927,
+ "type": "result",
+ "duration_ms": 15033,
+ "uuid": "8547210b-1028-42c2-b2fc-9eb1f990f024",
+ "ttft_stream_ms": 1277,
+ "time_to_request_ms": 223,
+ "first_content_frame_ms": 1277,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init",
+  "system:thinking_tokens"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.300",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 31,
+  "skills_local": [
+   "caveman"
+  ],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"with_appcontext|class FlaskGroup|class ScriptInfo|def load_app\", \"output_mode\": \"content\", \"head_limit\": 40}",
+   "sub": false,
+   "result_chars": 111,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/cli.py:333:    def load_app(self) -> Tessel:\ntests/test_cli.py:306:def test_with_appcontext(runner):"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"appcontext|^class |^def |^@|ScriptInfo|pass_script_info\", \"path\": \"$UL_SCRATCH/runs/main/caveman/caveman-q3-r2/src/tessel/cli.py\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 2044,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "37:class NoAppException(click.UsageError):\n41:def locate_main_app(module: ModuleType) -> Tessel:\n94:def _bad_factory_args(f: t.Callable[..., Tessel]) -> bool:\n1"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/caveman/caveman-q3-r2/src/tessel/cli.py\", \"offset\": 290, \"limit\": 150}",
+   "sub": false,
+   "result_chars": 6192,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "290\t)\n291\t\n292\t\n293\tclass LaunchInfo:\n294\t    \"\"\"Helper object to deal with Tessel applications.  This is usually not\n295\t    necessary to interface with as it'"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/caveman/caveman-q3-r2/src/tessel/cli.py\", \"offset\": 531, \"limit\": 160}",
+   "sub": false,
+   "result_chars": 7035,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "531\tclass TesselGroup(AppGroup):\n532\t    \"\"\"Special subclass of the :class:`AppGroup` group that supports\n533\t    loading more commands from the configured Tess"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed_warning",
+  "resetsAt": 1792414800,
+  "rateLimitType": "seven_day",
+  "utilization": 0.78,
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "surpassedThreshold": 0.75,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.25,
+    "resetsAt": 1792053000
+   },
+   "seven_day": {
+    "utilization": 0.78,
+    "resetsAt": 1792414800
+   }
+  },
+  "overageEnabled": false
+ },
+ "_compact": [],
+ "_wall_s": 16.0,
+ "_t_start": "2026-10-15T03:34:37.057410+00:00",
+ "_t_end": "2026-10-15T03:34:53.077463+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/caveman/caveman-q3-r2",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "/caveman In this repo, I want to add a custom CLI command that needs the app (and app context). Which decorator should I use, and which class loads the app for CLI commands? Give file paths. Explain how it works, step by step."
+ },
+ "_mu_cum": {
+  "input": 8,
+  "output": 1932,
+  "cache_read": 75362,
+  "cache_creation": 17612,
+  "cost": 0.09732020000000001,
+  "total": 94914
+ },
+ "tok": {
+  "input": 8,
+  "output": 1932,
+  "cache_read": 75362,
+  "cache_creation": 17612,
+  "cost": 0.09732020000000001,
+  "total": 94914,
+  "method": "single"
+ },
+ "_tok_usage_field": 94914,
+ "_ctx_last_call": 27898,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "caveman"
+}

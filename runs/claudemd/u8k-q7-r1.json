@@ -1,0 +1,241 @@
+{
+ "duration_api_ms": 12233,
+ "stop_reason": "end_turn",
+ "session_id": "bc30c74e-758a-47f3-92d6-5cd9bd9d0028",
+ "total_cost_usd": 0.0900175,
+ "usage": {
+  "input_tokens": 10,
+  "cache_creation_input_tokens": 16841,
+  "cache_read_input_tokens": 103335,
+  "output_tokens": 1230,
+  "output_tokens_details": {
+   "thinking_tokens": 125
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 16841,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 556,
+    "cache_read_input_tokens": 24477,
+    "cache_creation_input_tokens": 2648,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 2648
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 10,
+   "outputTokens": 1230,
+   "cacheReadInputTokens": 103335,
+   "cacheCreationInputTokens": 16841,
+   "webSearchRequests": 0,
+   "costUSD": 0.0900175,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 125,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [
+  {
+   "tool_name": "Bash",
+   "tool_use_id": "toolu_01LKP2Nia6JiFuK4V7X9b87B",
+   "tool_input": {
+    "command": "ls -la; find . -maxdepth 3 -name \"*.py\" | head; python3 -c \"import flask,sys;print(flask.__file__)\" 2>&1 | tail -1"
+   }
+  }
+ ],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 5,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "The mechanism is a tagged-JSON serializer that the signed-cookie session interface uses by default.\n\n- **`SignedCookieSessionInterface`** (`src/tessel/sessions.py:284`) is the default session interface. Its `serializer` attribute is `session_json_serializer = TypedCookieSerializer()` (`sessions.py:273`, `:300`). The session data is serialized with it and signed with itsdangerous.\n- **`TypedCookieSerializer`** (`src/tessel/json/tag.py:219`) keeps an ordered list of tag classes.\n  - `dumps` calls `tag()`, which walks the tags in order and applies the first whose `check()` matches. It then JSON-encodes the result.\n  - `loads` parses the JSON and calls `untag()`. This finds the single-key dict `{\" t\": ...}`-style marker and calls the matching tag's `to_python()`.\n- **`TypeMarker`** (`tag.py:60`) is the base class for each tag. It defines `check`, `to_json`, `to_python` and `tag`.\n- The concrete tags in `tag.py` are:\n  - `TagTuple` (`:133`), which stores a tuple as a list.\n  - `TagBytes` (`:159`), which stores bytes as base64.\n  - `TagDateTime` (`:205`), which stores a datetime as an HTTP date string.\n  - `TagDict`, `PassDict` and `PassList` (`:93`, `:119`, `:147`), which handle dict and list containers and escape user dicts that collide with a tag key.\n  - `TagMarkup` and `TagUUID`, which cover Markup and UUID values.",
+ "ttft_ms": 2195,
+ "type": "result",
+ "duration_ms": 12376,
+ "uuid": "a2a7ff62-a100-4387-8c39-06068e9cd869",
+ "ttft_stream_ms": 1084,
+ "time_to_request_ms": 42,
+ "first_content_frame_ms": 1085,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init",
+  "system:permission_denied",
+  "system:thinking_tokens"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.300",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"class TaggedJSONSerializer|class SecureCookieSessionInterface\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 16,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "No matches found"
+  },
+  {
+   "tool": "Bash",
+   "input": "{\"command\": \"ls -la; find . -maxdepth 3 -name \\\"*.py\\\" | head; python3 -c \\\"import flask,sys;print(flask.__file__)\\\" 2>&1 | tail -1\"}",
+   "sub": false,
+   "result_chars": 727,
+   "vendor_hits": 0,
+   "is_error": true,
+   "result_head": "Permission to use Bash has been denied because Claude Code is running in don't ask mode. IMPORTANT: You *may* attempt to accomplish this action using other tool"
+  },
+  {
+   "tool": "Glob",
+   "input": "{\"pattern\": \"**/*.py\"}",
+   "sub": false,
+   "result_chars": 2463,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "docs/conf.py\nexamples/celery/make_celery.py\nexamples/celery/src/task_app/__init__.py\nexamples/celery/src/task_app/tasks.py\nexamples/celery/src/task_app/views.py"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"^class |^    def (dumps|loads|to_json|to_python|check|tag|untag)\\\\b|serializer|session_json_serializer\", \"path\": \"$UL_SCRATCH/runs/main/claudemd/u8k-q7-r1/src/tessel\", \"glob\": \"{sessions,json/tag}.py\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 4921,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/json/tag.py:20:identify the type. The session serializer processes dicts first, so\nsrc/tessel/json/tag.py:29:        __slots__ = ('serializer',)\nsrc/"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed_warning",
+  "resetsAt": 1792414800,
+  "rateLimitType": "seven_day",
+  "utilization": 0.72,
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.56,
+    "resetsAt": 1792035000
+   },
+   "seven_day": {
+    "utilization": 0.72,
+    "resetsAt": 1792414800
+   }
+  },
+  "overageEnabled": false
+ },
+ "_compact": [],
+ "_wall_s": 13.5,
+ "_t_start": "2026-10-14T22:36:55.420008+00:00",
+ "_t_end": "2026-10-14T22:37:08.890961+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/claudemd/u8k-q7-r1",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "In this repo, the default session can store tuples, bytes and datetimes in a JSON cookie and get them back with the right types. How does that work? Name the classes involved, with file paths. Be brief."
+ },
+ "_mu_cum": {
+  "input": 10,
+  "output": 1230,
+  "cache_read": 103335,
+  "cache_creation": 16841,
+  "cost": 0.0900175,
+  "total": 121416
+ },
+ "tok": {
+  "input": 10,
+  "output": 1230,
+  "cache_read": 103335,
+  "cache_creation": 16841,
+  "cost": 0.0900175,
+  "total": 121416,
+  "method": "single"
+ },
+ "_tok_usage_field": 121416,
+ "_ctx_last_call": 27127,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "cm-8k"
+}

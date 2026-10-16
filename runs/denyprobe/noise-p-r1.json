@@ -1,0 +1,221 @@
+{
+ "duration_api_ms": 9110,
+ "stop_reason": "end_turn",
+ "session_id": "a001630e-741a-4c0a-98a2-2a69f2792668",
+ "total_cost_usd": 0.0642043,
+ "usage": {
+  "input_tokens": 4,
+  "cache_creation_input_tokens": 10803,
+  "cache_read_input_tokens": 29543,
+  "output_tokens": 1803,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 10803,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1581,
+    "cache_read_input_tokens": 19259,
+    "cache_creation_input_tokens": 1828,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 1828
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 4,
+   "outputTokens": 1803,
+   "cacheReadInputTokens": 29543,
+   "cacheCreationInputTokens": 10803,
+   "webSearchRequests": 0,
+   "costUSD": 0.0642043,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 0,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 4,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "**1) Glob `**/sessions.py`**\n```\nvendor/python/tessel-3.0.2/src/tessel/sessions.py\nvendor/python/tessel-3.0.3/src/tessel/sessions.py\nvendor/python/tessel-3.1.1/src/tessel/sessions.py\nvendor/python/tessel-3.1.0/src/tessel/sessions.py\nvendor/python/tessel-3.2.0rc1/src/tessel/sessions.py\nvendor/python/tessel-3.0.1/src/tessel/sessions.py\nvendor/python/tessel-3.0.0/src/tessel/sessions.py\nvendor/python/tessel-3.1.2/src/tessel/sessions.py\nvendor/python/tessel-3.1.3/src/tessel/sessions.py\nvendor/python/tessel-3.1.4/src/tessel/sessions.py\nsrc/tessel/sessions.py\n```\n\n**2) Grep `def persist_session` (files_with_matches)**\n```\nFound 22 files\ntests/test_session_interface.py\nvendor/python/tessel-3.0.0/tests/test_session_interface.py\nvendor/python/tessel-3.0.1/tests/test_session_interface.py\nvendor/python/tessel-3.0.2/tests/test_session_interface.py\nvendor/python/tessel-3.0.3/tests/test_session_interface.py\nvendor/python/tessel-3.1.0/tests/test_session_interface.py\nvendor/python/tessel-3.1.1/tests/test_session_interface.py\nvendor/python/tessel-3.1.2/tests/test_session_interface.py\nvendor/python/tessel-3.1.3/tests/test_session_interface.py\nvendor/python/tessel-3.1.4/tests/test_session_interface.py\nvendor/python/tessel-3.2.0rc1/tests/test_session_interface.py\nsrc/tessel/sessions.py\nvendor/python/tessel-3.0.0/src/tessel/sessions.py\nvendor/python/tessel-3.0.1/src/tessel/sessions.py\nvendor/python/tessel-3.0.2/src/tessel/sessions.py\nvendor/python/tessel-3.0.3/src/tessel/sessions.py\nvendor/python/tessel-3.1.0/src/tessel/sessions.py\nvendor/python/tessel-3.1.1/src/tessel/sessions.py\nvendor/python/tessel-3.1.2/src/tessel/sessions.py\nvendor/python/tessel-3.1.3/src/tessel/sessions.py\nvendor/python/tessel-3.1.4/src/tessel/sessions.py\nvendor/python/tessel-3.2.0rc1/src/tessel/sessions.py\n```\n\n**3) Bash `grep -rl 'def persist_session' .`**\n```\n./tests/test_session_interface.py\n./vendor/python/tessel-3.0.2/tests/test_session_interface.py\n./vendor/python/tessel-3.0.2/src/tessel/sessions.py\n./vendor/python/tessel-3.0.3/tests/test_session_interface.py\n./vendor/python/tessel-3.0.3/src/tessel/sessions.py\n./vendor/python/tessel-3.1.1/tests/test_session_interface.py\n./vendor/python/tessel-3.1.1/src/tessel/sessions.py\n./vendor/python/tessel-3.1.0/tests/test_session_interface.py\n./vendor/python/tessel-3.1.0/src/tessel/sessions.py\n./vendor/python/tessel-3.2.0rc1/tests/test_session_interface.py\n./vendor/python/tessel-3.2.0rc1/src/tessel/sessions.py\n./vendor/python/tessel-3.0.1/tests/test_session_interface.py\n./vendor/python/tessel-3.0.1/src/tessel/sessions.py\n./vendor/python/tessel-3.0.0/tests/test_session_interface.py\n./vendor/python/tessel-3.0.0/src/tessel/sessions.py\n./vendor/python/tessel-3.1.2/tests/test_session_interface.py\n./vendor/python/tessel-3.1.2/src/tessel/sessions.py\n./vendor/python/tessel-3.1.3/tests/test_session_interface.py\n./vendor/python/tessel-3.1.3/src/tessel/sessions.py\n./vendor/python/tessel-3.1.4/tests/test_session_interface.py\n./vendor/python/tessel-3.1.4/src/tessel/sessions.py\n./src/tessel/sessions.py\n```",
+ "ttft_ms": 1184,
+ "type": "result",
+ "duration_ms": 11036,
+ "uuid": "2b592cfe-3404-49bc-92de-8a0044d4bd5e",
+ "ttft_stream_ms": 915,
+ "time_to_request_ms": 40,
+ "first_content_frame_ms": 916,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.300",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Glob",
+   "input": "{\"pattern\": \"**/sessions.py\"}",
+   "sub": false,
+   "result_chars": 525,
+   "vendor_hits": 10,
+   "is_error": false,
+   "result_head": "vendor/python/tessel-3.0.2/src/tessel/sessions.py\nvendor/python/tessel-3.0.3/src/tessel/sessions.py\nvendor/python/tessel-3.1.1/src/tessel/sessions.py\nvendor/pyt"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"def persist_session\", \"output_mode\": \"files_with_matches\"}",
+   "sub": false,
+   "result_chars": 1165,
+   "vendor_hits": 20,
+   "is_error": false,
+   "result_head": "Found 22 files\ntests/test_session_interface.py\nvendor/python/tessel-3.0.0/tests/test_session_interface.py\nvendor/python/tessel-3.0.1/tests/test_session_interfac"
+  },
+  {
+   "tool": "Bash",
+   "input": "{\"command\": \"grep -rl 'def persist_session' .\", \"description\": \"Search repo for persist_session definition\"}",
+   "sub": false,
+   "result_chars": 1194,
+   "vendor_hits": 20,
+   "is_error": false,
+   "result_head": "./tests/test_session_interface.py\n./vendor/python/tessel-3.0.2/tests/test_session_interface.py\n./vendor/python/tessel-3.0.2/src/tessel/sessions.py\n./vendor/pyth"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed_warning",
+  "resetsAt": 1792414800,
+  "rateLimitType": "seven_day",
+  "utilization": 0.74,
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.79,
+    "resetsAt": 1792035000
+   },
+   "seven_day": {
+    "utilization": 0.74,
+    "resetsAt": 1792414800
+   }
+  },
+  "overageEnabled": false
+ },
+ "_compact": [],
+ "_wall_s": 12.1,
+ "_t_start": "2026-10-14T22:41:11.575646+00:00",
+ "_t_end": "2026-10-14T22:41:23.696698+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/denyprobe/noise-p-r1",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "Do exactly these three steps from the repo root and paste each raw result, nothing else: 1) Glob with pattern **/sessions.py. 2) Grep (files_with_matches) for 'def persist_session' over the whole repo. 3) Bash: grep -rl 'def persist_session' . "
+ },
+ "_mu_cum": {
+  "input": 4,
+  "output": 1803,
+  "cache_read": 29543,
+  "cache_creation": 10803,
+  "cost": 0.0642043,
+  "total": 42153
+ },
+ "tok": {
+  "input": 4,
+  "output": 1803,
+  "cache_read": 29543,
+  "cache_creation": 10803,
+  "cost": 0.0642043,
+  "total": 42153,
+  "method": "single"
+ },
+ "_tok_usage_field": 42153,
+ "_ctx_last_call": 21089,
+ "_subagent_calls": 0,
+ "_tpl": "noise"
+}

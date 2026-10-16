@@ -1,0 +1,215 @@
+{
+ "duration_api_ms": 215830,
+ "stop_reason": "end_turn",
+ "session_id": "600996ac-5111-4cfe-9c21-b6a657c31c1d",
+ "total_cost_usd": 1.3320254,
+ "usage": {
+  "input_tokens": 6,
+  "cache_creation_input_tokens": 1224,
+  "cache_read_input_tokens": 435964,
+  "output_tokens": 592,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 1224,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 183,
+    "cache_read_input_tokens": 145670,
+    "cache_creation_input_tokens": 587,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 587
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 124,
+   "outputTokens": 20066,
+   "thinkingTokens": 294,
+   "cacheReadInputTokens": 5865694,
+   "cacheCreationInputTokens": 136137,
+   "webSearchRequests": 0,
+   "costUSD": 1.3320254,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 3,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "`Tessel.async_to_sync` (`src/tessel/app.py:1079`) uses `asgiref.sync.async_to_sync`. It imports it lazily inside the method and returns `asgiref_async_to_sync(func)`.\n\n- If `asgiref` isn't installed, it raises `RuntimeError` telling you to install Tessel with the `async` extra.\n- The method is meant to be overridden to change how async code is run synchronously.\n- `ensure_sync` (around L1075) calls it for coroutine functions, which is how async views get run.",
+ "ttft_ms": 3096,
+ "type": "result",
+ "duration_ms": 8176,
+ "uuid": "5ebfcb24-0777-47bc-806d-7a3a198babd9",
+ "ttft_stream_ms": 1189,
+ "time_to_request_ms": 42,
+ "first_content_frame_ms": 1189,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.299",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"def async_to_sync|asgiref|async_to_sync\", \"path\": \"$UL_SCRATCH/runs/main/session/chain-r3/src\", \"output_mode\": \"content\", \"-n\": true}",
+   "sub": false,
+   "result_chars": 362,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/app.py:1075:            return self.async_to_sync(func)\nsrc/tessel/app.py:1079:    def async_to_sync(\nsrc/tessel/app.py:1086:            result = app"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/session/chain-r3/src/tessel/app.py\", \"offset\": 1076, \"limit\": 28}",
+   "sub": false,
+   "result_chars": 942,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1076\t\n1077\t        return func\n1078\t\n1079\t    def async_to_sync(\n1080\t        self, func: t.Callable[..., t.Coroutine[t.Any, t.Any, t.Any]]\n1081\t    ) -> t.Call"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed_warning",
+  "resetsAt": 1791981000,
+  "rateLimitType": "five_hour",
+  "utilization": 0.9,
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "surpassedThreshold": 0.9,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.9,
+    "resetsAt": 1791981000
+   },
+   "seven_day": {
+    "utilization": 0.5,
+    "resetsAt": 1792414800
+   }
+  },
+  "overageEnabled": false
+ },
+ "_compact": [],
+ "_wall_s": 9.3,
+ "_t_start": "2026-10-14T08:07:07.442125+00:00",
+ "_t_end": "2026-10-14T08:07:16.714746+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": "600996ac-5111-4cfe-9c21-b6a657c31c1d",
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/session/chain-r3",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "What does Tessel.async_to_sync use under the hood?"
+ },
+ "_mu_cum": {
+  "input": 124,
+  "output": 20066,
+  "cache_read": 5865694,
+  "cache_creation": 136137,
+  "cost": 1.3320254,
+  "total": 6022021
+ },
+ "tok": {
+  "input": 6,
+  "output": 592,
+  "cache_read": 435964,
+  "cache_creation": 1224,
+  "total": 437786,
+  "cost": 0.054424,
+  "method": "delta"
+ },
+ "_tok_usage_field": 437786,
+ "_ctx_last_call": 146259,
+ "_subagent_calls": 0,
+ "_tpl": "plain",
+ "_turn": 28,
+ "_rep": 3
+}

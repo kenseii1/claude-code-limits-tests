@@ -1,0 +1,205 @@
+{
+ "duration_api_ms": 6224,
+ "stop_reason": "end_turn",
+ "session_id": "c16cb776-dcd5-454e-8686-d24cf4946ed3",
+ "total_cost_usd": 0.051541,
+ "usage": {
+  "input_tokens": 4,
+  "cache_creation_input_tokens": 10406,
+  "cache_read_input_tokens": 29490,
+  "output_tokens": 696,
+  "output_tokens_details": {
+   "thinking_tokens": 39
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 10406,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 519,
+    "cache_read_input_tokens": 19206,
+    "cache_creation_input_tokens": 1484,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 1484
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 4,
+   "outputTokens": 696,
+   "cacheReadInputTokens": 29490,
+   "cacheCreationInputTokens": 10406,
+   "webSearchRequests": 0,
+   "costUSD": 0.051541,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 39,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 2,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "**Where to look**\n- `src/tessel/sessions.py:304-312`: the session serializer builds its key list from `SECRET_KEY` plus `SECRET_KEY_HISTORY`. Signing uses the current key, and verification tries each key in the list.\n- `src/tessel/app.py:210-211`: the config defaults (`SECRET_KEY`, `SECRET_KEY_HISTORY`, both `None`).\n- `docs/config.rst:114-141`: the docs for rotation.\n\nYou were most likely logged out because the old key wasn't kept in `SECRET_KEY_HISTORY`, so existing session cookies failed signature verification.\n\n**How to rotate without logging anyone out**\n1. Put the new key in `SECRET_KEY` and move the old one into `SECRET_KEY_HISTORY`:\n   ```python\n   SECRET_KEY = \"new-key\"\n   SECRET_KEY_HISTORY = [\"old-key\"]\n   ```\n2. Old cookies still verify, and they get re-signed with the new key when the session is next saved.\n3. After your session lifetime has passed (`PERMANENT_SESSION_LIFETIME`), remove the old key from the history.\n\n**Caveats**\n- `docs/config.rst:141` notes that extensions using `SECRET_KEY` directly (e.g. for CSRF tokens or other signed data) may not support the history list yet. Check any you use.\n- `CHANGES.rst:61` references a security advisory tied to this setting. Skim it to confirm which version you're on has the fix.",
+ "ttft_ms": 1395,
+ "type": "result",
+ "duration_ms": 6289,
+ "uuid": "965465f1-d668-4a76-980b-add823b20870",
+ "ttft_stream_ms": 952,
+ "time_to_request_ms": 32,
+ "first_content_frame_ms": 952,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.300",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"SECRET_KEY|SECRET_KEY_FALLBACKS|SESSION_ENGINE|secret_key\", \"output_mode\": \"content\", \"head_limit\": 30}",
+   "sub": false,
+   "result_chars": 2436,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/config.py:66:        SECRET_KEY = 'development key'\nsrc/tessel/sessions.py:92:            \"key was set.  Set the secret_key on the \"\nsrc/tessel/sessi"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed_warning",
+  "resetsAt": 1792414800,
+  "rateLimitType": "seven_day",
+  "utilization": 0.76,
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "surpassedThreshold": 0.75,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.04,
+    "resetsAt": 1792053000
+   },
+   "seven_day": {
+    "utilization": 0.76,
+    "resetsAt": 1792414800
+   }
+  },
+  "overageEnabled": false
+ },
+ "_compact": [],
+ "_wall_s": 7.3,
+ "_t_start": "2026-10-15T03:31:29.493371+00:00",
+ "_t_end": "2026-10-15T03:31:36.817654+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/naming/vague-s10-r2",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "After we rotated SECRET_KEY, every user was logged out. In this repo, where would you look and how can we rotate keys without that? Be brief."
+ },
+ "_mu_cum": {
+  "input": 4,
+  "output": 696,
+  "cache_read": 29490,
+  "cache_creation": 10406,
+  "cost": 0.051541,
+  "total": 40596
+ },
+ "tok": {
+  "input": 4,
+  "output": 696,
+  "cache_read": 29490,
+  "cache_creation": 10406,
+  "cost": 0.051541,
+  "total": 40596,
+  "method": "single"
+ },
+ "_tok_usage_field": 40596,
+ "_ctx_last_call": 20692,
+ "_subagent_calls": 0,
+ "_correct": false,
+ "_tpl": "plain"
+}

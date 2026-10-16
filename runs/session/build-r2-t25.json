@@ -1,0 +1,212 @@
+{
+ "duration_api_ms": 217135,
+ "stop_reason": "end_turn",
+ "session_id": "0e258663-c5cc-43da-9a7c-0042b1b9d6d2",
+ "total_cost_usd": 1.2291217000000003,
+ "usage": {
+  "input_tokens": 6,
+  "cache_creation_input_tokens": 1654,
+  "cache_read_input_tokens": 419930,
+  "output_tokens": 585,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 1654,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 187,
+    "cache_read_input_tokens": 140447,
+    "cache_creation_input_tokens": 643,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 643
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 112,
+   "outputTokens": 20223,
+   "thinkingTokens": 301,
+   "cacheReadInputTokens": 5027877,
+   "cacheCreationInputTokens": 130970,
+   "webSearchRequests": 0,
+   "costUSD": 1.2291217000000003,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 3,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "The default is computed by `App.auto_find_instance_path()` at `src/tessel/sansio/app.py:508`. It's called from `App.__init__` (line 301-302) when no `instance_path` argument is given. A relative `instance_path` argument is rejected at line 303.\n\nIt calls `find_package(self.import_name)` and then:\n- **Uninstalled module or package** (prefix is `None`): `<package_path>/instance`, a folder named `instance` next to the main file or package.\n- **Installed package:** `<prefix>/var/<app name>-instance`.",
+ "ttft_ms": 2804,
+ "type": "result",
+ "duration_ms": 8135,
+ "uuid": "91b70264-49d0-4dd4-8020-60f85c44da32",
+ "ttft_stream_ms": 1270,
+ "time_to_request_ms": 49,
+ "first_content_frame_ms": 1271,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.299",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"def auto_find_instance_path|instance_path\", \"path\": \"$UL_SCRATCH/runs/main/session/chain-r2/src/tessel/sansio/app.py\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 499,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "112:       The `instance_path` and `instance_relative_config` parameters were\n144:    :param instance_path: An alternative instance path for the application.\n28"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/session/chain-r2/src/tessel/sansio/app.py\", \"offset\": 506, \"limit\": 28}",
+   "sub": false,
+   "result_chars": 1238,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "506\t        return self.aborter_class()\n507\t\n508\t    def auto_find_instance_path(self) -> str:\n509\t        \"\"\"Tries to locate the instance path if it was not pr"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed",
+  "resetsAt": 1791981000,
+  "rateLimitType": "five_hour",
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.88,
+    "resetsAt": 1791981000
+   },
+   "seven_day": {
+    "utilization": 0.49,
+    "resetsAt": 1792414800
+   }
+  }
+ },
+ "_compact": [],
+ "_wall_s": 9.2,
+ "_t_start": "2026-10-14T08:06:50.689831+00:00",
+ "_t_end": "2026-10-14T08:06:59.924156+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": "0e258663-c5cc-43da-9a7c-0042b1b9d6d2",
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/session/chain-r2",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "Where does the app compute its instance_path by default?"
+ },
+ "_mu_cum": {
+  "input": 112,
+  "output": 20223,
+  "cache_read": 5027877,
+  "cache_creation": 130970,
+  "cost": 1.2291217000000003,
+  "total": 5179182
+ },
+ "tok": {
+  "input": 6,
+  "output": 585,
+  "cache_read": 419930,
+  "cache_creation": 1654,
+  "total": 422175,
+  "cost": 0.054471,
+  "method": "delta"
+ },
+ "_tok_usage_field": 422175,
+ "_ctx_last_call": 141092,
+ "_subagent_calls": 0,
+ "_tpl": "plain",
+ "_turn": 25,
+ "_rep": 2
+}

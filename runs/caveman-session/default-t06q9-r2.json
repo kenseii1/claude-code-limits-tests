@@ -1,0 +1,208 @@
+{
+ "duration_api_ms": 97676,
+ "stop_reason": "end_turn",
+ "session_id": "fd74ac93-4b18-4078-9018-e4602f742715",
+ "total_cost_usd": 0.3911313,
+ "usage": {
+  "input_tokens": 4,
+  "cache_creation_input_tokens": 4281,
+  "cache_read_input_tokens": 105491,
+  "output_tokens": 1363,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 4281,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1217,
+    "cache_read_input_tokens": 53375,
+    "cache_creation_input_tokens": 3022,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 3022
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 50,
+   "outputTokens": 12333,
+   "thinkingTokens": 0,
+   "cacheReadInputTokens": 832493,
+   "cacheCreationInputTokens": 46113,
+   "webSearchRequests": 0,
+   "costUSD": 0.3911313,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 2,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "Class-based views live in `src/tessel/views.py`. `VerbView` is the one that maps HTTP methods to `get()` and `post()`. It sits on top of the generic `View`.\n\n## Classes and methods\n\n- `View` (`views.py:16`) has the classmethod `to_view_func()` (line 86), which turns the class into a plain function.\n- `VerbView(View)` (`views.py:138`) has `__init_subclass__` (line 165) and `run_view` (line 182).\n- `http_method_funcs` (`views.py:11`) is the set of recognised method names: get, query, post, head, options, delete, put, trace, patch.\n\n## Step by step\n\n1. **Class creation computes `methods`.** When you subclass `VerbView`, `__init_subclass__` runs (line 165). Unless the subclass sets `methods` itself, it collects:\n   - methods inherited from base classes' `methods`, and\n   - the upper-cased name of every entry in `http_method_funcs` that the class has (`hasattr`).\n\n   A class with `get` and `post` gets `methods = {\"GET\", \"POST\"}` (lines 168–180).\n\n2. **Build the view function.** `MyView.to_view_func(\"name\")` (line 86) creates a closure `view(**kwargs)`:\n   - By default (`init_every_request = True`) it creates a new instance of the class per request, using `view.view_class(*class_args, **class_kwargs)`, and then calls `self.run_view`.\n   - If `init_every_request = False`, it creates one instance up front and reuses it (line 113).\n   - In both cases the call goes through `active_app.ensure_sync(...)`, so async methods also work.\n\n3. **Decorate and tag.** Any `decorators` on the class are applied in order (lines 118–122). The function then gets these attributes (lines 129–134):\n   - `view_class`, the class itself;\n   - `__name__`, `__doc__` and `__module__`;\n   - `methods`, copied from the class;\n   - `provide_automatic_options`.\n\n4. **Register the route.** `app.attach_route_rule(\"/x\", view_func=MyView.to_view_func(\"x\"))` passes the function to `Tessel.attach_route_rule` (`src/tessel/sansio/app.py:606`). That reads `view_func.methods` (line 623) and so builds the `Rule` with exactly `GET` and `POST`, adding `OPTIONS` if automatic options are on.\n\n5. **Request time, routing.** Werkzeug only matches the URL rule for the allowed methods, so a method that isn't defined is rejected with 405 before any view code runs. `Tessel.run_view` (`src/tessel/app.py:966`) then calls the stored view function with the URL variables.\n\n6. **Request time, dispatch.** `view(**kwargs)` calls `VerbView.run_view` (line 182). That does `getattr(self, request.method.lower(), None)`, finding `get` or `post` on the instance, and calls it with the URL variables as keyword arguments. `request` is the context proxy described earlier.\n\n7. **HEAD fallback.** If the request is `HEAD` and the class has no `head`, it falls back to `get` (lines 187–188). Note that `__init_subclass__` only adds `HEAD` to `methods` if the class defines `head`, so a `HEAD` request for a class with only `get` relies on the app's default method handling at the routing layer rather than on `methods`. I haven't confirmed how that interacts with the `Rule` here.\n\n8. **Missing handler.** If no handler is found, the `assert` on line 190 fails. This only happens when `methods` was set manually to include a verb the class doesn't implement.",
+ "ttft_ms": 2279,
+ "type": "result",
+ "duration_ms": 11269,
+ "uuid": "6f1e61bd-868d-4c5f-834c-a01a3cd8c775",
+ "ttft_stream_ms": 1080,
+ "time_to_request_ms": 51,
+ "first_content_frame_ms": 1080,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.300",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/caveman-session/default-r2/src/tessel/views.py\"}",
+   "sub": false,
+   "result_chars": 7601,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1\tfrom __future__ import annotations\n2\t\n3\timport typing as t\n4\t\n5\tfrom . import typing as ft\n6\tfrom .globals import active_app\n7\tfrom .globals import request\n8\t"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed_warning",
+  "resetsAt": 1792414800,
+  "rateLimitType": "seven_day",
+  "utilization": 0.8,
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "surpassedThreshold": 0.75,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.54,
+    "resetsAt": 1792053000
+   },
+   "seven_day": {
+    "utilization": 0.8,
+    "resetsAt": 1792414800
+   }
+  },
+  "overageEnabled": false
+ },
+ "_compact": [],
+ "_wall_s": 12.4,
+ "_t_start": "2026-10-15T03:40:17.489324+00:00",
+ "_t_end": "2026-10-15T03:40:29.884521+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": "fd74ac93-4b18-4078-9018-e4602f742715",
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/caveman-session/default-r2",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "In this repo, how does a class-based view with get() and post() methods become a view function and route each HTTP method to the right handler? Name the classes and methods, with file paths. Explain how it works, step by step."
+ },
+ "_mu_cum": {
+  "input": 50,
+  "output": 12333,
+  "cache_read": 832493,
+  "cache_creation": 46113,
+  "cost": 0.3911313,
+  "total": 890989
+ },
+ "tok": {
+  "input": 4,
+  "output": 1363,
+  "cache_read": 105491,
+  "cache_creation": 4281,
+  "total": 111139,
+  "cost": 0.041311,
+  "method": "delta"
+ },
+ "_tok_usage_field": 111139,
+ "_ctx_last_call": 56399,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "plain",
+ "_turn": 6,
+ "_rep": 2,
+ "_target": "q9"
+}

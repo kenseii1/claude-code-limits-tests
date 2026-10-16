@@ -1,0 +1,239 @@
+{
+ "duration_api_ms": 11845,
+ "stop_reason": "end_turn",
+ "session_id": "1b0e7f07-ce7a-45e7-9061-980a04804524",
+ "total_cost_usd": 0.007009199999999999,
+ "usage": {
+  "input_tokens": 8,
+  "cache_creation_input_tokens": 25373,
+  "cache_read_input_tokens": 86230,
+  "output_tokens": 2143,
+  "output_tokens_details": {
+   "thinking_tokens": 384
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 25373,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 853,
+    "cache_read_input_tokens": 33832,
+    "cache_creation_input_tokens": 1825,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 1825
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-haiku-5-5": {
+   "inputTokens": 8,
+   "outputTokens": 2143,
+   "cacheReadInputTokens": 86230,
+   "cacheCreationInputTokens": 25373,
+   "webSearchRequests": 0,
+   "costUSD": 0.007009199999999999,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 384,
+   "canonicalModel": "claude-haiku-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 6,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "A bundle's URL rules are recorded at decoration time and only written to the app's URL map when the bundle is registered. The code is in the sans-IO base layer under `src/tessel/sansio/`.\n\n1. **`Tessel.register_bundle()`** (`src/tessel/sansio/app.py:571`) is the entry point. It delegates to `bundle.register(self, options)`.\n2. **`Bundle.register()`** (`src/tessel/sansio/bundles.py:273`) records the bundle in `app.bundles`, builds a `BundleSetupState`, attaches the static route if there is a static folder, and merges the bundle's error handlers and hooks into the app. It then runs every deferred callback in `self.deferred_functions` with that state. It also handles nested bundles by recursing with the URL prefix, subdomain and name prefix combined.\n3. **`Bundle.attach_route_rule()`** (`src/tessel/sansio/bundles.py:413`) does not register anything immediately. It calls `self.record(lambda s: s.attach_route_rule(...))`, so each `@bundle.route(...)` becomes a deferred callback.\n4. **`BundleSetupState.attach_route_rule()`** (`src/tessel/sansio/bundles.py:87`) runs during step 2. It prepends the bundle's `url_prefix`, sets the subdomain and URL defaults, and prefixes the endpoint with `name_prefix.name.`. It then calls `app.attach_route_rule(...)`.\n5. **`Tessel.attach_route_rule()`** (`src/tessel/sansio/app.py:606`) builds the `Rule` with `url_rule_class`, resolves the methods, and calls `self.url_map.add(rule_obj)`. It also writes the view into `app.view_functions`.\n\nI did not check whether the concrete `Tessel` class in `src/tessel/app.py` overrides any of these methods.",
+ "ttft_ms": 1632,
+ "type": "result",
+ "duration_ms": 11928,
+ "uuid": "7c6528c3-1b93-4920-8fb0-a57d39f7981a",
+ "ttft_stream_ms": 1141,
+ "time_to_request_ms": 43,
+ "first_content_frame_ms": 1142,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init",
+  "system:thinking_tokens"
+ ],
+ "_init": {
+  "model": "claude-haiku-5-5",
+  "version": "2.1.300",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 32,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"(?i)(url_?rules|urlrules|url_?patterns|routes?)\", \"path\": \"$UL_SCRATCH/runs/main/models/haiku-q4-r1\", \"output_mode\": \"files_with_matches\", \"head_limit\": 50}",
+   "sub": false,
+   "result_chars": 1328,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "Found 50 files limit: 50\ntests/type_check/typing_route.py\ntests/test_views.py\ntests/test_user_error_handler.py\ntests/test_testing.py\ntests/test_templating.py\nte"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"(?i)bundle.*regist|regist.*bundle\", \"path\": \"$UL_SCRATCH/runs/main/models/haiku-q4-r1\", \"output_mode\": \"files_with_matches\", \"head_limit\": 50}",
+   "sub": false,
+   "result_chars": 611,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "Found 25 files\ntests/test_user_error_handler.py\ntests/test_testing.py\ntests/test_cli.py\ntests/test_bundles.py\ntests/test_basic.py\ntests/test_async.py\ntests/test"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/models/haiku-q4-r1/src/tessel/sansio/bundles.py\"}",
+   "sub": false,
+   "result_chars": 29345,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1\tfrom __future__ import annotations\n2\t\n3\timport os\n4\timport typing as t\n5\tfrom collections import defaultdict\n6\tfrom functools import update_wrapper\n7\t\n8\tfrom "
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"(?i)bundle|url_rule|add_url_rule|url_map\", \"path\": \"$UL_SCRATCH/runs/main/models/haiku-q4-r1/src/tessel/sansio/app.py\", \"output_mode\": \"content\", \"-n\": true}",
+   "sub": false,
+   "result_chars": 2262,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "25:from ..helpers import _split_bundle_path\n42:    from .bundles import Bundle\n136:    :param host_matching: set ``url_map.host_matching`` attribute.\n255:    ur"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/models/haiku-q4-r1/src/tessel/sansio/app.py\", \"offset\": 565, \"limit\": 95}",
+   "sub": false,
+   "result_chars": 4140,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "565\t        self.config[\"DEBUG\"] = value\n566\t\n567\t        if self.config[\"TEMPLATES_AUTO_RELOAD\"] is None:\n568\t            self.jinja_env.auto_reload = value\n56"
+  }
+ ],
+ "_models_seen": [
+  "claude-haiku-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed",
+  "resetsAt": 1792099800,
+  "rateLimitType": "five_hour",
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.87,
+    "resetsAt": 1792099800
+   },
+   "seven_day": {
+    "utilization": 0.06,
+    "resetsAt": 1792681200
+   }
+  }
+ },
+ "_compact": [],
+ "_wall_s": 13.1,
+ "_t_start": "2026-10-15T16:42:50.907766+00:00",
+ "_t_end": "2026-10-15T16:43:04.029438+00:00",
+ "_cmd": {
+  "model": "haiku",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/models/haiku-q4-r1",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "In this repo, how does a bundle get its URL rules onto the app when it is registered? Name the classes and methods involved, with file paths. Be brief."
+ },
+ "_mu_cum": {
+  "input": 8,
+  "output": 2143,
+  "cache_read": 86230,
+  "cache_creation": 25373,
+  "cost": 0.007009199999999999,
+  "total": 113754
+ },
+ "tok": {
+  "input": 8,
+  "output": 2143,
+  "cache_read": 86230,
+  "cache_creation": 25373,
+  "cost": 0.007009199999999999,
+  "total": 113754,
+  "method": "single"
+ },
+ "_tok_usage_field": 113754,
+ "_ctx_last_call": 35659,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "plain"
+}

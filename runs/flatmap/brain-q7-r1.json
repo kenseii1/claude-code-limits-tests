@@ -1,0 +1,205 @@
+{
+ "duration_api_ms": 5377,
+ "stop_reason": "end_turn",
+ "session_id": "5dea2e86-6ab5-403b-a939-61183a4b984c",
+ "total_cost_usd": 0.0526441,
+ "usage": {
+  "input_tokens": 4,
+  "cache_creation_input_tokens": 11013,
+  "cache_read_input_tokens": 30141,
+  "output_tokens": 557,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 11013,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 409,
+    "cache_read_input_tokens": 19857,
+    "cache_creation_input_tokens": 1440,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 1440
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 4,
+   "outputTokens": 557,
+   "cacheReadInputTokens": 30141,
+   "cacheCreationInputTokens": 11013,
+   "webSearchRequests": 0,
+   "costUSD": 0.0526441,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 0,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 2,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "The default session is a signed-cookie session. Typed values survive the JSON round trip because of a tagging serializer.\n\n- **`SignedCookieSessionInterface`** (`src/tessel/sessions.py`) is the default session interface. Its `serializer` attribute is `session_json_serializer`, and `make_signer` builds an itsdangerous `URLSafeTimedSerializer` that signs the payload.\n- **`TypedCookieSerializer`** (`src/tessel/json/tag.py`) is exposed as `session_json_serializer`. It tags tuples, bytes, Markup, UUID and datetime values, plus dicts that have a `\" di\"` key. On save it wraps each such value in a tagged JSON form, and on load it reverses the tag to restore the original type.\n- **`SignedCookieSession`** (`src/tessel/sessions.py`) is the session object itself, a `CallbackDict` with `SessionMixin`. It tracks `modified` and `accessed`.\n\nOn save, `finalize_reply` calls `persist_session`, which serializes and signs the session into the cookie. On load, `restore_session` verifies the signature and deserializes it.\n\nI took this from `brain/sessions.md` and did not open the source files.",
+ "ttft_ms": 1859,
+ "type": "result",
+ "duration_ms": 5445,
+ "uuid": "a775ec3c-926a-43c9-aed6-0c4aea01b2cd",
+ "ttft_stream_ms": 1147,
+ "time_to_request_ms": 41,
+ "first_content_frame_ms": 1148,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.300",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/flatmap/brain-q7-r1/brain/sessions.md\"}",
+   "sub": false,
+   "result_chars": 2683,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1\t# Sessions\n2\t\n3\tAll in `src/tessel/sessions.py`. Default is a signed-cookie session (client side, not encrypted).\n4\t\n5\t## Classes\n6\t- `SessionMixin(MutableMap"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed_warning",
+  "resetsAt": 1792414800,
+  "rateLimitType": "seven_day",
+  "utilization": 0.83,
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "surpassedThreshold": 0.75,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.86,
+    "resetsAt": 1792053000
+   },
+   "seven_day": {
+    "utilization": 0.83,
+    "resetsAt": 1792414800
+   }
+  },
+  "overageEnabled": false
+ },
+ "_compact": [],
+ "_wall_s": 6.5,
+ "_t_start": "2026-10-15T03:45:57.513020+00:00",
+ "_t_end": "2026-10-15T03:46:03.997177+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/flatmap/brain-q7-r1",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "In this repo, the default session can store tuples, bytes and datetimes in a JSON cookie and get them back with the right types. How does that work? Name the classes involved, with file paths. Be brief."
+ },
+ "_mu_cum": {
+  "input": 4,
+  "output": 557,
+  "cache_read": 30141,
+  "cache_creation": 11013,
+  "cost": 0.0526441,
+  "total": 41715
+ },
+ "tok": {
+  "input": 4,
+  "output": 557,
+  "cache_read": 30141,
+  "cache_creation": 11013,
+  "cost": 0.0526441,
+  "total": 41715,
+  "method": "single"
+ },
+ "_tok_usage_field": 41715,
+ "_ctx_last_call": 21299,
+ "_subagent_calls": 0,
+ "_correct": false,
+ "_tpl": "brain"
+}

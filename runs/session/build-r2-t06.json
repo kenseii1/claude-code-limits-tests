@@ -1,0 +1,203 @@
+{
+ "duration_api_ms": 45269,
+ "stop_reason": "end_turn",
+ "session_id": "0e258663-c5cc-43da-9a7c-0042b1b9d6d2",
+ "total_cost_usd": 0.2837229,
+ "usage": {
+  "input_tokens": 4,
+  "cache_creation_input_tokens": 7730,
+  "cache_read_input_tokens": 101576,
+  "output_tokens": 1167,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 7730,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1022,
+    "cache_read_input_tokens": 51000,
+    "cache_creation_input_tokens": 7306,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 7306
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 24,
+   "outputTokens": 5126,
+   "thinkingTokens": 0,
+   "cacheReadInputTokens": 397709,
+   "cacheCreationInputTokens": 48161,
+   "webSearchRequests": 0,
+   "costUSD": 0.2837229,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 2,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "`src/tessel/ctx.py` (541 lines) manages the combined app/request context that is pushed for every request and CLI command.\n\n**Module-level**\n- `_sentinel`: a private sentinel object, used as the \"no default given\" marker in `_AppCtxGlobals.pop`.\n- `F`: a `TypeVar` used to type `copy_current_request_context`.\n- `after_this_request(f)`: registers a function to run after only the current request, and raises `RuntimeError` outside a request context.\n- `copy_current_request_context(f)`: wraps a function so it runs in a copy of the current request context, for background tasks like gevent greenlets. It raises `RuntimeError` if no context is active.\n- `has_request_context()`: returns `True` if a context is active and has request data.\n- `has_app_context()`: returns `True` if any context is active, including a CLI command with no request.\n- `__getattr__(name)`: module-level hook that returns `AppContext` for the deprecated `RequestContext` name with a `DeprecationWarning`, and raises `AttributeError` for anything else.\n\n**`_AppCtxGlobals`** is the object behind `g`, a free-form namespace for per-context data.\n- `__getattr__`, `__setattr__`, `__delattr__`: store attributes in `__dict__`, raising `AttributeError` when missing.\n- `get`, `pop`, `setdefault`: dict-like helpers.\n- `__contains__`, `__iter__`: support `\"key\" in g` and `iter(g)`.\n- `__repr__`: shows the owning app's name when a context is active.\n\n**`AppContext`** holds the app, optional request and session, `g`, and URL adapter. It replaces the old `RequestContext`.\n- `__init__`: sets up `g`, binds the URL adapter (storing any routing `HTTPException` on the request), and initialises push tracking.\n- `from_environ` (classmethod): builds a context with a request from a WSGI environ.\n- `has_request` (property): whether the context has request data.\n- `copy`: new context sharing the same request and current session, used by `copy_current_request_context`.\n- `request` (property): returns the request, or raises `RuntimeError` if none.\n- `_get_session`: lazily opens the session through the app's session interface, falling back to a null session.\n- `session` (property): returns the session and marks it `accessed`.\n- `match_request`: runs URL routing and stores the matched rule and args, or the routing exception, on the request.\n- `push`: makes the context active via a contextvar and sends `appcontext_pushed`. For requests it then loads the session and matches the route. Nested pushes are counted and only the first does the work.\n- `pop`: validates this is the active context, then once the push count hits zero runs request and app teardowns and closes the request. It also resets the contextvar, sends `appcontext_popped`, and raises any collected errors as an exception group.\n- `__enter__`, `__exit__`: `with` support that calls `push` and `pop(exc)`.\n- `__repr__`: shows the app name, plus method and URL when it is a request context.",
+ "ttft_ms": 2237,
+ "type": "result",
+ "duration_ms": 10177,
+ "uuid": "f7585490-d663-4fae-b072-990a24474600",
+ "ttft_stream_ms": 1287,
+ "time_to_request_ms": 40,
+ "first_content_frame_ms": 1288,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.299",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/session/chain-r2/src/tessel/ctx.py\"}",
+   "sub": false,
+   "result_chars": 20338,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1\tfrom __future__ import annotations\n2\t\n3\timport contextvars\n4\timport typing as t\n5\tfrom functools import update_wrapper\n6\tfrom types import TracebackType\n7\t\n8\t"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed",
+  "resetsAt": 1791981000,
+  "rateLimitType": "five_hour",
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.58,
+    "resetsAt": 1791981000
+   },
+   "seven_day": {
+    "utilization": 0.47,
+    "resetsAt": 1792414800
+   }
+  }
+ },
+ "_compact": [],
+ "_wall_s": 11.3,
+ "_t_start": "2026-10-14T08:01:06.141724+00:00",
+ "_t_end": "2026-10-14T08:01:17.484184+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": "0e258663-c5cc-43da-9a7c-0042b1b9d6d2",
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/session/chain-r2",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "Read the whole of src/tessel/ctx.py and summarize, in a short list, what each class and function in it is for."
+ },
+ "_mu_cum": {
+  "input": 24,
+  "output": 5126,
+  "cache_read": 397709,
+  "cache_creation": 48161,
+  "cost": 0.2837229,
+  "total": 451020
+ },
+ "tok": {
+  "input": 4,
+  "output": 1167,
+  "cache_read": 101576,
+  "cache_creation": 7730,
+  "total": 110477,
+  "cost": 0.052756,
+  "method": "delta"
+ },
+ "_tok_usage_field": 110477,
+ "_ctx_last_call": 58308,
+ "_subagent_calls": 0,
+ "_tpl": "plain",
+ "_turn": 6,
+ "_rep": 2
+}

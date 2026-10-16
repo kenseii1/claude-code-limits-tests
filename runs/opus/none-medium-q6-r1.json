@@ -1,0 +1,221 @@
+{
+ "duration_api_ms": 10697,
+ "stop_reason": "end_turn",
+ "session_id": "ffea68e7-f84e-40eb-8e53-9fd440fc3a15",
+ "total_cost_usd": 0.1407316,
+ "usage": {
+  "input_tokens": 8,
+  "cache_creation_input_tokens": 13390,
+  "cache_read_input_tokens": 72798,
+  "output_tokens": 951,
+  "output_tokens_details": {
+   "thinking_tokens": 68
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 13390,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 383,
+    "cache_read_input_tokens": 21993,
+    "cache_creation_input_tokens": 1681,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 1681
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-opus-5-5": {
+   "inputTokens": 8,
+   "outputTokens": 951,
+   "cacheReadInputTokens": 72798,
+   "cacheCreationInputTokens": 13390,
+   "webSearchRequests": 0,
+   "costUSD": 0.1407316,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 68,
+   "canonicalModel": "claude-opus-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 4,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "It's done by the **`Config.load_env_prefixed`** method in `src/tessel/config.py:126`. The **conversion function is `json.loads`**, the default value of its `loads` parameter.\n\n1. **Prefix:** it goes through `os.environ` in sorted order. Any key starting with `TESSEL_` (or `{prefix}_` if you pass a different prefix) is used, with the prefix removed. So `TESSEL_SECRET_KEY` becomes the config key `SECRET_KEY`.\n2. **Type conversion:** each value is passed to `loads(value)`, which is `json.loads` unless you supply another function. That turns `\"5\"` into `5`, `\"true\"` into `True`, and JSON text into lists or dicts. If the call raises an error, the value stays a string (`config.py:161-165`).\n3. **Nested keys:** a key containing `__` is split on it. `TESSEL_DB__HOST` sets `config[\"DB\"][\"HOST\"]`. Any intermediate dict that doesn't exist yet is created as `{}` (`config.py:172-183`). Keys without `__` are set directly with `self[key] = value`.",
+ "ttft_ms": 2039,
+ "type": "result",
+ "duration_ms": 10785,
+ "uuid": "e2f7c4f0-c2a9-4ed3-b341-94b246cb1c16",
+ "ttft_stream_ms": 1305,
+ "time_to_request_ms": 31,
+ "first_content_frame_ms": 1306,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init",
+  "system:thinking_tokens"
+ ],
+ "_init": {
+  "model": "claude-opus-5-5",
+  "version": "2.1.301",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 32,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"TESSEL_|environ|getenv\", \"output_mode\": \"content\", \"head_limit\": 40}",
+   "sub": false,
+   "result_chars": 3351,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/templating.py:37:    \"\"\"Works like a regular Jinja environment but has some additional\nsrc/tessel/templating.py:58:        self, environment: BaseEnv"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/opus/none-medium-q6-r1/src/tessel/config.py\", \"offset\": 125, \"limit\": 60}",
+   "sub": false,
+   "result_chars": 2344,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "125\t\n126\t    def load_env_prefixed(\n127\t        self, prefix: str = \"TESSEL\", *, loads: t.Callable[[str], t.Any] = json.loads\n128\t    ) -> bool:\n129\t        \"\"\""
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"^class |load_env_prefixed\", \"path\": \"$UL_SCRATCH/runs/main/opus/none-medium-q6-r1/src\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 2763,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/views.py:16:class View:\nsrc/tessel/views.py:138:class VerbView(View):\nsrc/tessel/helpers.py:654:class _CollectErrors:\nsrc/tessel/testing.py:27:class "
+  }
+ ],
+ "_models_seen": [
+  "claude-opus-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed",
+  "resetsAt": 1792135800,
+  "rateLimitType": "five_hour",
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.19,
+    "resetsAt": 1792135800
+   },
+   "seven_day": {
+    "utilization": 0.17,
+    "resetsAt": 1792681200
+   }
+  }
+ },
+ "_compact": [],
+ "_wall_s": 11.9,
+ "_t_start": "2026-10-16T02:32:59.677514+00:00",
+ "_t_end": "2026-10-16T02:33:11.584427+00:00",
+ "_cmd": {
+  "model": "opus",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/opus/none-medium-q6-r1",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "In this repo, how are environment variables like TESSEL_SECRET_KEY or TESSEL_DB__HOST turned into config values, including type conversion and nested keys? Name the method and the conversion function, with file paths. Be brief."
+ },
+ "_mu_cum": {
+  "input": 8,
+  "output": 951,
+  "cache_read": 72798,
+  "cache_creation": 13390,
+  "cost": 0.1407316,
+  "total": 87147
+ },
+ "tok": {
+  "input": 8,
+  "output": 951,
+  "cache_read": 72798,
+  "cache_creation": 13390,
+  "cost": 0.1407316,
+  "total": 87147,
+  "method": "single"
+ },
+ "_tok_usage_field": 87147,
+ "_ctx_last_call": 23676,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "plain"
+}

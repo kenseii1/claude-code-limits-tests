@@ -1,0 +1,282 @@
+{
+ "duration_api_ms": 69796,
+ "stop_reason": "end_turn",
+ "session_id": "b127d509-62a6-47af-a377-0875600bd40b",
+ "total_cost_usd": 0.3195176,
+ "usage": {
+  "input_tokens": 14,
+  "cache_creation_input_tokens": 10084,
+  "cache_read_input_tokens": 337238,
+  "output_tokens": 3182,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 10084,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1310,
+    "cache_read_input_tokens": 52852,
+    "cache_creation_input_tokens": 531,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 531
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 32,
+   "outputTokens": 8725,
+   "thinkingTokens": 131,
+   "cacheReadInputTokens": 598076,
+   "cacheCreationInputTokens": 43099,
+   "webSearchRequests": 0,
+   "costUSD": 0.3195176,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 10,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "Two layers: Jinja globals (set once on the environment) and context injectors (run on every render). The decorator for your own variables is `ctx_injector`.\n\n## Functions and decorator\n\n- `src/tessel/app.py`\n  - `Tessel.create_jinja_environment` (line 467): sets the Jinja globals.\n  - `Tessel.fill_template_scope` (line 588): runs the injectors and updates the render context.\n- `src/tessel/templating.py`\n  - `_base_template_vars` (line 21): the built-in injector.\n  - `render_template` (line 136), `render_template_string`, `stream_template`: they call `_render` or `_stream`.\n  - `_render` (line 123) and `_stream` (line 163): call `fill_template_scope`.\n- `src/tessel/sansio/scaffold.py`\n  - `template_ctx_injectors` (line 182): dict `{scope: [functions]}`. It starts as `{None: [_base_template_vars]}`.\n  - `ctx_injector` (line 550): the decorator. It appends the function to `template_ctx_injectors[None]`.\n- `src/tessel/sansio/bundles.py`\n  - `Bundle.app_ctx_injector` (line 644): the app-wide variant for a bundle.\n\n## Built-in variables, step by step\n\n1. **Globals.** When the app builds its Jinja environment, `create_jinja_environment` (`app.py:493`) puts `link_for`, `get_flashed_messages`, `config`, `request`, `session` and `g` into `rv.globals`. `request`, `session` and `g` are the proxies from `globals.py`. This covers imported templates and macros, which do not receive the render context.\n2. **Render call.** A view calls `render_template(\"x.html\", **ctx)`. It gets the current `AppContext` and the template, then calls `_render(ctx, template, context)`.\n3. **Fill scope.** `_render` calls `app.fill_template_scope(ctx, context)`.\n4. **Scopes.** `fill_template_scope` builds the scope names: `None` (app-wide), plus the request's bundles in reverse order if a request exists.\n5. **Run injectors.** For each scope it runs each function from `template_ctx_injectors[name]` through `ensure_sync` and calls `context.update(result)`.\n6. **Built-in injector.** `_base_template_vars` is first in the `None` scope. It returns `{\"g\": ctx.g}`, plus `{\"request\": ctx.request}` when `ctx.has_request`. These are the real objects, not proxies, so access is faster. `session` is left as the global proxy because reading it must set `session.accessed`.\n7. **Precedence.** `fill_template_scope` copies the context before the injectors run and re-applies that copy at the end. Values passed to `render_template` win over injector values.\n8. **Render and signals.** `before_render_template` is sent, then `template.render(context)`, then `template_rendered`.\n\n## Adding your own variables\n\n```python\n@app.ctx_injector\ndef inject_user():\n    return {\"user\": g.get(\"user\")}\n```\n\n1. `ctx_injector` (`scaffold.py:550`) appends the function to `template_ctx_injectors[None]` and returns it unchanged.\n2. The function must return a dict. `fill_template_scope` merges it into every render.\n3. Used on a bundle with `@bundle.ctx_injector`, the function applies only to that bundle's views. Use `@bundle.app_ctx_injector` (`bundles.py:644`) to make it app-wide.\n4. Later injectors override earlier ones for the same key, but never override what the view passed.\n\n## Notes\n\n- Injectors run on every render, so keep them cheap.\n- `ctx_injector` is wrapped by `@setupmethod`. Registering after the first request raises an error.\n- Bundle injectors only run when `ctx.has_request` is true. Outside a request, only the app-wide ones run.",
+ "ttft_ms": 2792,
+ "type": "result",
+ "duration_ms": 28290,
+ "uuid": "918ad07c-12bb-48d7-8faa-b7f730733bca",
+ "ttft_stream_ms": 1242,
+ "time_to_request_ms": 54,
+ "first_content_frame_ms": 1243,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.300",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 31,
+  "skills_local": [
+   "caveman"
+  ],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"template_context_processors|def update_template_context|def _default_template_ctx_processor|def context_processor|def create_jinja_environment|def render_template|def _render|def make_template_context|template_context_processor|inject_context|globals\\\\.update\", \"output_mode\": \"content\", \"path\": \"$TMPDIR/...",
+   "sub": false,
+   "result_chars": 467,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/templating.py:123:def _render(ctx: AppContext, template: Template, context: dict[str, t.Any]) -> str:\nsrc/tessel/templating.py:136:def render_templat"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/caveman-session/caveman-r3/src/tessel/templating.py\"}",
+   "sub": false,
+   "result_chars": 8031,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1\tfrom __future__ import annotations\n2\t\n3\timport typing as t\n4\t\n5\tfrom jinja2 import BaseLoader\n6\tfrom jinja2 import Environment as BaseEnvironment\n7\tfrom jinja"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/caveman-session/caveman-r3/src/tessel/app.py\", \"offset\": 460, \"limit\": 70}",
+   "sub": false,
+   "result_chars": 2922,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "460\t        path = os.path.join(self.instance_path, resource)\n461\t\n462\t        if \"b\" in mode:\n463\t            return open(path, mode)\n464\t\n465\t        return o"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"fill_template_scope|_base_template_vars|template_scope|def .*scope_provider|scope_providers\", \"output_mode\": \"content\", \"path\": \"$UL_SCRATCH/runs/main/caveman-session/caveman-r3/src\"}",
+   "sub": false,
+   "result_chars": 440,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/app.py:588:    def fill_template_scope(\nsrc/tessel/templating.py:21:def _base_template_vars() -> dict[str, t.Any]:\nsrc/tessel/templating.py:125:    a"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/caveman-session/caveman-r3/src/tessel/app.py\", \"offset\": 585, \"limit\": 50}",
+   "sub": false,
+   "result_chars": 2024,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "585\t\n586\t        raise FormDataRoutingRedirect(request)\n587\t\n588\t    def fill_template_scope(\n589\t        self, ctx: AppContext, context: dict[str, t.Any]\n590\t "
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/caveman-session/caveman-r3/src/tessel/sansio/scaffold.py\", \"offset\": 170, \"limit\": 25}",
+   "sub": false,
+   "result_chars": 1219,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "170\t\n171\t        #: A data structure of functions to call to pass extra context\n172\t        #: values when rendering templates, in the format\n173\t        #: ``{"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"template_context_processors|def .*context_processor|inject_vars|template_vars_providers\", \"output_mode\": \"content\", \"path\": \"$UL_SCRATCH/runs/main/caveman-session/caveman-r3/src/tessel/sansio/scaffold.py\"}",
+   "sub": false,
+   "result_chars": 16,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "No matches found"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"def ctx_injector|template_ctx_injectors\", \"output_mode\": \"content\", \"path\": \"$UL_SCRATCH/runs/main/caveman-session/caveman-r3/src\", \"-A\": 3}",
+   "sub": false,
+   "result_chars": 1604,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/app.py:612:            if name in self.template_ctx_injectors:\nsrc/tessel/app.py:613:                for func in self.template_ctx_injectors[name]:\ns"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/caveman-session/caveman-r3/src/tessel/sansio/bundles.py\", \"offset\": 636, \"limit\": 20}",
+   "sub": false,
+   "result_chars": 745,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "636\t        handled by the bundle. Equivalent to :meth:`.Tessel.teardown_request`.\n637\t        \"\"\"\n638\t        self.record_once(\n639\t            lambda s: s.app"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed_warning",
+  "resetsAt": 1792414800,
+  "rateLimitType": "seven_day",
+  "utilization": 0.8,
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "surpassedThreshold": 0.75,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.47,
+    "resetsAt": 1792053000
+   },
+   "seven_day": {
+    "utilization": 0.8,
+    "resetsAt": 1792414800
+   }
+  },
+  "overageEnabled": false
+ },
+ "_compact": [],
+ "_wall_s": 29.2,
+ "_t_start": "2026-10-15T03:38:26.725456+00:00",
+ "_t_end": "2026-10-15T03:38:55.889458+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": "b127d509-62a6-47af-a377-0875600bd40b",
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/caveman-session/caveman-r3",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "In this repo, how do request, session and g become available inside every Jinja template, and how can an app add its own variables? Name the functions and the decorator involved, with file paths. Explain how it works, step by step."
+ },
+ "_mu_cum": {
+  "input": 32,
+  "output": 8725,
+  "cache_read": 598076,
+  "cache_creation": 43099,
+  "cost": 0.3195176,
+  "total": 649932
+ },
+ "tok": {
+  "input": 14,
+  "output": 3182,
+  "cache_read": 337238,
+  "cache_creation": 10084,
+  "total": 350518,
+  "cost": 0.105908,
+  "method": "delta"
+ },
+ "_tok_usage_field": 350518,
+ "_ctx_last_call": 53385,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "caveman",
+ "_turn": 4,
+ "_rep": 3,
+ "_target": "q10"
+}

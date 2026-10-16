@@ -1,0 +1,191 @@
+{
+ "duration_api_ms": 1647,
+ "stop_reason": "end_turn",
+ "session_id": "ce18ea37-456f-40ea-8950-507982d80a32",
+ "total_cost_usd": 0.0376924,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 9155,
+  "cache_read_input_tokens": 10284,
+  "output_tokens": 4,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 9155,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 4,
+    "cache_read_input_tokens": 10284,
+    "cache_creation_input_tokens": 9155,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 9155
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 2,
+   "outputTokens": 4,
+   "cacheReadInputTokens": 10284,
+   "cacheCreationInputTokens": 9155,
+   "webSearchRequests": 0,
+   "costUSD": 0.0376924,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 0,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 1,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "ok",
+ "ttft_ms": 1671,
+ "type": "result",
+ "duration_ms": 1688,
+ "uuid": "8d58d59b-6a12-488d-94e3-06bb1ac87504",
+ "ttft_stream_ms": 1670,
+ "time_to_request_ms": 38,
+ "first_content_frame_ms": 1670,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.301",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 32,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed",
+  "resetsAt": 1792117800,
+  "rateLimitType": "five_hour",
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.53,
+    "resetsAt": 1792117800
+   },
+   "seven_day": {
+    "utilization": 0.12,
+    "resetsAt": 1792681200
+   }
+  }
+ },
+ "_compact": [],
+ "_wall_s": 2.9,
+ "_t_start": "2026-10-15T21:46:33.945333+00:00",
+ "_t_end": "2026-10-15T21:46:36.875392+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/verify/plain-ok-r1",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "Reply with just: ok"
+ },
+ "_mu_cum": {
+  "input": 2,
+  "output": 4,
+  "cache_read": 10284,
+  "cache_creation": 9155,
+  "cost": 0.0376924,
+  "total": 19445
+ },
+ "tok": {
+  "input": 2,
+  "output": 4,
+  "cache_read": 10284,
+  "cache_creation": 9155,
+  "cost": 0.0376924,
+  "total": 19445,
+  "method": "single"
+ },
+ "_tok_usage_field": 19445,
+ "_ctx_last_call": 19441,
+ "_subagent_calls": 0,
+ "_tpl": "plain"
+}

@@ -1,0 +1,200 @@
+{
+ "duration_api_ms": 39251,
+ "stop_reason": "end_turn",
+ "session_id": "bb09559a-0543-4beb-b96e-043ee5cc614c",
+ "total_cost_usd": 0.17189679999999996,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 328,
+  "cache_read_input_tokens": 33099,
+  "output_tokens": 272,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 328,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 272,
+    "cache_read_input_tokens": 33099,
+    "cache_creation_input_tokens": 328,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 328
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 24,
+   "outputTokens": 4667,
+   "thinkingTokens": 504,
+   "cacheReadInputTokens": 321508,
+   "cacheCreationInputTokens": 23257,
+   "webSearchRequests": 0,
+   "costUSD": 0.17189679999999996,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 1,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "The failing call is in `src/tessel/sessions.py`, in `SignedCookieSessionInterface.persist_session`.\n\n- **Call:** `response.set_cookie(...)` starts at line 374.\n- **Rejected argument:** `partitioned=partitioned`, at line 382. The installed Werkzeug 3.0.3 `Response.set_cookie()` has no `partitioned` parameter, hence `TypeError: Response.set_cookie() got an unexpected keyword argument 'partitioned'`.\n\nThe `partitioned` value comes from `self.get_cookie_partitioned(app)` at line 344, defined at line 215. The `delete_cookie` call at line 361 passes `partitioned=` too, so it would fail the same way, but it only runs when a modified session is empty and none of the tests reached it.",
+ "ttft_ms": 2682,
+ "type": "result",
+ "duration_ms": 2724,
+ "uuid": "8a054bd1-61d6-4ef2-bede-7065c365e710",
+ "ttft_stream_ms": 1074,
+ "time_to_request_ms": 46,
+ "first_content_frame_ms": 1074,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.299",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed_warning",
+  "resetsAt": 1792414800,
+  "rateLimitType": "seven_day",
+  "utilization": 0.62,
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.47,
+    "resetsAt": 1792017000
+   },
+   "seven_day": {
+    "utilization": 0.62,
+    "resetsAt": 1792414800
+   }
+  },
+  "overageEnabled": false
+ },
+ "_compact": [],
+ "_wall_s": 4.1,
+ "_t_start": "2026-10-14T17:42:09.345548+00:00",
+ "_t_end": "2026-10-14T17:42:13.475253+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": "bb09559a-0543-4beb-b96e-043ee5cc614c",
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/subagent-deep/main-r7",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)",
+   "Bash(PYTHONPATH=src python3 -m pytest:*)",
+   "Bash(python3 -m pip show:*)",
+   "Bash(pip show:*)",
+   "Bash(pip list:*)",
+   "Bash(python3 -m pip list:*)",
+   "Bash(python3 -c:*)"
+  ],
+  "prompt": "Which line of Tessel's own source makes the failing call, and which argument there does the installed Werkzeug reject?"
+ },
+ "_mu_cum": {
+  "input": 24,
+  "output": 4667,
+  "cache_read": 321508,
+  "cache_creation": 23257,
+  "cost": 0.17189679999999996,
+  "total": 349456
+ },
+ "tok": {
+  "input": 2,
+  "output": 272,
+  "cache_read": 33099,
+  "cache_creation": 328,
+  "total": 33701,
+  "cost": 0.007346,
+  "method": "delta"
+ },
+ "_tok_usage_field": 33701,
+ "_ctx_last_call": 33429,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "plain"
+}

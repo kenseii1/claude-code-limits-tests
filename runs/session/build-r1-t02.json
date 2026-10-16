@@ -1,0 +1,203 @@
+{
+ "duration_api_ms": 20274,
+ "stop_reason": "end_turn",
+ "session_id": "35715622-fb03-425f-ba07-695217399ba9",
+ "total_cost_usd": 0.14517030000000003,
+ "usage": {
+  "input_tokens": 4,
+  "cache_creation_input_tokens": 16118,
+  "cache_read_input_tokens": 43569,
+  "output_tokens": 1624,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 16118,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1480,
+    "cache_read_input_tokens": 21914,
+    "cache_creation_input_tokens": 15859,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 15859
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 12,
+   "outputTokens": 2331,
+   "thinkingTokens": 0,
+   "cacheReadInputTokens": 114243,
+   "cacheCreationInputTokens": 27603,
+   "webSearchRequests": 0,
+   "costUSD": 0.14517030000000003,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 2,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "Summary of `src/tessel/cli.py` (1126 lines), in file order:\n\n**Exceptions / app discovery**\n- `NoAppException` (L37): click `UsageError` raised when an app can't be found or loaded.\n- `locate_main_app` (L41): finds an app in a module by trying `app`/`application`, then the sole `Tessel` instance, then `create_app`/`make_app` factories.\n- `_bad_factory_args` (L94): inspects the traceback to tell whether a `TypeError` came from a bad call signature or from inside the factory.\n- `find_app_by_string` (L120): parses `name` or `name(args)` with `ast`, then gets the attribute or calls the factory with literal args to obtain the app.\n- `prepare_import` (L200): converts a file path to a dotted module name and adds its package root to `sys.path`.\n- `locate_app` (L241, with two `@overload`s at L229 and L235): imports the module and returns the app via `locate_main_app` or `find_app_by_string`, raising `NoAppException` on import problems.\n\n**Version option**\n- `get_version` (L267): eager callback that prints Python, Tessel and Werkzeug versions and exits.\n- `version_option` (L283): the `--version` click option.\n\n**Launch info and app scope**\n- `LaunchInfo` (L293): holds the app import path, factory and flags, and lazily loads the app in `load_app` (L333).\n- `pass_script_info` (L375): click decorator that passes the `LaunchInfo` object, creating it if missing.\n- `F` (L377): `TypeVar` bound to callables, used for typing decorators.\n- `needs_app_scope` (L380): decorator that runs a callback inside the loaded app's app context.\n\n**Groups and options**\n- `AppGroup` (L405): click `Group` whose `command()` wraps callbacks in `needs_app_scope` and whose `group()` defaults to `AppGroup`.\n- `_set_app` (L440): callback that stores the `--app` value on `LaunchInfo`.\n- `_app_option` (L453): eager `-A/--app` option.\n- `_set_debug` (L468): callback that sets `TESSEL_DEBUG` from `--debug/--no-debug`.\n- `_debug_option` (L485): the `--debug/--no-debug` option.\n- `_env_file_callback` (L493): callback that loads dotenv files, erroring if a file is given but python-dotenv is missing.\n- `_env_file_option` (L517): eager `-e/--env-file` option.\n- `TesselGroup` (L531): main CLI group.\n  - Wires up the options, default commands and the `TESSEL_` env prefix.\n  - Loads `tessel.commands` entry-point plugins.\n  - Merges in commands from the loaded app (`get_command`, `list_commands`).\n  - Sets `TESSEL_RUN_FROM_CLI` in `make_context`.\n  - Pre-processes env-file and app options for no-args and `--help` in `parse_args`.\n\n**Dotenv and server helpers**\n- `_path_is_ancestor` (L691): checks whether one path is an ancestor of another.\n- `load_dotenv` (L698): loads `.tesselenv`, `.env` and an explicit file into `os.environ` without overriding existing vars.\n- `show_server_banner` (L766): prints the app and debug-mode startup messages unless running from the reloader.\n- `CertParamType` (L780): click type for `--cert` accepting a file path, `\"adhoc\"`, or an importable `SSLContext`.\n- `_validate_key` (L828): validates `--key` against `--cert` and folds them into a `(cert, key)` pair.\n- `SeparatedPathType` (L867): click `Path` type that splits a value on the OS path separator and validates each item.\n\n**Commands**\n- `run_command` (L934): `run` command that starts the Werkzeug development server with reloader, debugger, TLS and extra-files options.\n- `shell_command` (L1000): `shell` command that opens an interactive Python shell with the app's shell context and readline completion.\n- `routes_command` (L1060): `routes` command that prints a sorted table of URL rules, endpoints and methods.\n\n**Entry point**\n- `cli` (L1109): the `TesselGroup` instance named `tessel`.\n- `main` (L1121): calls `cli.main()`, run under `if __name__ == \"__main__\"`.",
+ "ttft_ms": 1869,
+ "type": "result",
+ "duration_ms": 12037,
+ "uuid": "b397e777-1d9c-46b2-9d4e-a8af71e835b8",
+ "ttft_stream_ms": 1260,
+ "time_to_request_ms": 47,
+ "first_content_frame_ms": 1262,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.299",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/session/chain-r1/src/tessel/cli.py\"}",
+   "sub": false,
+   "result_chars": 41319,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1\tfrom __future__ import annotations\n2\t\n3\timport ast\n4\timport collections.abc as cabc\n5\timport importlib.metadata\n6\timport inspect\n7\timport os\n8\timport platform"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed",
+  "resetsAt": 1791981000,
+  "rateLimitType": "five_hour",
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.44,
+    "resetsAt": 1791981000
+   },
+   "seven_day": {
+    "utilization": 0.46,
+    "resetsAt": 1792414800
+   }
+  }
+ },
+ "_compact": [],
+ "_wall_s": 13.5,
+ "_t_start": "2026-10-14T07:58:20.698886+00:00",
+ "_t_end": "2026-10-14T07:58:34.182016+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": "35715622-fb03-425f-ba07-695217399ba9",
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/session/chain-r1",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "Read the whole file src/tessel/cli.py from top to bottom (all of it) and give me a one-line summary of each class and function in it."
+ },
+ "_mu_cum": {
+  "input": 12,
+  "output": 2331,
+  "cache_read": 114243,
+  "cache_creation": 27603,
+  "cost": 0.14517030000000003,
+  "total": 144189
+ },
+ "tok": {
+  "input": 4,
+  "output": 1624,
+  "cache_read": 43569,
+  "cache_creation": 16118,
+  "total": 61315,
+  "cost": 0.085077,
+  "method": "delta"
+ },
+ "_tok_usage_field": 61315,
+ "_ctx_last_call": 37775,
+ "_subagent_calls": 0,
+ "_tpl": "plain",
+ "_turn": 2,
+ "_rep": 1
+}

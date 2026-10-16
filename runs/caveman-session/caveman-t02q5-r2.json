@@ -1,0 +1,264 @@
+{
+ "duration_api_ms": 36537,
+ "stop_reason": "end_turn",
+ "session_id": "44add762-fce5-4ca0-812d-ea4617408ef7",
+ "total_cost_usd": 0.1901394,
+ "usage": {
+  "input_tokens": 10,
+  "cache_creation_input_tokens": 10631,
+  "cache_read_input_tokens": 159099,
+  "output_tokens": 2623,
+  "output_tokens_details": {
+   "thinking_tokens": 24
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 10631,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1076,
+    "cache_read_input_tokens": 35308,
+    "cache_creation_input_tokens": 3934,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 3934
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 20,
+   "outputTokens": 4804,
+   "thinkingTokens": 60,
+   "cacheReadInputTokens": 262274,
+   "cacheCreationInputTokens": 28958,
+   "webSearchRequests": 0,
+   "costUSD": 0.1901394,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 8,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "The view is reached through `__call__` → `wsgi_entry` → context push/match → `run_full_request` → `preprocess_request` → `run_view`. I read the code and did not run it.\n\nAll paths are relative to `src/tessel/`. `app.py` is the `Tessel` class.\n\n1. **`Tessel.__call__`** (`app.py:1618`). The WSGI server calls it, and it only delegates to `wsgi_entry`.\n\n2. **`Tessel.wsgi_entry`** (`app.py:1566`). It is split from `__call__` so middleware can wrap it. It does the following:\n   - Calls `self.request_context(environ)` (`app.py:1501`).\n   - Calls `AppContext.from_environ` (`ctx.py:340`), which builds `app.request_class(environ)` and an `AppContext`.\n\n3. **`AppContext.push`** (`ctx.py:416`), called from `wsgi_entry`:\n   - Sets the context var `_app_var`.\n   - Sends the `appcontext_pushed` signal.\n   - Opens the session via `_get_session` (`ctx.py:381`) and `session_interface.restore_session`.\n   - Calls `match_request` only after the session is open, so custom URL converters can see the session.\n\n4. **`AppContext.match_request`** (`ctx.py:405`). It runs `url_adapter.match(return_rule=True)`.\n   - On success it sets `request.url_rule` and `request.view_args`.\n   - On `HTTPException` it stores `request.routing_exception` and does not raise yet.\n\n5. **`Tessel.run_full_request`** (`app.py:992`), called from `wsgi_entry`. It sets `_got_first_request`, sends `request_started`, and wraps steps 6 and 7 in try/except. Any `Exception` goes to `route_user_fault` (`app.py:865`).\n\n6. **`Tessel.preprocess_request`** (`app.py:1366`). It builds names from `(None, *reversed(req.bundles))`.\n   - It runs `url_value_preprocessors` first.\n   - It then runs `before_request_funcs`, with app-level first and the matched bundles after.\n   - If a before-request function returns non-`None`, that value skips the view.\n\n7. **`Tessel.run_view`** (`app.py:966`):\n   - If `req.routing_exception` is set, it calls `raise_routing_exception` (`app.py:560`), so 404 and 405 fire here.\n   - If the rule has `provide_automatic_options` and the method is `OPTIONS`, it returns `make_default_options_response` (`app.py:1053`).\n   - Otherwise it calls `self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)`. `ensure_sync` (`app.py:1065`) wraps `async def` views and returns plain functions as they are.\n\nAfter the view returns, `run_full_request` calls `finalize_request` (`app.py:1021`). That calls `make_response`, then `finalize_reply` (`app.py:1394`) for the after-request functions, then sends `request_finished`. `wsgi_entry` then calls `response(environ, start_response)` and `ctx.pop(error)` in `finally`.",
+ "ttft_ms": 2630,
+ "type": "result",
+ "duration_ms": 19862,
+ "uuid": "35099ea3-32a0-41f8-ae1d-072d70318a2b",
+ "ttft_stream_ms": 1051,
+ "time_to_request_ms": 44,
+ "first_content_frame_ms": 1052,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.300",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 31,
+  "skills_local": [
+   "caveman"
+  ],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"def __call__|def wsgi_app|def full_dispatch_request|def dispatch_request|def preprocess_request|def match_request|def request_context|def push|def try_trigger_before_first_request|def make_response|def finalize_request|def process_response|def handle_user_exception|def handle_exception|def create_url_adapter|def ensure_sync\", \"path\": \"$TMPDIR/...",
+   "sub": false,
+   "result_chars": 668,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/app.py:1021:    def finalize_request(\nsrc/tessel/app.py:1065:    def ensure_sync(self, func: t.Callable[..., t.Any]) -> t.Callable[..., t.Any]:\nsrc/t"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/caveman-session/caveman-r2/src/tessel/app.py\", \"offset\": 1495, \"limit\": 150}",
+   "sub": false,
+   "result_chars": 5861,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1495\t        See :doc:`/appcontext`.\n1496\t\n1497\t        .. versionadded:: 0.9\n1498\t        \"\"\"\n1499\t        return AppContext(self)\n1500\t\n1501\t    def request_c"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/caveman-session/caveman-r2/src/tessel/ctx.py\", \"offset\": 340, \"limit\": 130}",
+   "sub": false,
+   "result_chars": 5575,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "340\t    def from_environ(cls, app: Tessel, environ: WSGIEnvironment, /) -> te.Self:\n341\t        \"\"\"Create an app context with request data from the given WSGI e"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"def run_full_request|def route_unhandled_fault|def dispatch_\\\\w+|def route_\\\\w+|def raise_routing_exception\", \"path\": \"$UL_SCRATCH/runs/main/caveman-session/caveman-r2/src/tessel/app.py\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 283,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "560:    def raise_routing_exception(self, request: Request) -> t.NoReturn:\n830:    def route_http_fault(\n865:    def route_user_fault(\n897:    def route_unhandl"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/caveman-session/caveman-r2/src/tessel/app.py\", \"offset\": 555, \"limit\": 50}",
+   "sub": false,
+   "result_chars": 2064,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "555\t                url_scheme=self.config[\"PREFERRED_URL_SCHEME\"],\n556\t            )\n557\t\n558\t        return None\n559\t\n560\t    def raise_routing_exception(self"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/caveman-session/caveman-r2/src/tessel/app.py\", \"offset\": 960, \"limit\": 110}",
+   "sub": false,
+   "result_chars": 4969,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "960\t        .. versionadded:: 0.8\n961\t        \"\"\"\n962\t        self.logger.error(\n963\t            f\"Exception on {ctx.request.path} [{ctx.request.method}]\", exc_"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/caveman-session/caveman-r2/src/tessel/app.py\", \"offset\": 1360, \"limit\": 50}",
+   "sub": false,
+   "result_chars": 2281,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1360\t        # extend existing headers with provided headers\n1361\t        if headers:\n1362\t            rv.headers.update(headers)\n1363\t\n1364\t        return rv\n1"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed_warning",
+  "resetsAt": 1792414800,
+  "rateLimitType": "seven_day",
+  "utilization": 0.79,
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "surpassedThreshold": 0.75,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.42,
+    "resetsAt": 1792053000
+   },
+   "seven_day": {
+    "utilization": 0.79,
+    "resetsAt": 1792414800
+   }
+  },
+  "overageEnabled": false
+ },
+ "_compact": [],
+ "_wall_s": 20.8,
+ "_t_start": "2026-10-15T03:37:37.458235+00:00",
+ "_t_end": "2026-10-15T03:37:58.275746+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": "44add762-fce5-4ca0-812d-ea4617408ef7",
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/caveman-session/caveman-r2",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "In this repo, what happens between the WSGI server calling the app and the view function running? List the main methods in order, with file paths. Explain how it works, step by step."
+ },
+ "_mu_cum": {
+  "input": 20,
+  "output": 4804,
+  "cache_read": 262274,
+  "cache_creation": 28958,
+  "cost": 0.1901394,
+  "total": 296056
+ },
+ "tok": {
+  "input": 10,
+  "output": 2623,
+  "cache_read": 159099,
+  "cache_creation": 10631,
+  "total": 172363,
+  "cost": 0.084684,
+  "method": "delta"
+ },
+ "_tok_usage_field": 172363,
+ "_ctx_last_call": 39244,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "caveman",
+ "_turn": 2,
+ "_rep": 2,
+ "_target": "q5"
+}

@@ -1,0 +1,205 @@
+{
+ "duration_api_ms": 5241,
+ "stop_reason": "end_turn",
+ "session_id": "da647d84-2b7e-4980-a78b-0727dafabe65",
+ "total_cost_usd": 0.0533246,
+ "usage": {
+  "input_tokens": 4,
+  "cache_creation_input_tokens": 11256,
+  "cache_read_input_tokens": 30126,
+  "output_tokens": 528,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 11256,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 380,
+    "cache_read_input_tokens": 19842,
+    "cache_creation_input_tokens": 1698,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 1698
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 4,
+   "outputTokens": 528,
+   "cacheReadInputTokens": 30126,
+   "cacheCreationInputTokens": 11256,
+   "webSearchRequests": 0,
+   "costUSD": 0.0533246,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 0,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 2,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "**Mechanism:** context-local proxies. Each one is a werkzeug `LocalProxy` that looks up the current object through a `ContextVar`.\n\n**Objects involved** (all in `src/tessel/globals.py`):\n- `_app_var` is the `ContextVar` that holds the current `AppContext`.\n- `active_app`, `g`, `request`, `session` and `app_ctx` are `LocalProxy` objects onto `_app_var`. Each one resolves to the matching attribute of the current `AppContext`: the app, its `g` object, the request, and its session.\n\n**Context object:** `AppContext` in `src/tessel/ctx.py`.\n- One context is pushed per request or CLI command.\n- `has_request` says whether the context carries a request.\n- Pushing a context sets `_app_var`, and popping it restores the previous value. That is how each thread or task sees its own objects.\n- `RequestContext` is only a deprecated alias for `AppContext`.\n\nThe `g` class comes from the app's `app_ctx_globals_class` attribute, defined in `src/tessel/sansio/app.py` and `src/tessel/app.py`.",
+ "ttft_ms": 1880,
+ "type": "result",
+ "duration_ms": 5289,
+ "uuid": "3eadf414-789a-416f-8f42-66e9bb53b527",
+ "ttft_stream_ms": 1097,
+ "time_to_request_ms": 35,
+ "first_content_frame_ms": 1098,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.300",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/flatmap/brain-q8-r2/brain/architecture.md\"}",
+   "sub": false,
+   "result_chars": 3206,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1\t# Architecture\n2\t\n3\tTessel 3.2.0.dev (Tidework), WSGI microframework. Package in `src/tessel/`, built with flit.\n4\tDeps: werkzeug (routing/wrappers), jinja2, "
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed_warning",
+  "resetsAt": 1792414800,
+  "rateLimitType": "seven_day",
+  "utilization": 0.82,
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "surpassedThreshold": 0.75,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.77,
+    "resetsAt": 1792053000
+   },
+   "seven_day": {
+    "utilization": 0.82,
+    "resetsAt": 1792414800
+   }
+  },
+  "overageEnabled": false
+ },
+ "_compact": [],
+ "_wall_s": 6.3,
+ "_t_start": "2026-10-15T03:44:40.923454+00:00",
+ "_t_end": "2026-10-15T03:44:47.254312+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/flatmap/brain-q8-r2",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "In this repo, how do active_app, g and request find the right object for the current context? Name the mechanism and the objects involved, with file paths. Be brief."
+ },
+ "_mu_cum": {
+  "input": 4,
+  "output": 528,
+  "cache_read": 30126,
+  "cache_creation": 11256,
+  "cost": 0.0533246,
+  "total": 41914
+ },
+ "tok": {
+  "input": 4,
+  "output": 528,
+  "cache_read": 30126,
+  "cache_creation": 11256,
+  "cost": 0.0533246,
+  "total": 41914,
+  "method": "single"
+ },
+ "_tok_usage_field": 41914,
+ "_ctx_last_call": 21542,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "brain"
+}

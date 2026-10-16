@@ -1,0 +1,214 @@
+{
+ "duration_api_ms": 8969,
+ "stop_reason": "end_turn",
+ "session_id": "e6c77667-cf6e-47e6-b1bb-1f3ec176bef5",
+ "total_cost_usd": 0.0775388,
+ "usage": {
+  "input_tokens": 6,
+  "cache_creation_input_tokens": 15583,
+  "cache_read_input_tokens": 54648,
+  "output_tokens": 973,
+  "output_tokens_details": {
+   "thinking_tokens": 117
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 15583,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 425,
+    "cache_read_input_tokens": 25105,
+    "cache_creation_input_tokens": 762,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 762
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 6,
+   "outputTokens": 973,
+   "cacheReadInputTokens": 54648,
+   "cacheCreationInputTokens": 15583,
+   "webSearchRequests": 0,
+   "costUSD": 0.0775388,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 117,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 3,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "**Where to look:** `src/tessel/wrappers.py:181` (`Request.bundles`), which feeds `_pick_fault_handler` through `route_http_fault` (`src/tessel/app.py:860`).\n\n**Why:**\n- `route_http_fault` calls `_pick_fault_handler(e, ctx.request.bundles)`, and `_pick_fault_handler` (`sansio/app.py:878`) only searches `(*bundles, None)`.\n- `Request.bundles` is derived from the matched endpoint's bundle. Its docstring says it returns an empty list \"if URL matching failed\".\n- For an unknown URL, routing raises `NotFound` before any endpoint is matched, so `bundles == []`. The lookup then only checks app-level handlers (`None`), and your bundle's 404 handler is never consulted.\n- With no app-level 404 handler either, `route_http_fault` returns the raw exception, which is the default 404 page.\n\n**Fix:** register the 404 handler on the app, not the bundle. A bundle 404 handler only fires when a view in that bundle raises `abort(404)`. If you need per-bundle 404 pages for unmatched URLs, use an app-level handler that inspects `request.path` and dispatches to the right bundle's handling.",
+ "ttft_ms": 1344,
+ "type": "result",
+ "duration_ms": 9050,
+ "uuid": "140c2468-e047-4e0b-b971-c52f53ee536a",
+ "ttft_stream_ms": 1083,
+ "time_to_request_ms": 35,
+ "first_content_frame_ms": 1084,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init",
+  "system:thinking_tokens"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.300",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"_pick_fault_handler|def route_http_fault\", \"path\": \"$UL_SCRATCH/runs/main/naming/named-s3-r1\", \"output_mode\": \"content\", \"-C\": 25}",
+   "sub": false,
+   "result_chars": 13083,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/app.py-805-        \"\"\"\nsrc/tessel/app.py-806-        cls = self.test_client_class\nsrc/tessel/app.py-807-        if cls is None:\nsrc/tessel/app.py-808"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"def bundles\", \"path\": \"$UL_SCRATCH/runs/main/naming/named-s3-r1/src\", \"output_mode\": \"content\", \"-A\": 18}",
+   "sub": false,
+   "result_chars": 980,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/wrappers.py:181:    def bundles(self) -> list[str]:\nsrc/tessel/wrappers.py-182-        \"\"\"The registered names of the current bundle upwards through\n"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed_warning",
+  "resetsAt": 1792414800,
+  "rateLimitType": "seven_day",
+  "utilization": 0.74,
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.83,
+    "resetsAt": 1792035000
+   },
+   "seven_day": {
+    "utilization": 0.74,
+    "resetsAt": 1792414800
+   }
+  },
+  "overageEnabled": false
+ },
+ "_compact": [],
+ "_wall_s": 10.1,
+ "_t_start": "2026-10-14T22:41:47.768727+00:00",
+ "_t_end": "2026-10-14T22:41:57.888108+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/naming/named-s3-r1",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "Look at App._pick_fault_handler in src/tessel/sansio/app.py and Tessel.route_http_fault in src/tessel/app.py. We registered a 404 error handler on a bundle, but for unknown URLs the default 404 page shows instead. In this repo, where would you look and why? Be brief."
+ },
+ "_mu_cum": {
+  "input": 6,
+  "output": 973,
+  "cache_read": 54648,
+  "cache_creation": 15583,
+  "cost": 0.0775388,
+  "total": 71210
+ },
+ "tok": {
+  "input": 6,
+  "output": 973,
+  "cache_read": 54648,
+  "cache_creation": 15583,
+  "cost": 0.0775388,
+  "total": 71210,
+  "method": "single"
+ },
+ "_tok_usage_field": 71210,
+ "_ctx_last_call": 25869,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "plain"
+}

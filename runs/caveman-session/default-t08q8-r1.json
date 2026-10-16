@@ -1,0 +1,217 @@
+{
+ "duration_api_ms": 136328,
+ "stop_reason": "end_turn",
+ "session_id": "eea00553-da88-4d11-8a86-1cfd8667f353",
+ "total_cost_usd": 0.6074158999999999,
+ "usage": {
+  "input_tokens": 4,
+  "cache_creation_input_tokens": 4207,
+  "cache_read_input_tokens": 158754,
+  "output_tokens": 1857,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 4207,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1521,
+    "cache_read_input_tokens": 80228,
+    "cache_creation_input_tokens": 2505,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 2505
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 56,
+   "outputTokens": 18222,
+   "thinkingTokens": 249,
+   "cacheReadInputTokens": 1352879,
+   "cacheCreationInputTokens": 72449,
+   "webSearchRequests": 0,
+   "costUSD": 0.6074158999999999,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 3,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "`active_app`, `g` and `request` are Werkzeug `LocalProxy` objects that all read from one `ContextVar` holding the current `AppContext`. They resolve the real object each time you touch them. The definitions are in `src/tessel/globals.py`.\n\n## Mechanism and objects\n\n- **`_app_var`** (`globals.py:40`). A `contextvars.ContextVar[AppContext]` named `\"tessel.app_ctx\"`.\n- **`LocalProxy`** (`werkzeug.local`). A proxy that forwards every attribute access, call or operator to a looked-up object.\n- **`AppContext`** (`src/tessel/ctx.py`). The single object stored in the variable. It carries the app, `g`, the request and the session.\n- **The proxies** (`globals.py:41-62`):\n\n| Name | Definition | Resolves to |\n|---|---|---|\n| `app_ctx` | `LocalProxy(_app_var)` | the `AppContext` itself |\n| `active_app` | `LocalProxy(_app_var, \"app\")` | `ctx.app`, the `Tessel` instance |\n| `g` | `LocalProxy(_app_var, \"g\")` | `ctx.g`, an `_AppCtxGlobals` |\n| `request` | `LocalProxy(_app_var, \"request\")` | `ctx.request` |\n| `session` | `LocalProxy(_app_var, \"session\")` | `ctx.session` |\n\n- **`_AppCtxGlobals`** (`ctx.py`). The class behind `g`. Each `AppContext` creates its own via `app.app_ctx_globals_class()` (`ctx.py:312`).\n\n## Step by step\n\n1. **Import time.** The proxies are created once at module import, bound to the `ContextVar` and an attribute name. They hold no app or request at this point.\n2. **Per-request object.** `Tessel.wsgi_entry` creates an `AppContext` (with request data) for each request. Its `__init__` builds a fresh `g` and stores `app` and `_request`.\n3. **Binding on push.** `AppContext.push()` does `self._cv_token = _app_var.set(self)` (`ctx.py:433`). It saves the reset token so the previous value can be restored. `ContextVar` values are per thread, and per asyncio task or greenlet, so concurrent requests each see their own context.\n4. **Lookup on use.** When code does `request.method` or `g.user = ...`:\n   - The `LocalProxy` calls `_app_var.get()` to get the current `AppContext`.\n   - It then does `getattr(ctx, \"request\")` (or `\"g\"`, `\"app\"`).\n   - It forwards the attribute access or call to that real object.\n   - The same proxy object therefore resolves to different underlying objects in different requests.\n5. **Session is lazy.** `session` resolves through the `AppContext.session` property. That sets `accessed = True` and opens the session on first use (`_get_session`, `ctx.py:381-403`).\n6. **No active context.** If `_app_var` has no value, the proxy raises `RuntimeError` with its `unbound_message`:\n   - `active_app`, `g` and `app_ctx` get the \"Working outside of application context\" text (`_no_app_msg`).\n   - `request` and `session` get the \"Working outside of request context\" text (`_no_req_msg`).\n   - For a context pushed without request data, `ctx.request` raises its own \"There is no request in this context.\" error (`ctx.py:376-377`).\n7. **Nesting.** `push` is re-entrant. A second push of the same context only bumps `_push_count` (`ctx.py:428-431`). Pushing a different context sets a new token, and popping restores the previous one.\n8. **Unbinding on pop.** `AppContext.pop()` checks that this context is the active one. It runs the teardown functions once `_push_count` reaches 0, then calls `_app_var.reset(self._cv_token)` (`ctx.py:498`). The proxies then resolve to the outer context, or raise again if there is none.\n9. **Real object access.** `proxy._get_current_object()` returns the actual `Tessel`, `Request` or `_AppCtxGlobals` when you need the real identity. It is used in `cli.py:631` for `active_app._get_current_object() is not app`. The `TesselProxy` and similar classes in `globals.py:17-30` are type-checking stubs only.\n\nThe module also has a `__getattr__` that warns on the old `request_ctx` name and returns `app_ctx` (`globals.py:65-75`).",
+ "ttft_ms": 2494,
+ "type": "result",
+ "duration_ms": 14196,
+ "uuid": "49dea874-c4e2-4866-9e76-5133bbe08715",
+ "ttft_stream_ms": 1089,
+ "time_to_request_ms": 61,
+ "first_content_frame_ms": 1090,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.300",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/caveman-session/default-r1/src/tessel/globals.py\"}",
+   "sub": false,
+   "result_chars": 2651,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1\tfrom __future__ import annotations\n2\t\n3\timport typing as t\n4\tfrom contextvars import ContextVar\n5\t\n6\tfrom werkzeug.local import LocalProxy\n7\t\n8\tif t.TYPE_CHEC"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/caveman-session/default-r1/src/tessel/ctx.py\", \"offset\": 440, \"limit\": 70}",
+   "sub": false,
+   "result_chars": 2636,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "440\t\n441\t            # Match the request URL after loading the session, so that the\n442\t            # session is available in custom URL converters.\n443\t       "
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed_warning",
+  "resetsAt": 1792414800,
+  "rateLimitType": "seven_day",
+  "utilization": 0.81,
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "surpassedThreshold": 0.75,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.61,
+    "resetsAt": 1792053000
+   },
+   "seven_day": {
+    "utilization": 0.81,
+    "resetsAt": 1792414800
+   }
+  },
+  "overageEnabled": false
+ },
+ "_compact": [],
+ "_wall_s": 15.3,
+ "_t_start": "2026-10-15T03:41:38.257883+00:00",
+ "_t_end": "2026-10-15T03:41:53.564764+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": "eea00553-da88-4d11-8a86-1cfd8667f353",
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/caveman-session/default-r1",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "In this repo, how do active_app, g and request find the right object for the current context? Name the mechanism and the objects involved, with file paths. Explain how it works, step by step."
+ },
+ "_mu_cum": {
+  "input": 56,
+  "output": 18222,
+  "cache_read": 1352879,
+  "cache_creation": 72449,
+  "cost": 0.6074158999999999,
+  "total": 1443606
+ },
+ "tok": {
+  "input": 4,
+  "output": 1857,
+  "cache_read": 158754,
+  "cache_creation": 4207,
+  "total": 164822,
+  "cost": 0.051281,
+  "method": "delta"
+ },
+ "_tok_usage_field": 164822,
+ "_ctx_last_call": 82735,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "plain",
+ "_turn": 8,
+ "_rep": 1,
+ "_target": "q8"
+}

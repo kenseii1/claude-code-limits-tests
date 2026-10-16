@@ -1,0 +1,212 @@
+{
+ "duration_api_ms": 178233,
+ "stop_reason": "end_turn",
+ "session_id": "0e258663-c5cc-43da-9a7c-0042b1b9d6d2",
+ "total_cost_usd": 1.0011948,
+ "usage": {
+  "input_tokens": 6,
+  "cache_creation_input_tokens": 2943,
+  "cache_read_input_tokens": 384462,
+  "output_tokens": 628,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 2943,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 247,
+    "cache_read_input_tokens": 128901,
+    "cache_creation_input_tokens": 1272,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 1272
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 90,
+   "outputTokens": 16638,
+   "thinkingTokens": 243,
+   "cacheReadInputTokens": 3544228,
+   "cacheCreationInputTokens": 120053,
+   "webSearchRequests": 0,
+   "costUSD": 1.0011948,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 3,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "Tessel uses `DispatchingJinjaLoader`, defined at `src/tessel/templating.py:49`. It subclasses `jinja2.BaseLoader`.\n\n- **Search order:** `_iter_loaders` first tries the app's own `jinja_loader`, then each registered bundle's `jinja_loader` (via `app.iter_bundles()`). The first loader that doesn't raise `TemplateNotFound` wins.\n- **`list_templates()`:** returns the union of templates from the app and all bundles.\n- **`EXPLAIN_TEMPLATE_LOADING`:** when set, `_get_source_explained` tries every loader and logs each attempt through `debughelpers.explain_template_loading_attempts`.",
+ "ttft_ms": 2881,
+ "type": "result",
+ "duration_ms": 9163,
+ "uuid": "b1575028-a2c5-44e5-8de3-185952a8df71",
+ "ttft_stream_ms": 1439,
+ "time_to_request_ms": 62,
+ "first_content_frame_ms": 1439,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.299",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"class .*Loader|BaseLoader\", \"path\": \"$UL_SCRATCH/runs/main/session/chain-r2/src\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 699,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/debughelpers.py:5:from jinja2.loaders import BaseLoader\nsrc/tessel/debughelpers.py:107:def _dump_loader_info(loader: BaseLoader) -> t.Iterator[str]:\n"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/session/chain-r2/src/tessel/templating.py\", \"offset\": 49, \"limit\": 72}",
+   "sub": false,
+   "result_chars": 2830,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "49\tclass DispatchingJinjaLoader(BaseLoader):\n50\t    \"\"\"A loader that looks for templates in the application and all\n51\t    the bundle folders.\n52\t    \"\"\"\n53\t\n54"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed",
+  "resetsAt": 1791981000,
+  "rateLimitType": "five_hour",
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.84,
+    "resetsAt": 1791981000
+   },
+   "seven_day": {
+    "utilization": 0.49,
+    "resetsAt": 1792414800
+   }
+  }
+ },
+ "_compact": [],
+ "_wall_s": 10.3,
+ "_t_start": "2026-10-14T08:06:05.776477+00:00",
+ "_t_end": "2026-10-14T08:06:16.077017+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": "0e258663-c5cc-43da-9a7c-0042b1b9d6d2",
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/session/chain-r2",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "Which Jinja loader does Tessel use to find templates across bundles? Name the class and file."
+ },
+ "_mu_cum": {
+  "input": 90,
+  "output": 16638,
+  "cache_read": 3544228,
+  "cache_creation": 120053,
+  "cost": 1.0011948,
+  "total": 3681009
+ },
+ "tok": {
+  "input": 6,
+  "output": 628,
+  "cache_read": 384462,
+  "cache_creation": 2943,
+  "total": 388039,
+  "cost": 0.05651,
+  "method": "delta"
+ },
+ "_tok_usage_field": 388039,
+ "_ctx_last_call": 130175,
+ "_subagent_calls": 0,
+ "_tpl": "plain",
+ "_turn": 21,
+ "_rep": 2
+}

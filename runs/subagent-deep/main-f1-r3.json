@@ -1,0 +1,200 @@
+{
+ "duration_api_ms": 26171,
+ "stop_reason": "end_turn",
+ "session_id": "ef66db48-274c-4445-896a-3c7c632ecf75",
+ "total_cost_usd": 0.13577630000000002,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 1280,
+  "cache_read_input_tokens": 29218,
+  "output_tokens": 520,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 1280,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 520,
+    "cache_read_input_tokens": 29218,
+    "cache_creation_input_tokens": 1280,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 1280
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 20,
+   "outputTokens": 3002,
+   "thinkingTokens": 253,
+   "cacheReadInputTokens": 244043,
+   "cacheCreationInputTokens": 20328,
+   "webSearchRequests": 0,
+   "costUSD": 0.13577630000000002,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 1,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "Three failing tests are not caused by the `partitioned` / `set_cookie` problem.\n\n1. **`tests/test_request.py::test_limit_config`**\n   - It asserts `r.max_form_memory_size == 500_000` but gets `None`.\n   - The installed Werkzeug 3.0.3 `Request` has no such attribute. It was added in 3.1, so this is the same underlying cause (Werkzeug older than the required `>=3.1.0`), but it is a different missing feature and not the `set_cookie` error.\n\n2. **`tests/test_helpers.py::TestStreaming::test_async_view`**\n   - It fails with `RuntimeError: Install Tessel with the 'async' extra in order to use async views.`, raised at `src/tessel/app.py:1096`.\n   - `asgiref` isn't installed (`import asgiref` raises `ModuleNotFoundError`). This is a missing optional dependency, unrelated to Werkzeug.\n\n3. **`tests/test_helpers.py::test_open_resource_exceptions[a]`**\n   - I never captured its traceback. It failed in my first full run, but it passes in isolation and I couldn't reproduce it afterwards.\n   - It is probably collateral damage from the `AppContext` leaked by `test_stream_keeps_session`, which would trace back to the main cause indirectly. That is unconfirmed.\n\nThe teardown **error** on `test_stream_keeps_session` (`assert not leaks`, `tests/conftest.py:79`) is a consequence of the main cause, not a separate one.",
+ "ttft_ms": 3976,
+ "type": "result",
+ "duration_ms": 4022,
+ "uuid": "7e8a1360-1cc9-4897-a36f-dfe986532b44",
+ "ttft_stream_ms": 1077,
+ "time_to_request_ms": 43,
+ "first_content_frame_ms": 1077,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.299",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed_warning",
+  "resetsAt": 1792414800,
+  "rateLimitType": "seven_day",
+  "utilization": 0.61,
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.31,
+    "resetsAt": 1792017000
+   },
+   "seven_day": {
+    "utilization": 0.61,
+    "resetsAt": 1792414800
+   }
+  },
+  "overageEnabled": false
+ },
+ "_compact": [],
+ "_wall_s": 5.3,
+ "_t_start": "2026-10-14T17:38:21.847783+00:00",
+ "_t_end": "2026-10-14T17:38:27.183164+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": "ef66db48-274c-4445-896a-3c7c632ecf75",
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/subagent-deep/main-r3",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)",
+   "Bash(PYTHONPATH=src python3 -m pytest:*)",
+   "Bash(python3 -m pip show:*)",
+   "Bash(pip show:*)",
+   "Bash(pip list:*)",
+   "Bash(python3 -m pip list:*)",
+   "Bash(python3 -c:*)"
+  ],
+  "prompt": "Which of the failing tests are NOT caused by that main root cause? Name them and say briefly why each fails."
+ },
+ "_mu_cum": {
+  "input": 20,
+  "output": 3002,
+  "cache_read": 244043,
+  "cache_creation": 20328,
+  "cost": 0.13577630000000002,
+  "total": 267393
+ },
+ "tok": {
+  "input": 2,
+  "output": 520,
+  "cache_read": 29218,
+  "cache_creation": 1280,
+  "total": 31020,
+  "cost": 0.013246,
+  "method": "delta"
+ },
+ "_tok_usage_field": 31020,
+ "_ctx_last_call": 30500,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "plain"
+}

@@ -1,0 +1,203 @@
+{
+ "duration_api_ms": 88202,
+ "stop_reason": "end_turn",
+ "session_id": "0e258663-c5cc-43da-9a7c-0042b1b9d6d2",
+ "total_cost_usd": 0.5133793999999999,
+ "usage": {
+  "input_tokens": 4,
+  "cache_creation_input_tokens": 8169,
+  "cache_read_input_tokens": 157283,
+  "output_tokens": 747,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 8169,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 604,
+    "cache_read_input_tokens": 78865,
+    "cache_creation_input_tokens": 7722,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 7722
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 46,
+   "outputTokens": 9258,
+   "thinkingTokens": 164,
+   "cacheReadInputTokens": 1148394,
+   "cacheCreationInputTokens": 76467,
+   "webSearchRequests": 0,
+   "costUSD": 0.5133793999999999,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 2,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "`tests/test_templating.py` covers these template features, grouped:\n\n**Rendering functions**\n- `render_template` with a template name, and with a list of names where the first existing template wins (missing ones are skipped).\n- `render_template_string`, including its use outside a request (app context only).\n- `stream_template_string`.\n- Explicitly passed values override injected or standard context, for example `config=42`.\n\n**Context**\n- `@app.ctx_injector` adds variables to the template context, in both requests and request-less rendering.\n- The standard context exposes `request`, `g`, `config` and `session`.\n\n**Autoescaping**\n- HTML templates escape plain strings and leave `Markup` unescaped.\n- `.txt` templates are not escaped.\n- `render_template_string` escapes, while a `.txt` template via `render_template` does not.\n\n**Filters, tests and globals**\n- `@app.template_filter`, `@app.template_test` and `@app.template_global` work bare, called, with a positional name and with `name=`.\n- `add_template_filter` and `add_template_test`, with and without a custom name.\n- Filters and tests are used from real template files, and globals from `render_template_string`.\n\n**Macros**\n- `get_template_attribute` calls a macro from Python.\n\n**Environment and loaders**\n- A custom loader through an overridden `create_global_jinja_loader`, using a `DictLoader`.\n- A custom environment class through `jinja_environment`.\n\n**Auto-reload**\n- `TEMPLATES_AUTO_RELOAD` and `debug` combinations, plus `app.run(debug=True)` enabling reload.\n\n**Debugging**\n- With `EXPLAIN_TEMPLATE_LOADING`, a missing template raises `TemplateNotFound` and logs the app and bundle loaders it tried, plus a docs link.",
+ "ttft_ms": 2498,
+ "type": "result",
+ "duration_ms": 10713,
+ "uuid": "c5538dd7-344c-4da1-b073-081e042a9814",
+ "ttft_stream_ms": 1272,
+ "time_to_request_ms": 43,
+ "first_content_frame_ms": 1273,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.299",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/session/chain-r2/tests/test_templating.py\"}",
+   "sub": false,
+   "result_chars": 17418,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1\timport logging\n2\t\n3\timport pytest\n4\timport werkzeug.serving\n5\tfrom jinja2 import TemplateNotFound\n6\tfrom markupsafe import Markup\n7\t\n8\timport tessel\n9\t\n10\t\n11"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed",
+  "resetsAt": 1791981000,
+  "rateLimitType": "five_hour",
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.62,
+    "resetsAt": 1791981000
+   },
+   "seven_day": {
+    "utilization": 0.47,
+    "resetsAt": 1792414800
+   }
+  }
+ },
+ "_compact": [],
+ "_wall_s": 11.8,
+ "_t_start": "2026-10-14T08:01:56.069900+00:00",
+ "_t_end": "2026-10-14T08:02:07.832714+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": "0e258663-c5cc-43da-9a7c-0042b1b9d6d2",
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/session/chain-r2",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "Read all of tests/test_templating.py and list which template features are tested, as a short grouped list."
+ },
+ "_mu_cum": {
+  "input": 46,
+  "output": 9258,
+  "cache_read": 1148394,
+  "cache_creation": 76467,
+  "cost": 0.5133793999999999,
+  "total": 1234165
+ },
+ "tok": {
+  "input": 4,
+  "output": 747,
+  "cache_read": 157283,
+  "cache_creation": 8169,
+  "total": 166203,
+  "cost": 0.055882,
+  "method": "delta"
+ },
+ "_tok_usage_field": 166203,
+ "_ctx_last_call": 86589,
+ "_subagent_calls": 0,
+ "_tpl": "plain",
+ "_turn": 12,
+ "_rep": 2
+}

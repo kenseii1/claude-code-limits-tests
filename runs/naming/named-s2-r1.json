@@ -1,0 +1,222 @@
+{
+ "duration_api_ms": 9019,
+ "stop_reason": "end_turn",
+ "session_id": "f2729fd3-4c23-44fd-85bd-b1d8d8e064a9",
+ "total_cost_usd": 0.0977586,
+ "usage": {
+  "input_tokens": 6,
+  "cache_creation_input_tokens": 20310,
+  "cache_read_input_tokens": 57866,
+  "output_tokens": 1072,
+  "output_tokens_details": {
+   "thinking_tokens": 25
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 20310,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 428,
+    "cache_read_input_tokens": 28336,
+    "cache_creation_input_tokens": 2258,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 2258
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 6,
+   "outputTokens": 1072,
+   "cacheReadInputTokens": 57866,
+   "cacheCreationInputTokens": 20310,
+   "webSearchRequests": 0,
+   "costUSD": 0.0977586,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 25,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 4,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "**Where to look**\n\n- `src/tessel/app.py:1175-1190`, the `else` branch of `Tessel.link_for`. With no active request, it uses the app context's `url_adapter` if there is one. Otherwise it calls `self.build_url_binder(None)`. If that returns `None`, it raises your `RuntimeError`.\n- `src/tessel/app.py:550-558`, `build_url_binder`. With `request=None` it returns an adapter only when `config[\"SERVER_NAME\"]` is not `None`. The default is `None` (`app.py:215`), so a background job with no request gets no adapter and hits the error.\n\n**Fix**\n\nSet `SERVER_NAME` so Tessel knows which host to build external URLs for. Set the other two as needed:\n\n```python\napp.config.update(\n    SERVER_NAME=\"example.com\",       # required\n    APPLICATION_ROOT=\"/\",            # path prefix, if the app is mounted under one\n    PREFERRED_URL_SCHEME=\"https\",    # defaults to \"http\"\n)\n```\n\nOutside a request, `link_for` then returns external URLs (`_external` defaults to `True`). Call it inside `with app.app_context():` or via `app.link_for(...)` directly. `docs/config.rst:279-286` documents this requirement.",
+ "ttft_ms": 1192,
+ "type": "result",
+ "duration_ms": 9123,
+ "uuid": "acd49e5e-9f71-422a-a5f7-d35e145f4114",
+ "ttft_stream_ms": 789,
+ "time_to_request_ms": 38,
+ "first_content_frame_ms": 790,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.300",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"link_for|build_url_binder|SERVER_NAME|PREFERRED_URL_SCHEME|APPLICATION_ROOT|url_adapter|test_request_context\", \"path\": \"$UL_SCRATCH/runs/main/naming/named-s2-r1\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 19904,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/views.py:158:                return redirect(link_for(\"counter\"))\nsrc/tessel/helpers.py:200:def link_for(\nsrc/tessel/helpers.py:212:    :meth:`active"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/naming/named-s2-r1/src/tessel/app.py\", \"offset\": 1158, \"limit\": 50}",
+   "sub": false,
+   "result_chars": 2256,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1158\t        \"\"\"\n1159\t        if (ctx := _app_var.get(None)) is not None and ctx.has_request:\n1160\t            url_adapter = ctx.url_adapter\n1161\t            bu"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/naming/named-s2-r1/src/tessel/app.py\", \"offset\": 507, \"limit\": 60}",
+   "sub": false,
+   "result_chars": 2853,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "507\t    def build_url_binder(self, request: Request | None) -> MapAdapter | None:\n508\t        \"\"\"Creates a URL adapter for the given request. The URL adapter\n50"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed_warning",
+  "resetsAt": 1792414800,
+  "rateLimitType": "seven_day",
+  "utilization": 0.74,
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.82,
+    "resetsAt": 1792035000
+   },
+   "seven_day": {
+    "utilization": 0.74,
+    "resetsAt": 1792414800
+   }
+  },
+  "overageEnabled": false
+ },
+ "_compact": [],
+ "_wall_s": 10.2,
+ "_t_start": "2026-10-14T22:41:34.140574+00:00",
+ "_t_end": "2026-10-14T22:41:44.346697+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/naming/named-s2-r1",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "Look at Tessel.link_for and Tessel.build_url_binder in src/tessel/app.py. A background job that calls link_for crashes with 'Unable to build URLs outside an active request'. In this repo, where would you look and why, and what config fixes it? Be brief."
+ },
+ "_mu_cum": {
+  "input": 6,
+  "output": 1072,
+  "cache_read": 57866,
+  "cache_creation": 20310,
+  "cost": 0.0977586,
+  "total": 79254
+ },
+ "tok": {
+  "input": 6,
+  "output": 1072,
+  "cache_read": 57866,
+  "cache_creation": 20310,
+  "cost": 0.0977586,
+  "total": 79254,
+  "method": "single"
+ },
+ "_tok_usage_field": 79254,
+ "_ctx_last_call": 30596,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "plain"
+}

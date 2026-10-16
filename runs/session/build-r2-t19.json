@@ -1,0 +1,212 @@
+{
+ "duration_api_ms": 159134,
+ "stop_reason": "end_turn",
+ "session_id": "0e258663-c5cc-43da-9a7c-0042b1b9d6d2",
+ "total_cost_usd": 0.8775435,
+ "usage": {
+  "input_tokens": 6,
+  "cache_creation_input_tokens": 1281,
+  "cache_read_input_tokens": 354895,
+  "output_tokens": 598,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 1281,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 215,
+    "cache_read_input_tokens": 118558,
+    "cache_creation_input_tokens": 830,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 830
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 80,
+   "outputTokens": 14824,
+   "thinkingTokens": 243,
+   "cacheReadInputTokens": 2920715,
+   "cacheCreationInputTokens": 109268,
+   "webSearchRequests": 0,
+   "costUSD": 0.8775435,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 3,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "`render_template_string` is defined at `src/tessel/templating.py:151`.\n\nIt gets the current app context, compiles the source with `ctx.app.jinja_env.from_string(source)`, and passes the result to the internal helper `_render(ctx, template, context)` (`templating.py:123`).\n\n`_render` does the rest:\n1. It calls `app.fill_template_scope(ctx, context)` to inject the standard and injected context.\n2. It sends `before_render_template`.\n3. It calls `template.render(context)`.\n4. It sends `template_rendered`.\n5. It returns the rendered string.\n\n`render_template` uses the same `_render` helper.",
+ "ttft_ms": 2712,
+ "type": "result",
+ "duration_ms": 7905,
+ "uuid": "1877ddd3-f8e8-4529-8f90-a13a1ee6af9e",
+ "ttft_stream_ms": 1156,
+ "time_to_request_ms": 41,
+ "first_content_frame_ms": 1157,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.299",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"def render_template_string|def _render|def _stream\", \"path\": \"$UL_SCRATCH/runs/main/session/chain-r2/src\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 249,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/templating.py:123:def _render(ctx: AppContext, template: Template, context: dict[str, t.Any]) -> str:\nsrc/tessel/templating.py:151:def render_templat"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/session/chain-r2/src/tessel/templating.py\", \"offset\": 120, \"limit\": 45}",
+   "sub": false,
+   "result_chars": 1700,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "120\t        return list(result)\n121\t\n122\t\n123\tdef _render(ctx: AppContext, template: Template, context: dict[str, t.Any]) -> str:\n124\t    app = ctx.app\n125\t    "
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed",
+  "resetsAt": 1791981000,
+  "rateLimitType": "five_hour",
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.82,
+    "resetsAt": 1791981000
+   },
+   "seven_day": {
+    "utilization": 0.49,
+    "resetsAt": 1792414800
+   }
+  }
+ },
+ "_compact": [],
+ "_wall_s": 9.0,
+ "_t_start": "2026-10-14T08:05:45.317989+00:00",
+ "_t_end": "2026-10-14T08:05:54.355868+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": "0e258663-c5cc-43da-9a7c-0042b1b9d6d2",
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/session/chain-r2",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "Where is render_template_string defined and which internal helper renders it?"
+ },
+ "_mu_cum": {
+  "input": 80,
+  "output": 14824,
+  "cache_read": 2920715,
+  "cache_creation": 109268,
+  "cost": 0.8775435,
+  "total": 3044887
+ },
+ "tok": {
+  "input": 6,
+  "output": 598,
+  "cache_read": 354895,
+  "cache_creation": 1281,
+  "total": 356780,
+  "cost": 0.046605,
+  "method": "delta"
+ },
+ "_tok_usage_field": 356780,
+ "_ctx_last_call": 119390,
+ "_subagent_calls": 0,
+ "_tpl": "plain",
+ "_turn": 19,
+ "_rep": 2
+}

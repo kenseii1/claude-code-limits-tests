@@ -1,0 +1,230 @@
+{
+ "duration_api_ms": 8596,
+ "stop_reason": "end_turn",
+ "session_id": "40083987-9f75-4a1a-9a1c-811036a07f6b",
+ "total_cost_usd": 0.00494051,
+ "usage": {
+  "input_tokens": 8,
+  "cache_creation_input_tokens": 16692,
+  "cache_read_input_tokens": 78181,
+  "output_tokens": 1639,
+  "output_tokens_details": {
+   "thinking_tokens": 355
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 16692,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 536,
+    "cache_read_input_tokens": 24425,
+    "cache_creation_input_tokens": 2551,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 2551
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-haiku-5-5": {
+   "inputTokens": 8,
+   "outputTokens": 1639,
+   "cacheReadInputTokens": 78181,
+   "cacheCreationInputTokens": 16692,
+   "webSearchRequests": 0,
+   "costUSD": 0.00494051,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 355,
+   "canonicalModel": "claude-haiku-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 5,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "Use **`@needs_app_scope`**, defined in `src/tessel/cli.py:380`. It wraps the callback so it runs inside the app context. Decorate a plain `@click.command(...)` with it, as `shell_command` and `routes_command` do (`src/tessel/cli.py:998-1000`, `1047-1059`).\n\nIf you register the command on the app's CLI group (`@app.cli.command(...)`), the wrapping is automatic through `AppGroup.command` (`src/tessel/cli.py:413-427`), so you don't need the decorator.\n\nThe class that loads the app is **`LaunchInfo`** (`src/tessel/cli.py:293`), via its `load_app()` method (`src/tessel/cli.py:333`). It finds the app from the `create_app` callable, the import path, or `wsgi.py`/`app.py`. If you need the object directly rather than the context, use `@pass_script_info` (`src/tessel/cli.py:375`), as `run_command` does (`src/tessel/cli.py:933`).",
+ "ttft_ms": 1360,
+ "type": "result",
+ "duration_ms": 8739,
+ "uuid": "52f39dee-0402-42fa-9f56-08654db193e4",
+ "ttft_stream_ms": 833,
+ "time_to_request_ms": 75,
+ "first_content_frame_ms": 833,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init",
+  "system:thinking_tokens"
+ ],
+ "_init": {
+  "model": "claude-haiku-5-5",
+  "version": "2.1.301",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 32,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"@click\\\\.command|@app\\\\.cli\\\\.command|@cli\\\\.command|typer\\\\.Typer|@with_appcontext|with_appcontext|app\\\\.app_context\", \"path\": \"$UL_SCRATCH/runs/main/models/haiku-q3-r2\", \"output_mode\": \"content\", \"-n\": true}",
+   "sub": false,
+   "result_chars": 3830,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/globals.py:37:solve this, set up an app context using 'with app.app_context()'. See the\nsrc/tessel/cli.py:398:            ctx.with_resource(app.app_c"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"class .*(Command|CLI|Cli)\\\\b|def create_app|flask.cli|FlaskGroup|ScriptInfo\", \"path\": \"$UL_SCRATCH/runs/main/models/haiku-q3-r2\", \"output_mode\": \"content\", \"-n\": true}",
+   "sub": false,
+   "result_chars": 1521,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "tests/test_testing.py:370:    def create_app():\ndocs/errorhandling.rst:315:    def create_app(config_filename):\ndocs/errorhandling.rst:369:    def create_app():"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"^(class |def |@)|with_appcontext|def load_app|ScriptInfo\", \"path\": \"$UL_SCRATCH/runs/main/models/haiku-q3-r2/src/tessel/cli.py\", \"output_mode\": \"content\", \"-n\": true}",
+   "sub": false,
+   "result_chars": 2008,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "37:class NoAppException(click.UsageError):\n41:def locate_main_app(module: ModuleType) -> Tessel:\n94:def _bad_factory_args(f: t.Callable[..., Tessel]) -> bool:\n1"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/models/haiku-q3-r2/src/tessel/cli.py\", \"offset\": 290, \"limit\": 150}",
+   "sub": false,
+   "result_chars": 6192,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "290\t)\n291\t\n292\t\n293\tclass LaunchInfo:\n294\t    \"\"\"Helper object to deal with Tessel applications.  This is usually not\n295\t    necessary to interface with as it'"
+  }
+ ],
+ "_models_seen": [
+  "claude-haiku-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed",
+  "resetsAt": 1792117800,
+  "rateLimitType": "five_hour",
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.01,
+    "resetsAt": 1792117800
+   },
+   "seven_day": {
+    "utilization": 0.07,
+    "resetsAt": 1792681200
+   }
+  }
+ },
+ "_compact": [],
+ "_wall_s": 13.4,
+ "_t_start": "2026-10-15T21:31:00.047611+00:00",
+ "_t_end": "2026-10-15T21:31:13.406436+00:00",
+ "_cmd": {
+  "model": "haiku",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/models/haiku-q3-r2",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "In this repo, I want to add a custom CLI command that needs the app (and app context). Which decorator should I use, and which class loads the app for CLI commands? Give file paths. Be brief."
+ },
+ "_mu_cum": {
+  "input": 8,
+  "output": 1639,
+  "cache_read": 78181,
+  "cache_creation": 16692,
+  "cost": 0.00494051,
+  "total": 96520
+ },
+ "tok": {
+  "input": 8,
+  "output": 1639,
+  "cache_read": 78181,
+  "cache_creation": 16692,
+  "cost": 0.00494051,
+  "total": 96520,
+  "method": "single"
+ },
+ "_tok_usage_field": 96520,
+ "_ctx_last_call": 26978,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "plain"
+}

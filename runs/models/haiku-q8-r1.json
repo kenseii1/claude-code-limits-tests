@@ -1,0 +1,230 @@
+{
+ "duration_api_ms": 12250,
+ "stop_reason": "end_turn",
+ "session_id": "6e2d938c-0832-4d47-a4e4-7922f90bba9f",
+ "total_cost_usd": 0.00450472,
+ "usage": {
+  "input_tokens": 8,
+  "cache_creation_input_tokens": 14082,
+  "cache_read_input_tokens": 75802,
+  "output_tokens": 1859,
+  "output_tokens_details": {
+   "thinking_tokens": 426
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 14082,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 959,
+    "cache_read_input_tokens": 23506,
+    "cache_creation_input_tokens": 860,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 860
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-haiku-5-5": {
+   "inputTokens": 8,
+   "outputTokens": 1859,
+   "cacheReadInputTokens": 75802,
+   "cacheCreationInputTokens": 14082,
+   "webSearchRequests": 0,
+   "costUSD": 0.00450472,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 426,
+   "canonicalModel": "claude-haiku-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 5,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "All three are `werkzeug.local.LocalProxy` objects, defined in `src/tessel/globals.py:40-62`. They don't store anything themselves. Each one looks up the current context object on every access.\n\n- **The mechanism:** a single `ContextVar` named `_app_var` (`globals.py:40`) holds the active context. `LocalProxy(_app_var, \"<attr>\", unbound_message=...)` means that when you touch the proxy, it calls `_app_var.get()` and reads `<attr>` from the result. If nothing is pushed, it raises the matching \"Working outside of ... context\" message.\n- **The objects:**\n  - `active_app` reads `\"app\"`, which is the `Tessel` application instance.\n  - `g` reads `\"g\"`, which is the per-context `_AppCtxGlobals` created in `ctx.py` (around line 312, `app.app_ctx_globals_class()`).\n  - `request` reads `\"request\"`, which is the `Request` object (from `wrappers.py`) bound by the request context.\n  - `session` also uses `_app_var` and reads `\"session\"`. `app_ctx` is a proxy to the context object itself.\n- **Setting the context:** the context class in `src/tessel/ctx.py` calls `_app_var.set(self)` in `push()` (line 433) and `_app_var.reset(self._cv_token)` in `pop()` (line 498). Because it uses a `ContextVar`, each thread and async task gets its own current context. That's how the same `request` name points to a different request per call.\n\nI didn't fully confirm which of the two classes in `ctx.py` owns `request` and `session` versus only `app` and `g`. The tokens above are what I checked. The `request_ctx` alias in `globals.py:65-75` is a deprecated pointer to `app_ctx`.",
+ "ttft_ms": 2076,
+ "type": "result",
+ "duration_ms": 12381,
+ "uuid": "122f0d36-5c64-47aa-ae40-0afe848fc86e",
+ "ttft_stream_ms": 1360,
+ "time_to_request_ms": 37,
+ "first_content_frame_ms": 1360,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init",
+  "system:thinking_tokens"
+ ],
+ "_init": {
+  "model": "claude-haiku-5-5",
+  "version": "2.1.300",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 32,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"active_app|\\\\bg\\\\b\\\\s*=|request\\\\b\", \"path\": \"$UL_SCRATCH/runs/main/models/haiku-q8-r1\", \"output_mode\": \"files_with_matches\"}",
+   "sub": false,
+   "result_chars": 2499,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "Found 96 files\ntests/type_check/typing_app_decorators.py\ntests/test_views.py\ntests/test_testing.py\ntests/test_templating.py\ntests/test_signals.py\ntests/test_ses"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/models/haiku-q8-r1/src/tessel/globals.py\"}",
+   "sub": false,
+   "result_chars": 2651,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1\tfrom __future__ import annotations\n2\t\n3\timport typing as t\n4\tfrom contextvars import ContextVar\n5\t\n6\tfrom werkzeug.local import LocalProxy\n7\t\n8\tif t.TYPE_CHEC"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"ContextVar|def _cv_|_cv_app|_cv_request\", \"path\": \"$UL_SCRATCH/runs/main/models/haiku-q8-r1/src/tessel\", \"output_mode\": \"content\", \"-n\": true}",
+   "sub": false,
+   "result_chars": 147,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/globals.py:4:from contextvars import ContextVar\nsrc/tessel/globals.py:40:_app_var: ContextVar[AppContext] = ContextVar(\"tessel.app_ctx\")"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"_app_var|self\\\\.request\\\\b|self\\\\.g\\\\b|self\\\\.app\\\\b|def push|def pop\", \"path\": \"$UL_SCRATCH/runs/main/models/haiku-q8-r1/src/tessel/ctx.py\", \"output_mode\": \"content\", \"-n\": true}",
+   "sub": false,
+   "result_chars": 1367,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "12:from .globals import _app_var\n79:    def pop(self, name: str, default: t.Any = _sentinel) -> t.Any:\n112:        ctx = _app_var.get(None)\n139:    ctx = _app_v"
+  }
+ ],
+ "_models_seen": [
+  "claude-haiku-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed",
+  "resetsAt": 1792099800,
+  "rateLimitType": "five_hour",
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.69,
+    "resetsAt": 1792099800
+   },
+   "seven_day": {
+    "utilization": 0.05,
+    "resetsAt": 1792681200
+   }
+  }
+ },
+ "_compact": [],
+ "_wall_s": 13.5,
+ "_t_start": "2026-10-15T16:40:39.371114+00:00",
+ "_t_end": "2026-10-15T16:40:52.864679+00:00",
+ "_cmd": {
+  "model": "haiku",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/models/haiku-q8-r1",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "In this repo, how do active_app, g and request find the right object for the current context? Name the mechanism and the objects involved, with file paths. Be brief."
+ },
+ "_mu_cum": {
+  "input": 8,
+  "output": 1859,
+  "cache_read": 75802,
+  "cache_creation": 14082,
+  "cost": 0.00450472,
+  "total": 91751
+ },
+ "tok": {
+  "input": 8,
+  "output": 1859,
+  "cache_read": 75802,
+  "cache_creation": 14082,
+  "cost": 0.00450472,
+  "total": 91751,
+  "method": "single"
+ },
+ "_tok_usage_field": 91751,
+ "_ctx_last_call": 24368,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "plain"
+}

@@ -1,0 +1,223 @@
+{
+ "duration_api_ms": 10473,
+ "stop_reason": "end_turn",
+ "session_id": "8b95ff4e-2c78-4b55-af9b-bdf5d0de7997",
+ "total_cost_usd": 0.06760820000000001,
+ "usage": {
+  "input_tokens": 6,
+  "cache_creation_input_tokens": 12542,
+  "cache_read_input_tokens": 51082,
+  "output_tokens": 1232,
+  "output_tokens_details": {
+   "thinking_tokens": 37
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 12542,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 611,
+    "cache_read_input_tokens": 21543,
+    "cache_creation_input_tokens": 1283,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 1283
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 6,
+   "outputTokens": 1232,
+   "cacheReadInputTokens": 51082,
+   "cacheCreationInputTokens": 12542,
+   "webSearchRequests": 0,
+   "costUSD": 0.06760820000000001,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 37,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 4,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "Look in these places, in order:\n\n1. **`STATIC_CACHE_SECONDS_DEFAULT` in your app config.** Both `static_cache_seconds` methods (`src/tessel/app.py:363` and `src/tessel/bundles.py:55`) just read this value. The default is `None`, so browsers should revalidate with conditional requests, not use a timed cache. If you see stale CSS, something has set it to a number or a `timedelta`. Check your config files and env-driven settings.\n\n2. **Subclass overrides.** Search your code for `def static_cache_seconds`. An override on your `Tessel` subclass or on a `Bundle` would take precedence over the config. The tests at `tests/test_helpers.py:70` and `tests/test_bundles.py:221` show this pattern.\n\n3. **`send_static_file`.** It calls `static_cache_seconds(filename)` and passes the result as `max_age` to `send_file` (`app.py:407`, `bundles.py:99`). `send_file` is in `src/tessel/helpers.py:425`. A set `max_age` produces `Cache-Control: public, max-age=N`. `None` produces `no-cache` plus ETag and Last-Modified validation.\n\n4. **Bundle versus app.** Each `Bundle` uses its own `static_cache_seconds` and reads `active_app.config`. Check whether the stale files come from a bundle's static folder and whether it overrides the method.\n\n5. **Outside the code.** If the config is `None` and the response headers still show long caching, a reverse proxy or CDN (nginx or a CDN `Cache-Control` override) is likely adding it. Inspect the actual response headers with `curl -I`.\n\nThe most useful quick check is the response headers for a stale CSS file. They will tell you whether the cache time comes from Tessel or from something in front of it.",
+ "ttft_ms": 1403,
+ "type": "result",
+ "duration_ms": 10565,
+ "uuid": "fe987907-8908-4d59-ac32-31285582ca57",
+ "ttft_stream_ms": 818,
+ "time_to_request_ms": 32,
+ "first_content_frame_ms": 818,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.300",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"static_cache_seconds|Cache-Control|max_age|max-age\", \"path\": \"$UL_SCRATCH/runs/main/naming/named-s7-r2\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 4540,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/helpers.py:405:    if kwargs.get(\"max_age\") is None:\nsrc/tessel/helpers.py:406:        kwargs[\"max_age\"] = ctx.app.static_cache_seconds\nsrc/tessel/he"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/naming/named-s7-r2/src/tessel/app.py\", \"offset\": 360, \"limit\": 30}",
+   "sub": false,
+   "result_chars": 1190,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "360\t                view_func=lambda **kw: self_ref().send_static_file(**kw),  # type: ignore\n361\t            )\n362\t\n363\t    def static_cache_seconds(self, file"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/naming/named-s7-r2/src/tessel/bundles.py\", \"offset\": 52, \"limit\": 25}",
+   "sub": false,
+   "result_chars": 990,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "52\t        # the app's commands to another CLI tool.\n53\t        self.cli.name = self.name\n54\t\n55\t    def static_cache_seconds(self, filename: str | None) -> int"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed_warning",
+  "resetsAt": 1792414800,
+  "rateLimitType": "seven_day",
+  "utilization": 0.76,
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "surpassedThreshold": 0.75,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.03,
+    "resetsAt": 1792053000
+   },
+   "seven_day": {
+    "utilization": 0.76,
+    "resetsAt": 1792414800
+   }
+  },
+  "overageEnabled": false
+ },
+ "_compact": [],
+ "_wall_s": 11.8,
+ "_t_start": "2026-10-15T03:31:13.206307+00:00",
+ "_t_end": "2026-10-15T03:31:25.054245+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/naming/named-s7-r2",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "Look at Tessel.static_cache_seconds in src/tessel/app.py and Bundle.static_cache_seconds in src/tessel/bundles.py. Browsers keep using old static CSS files after a deploy. In this repo, where would you look to see how long static files are cached and why? Be brief."
+ },
+ "_mu_cum": {
+  "input": 6,
+  "output": 1232,
+  "cache_read": 51082,
+  "cache_creation": 12542,
+  "cost": 0.06760820000000001,
+  "total": 64862
+ },
+ "tok": {
+  "input": 6,
+  "output": 1232,
+  "cache_read": 51082,
+  "cache_creation": 12542,
+  "cost": 0.06760820000000001,
+  "total": 64862,
+  "method": "single"
+ },
+ "_tok_usage_field": 64862,
+ "_ctx_last_call": 22828,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "plain"
+}

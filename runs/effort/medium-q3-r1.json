@@ -1,0 +1,223 @@
+{
+ "duration_api_ms": 8453,
+ "stop_reason": "end_turn",
+ "session_id": "c5385ec8-bf22-480e-a04a-91dc25de7cfc",
+ "total_cost_usd": 0.060479899999999996,
+ "usage": {
+  "input_tokens": 6,
+  "cache_creation_input_tokens": 11547,
+  "cache_read_input_tokens": 49799,
+  "output_tokens": 930,
+  "output_tokens_details": {
+   "thinking_tokens": 42
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 11547,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 346,
+    "cache_read_input_tokens": 20296,
+    "cache_creation_input_tokens": 1535,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 1535
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 6,
+   "outputTokens": 930,
+   "cacheReadInputTokens": 49799,
+   "cacheCreationInputTokens": 11547,
+   "webSearchRequests": 0,
+   "costUSD": 0.060479899999999996,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 42,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 4,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "**Decorator:** `needs_app_scope` in `src/tessel/cli.py:380`. It wraps the callback so it runs inside the app context, and it loads the app first if none is active.\n\n- You don't need it for commands registered with `@app.cli.command()` or `@bundle.cli.command()`. `AppGroup.command` (`src/tessel/cli.py:405`) applies it automatically. `app.cli` is created at `src/tessel/app.py:338` and `bundle.cli` at `src/tessel/bundles.py:49`.\n- Pass `needs_app_scope=False` to opt out.\n\n**App loader:** `LaunchInfo` in `src/tessel/cli.py:293`. Its `load_app()` method (line 333) finds and loads the app. `needs_app_scope` calls it via `ctx.ensure_object(LaunchInfo).load_app()` (line 397).\n\n`TesselGroup` (`src/tessel/cli.py:531`) is the top-level CLI group and also uses `load_app` to discover commands.",
+ "ttft_ms": 1716,
+ "type": "result",
+ "duration_ms": 8550,
+ "uuid": "311145b8-81bb-4187-bd0a-4ef2d4005147",
+ "ttft_stream_ms": 1170,
+ "time_to_request_ms": 44,
+ "first_content_frame_ms": 1171,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.300",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"with_appcontext|FlaskGroup|ScriptInfo|AppGroup|load_app\", \"output_mode\": \"content\", \"head_limit\": 30}",
+   "sub": false,
+   "result_chars": 1855,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/cli.py:333:    def load_app(self) -> Tessel:\nsrc/tessel/cli.py:397:            app = ctx.ensure_object(LaunchInfo).load_app()\nsrc/tessel/cli.py:405:c"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/effort/medium-q3-r1/src/tessel/cli.py\", \"offset\": 380, \"limit\": 60}",
+   "sub": false,
+   "result_chars": 2594,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "380\tdef needs_app_scope(f: F) -> F:\n381\t    \"\"\"Wraps a callback so that it's guaranteed to be executed with the\n382\t    script's application context.\n383\t\n384\t "
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"^def with_|^def with_appcontext|^class LaunchInfo|^class \\\\w+Info\", \"path\": \"$UL_SCRATCH/runs/main/effort/medium-q3-r1/src/tessel/cli.py\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 21,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "293:class LaunchInfo:"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed_warning",
+  "resetsAt": 1792414800,
+  "rateLimitType": "seven_day",
+  "utilization": 0.83,
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "surpassedThreshold": 0.75,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.9,
+    "resetsAt": 1792053000
+   },
+   "seven_day": {
+    "utilization": 0.83,
+    "resetsAt": 1792414800
+   }
+  },
+  "overageEnabled": false
+ },
+ "_compact": [],
+ "_wall_s": 9.6,
+ "_t_start": "2026-10-15T03:46:30.067811+00:00",
+ "_t_end": "2026-10-15T03:46:39.691007+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/effort/medium-q3-r1",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "In this repo, I want to add a custom CLI command that needs the app (and app context). Which decorator should I use, and which class loads the app for CLI commands? Give file paths. Be brief."
+ },
+ "_mu_cum": {
+  "input": 6,
+  "output": 930,
+  "cache_read": 49799,
+  "cache_creation": 11547,
+  "cost": 0.060479899999999996,
+  "total": 62282
+ },
+ "tok": {
+  "input": 6,
+  "output": 930,
+  "cache_read": 49799,
+  "cache_creation": 11547,
+  "cost": 0.060479899999999996,
+  "total": 62282,
+  "method": "single"
+ },
+ "_tok_usage_field": 62282,
+ "_ctx_last_call": 21833,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "plain"
+}

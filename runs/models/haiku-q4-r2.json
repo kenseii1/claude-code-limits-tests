@@ -1,0 +1,311 @@
+{
+ "duration_api_ms": 20753,
+ "stop_reason": "end_turn",
+ "session_id": "7d2cc55e-8c16-446d-9d6d-16521b6197fa",
+ "total_cost_usd": 0.007435509999999999,
+ "usage": {
+  "input_tokens": 14,
+  "cache_creation_input_tokens": 19699,
+  "cache_read_input_tokens": 157581,
+  "output_tokens": 3837,
+  "output_tokens_details": {
+   "thinking_tokens": 506
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 19699,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 901,
+    "cache_read_input_tokens": 29191,
+    "cache_creation_input_tokens": 792,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 792
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-haiku-5-5": {
+   "inputTokens": 14,
+   "outputTokens": 3837,
+   "cacheReadInputTokens": 157581,
+   "cacheCreationInputTokens": 19699,
+   "webSearchRequests": 0,
+   "costUSD": 0.007435509999999999,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 506,
+   "canonicalModel": "claude-haiku-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 14,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "Rules are not stored on the bundle as data. Each rule is recorded as a deferred callback during bundle setup, then replayed against the app when the bundle is registered.\n\n1. **`Tessel.register_bundle`** (`src/tessel/sansio/app.py:571`) is the entry point. It calls `bundle.register(self, options)`.\n2. **`Bundle.register`** (`src/tessel/sansio/bundles.py:273`) records the bundle in `app.bundles`, creates a `BundleSetupState` via `make_setup_state`, and runs each entry in `self.deferred_functions` with that state (line 334). It also attaches the static route if the bundle has a static folder (line 323). Nested bundles are then registered from `self._bundles` (line 349).\n3. **`Bundle.attach_route_rule`** (`src/tessel/sansio/bundles.py:413`) is what fills `deferred_functions`. It calls `self.record(lambda s: s.attach_route_rule(...))`, so nothing reaches the app until registration. `Bundle.record` (line ~225) appends to that list.\n4. **`BundleSetupState.attach_route_rule`** (`src/tessel/sansio/bundles.py:87`) applies the bundle's `url_prefix`, `subdomain`, and `url_defaults`. It prefixes the endpoint with the bundle name and calls `app.attach_route_rule`.\n5. **`Tessel.attach_route_rule`** (`src/tessel/sansio/app.py:606`) builds the rule with `self.url_rule_class` (`Rule`) and calls `self.url_map.add(rule_obj)`. It also records the view function in `self.view_functions`.\n\nI did not check `src/tessel/app.py`, which may override some of these methods.",
+ "ttft_ms": 2037,
+ "type": "result",
+ "duration_ms": 20988,
+ "uuid": "2e66ad25-f312-40cf-8d08-6639eddff873",
+ "ttft_stream_ms": 1334,
+ "time_to_request_ms": 93,
+ "first_content_frame_ms": 1334,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init",
+  "system:thinking_tokens"
+ ],
+ "_init": {
+  "model": "claude-haiku-5-5",
+  "version": "2.1.300",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 32,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"(?i)(url.?rule|urlrule|url_rule|UrlRule|URLRule)\", \"path\": \"$UL_SCRATCH/runs/main/models/haiku-q4-r2\", \"output_mode\": \"files_with_matches\"}",
+   "sub": false,
+   "result_chars": 273,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "Found 12 files\nsrc/tessel/wrappers.py\nsrc/tessel/sansio/scaffold.py\nsrc/tessel/sansio/bundles.py\nsrc/tessel/sansio/app.py\nsrc/tessel/helpers.py\nsrc/tessel/ctx.p"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"(?i)(register|registration).*bundle|bundle.*(register|registration)\", \"path\": \"$UL_SCRATCH/runs/main/models/haiku-q4-r2\", \"output_mode\": \"files_with_matches\"}",
+   "sub": false,
+   "result_chars": 611,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "Found 25 files\ntests/test_user_error_handler.py\ntests/test_testing.py\ntests/test_cli.py\ntests/test_bundles.py\ntests/test_basic.py\ntests/test_async.py\ntests/test"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"(?i)url.?rule|def register|def _register|class |def add_url_rule\", \"path\": \"$UL_SCRATCH/runs/main/models/haiku-q4-r2/src/tessel/sansio/bundles.py\", \"output_mode\": \"content\", \"-n\": true}",
+   "sub": false,
+   "result_chars": 754,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "34:class BundleSetupState:\n36:    application.  An instance of this class is created by the\n119:class Bundle(Scaffold):\n251:        Subclasses can override this"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"(?i)url.?rule|def register|def _register|def add_url_rule|bundle\", \"path\": \"$UL_SCRATCH/runs/main/models/haiku-q4-r2/src/tessel/sansio/app.py\", \"output_mode\": \"content\", \"-n\": true}",
+   "sub": false,
+   "result_chars": 2209,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "25:from ..helpers import _split_bundle_path\n42:    from .bundles import Bundle\n64:    the view functions, the URL rules, template configuration and much more.\n2"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/models/haiku-q4-r2/src/tessel/sansio/bundles.py\", \"offset\": 225, \"limit\": 70}",
+   "sub": false,
+   "result_chars": 3183,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "225\t        \"\"\"Registers a function that is called when the bundle is\n226\t        registered on the application.  This function is called with the\n227\t        s"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/models/haiku-q4-r2/src/tessel/sansio/app.py\", \"offset\": 565, \"limit\": 35}",
+   "sub": false,
+   "result_chars": 1652,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "565\t        self.config[\"DEBUG\"] = value\n566\t\n567\t        if self.config[\"TEMPLATES_AUTO_RELOAD\"] is None:\n568\t            self.jinja_env.auto_reload = value\n56"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/models/haiku-q4-r2/src/tessel/sansio/app.py\", \"offset\": 610, \"limit\": 50}",
+   "sub": false,
+   "result_chars": 2251,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "610\t        view_func: ft.RouteCallable | None = None,\n611\t        provide_automatic_options: bool | None = None,\n612\t        **options: t.Any,\n613\t    ) -> Non"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/models/haiku-q4-r2/src/tessel/sansio/bundles.py\", \"offset\": 295, \"limit\": 40}",
+   "sub": false,
+   "result_chars": 1758,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "295\t\n296\t        .. versionchanged:: 2.0.1\n297\t            The ``name`` option can be used to change the (pre-dotted)\n298\t            name the bundle is registe"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"def (attach_route_rule|add_url_rule|route|add_route)|def _split_bundle_path|self\\\\.record\\\\(|_url_rules|url_rules\", \"path\": \"$UL_SCRATCH/runs/main/models/haiku-q4-r2/src/tessel\", \"output_mode\": \"content\", \"-n\": true}",
+   "sub": false,
+   "result_chars": 844,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/helpers.py:645:def _split_bundle_path(name: str) -> list[str]:\nsrc/tessel/cli.py:1060:def routes_command(sort: str, all_methods: bool) -> None:\nsrc/t"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/models/haiku-q4-r2/src/tessel/sansio/bundles.py\", \"offset\": 334, \"limit\": 20}",
+   "sub": false,
+   "result_chars": 814,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "334\t        for deferred in self.deferred_functions:\n335\t            deferred(state)\n336\t\n337\t        cli_resolved_group = options.get(\"cli_group\", self.cli_gro"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/models/haiku-q4-r2/src/tessel/sansio/bundles.py\", \"offset\": 413, \"limit\": 25}",
+   "sub": false,
+   "result_chars": 1063,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "413\t    def attach_route_rule(\n414\t        self,\n415\t        rule: str,\n416\t        endpoint: str | None = None,\n417\t        view_func: ft.RouteCallable | None "
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/models/haiku-q4-r2/src/tessel/sansio/app.py\", \"offset\": 604, \"limit\": 8}",
+   "sub": false,
+   "result_chars": 252,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "604\t\n605\t    @setupmethod\n606\t    def attach_route_rule(\n607\t        self,\n608\t        rule: str,\n609\t        endpoint: str | None = None,\n610\t        view_func"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/models/haiku-q4-r2/src/tessel/sansio/bundles.py\", \"offset\": 87, \"limit\": 35}",
+   "sub": false,
+   "result_chars": 1371,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "87\t    def attach_route_rule(\n88\t        self,\n89\t        rule: str,\n90\t        endpoint: str | None = None,\n91\t        view_func: ft.RouteCallable | None = Non"
+  }
+ ],
+ "_models_seen": [
+  "claude-haiku-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed",
+  "resetsAt": 1792099800,
+  "rateLimitType": "five_hour",
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.66,
+    "resetsAt": 1792099800
+   },
+   "seven_day": {
+    "utilization": 0.04,
+    "resetsAt": 1792681200
+   }
+  }
+ },
+ "_compact": [],
+ "_wall_s": 21.8,
+ "_t_start": "2026-10-15T16:40:08.408168+00:00",
+ "_t_end": "2026-10-15T16:40:30.237005+00:00",
+ "_cmd": {
+  "model": "haiku",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/models/haiku-q4-r2",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "In this repo, how does a bundle get its URL rules onto the app when it is registered? Name the classes and methods involved, with file paths. Be brief."
+ },
+ "_mu_cum": {
+  "input": 14,
+  "output": 3837,
+  "cache_read": 157581,
+  "cache_creation": 19699,
+  "cost": 0.007435509999999999,
+  "total": 181131
+ },
+ "tok": {
+  "input": 14,
+  "output": 3837,
+  "cache_read": 157581,
+  "cache_creation": 19699,
+  "cost": 0.007435509999999999,
+  "total": 181131,
+  "method": "single"
+ },
+ "_tok_usage_field": 181131,
+ "_ctx_last_call": 29985,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "plain"
+}

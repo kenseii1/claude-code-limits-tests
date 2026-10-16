@@ -1,0 +1,311 @@
+{
+ "duration_api_ms": 26089,
+ "stop_reason": "end_turn",
+ "session_id": "bfdfa490-52cf-481a-a4e7-608145c64415",
+ "total_cost_usd": 0.008988399999999999,
+ "usage": {
+  "input_tokens": 18,
+  "cache_creation_input_tokens": 22461,
+  "cache_read_input_tokens": 225240,
+  "output_tokens": 4484,
+  "output_tokens_details": {
+   "thinking_tokens": 785
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 22461,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 869,
+    "cache_read_input_tokens": 31867,
+    "cache_creation_input_tokens": 878,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 878
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-haiku-5-5": {
+   "inputTokens": 18,
+   "outputTokens": 4484,
+   "cacheReadInputTokens": 225240,
+   "cacheCreationInputTokens": 22461,
+   "webSearchRequests": 0,
+   "costUSD": 0.008988399999999999,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 785,
+   "canonicalModel": "claude-haiku-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 14,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "The cookie is written in `SignedCookieSessionInterface.persist_session`, called from `finalize_reply`. The call order for a normal request:\n\n1. `src/tessel/app.py:1566` `Tessel.wsgi_entry`: entry point; pushes the context (`ctx.push()`) and calls `run_full_request`.\n2. `src/tessel/app.py:992` `Tessel.run_full_request`: runs `preprocess_request` and `run_view`, then calls `finalize_request`.\n3. `src/tessel/app.py:1021` `Tessel.finalize_request`: calls `make_response`, then `finalize_reply`.\n4. `src/tessel/app.py:1394` `Tessel.finalize_reply`: runs the `after_request` functions, then, if `is_null_session` is false, calls `session_interface.persist_session(...)`.\n5. `src/tessel/sessions.py:337` `SignedCookieSessionInterface.persist_session`:\n   - Reads the config helpers `get_cookie_name`, `get_cookie_domain`, `get_cookie_path`, `get_cookie_secure`, `get_cookie_partitioned`, `get_cookie_samesite`, `get_cookie_httponly`.\n   - If the session is empty and was modified, it calls `response.delete_cookie`.\n   - Returns early unless `cookie_needs_write` (`sessions.py:233`) is true. That check uses `session.modified`, or `permanent` with `SESSION_REFRESH_EACH_REQUEST`.\n   - Calls `get_expiration_time` (`sessions.py:223`).\n   - Signs the payload with `make_signer` (`sessions.py:303`), which wraps `URLSafeTimedSerializer`, and calls `dumps(dict(session))`.\n   - Calls `response.set_cookie(...)` (`sessions.py:374`), then `response.vary.add(\"Cookie\")`.\n6. `src/tessel/ctx.py:446` `AppContext.pop` runs afterward, in the `finally` block of `wsgi_entry` (`app.py:1616`). It runs teardown, but does not write the cookie.\n\nThe test client follows the same sequence: `src/tessel/testing.py:173-177` calls `is_null_session` and then `persist_session` directly.",
+ "ttft_ms": 1319,
+ "type": "result",
+ "duration_ms": 26339,
+ "uuid": "4068bd6f-ff3f-4f92-93c9-fda47529415a",
+ "ttft_stream_ms": 1031,
+ "time_to_request_ms": 51,
+ "first_content_frame_ms": 1031,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init",
+  "system:thinking_tokens"
+ ],
+ "_init": {
+  "model": "claude-haiku-5-5",
+  "version": "2.1.300",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 32,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"set-cookie|setCookie|set_cookie|Set-Cookie|cookies\\\\.set|res\\\\.cookie|session\\\\.save|sessionStore|commit_session\", \"path\": \"$UL_SCRATCH/runs/main/models/haiku-q2-r2\", \"output_mode\": \"content\", \"-n\": true, \"head_limit\": 100}",
+   "sub": false,
+   "result_chars": 2296,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/helpers.py:81:    session in the generator, as the ``Set-Cookie`` header will already be sent.\nsrc/tessel/testing.py:182:            resp.headers.get"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/models/haiku-q2-r2/src/tessel/sessions.py\", \"offset\": 220, \"limit\": 180}",
+   "sub": false,
+   "result_chars": 6914,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "220\t        \"\"\"\n221\t        return app.config[\"SESSION_COOKIE_PARTITIONED\"]  # type: ignore[no-any-return]\n222\t\n223\t    def get_expiration_time(self, app: Tesse"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"save_session|process_response|session_interface|after_request|process_response\\\\(\", \"path\": \"$UL_SCRATCH/runs/main/models/haiku-q2-r2/src\", \"output_mode\": \"content\", \"-n\": true}",
+   "sub": false,
+   "result_chars": 2847,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/testing.py:165:            sess = app.session_interface.restore_session(app, ctx.request)\nsrc/tessel/testing.py:173:        if app.session_interface."
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"def (wsgi_app|finalize_request|process_response|full_dispatch_request|do_teardown_request|pop|__call__)\\\\b|finalize_request\\\\(|process_response\\\\(|ctx\\\\.pop\\\\(|\\\\.pop\\\\(\", \"path\": \"$UL_SCRATCH/runs/main/models/haiku-q2-r2/src/tessel\", \"output_mode\": \"content\", \"-n\": true}",
+   "sub": false,
+   "result_chars": 1565,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/helpers.py:393:        flashes = session.pop(\"_flashes\") if \"_flashes\" in session else []\nsrc/tessel/ctx.py:79:    def pop(self, name: str, default: "
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/models/haiku-q2-r2/src/tessel/app.py\", \"offset\": 1395, \"limit\": 30}",
+   "sub": false,
+   "result_chars": 1494,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1395\t        \"\"\"Can be overridden in order to modify the response object\n1396\t        before it's sent to the WSGI server.  By default this will\n1397\t        ca"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/models/haiku-q2-r2/src/tessel/app.py\", \"offset\": 1600, \"limit\": 30}",
+   "sub": false,
+   "result_chars": 1074,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1600\t                response = self.route_unhandled_fault(ctx, e)\n1601\t            except:\n1602\t                error = sys.exc_info()[1]\n1603\t                "
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/models/haiku-q2-r2/src/tessel/ctx.py\", \"offset\": 376, \"limit\": 20}",
+   "sub": false,
+   "result_chars": 744,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "376\t        if self._request is None:\n377\t            raise RuntimeError(\"There is no request in this context.\")\n378\t\n379\t        return self._request\n380\t\n381\t"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"def (wsgi_entry|full_dispatch_request|dispatch_request|make_response|process_response)|self\\\\.(full_dispatch_request|finalize_request|process_response|wsgi_entry)\\\\(\", \"path\": \"$UL_SCRATCH/runs/main/models/haiku-q2-r2/src/tessel\", \"output_mode\": \"content\", \"-n\": true}",
+   "sub": false,
+   "result_chars": 456,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/helpers.py:151:def make_response(*args: t.Any) -> Response:\nsrc/tessel/app.py:948:        return self.finalize_request(ctx, server_error, from_error_"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/models/haiku-q2-r2/src/tessel/app.py\", \"offset\": 1566, \"limit\": 34}",
+   "sub": false,
+   "result_chars": 1485,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1566\t    def wsgi_entry(\n1567\t        self, environ: WSGIEnvironment, start_response: StartResponse\n1568\t    ) -> cabc.Iterable[bytes]:\n1569\t        \"\"\"The actu"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/models/haiku-q2-r2/src/tessel/app.py\", \"offset\": 1000, \"limit\": 25}",
+   "sub": false,
+   "result_chars": 934,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1000\t            import warnings\n1001\t\n1002\t            warnings.warn(\n1003\t                \"The 'should_ignore_error' method is deprecated and will\"\n1004\t     "
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/models/haiku-q2-r2/src/tessel/app.py\", \"offset\": 1025, \"limit\": 30}",
+   "sub": false,
+   "result_chars": 1407,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1025\t        from_error_handler: bool = False,\n1026\t    ) -> Response:\n1027\t        \"\"\"Given the return value from a view function this finalizes\n1028\t        t"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"def run_full_request|def request_context|def run_view\", \"path\": \"$UL_SCRATCH/runs/main/models/haiku-q2-r2/src/tessel\", \"output_mode\": \"content\", \"-n\": true}",
+   "sub": false,
+   "result_chars": 490,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/views.py:30:            def run_view(self, name):\nsrc/tessel/views.py:78:    def run_view(self) -> ft.ResponseReturnValue:\nsrc/tessel/views.py:182:  "
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"def \\\\w+\\\\(\\\\s*$|def \\\\w+\\\\(self, ctx: AppContext, response\", \"path\": \"$UL_SCRATCH/runs/main/models/haiku-q2-r2/src/tessel/app.py\", \"output_mode\": \"content\", \"-n\": true, \"-B\": 0, \"head_limit\": 60}",
+   "sub": false,
+   "result_chars": 501,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "308:    def __init__(\n412:    def open_resource(\n445:    def open_instance_resource(\n588:    def fill_template_scope(\n630:    def run(\n830:    def route_http_fa"
+  }
+ ],
+ "_models_seen": [
+  "claude-haiku-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed",
+  "resetsAt": 1792099800,
+  "rateLimitType": "five_hour",
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.65,
+    "resetsAt": 1792099800
+   },
+   "seven_day": {
+    "utilization": 0.04,
+    "resetsAt": 1792681200
+   }
+  }
+ },
+ "_compact": [],
+ "_wall_s": 27.5,
+ "_t_start": "2026-10-15T16:39:40.828719+00:00",
+ "_t_end": "2026-10-15T16:40:08.353017+00:00",
+ "_cmd": {
+  "model": "haiku",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/models/haiku-q2-r2",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "In this repo, how does the session cookie get written at the end of a request? List the functions involved in call order, with file paths. Be brief."
+ },
+ "_mu_cum": {
+  "input": 18,
+  "output": 4484,
+  "cache_read": 225240,
+  "cache_creation": 22461,
+  "cost": 0.008988399999999999,
+  "total": 252203
+ },
+ "tok": {
+  "input": 18,
+  "output": 4484,
+  "cache_read": 225240,
+  "cache_creation": 22461,
+  "cost": 0.008988399999999999,
+  "total": 252203,
+  "method": "single"
+ },
+ "_tok_usage_field": 252203,
+ "_ctx_last_call": 32747,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "plain"
+}

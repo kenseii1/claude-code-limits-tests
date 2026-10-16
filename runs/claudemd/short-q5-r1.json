@@ -1,0 +1,267 @@
+{
+ "duration_api_ms": 19263,
+ "stop_reason": "end_turn",
+ "session_id": "25764da6-95d0-4253-a0b2-2513275cd8ea",
+ "total_cost_usd": 0.10124429999999998,
+ "usage": {
+  "input_tokens": 12,
+  "cache_creation_input_tokens": 16447,
+  "cache_read_input_tokens": 123323,
+  "output_tokens": 2310,
+  "output_tokens_details": {
+   "thinking_tokens": 20
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 16447,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 563,
+    "cache_read_input_tokens": 26081,
+    "cache_creation_input_tokens": 650,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 650
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 12,
+   "outputTokens": 2310,
+   "cacheReadInputTokens": 123323,
+   "cacheCreationInputTokens": 16447,
+   "webSearchRequests": 0,
+   "costUSD": 0.10124429999999998,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 20,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 9,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "Flow from the WSGI server to the view (all in `src/tessel/app.py` unless noted):\n\n1. **`Tessel.__call__`** (`app.py:1618`) just delegates to `wsgi_entry`.\n2. **`Tessel.wsgi_entry`** (`app.py:1566`) builds the context with `self.request_context(environ)`, then calls `ctx.push()`.\n3. **`AppContext.push`** (`ctx.py:416`) activates the context and sends `appcontext_pushed`. For a request context it then:\n   - opens the session via `_get_session()`\n   - runs `match_request()` (`ctx.py:405`), which does URL routing and stores `url_rule`/`view_args` or a `routing_exception` on the request.\n4. **`Tessel.run_full_request`** (`app.py:992`) sends `request_started`, then calls the steps below inside a try block. Any exception goes to `route_user_fault`.\n5. **`Tessel.preprocess_request`** (`app.py:1366`) runs the `url_value_preprocessors`, then the `before_request_funcs` for the app and then the bundles. A non-None return short-circuits the view.\n6. **`Tessel.run_view`** (`app.py:966`) raises any stored routing exception, auto-answers `OPTIONS` if applicable, and otherwise calls `self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)`. **That call is the view function.**\n\nAfter the view returns, `finalize_request` runs (`make_response`, then `finalize_reply`, then `request_finished`). The WSGI response is then called, and `ctx.pop()` runs the teardown functions.",
+ "ttft_ms": 1312,
+ "type": "result",
+ "duration_ms": 19449,
+ "uuid": "78835fe7-a239-412b-bf58-2bae390967b5",
+ "ttft_stream_ms": 1051,
+ "time_to_request_ms": 45,
+ "first_content_frame_ms": 1051,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.300",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"def (__call__|wsgi_entry|wsgi_app|full_dispatch|full_dispatch_request|dispatch|dispatch_request|preprocess|push|match_request|make_response|finalize|finalize_request|process_response|do_teardown)\\\\w*\", \"path\": \"$UL_SCRATCH/runs/main/claudemd/short-q5-r1/src/tessel\", \"output_mo",
+   "sub": false,
+   "result_chars": 665,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/helpers.py:151:def make_response(*args: t.Any) -> Response:\nsrc/tessel/ctx.py:405:    def match_request(self) -> None:\nsrc/tessel/ctx.py:416:    def "
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/claudemd/short-q5-r1/src/tessel/app.py\", \"offset\": 1560, \"limit\": 70}",
+   "sub": false,
+   "result_chars": 2726,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1560\t            environ = builder.get_environ()\n1561\t        finally:\n1562\t            builder.close()\n1563\t\n1564\t        return self.request_context(environ)\n"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"def (dispatch\\\\w*|full_dispatch\\\\w*|handle_\\\\w+|run_request\\\\w*)|\\\\.dispatch\\\\w*\\\\(\", \"path\": \"$UL_SCRATCH/runs/main/claudemd/short-q5-r1/src/tessel/app.py\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 16,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "No matches found"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/claudemd/short-q5-r1/src/tessel/ctx.py\", \"offset\": 400, \"limit\": 70}",
+   "sub": false,
+   "result_chars": 3112,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "400\t        \"\"\"\n401\t        session = self._get_session()\n402\t        session.accessed = True\n403\t        return session\n404\t\n405\t    def match_request(self) ->"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"def (run_full_request|route_unhandled_fault|run_request|dispatch\\\\w*|\\\\w*dispatch\\\\w*)\\\\(\", \"path\": \"$UL_SCRATCH/runs/main/claudemd/short-q5-r1/src/tessel/app.py\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 148,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "897:    def route_unhandled_fault(self, ctx: AppContext, e: Exception) -> Response:\n992:    def run_full_request(self, ctx: AppContext) -> Response:"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/claudemd/short-q5-r1/src/tessel/app.py\", \"offset\": 985, \"limit\": 100}",
+   "sub": false,
+   "result_chars": 4318,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "985\t            and req.method == \"OPTIONS\"\n986\t        ):\n987\t            return self.make_default_options_response(ctx)\n988\t        # otherwise dispatch to th"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/claudemd/short-q5-r1/src/tessel/app.py\", \"offset\": 1360, \"limit\": 35}",
+   "sub": false,
+   "result_chars": 1541,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1360\t        # extend existing headers with provided headers\n1361\t        if headers:\n1362\t            rv.headers.update(headers)\n1363\t\n1364\t        return rv\n1"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/claudemd/short-q5-r1/src/tessel/app.py\", \"offset\": 962, \"limit\": 26}",
+   "sub": false,
+   "result_chars": 1243,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "962\t        self.logger.error(\n963\t            f\"Exception on {ctx.request.path} [{ctx.request.method}]\", exc_info=exc_info\n964\t        )\n965\t\n966\t    def run_v"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed_warning",
+  "resetsAt": 1792414800,
+  "rateLimitType": "seven_day",
+  "utilization": 0.69,
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.27,
+    "resetsAt": 1792035000
+   },
+   "seven_day": {
+    "utilization": 0.69,
+    "resetsAt": 1792414800
+   }
+  },
+  "overageEnabled": false
+ },
+ "_compact": [],
+ "_wall_s": 20.3,
+ "_t_start": "2026-10-14T22:33:03.898909+00:00",
+ "_t_end": "2026-10-14T22:33:24.220813+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/claudemd/short-q5-r1",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "In this repo, what happens between the WSGI server calling the app and the view function running? List the main methods in order, with file paths. Be brief."
+ },
+ "_mu_cum": {
+  "input": 12,
+  "output": 2310,
+  "cache_read": 123323,
+  "cache_creation": 16447,
+  "cost": 0.10124429999999998,
+  "total": 142092
+ },
+ "tok": {
+  "input": 12,
+  "output": 2310,
+  "cache_read": 123323,
+  "cache_creation": 16447,
+  "cost": 0.10124429999999998,
+  "total": 142092,
+  "method": "single"
+ },
+ "_tok_usage_field": 142092,
+ "_ctx_last_call": 26733,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "cm-short"
+}

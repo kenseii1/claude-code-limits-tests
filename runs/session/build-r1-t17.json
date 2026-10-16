@@ -1,0 +1,203 @@
+{
+ "duration_api_ms": 120319,
+ "stop_reason": "end_turn",
+ "session_id": "35715622-fb03-425f-ba07-695217399ba9",
+ "total_cost_usd": 0.7653662999999999,
+ "usage": {
+  "input_tokens": 4,
+  "cache_creation_input_tokens": 7920,
+  "cache_read_input_tokens": 217528,
+  "output_tokens": 735,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 7920,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 590,
+    "cache_read_input_tokens": 108930,
+    "cache_creation_input_tokens": 7588,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 7588
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 68,
+   "outputTokens": 12226,
+   "thinkingTokens": 166,
+   "cacheReadInputTokens": 2173783,
+   "cacheCreationInputTokens": 106398,
+   "webSearchRequests": 0,
+   "costUSD": 0.7653662999999999,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 2,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "Main recommendations from `docs/errorhandling.rst`:\n\n- **Use an error tracker in production.** Sentry is recommended over error emails or log files. Install `sentry-sdk[tessel]` and init it with `TesselIntegration()`, and 500 errors get reported automatically.\n- **Register custom error handlers.** Use `@app.fault_handler(...)` or `register_error_handler(...)`, by status code or exception class. Always return the status code explicitly (e.g. `return render_template('404.html'), 404`), because Tessel won't set it for you.\n- **Prefer specific handlers over generic ones.** A handler for `Exception` or `HTTPException` catches more than expected, such as routing 404s and 405s. If you use one, pass `HTTPException` instances through (`return e`) or build the response from `e.get_response()`.\n- **Remember the lookup order.** Handlers match by code first, then the most specific class. Bundle handlers take precedence over app-level ones.\n- **Handle 404 and 405 at the app level.** Bundles can't catch routing errors because the bundle isn't known yet. Branch on `request.path` in an app-level handler for per-prefix behavior.\n- **Know how 500 handlers behave.** They receive an `InternalServerError`, with the original exception in `e.original_exception`. They are skipped in debug mode, where the interactive debugger shows instead.\n- **Use `abort()` to signal request errors.** For example `abort(400)` or `abort(404, description=...)`, combined with custom error pages and templates.\n- **Return JSON errors for APIs.** Use `jsonify` in handlers, or define a custom exception class (like `InvalidAPIUsage`) carrying a message, status code and payload, with a handler that serializes it.",
+ "ttft_ms": 2541,
+ "type": "result",
+ "duration_ms": 7969,
+ "uuid": "a4cffd07-551e-4bb1-b9de-c3e0614dad80",
+ "ttft_stream_ms": 1486,
+ "time_to_request_ms": 104,
+ "first_content_frame_ms": 1486,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.299",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/session/chain-r1/docs/errorhandling.rst\"}",
+   "sub": false,
+   "result_chars": 20395,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1\tHandling Application Errors\n2\t===========================\n3\t\n4\tApplications fail, servers fail. Sooner or later you will see an exception\n5\tin production. Eve"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed",
+  "resetsAt": 1791981000,
+  "rateLimitType": "five_hour",
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.79,
+    "resetsAt": 1791981000
+   },
+   "seven_day": {
+    "utilization": 0.49,
+    "resetsAt": 1792414800
+   }
+  }
+ },
+ "_compact": [],
+ "_wall_s": 9.0,
+ "_t_start": "2026-10-14T08:05:23.112128+00:00",
+ "_t_end": "2026-10-14T08:05:32.146504+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": "35715622-fb03-425f-ba07-695217399ba9",
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/session/chain-r1",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "Read the whole docs page docs/errorhandling.rst and summarize its main recommendations in 5-8 bullets."
+ },
+ "_mu_cum": {
+  "input": 68,
+  "output": 12226,
+  "cache_read": 2173783,
+  "cache_creation": 106398,
+  "cost": 0.7653662999999999,
+  "total": 2292475
+ },
+ "tok": {
+  "input": 4,
+  "output": 735,
+  "cache_read": 217528,
+  "cache_creation": 7920,
+  "total": 226187,
+  "cost": 0.060791,
+  "method": "delta"
+ },
+ "_tok_usage_field": 226187,
+ "_ctx_last_call": 116520,
+ "_subagent_calls": 0,
+ "_tpl": "plain",
+ "_turn": 17,
+ "_rep": 1
+}

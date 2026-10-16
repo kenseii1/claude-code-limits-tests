@@ -1,0 +1,214 @@
+{
+ "duration_api_ms": 7425,
+ "stop_reason": "end_turn",
+ "session_id": "a328be44-b2a2-4004-8bae-f584a81a9408",
+ "total_cost_usd": 0.05591,
+ "usage": {
+  "input_tokens": 6,
+  "cache_creation_input_tokens": 10675,
+  "cache_read_input_tokens": 49780,
+  "output_tokens": 822,
+  "output_tokens_details": {
+   "thinking_tokens": 201
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 10675,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 366,
+    "cache_read_input_tokens": 20282,
+    "cache_creation_input_tokens": 677,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 677
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 6,
+   "outputTokens": 822,
+   "cacheReadInputTokens": 49780,
+   "cacheCreationInputTokens": 10675,
+   "webSearchRequests": 0,
+   "costUSD": 0.05591,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 201,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 3,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "**Where to look**\n\n- `src/tessel/app.py:1184-1190`: this is where the error is raised. `link_for` outside a request gets `url_adapter = self.build_url_binder(None)`, which returns `None` when there is no request.\n- `src/tessel/app.py:550-553`: `build_url_binder` only builds an adapter outside a request if `config[\"SERVER_NAME\"]` is set. The default at `app.py:215` is `None`, which is why the job crashes.\n- `src/tessel/helpers.py:200-244`: the `link_for` helper delegates to `active_app.link_for`, so it needs at least an app context.\n\n**Fix**\n\nSet these in the app config:\n\n```python\napp.config[\"SERVER_NAME\"] = \"example.com\"        # required\napp.config[\"APPLICATION_ROOT\"] = \"/\"             # as needed\napp.config[\"PREFERRED_URL_SCHEME\"] = \"https\"     # as needed\n```\n\nAlso make sure the job runs inside `with app.app_context():`. Outside a request, URLs are generated with the scheme and host from `SERVER_NAME`.",
+ "ttft_ms": 2369,
+ "type": "result",
+ "duration_ms": 7514,
+ "uuid": "c135162d-ea83-472a-a0db-085966755c89",
+ "ttft_stream_ms": 818,
+ "time_to_request_ms": 40,
+ "first_content_frame_ms": 819,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init",
+  "system:thinking_tokens"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.300",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"link_for|SERVER_NAME\", \"output_mode\": \"content\", \"head_limit\": 20}",
+   "sub": false,
+   "result_chars": 1671,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/views.py:158:                return redirect(link_for(\"counter\"))\nsrc/tessel/helpers.py:200:def link_for(\nsrc/tessel/helpers.py:212:    :meth:`active"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"outside an active request\", \"path\": \"src/tessel\", \"output_mode\": \"content\", \"-B\": 12, \"-A\": 6}",
+   "sub": false,
+   "result_chars": 1240,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/app.py-1174-                _external = _scheme is not None\nsrc/tessel/app.py-1175-        else:\nsrc/tessel/app.py-1176-            # If called by he"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed_warning",
+  "resetsAt": 1792035000,
+  "rateLimitType": "five_hour",
+  "utilization": 0.9,
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.9,
+    "resetsAt": 1792035000
+   },
+   "seven_day": {
+    "utilization": 0.75,
+    "resetsAt": 1792414800
+   }
+  },
+  "overageEnabled": false
+ },
+ "_compact": [],
+ "_wall_s": 8.6,
+ "_t_start": "2026-10-14T22:42:37.204657+00:00",
+ "_t_end": "2026-10-14T22:42:45.797541+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/naming/vague-s2-r2",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "A background job that calls link_for crashes with 'Unable to build URLs outside an active request'. In this repo, where would you look and why, and what config fixes it? Be brief."
+ },
+ "_mu_cum": {
+  "input": 6,
+  "output": 822,
+  "cache_read": 49780,
+  "cache_creation": 10675,
+  "cost": 0.05591,
+  "total": 61283
+ },
+ "tok": {
+  "input": 6,
+  "output": 822,
+  "cache_read": 49780,
+  "cache_creation": 10675,
+  "cost": 0.05591,
+  "total": 61283,
+  "method": "single"
+ },
+ "_tok_usage_field": 61283,
+ "_ctx_last_call": 20961,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "plain"
+}

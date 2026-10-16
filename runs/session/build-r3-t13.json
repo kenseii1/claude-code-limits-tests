@@ -1,0 +1,212 @@
+{
+ "duration_api_ms": 89911,
+ "stop_reason": "end_turn",
+ "session_id": "600996ac-5111-4cfe-9c21-b6a657c31c1d",
+ "total_cost_usd": 0.5375894,
+ "usage": {
+  "input_tokens": 6,
+  "cache_creation_input_tokens": 3605,
+  "cache_read_input_tokens": 257712,
+  "output_tokens": 877,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 3605,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 493,
+    "cache_read_input_tokens": 86314,
+    "cache_creation_input_tokens": 2653,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 2653
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 50,
+   "outputTokens": 8865,
+   "thinkingTokens": 199,
+   "cacheReadInputTokens": 1334514,
+   "cacheCreationInputTokens": 78847,
+   "webSearchRequests": 0,
+   "costUSD": 0.5375894,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 3,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "`TesselClient` (`src/tessel/testing.py:109`) extends `werkzeug.test.Client` with these additions:\n\n- **Context preservation in a `with` block:**\n  - `__enter__` sets `preserve_context`, so the request context stays pushed after a request. You can inspect `request`, `session` and `g` afterwards.\n  - `__exit__` closes the preserved contexts.\n  - Nesting `with` blocks raises `RuntimeError`.\n  - Each new `open()` pops the previously preserved contexts, so they don't leak across redirects or repeated requests.\n- **`session_transaction()`:**\n  - It is a context manager that opens the session through a temporary test request context and yields it for modification.\n  - On exit it persists the session back into the client's cookies.\n  - It needs cookies enabled, otherwise it raises `TypeError`.\n- **Default WSGI environ:**\n  - `environ_base` is preset with `REMOTE_ADDR=127.0.0.1` and `HTTP_USER_AGENT=Werkzeug/<version>`.\n  - It is merged into every request.\n- **App-aware `open()`:**\n  - Requests are built with an `EnvironBuilder` bound to the app, so the base URL and similar settings come from the app config.\n  - It accepts an `EnvironBuilder`, an environ dict or a request object.\n  - It sets `response.json_module` to the app's `json` provider, so `response.json` uses the app's JSON handling.",
+ "ttft_ms": 2605,
+ "type": "result",
+ "duration_ms": 9602,
+ "uuid": "7e16a039-9bef-47fd-aa47-d95969cc24cc",
+ "ttft_stream_ms": 1249,
+ "time_to_request_ms": 46,
+ "first_content_frame_ms": 1250,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.299",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"class TesselClient|class TesselCliRunner\", \"path\": \"$UL_SCRATCH/runs/main/session/chain-r3/src\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 113,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/testing.py:109:class TesselClient(Client):\nsrc/tessel/testing.py:265:class TesselCliRunner(CliRunner):"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/session/chain-r3/src/tessel/testing.py\", \"offset\": 100, \"limit\": 170}",
+   "sub": false,
+   "result_chars": 6577,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "100\tdef _get_werkzeug_version() -> str:\n101\t    global _werkzeug_version\n102\t\n103\t    if not _werkzeug_version:\n104\t        _werkzeug_version = importlib.metada"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed",
+  "resetsAt": 1791981000,
+  "rateLimitType": "five_hour",
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.63,
+    "resetsAt": 1791981000
+   },
+   "seven_day": {
+    "utilization": 0.47,
+    "resetsAt": 1792414800
+   }
+  }
+ },
+ "_compact": [],
+ "_wall_s": 10.8,
+ "_t_start": "2026-10-14T08:02:03.385783+00:00",
+ "_t_end": "2026-10-14T08:02:14.149657+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": "600996ac-5111-4cfe-9c21-b6a657c31c1d",
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/session/chain-r3",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "What does the TesselClient test client add on top of Werkzeug's client? List the main additions."
+ },
+ "_mu_cum": {
+  "input": 50,
+  "output": 8865,
+  "cache_read": 1334514,
+  "cache_creation": 78847,
+  "cost": 0.5375894,
+  "total": 1422276
+ },
+ "tok": {
+  "input": 6,
+  "output": 877,
+  "cache_read": 257712,
+  "cache_creation": 3605,
+  "total": 262200,
+  "cost": 0.048973,
+  "method": "delta"
+ },
+ "_tok_usage_field": 262200,
+ "_ctx_last_call": 88969,
+ "_subagent_calls": 0,
+ "_tpl": "plain",
+ "_turn": 13,
+ "_rep": 3
+}

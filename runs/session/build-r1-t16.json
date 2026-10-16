@@ -1,0 +1,193 @@
+{
+ "duration_api_ms": 112487,
+ "stop_reason": "end_turn",
+ "session_id": "35715622-fb03-425f-ba07-695217399ba9",
+ "total_cost_usd": 0.7045754999999999,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 475,
+  "cache_read_input_tokens": 108123,
+  "output_tokens": 266,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 475,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 266,
+    "cache_read_input_tokens": 108123,
+    "cache_creation_input_tokens": 475,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 475
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 64,
+   "outputTokens": 11491,
+   "thinkingTokens": 166,
+   "cacheReadInputTokens": 1956255,
+   "cacheCreationInputTokens": 98478,
+   "webSearchRequests": 0,
+   "costUSD": 0.7045754999999999,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 1,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "They're handled by the module-level `_default` function in `src/tessel/json/provider.py:108-121`, which `StandardJSONProvider` uses as the `default` hook for `json.dumps`:\n\n- **Dates:** `isinstance(o, date)` returns `http_date(o)`, an RFC 822 / HTTP date string. This covers `datetime` too, since it subclasses `date`.\n- **UUIDs:** `isinstance(o, (decimal.Decimal, uuid.UUID))` returns `str(o)`.\n- **Dataclasses:** `dataclasses.is_dataclass(o)` returns `dataclasses.asdict(o)`.\n\nObjects with `__html__` (such as `Markup`) become `str(o.__html__())`, and anything else raises `TypeError`.",
+ "ttft_ms": 2724,
+ "type": "result",
+ "duration_ms": 2754,
+ "uuid": "824097b5-6eaf-4923-8691-aab8338e5058",
+ "ttft_stream_ms": 1275,
+ "time_to_request_ms": 42,
+ "first_content_frame_ms": 1275,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.299",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed",
+  "resetsAt": 1791981000,
+  "rateLimitType": "five_hour",
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.79,
+    "resetsAt": 1791981000
+   },
+   "seven_day": {
+    "utilization": 0.49,
+    "resetsAt": 1792414800
+   }
+  }
+ },
+ "_compact": [],
+ "_wall_s": 4.4,
+ "_t_start": "2026-10-14T08:05:18.724259+00:00",
+ "_t_end": "2026-10-14T08:05:23.110929+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": "35715622-fb03-425f-ba07-695217399ba9",
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/session/chain-r1",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "How does StandardJSONProvider serialize dates, UUIDs and dataclasses? Point to the function."
+ },
+ "_mu_cum": {
+  "input": 64,
+  "output": 11491,
+  "cache_read": 1956255,
+  "cache_creation": 98478,
+  "cost": 0.7045754999999999,
+  "total": 2066288
+ },
+ "tok": {
+  "input": 2,
+  "output": 266,
+  "cache_read": 108123,
+  "cache_creation": 475,
+  "total": 108866,
+  "cost": 0.015376,
+  "method": "delta"
+ },
+ "_tok_usage_field": 108866,
+ "_ctx_last_call": 108600,
+ "_subagent_calls": 0,
+ "_tpl": "plain",
+ "_turn": 16,
+ "_rep": 1
+}

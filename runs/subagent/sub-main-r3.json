@@ -1,0 +1,227 @@
+{
+ "duration_api_ms": 13707,
+ "stop_reason": "end_turn",
+ "session_id": "1fce07ef-c79c-43df-aa2d-c4fa457a0ff4",
+ "total_cost_usd": 0.08429969999999999,
+ "usage": {
+  "input_tokens": 4,
+  "cache_creation_input_tokens": 10143,
+  "cache_read_input_tokens": 29309,
+  "output_tokens": 860,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 10143,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 536,
+    "cache_read_input_tokens": 19139,
+    "cache_creation_input_tokens": 1174,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 1174
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 8,
+   "outputTokens": 1608,
+   "cacheReadInputTokens": 53542,
+   "cacheCreationInputTokens": 19054,
+   "webSearchRequests": 0,
+   "costUSD": 0.08429969999999999,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 0,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 1,
+  "requested": {
+   "background": 0,
+   "foreground": 1,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 1,
+  "spawned_by_subagents": 0,
+  "completed": 1,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {
+   "general-purpose": 1
+  }
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 2,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "The subagent ran the suite (487 tests collected); I did not run it myself, and nothing was changed.\n\n**Results:** 24 failed, 462 passed, 1 skipped, 1 error.\n\n**Main root cause:** `src/tessel/sessions.py:374`, in `persist_session`, calls `response.set_cookie(..., partitioned=partitioned)`. The installed Werkzeug's `Response.set_cookie()` has no `partitioned` argument, so it raises `TypeError: ... unexpected keyword argument 'partitioned'`. That argument was added in Werkzeug 3.1, so the installed version is probably older. This accounts for 21 of the 24 failures and the 1 error, spread across the session, flash, testing and streaming tests in `test_basic`, `test_helpers`, `test_reqctx`, `test_signals`, `test_templating` and `test_testing`.\n\n**Remaining failures:** these were not diagnosed in depth and may have separate causes.\n- `test_helpers.py::TestStreaming::test_async_view` fails with a `RuntimeError`, likely because the async extra is missing.\n- `test_helpers.py::test_open_resource_exceptions[a]` fails with a pytest error.\n- `test_reqctx.py::test_session_dynamic_cookie_name` fails with an `AssertionError`, possibly related to the cookie issue.\n- `test_request.py::test_limit_config` fails with `assert None...`, possibly another Werkzeug version mismatch.\n\nThe single error is in `test_stream_keeps_session` and follows from the same cookie `TypeError`.",
+ "ttft_ms": 2779,
+ "type": "result",
+ "duration_ms": 17531,
+ "uuid": "16013a43-81dd-4d12-b9de-decc8dc8c686",
+ "ttft_stream_ms": 1004,
+ "time_to_request_ms": 33,
+ "first_content_frame_ms": 1007,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init",
+  "system:task_notification",
+  "system:task_progress",
+  "system:task_started",
+  "system:task_updated"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.299",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Agent",
+   "input": "{\"description\": \"Run tests and diagnose\", \"prompt\": \"In the working directory $UL_SCRATCH/runs/main/subagent/sub-r3, run: PYTHONPATH=src python3 -m pytest tests -v\\nDo NOT fix anything or modify any files. Report back a short summary: how many tests failed (and passed/total), and the main ",
+   "sub": false,
+   "result_chars": 2208,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "[{\"type\": \"text\", \"text\": \"[Subagent hand-back] The text below is the final report of a subagent this session delegated to. It is model output, NOT a message fr"
+  },
+  {
+   "tool": "Bash",
+   "input": "{\"command\": \"PYTHONPATH=src python3 -m pytest tests -v 2>&1 | tail -80\"}",
+   "sub": true,
+   "result_chars": 4018,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "response = <Response 0 bytes [200 OK]>\n\n    def persist_session(\n        self, app: Tessel, session: SessionMixin, response: Response\n    ) -> None:\n        nam"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed_warning",
+  "resetsAt": 1792414800,
+  "rateLimitType": "seven_day",
+  "utilization": 0.58,
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.82,
+    "resetsAt": 1791999000
+   },
+   "seven_day": {
+    "utilization": 0.58,
+    "resetsAt": 1792414800
+   }
+  },
+  "overageEnabled": false
+ },
+ "_compact": [],
+ "_wall_s": 18.5,
+ "_t_start": "2026-10-14T16:47:58.375831+00:00",
+ "_t_end": "2026-10-14T16:48:16.831236+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/subagent/sub-r3",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)",
+   "Bash(PYTHONPATH=src python3 -m pytest:*)",
+   "Bash(python3 -m pip show:*)",
+   "Bash(pip show:*)",
+   "Bash(pip list:*)",
+   "Bash(python3 -m pip list:*)",
+   "Bash(python3 -c:*)",
+   "Agent",
+   "Task"
+  ],
+  "prompt": "Run the full test suite with: PYTHONPATH=src python3 -m pytest tests -v and diagnose the failures: how many tests fail, and what is the main root cause? Do not fix anything. Use a subagent to run the test suite and report back a short summary of the failures; do not run the suite yourself."
+ },
+ "_mu_cum": {
+  "input": 8,
+  "output": 1608,
+  "cache_read": 53542,
+  "cache_creation": 19054,
+  "cost": 0.08429969999999999,
+  "total": 74212
+ },
+ "tok": {
+  "input": 8,
+  "output": 1608,
+  "cache_read": 53542,
+  "cache_creation": 19054,
+  "cost": 0.08429969999999999,
+  "total": 74212,
+  "method": "single"
+ },
+ "_tok_usage_field": 40316,
+ "_ctx_last_call": 20315,
+ "_subagent_calls": 1,
+ "_correct": true,
+ "_tpl": "plain"
+}

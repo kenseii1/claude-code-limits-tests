@@ -1,0 +1,221 @@
+{
+ "duration_api_ms": 11052,
+ "stop_reason": "end_turn",
+ "session_id": "6d3bd5b4-4807-47ed-9d46-37658fb93356",
+ "total_cost_usd": 0.00594572,
+ "usage": {
+  "input_tokens": 8,
+  "cache_creation_input_tokens": 21538,
+  "cache_read_input_tokens": 78432,
+  "output_tokens": 1706,
+  "output_tokens_details": {
+   "thinking_tokens": 274
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 21538,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1078,
+    "cache_read_input_tokens": 27029,
+    "cache_creation_input_tokens": 4793,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 4793
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-haiku-5-5": {
+   "inputTokens": 8,
+   "outputTokens": 1706,
+   "cacheReadInputTokens": 78432,
+   "cacheCreationInputTokens": 21538,
+   "webSearchRequests": 0,
+   "costUSD": 0.00594572,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 274,
+   "canonicalModel": "claude-haiku-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 4,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "The session cookie is written by `SignedCookieSessionInterface` and encoded by a tagging serializer. Tuples, bytes and datetimes are wrapped in single-key marker objects like `{\" t\": [...]}`, and those markers are reversed on load.\n\n- **`src/tessel/sessions.py:284`, `SignedCookieSessionInterface`**: the default session interface. `persist_session` (line 337) calls `make_signer(...).dumps(dict(session))`, and `restore_session` (line 323) calls `s.loads(...)`.\n- **`src/tessel/sessions.py:273`, `session_json_serializer = TypedCookieSerializer()`**: the module-level serializer, set as `serializer` on the interface (line 300). `make_signer` (line 303) passes it to `itsdangerous.URLSafeTimedSerializer`, so the JSON is signed as well as tagged.\n- **`src/tessel/json/tag.py:219`, `TypedCookieSerializer`**: holds `tags` (keyed by marker string) and `order` (the check order). `tag()` encodes a value and `untag()` decodes one. `dumps()` tags then dumps JSON, and `loads()` parses JSON then walks it with `_untag_scan()` (line 309), which untags nested dicts and lists bottom-up.\n- **`src/tessel/json/tag.py:60`, `TypeMarker`**: the base class. Each subclass has a `key`, a `check()` for encoding, and `to_json()` / `to_python()` for the round trip.\n- **Concrete markers in `tag.py`**:\n  - `TagTuple` (line 133, key `\" t\"`) turns a tuple into a list and back.\n  - `TagBytes` (line 159, key `\" b\"`) uses base64.\n  - `TagDateTime` (line 205, key `\" d\"`) uses werkzeug's `http_date`/`parse_date`.\n  - `TagDict` (line 93, key `\" di\"`) escapes user dicts whose single key collides with a tag name.\n  - `PassDict` and `PassList` (lines 119 and 147) recurse into containers without adding a tag.\n  - `TagUUID`, `TagMarkup` and the other markers are also registered by default.\n\nThe order of `default_tags` (line 238) matters, because `tag()` uses the first marker whose `check()` matches.\n\nOne caveat: `http_date` has whole-second resolution, so a datetime with microseconds does not round-trip exactly.",
+ "ttft_ms": 1969,
+ "type": "result",
+ "duration_ms": 12643,
+ "uuid": "884c0efc-a366-4726-88df-58cab747d150",
+ "ttft_stream_ms": 1147,
+ "time_to_request_ms": 44,
+ "first_content_frame_ms": 1148,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init",
+  "system:thinking_tokens"
+ ],
+ "_init": {
+  "model": "claude-haiku-5-5",
+  "version": "2.1.300",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 32,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"(?i)(tuple|datetime|bytes).*(json|cookie)|JSONEncoder|JSONDecoder|object_hook|__json__|session_json|json_serial\", \"path\": \"$UL_SCRATCH/runs/main/models/haiku-q7-r2\", \"output_mode\": \"content\", \"-n\": true}",
+   "sub": false,
+   "result_chars": 657,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "CHANGES.rst:132:    ``object_hook``. This allows other JSON providers that don't implement that.\nCHANGES.rst:203:        corresponding ``json.JSONEncoder`` and "
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/models/haiku-q7-r2/src/tessel/sessions.py\"}",
+   "sub": false,
+   "result_chars": 16405,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1\tfrom __future__ import annotations\n2\t\n3\timport collections.abc as c\n4\timport hashlib\n5\timport typing as t\n6\tfrom collections.abc import MutableMapping\n7\tfrom "
+  },
+  {
+   "tool": "Bash",
+   "input": "{\"command\": \"cat -n src/tessel/json/tag.py\", \"description\": \"Show the typed JSON tag serializer source\"}",
+   "sub": false,
+   "result_chars": 11623,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "     1\t\"\"\"\n     2\tTagged JSON\n     3\t~~~~~~~~~~~\n     4\t\n     5\tA compact representation for lossless serialization of non-standard JSON\n     6\ttypes. :class:`~"
+  }
+ ],
+ "_models_seen": [
+  "claude-haiku-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed",
+  "resetsAt": 1792099800,
+  "rateLimitType": "five_hour",
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.66,
+    "resetsAt": 1792099800
+   },
+   "seven_day": {
+    "utilization": 0.04,
+    "resetsAt": 1792681200
+   }
+  }
+ },
+ "_compact": [],
+ "_wall_s": 13.9,
+ "_t_start": "2026-10-15T16:40:06.149345+00:00",
+ "_t_end": "2026-10-15T16:40:20.071904+00:00",
+ "_cmd": {
+  "model": "haiku",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/models/haiku-q7-r2",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "In this repo, the default session can store tuples, bytes and datetimes in a JSON cookie and get them back with the right types. How does that work? Name the classes involved, with file paths. Be brief."
+ },
+ "_mu_cum": {
+  "input": 8,
+  "output": 1706,
+  "cache_read": 78432,
+  "cache_creation": 21538,
+  "cost": 0.00594572,
+  "total": 101684
+ },
+ "tok": {
+  "input": 8,
+  "output": 1706,
+  "cache_read": 78432,
+  "cache_creation": 21538,
+  "cost": 0.00594572,
+  "total": 101684,
+  "method": "single"
+ },
+ "_tok_usage_field": 101684,
+ "_ctx_last_call": 31824,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "plain"
+}

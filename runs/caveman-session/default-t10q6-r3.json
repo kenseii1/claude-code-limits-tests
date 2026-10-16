@@ -1,0 +1,244 @@
+{
+ "duration_api_ms": 193290,
+ "stop_reason": "end_turn",
+ "session_id": "c801165d-8384-492f-aaf3-b18f3b9f4832",
+ "total_cost_usd": 0.8163737999999998,
+ "usage": {
+  "input_tokens": 8,
+  "cache_creation_input_tokens": 4816,
+  "cache_read_input_tokens": 383794,
+  "output_tokens": 2053,
+  "output_tokens_details": {
+   "thinking_tokens": 25
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 4816,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1034,
+    "cache_read_input_tokens": 98019,
+    "cache_creation_input_tokens": 642,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 642
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 76,
+   "outputTokens": 23956,
+   "thinkingTokens": 138,
+   "cacheReadInputTokens": 2231538,
+   "cacheCreationInputTokens": 88377,
+   "webSearchRequests": 0,
+   "costUSD": 0.8163737999999998,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 6,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "## Method and conversion function\n\n- **Method:** `Config.load_env_prefixed(prefix=\"TESSEL\", *, loads=json.loads)`, in `src/tessel/config.py:126`. `Config` is the `dict` subclass at `app.config`.\n- **Conversion function:** `json.loads` by default. It is the `loads` keyword argument, so you can swap it for your own parser.\n- **Not automatic.** Nothing in `src/` calls it, so you call `app.config.load_env_prefixed()` yourself, typically right after creating the app. Usage appears in `docs/config.rst:597`, `docs/lifecycle.rst:25` and `tests/test_config.py:58`.\n\n## Step by step\n\n1. **Prefix.** The method turns `\"TESSEL\"` into `\"TESSEL_\"` (`config.py:152`). A different `prefix` argument changes which variables are read.\n2. **Iterate.** It loops over `sorted(os.environ)` (`:154`), so the order is deterministic. Keys without the prefix are skipped.\n3. **Strip.** `key.removeprefix(prefix)` gives the config key. `TESSEL_SECRET_KEY` becomes `SECRET_KEY`, and `TESSEL_DB__HOST` becomes `DB__HOST`.\n4. **Convert** (`:161-165`). It calls `loads(value)`.\n   - JSON types are recognised: `\"true\"` becomes `True`, `\"5\"` becomes `5`, `\"1.5\"` becomes a float, `'[\"a\",\"b\"]'` becomes a list, `'{\"a\":1}'` becomes a dict, and `\"null\"` becomes `None`.\n   - If `loads` raises anything, the error is swallowed and the value stays a string. That is why a plain `hunter2` secret key survives.\n   - A string you want to keep as a string can be quoted as JSON, for example `'\"123\"'`.\n5. **Flat keys** (`:167-170`). If there is no `__` in the key, it does `self[key] = value` and moves on.\n6. **Nested keys** (`:172-183`). Otherwise:\n   - `*parts, tail = key.split(\"__\")`, so `DB__HOST` gives `parts=[\"DB\"]` and `tail=\"HOST\"`.\n   - For each part, it creates an empty dict when the part is missing and descends into it.\n   - It then sets `current[tail] = value`.\n   - So `TESSEL_DB__HOST=localhost` produces `app.config[\"DB\"][\"HOST\"] == \"localhost\"`. Deeper levels like `A__B__C` work the same way.\n7. **Return.** It returns `True`.\n\n## Caveats from the code\n\n- An existing config value that is not a dict, and sits at an intermediate position, will break the traversal. `current[part]` is used as-is once the key exists.\n- Sorted order means that if you set both `TESSEL_DB` (a JSON dict) and `TESSEL_DB__HOST`, `DB` is processed first and then `DB__HOST` is applied into it.\n- Existing keys are overwritten, so environment values override earlier config.",
+ "ttft_ms": 2721,
+ "type": "result",
+ "duration_ms": 19099,
+ "uuid": "da00d5d0-722a-4c92-b38c-4efd2b6add8a",
+ "ttft_stream_ms": 1106,
+ "time_to_request_ms": 52,
+ "first_content_frame_ms": 1106,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.300",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"from_prefixed_env|def from_|__\\\\b|loads\\\\(\", \"output_mode\": \"content\", \"path\": \"$UL_SCRATCH/runs/main/caveman-session/default-r3/src/tessel/config.py\"}",
+   "sub": false,
+   "result_chars": 1269,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1:from __future__ import annotations\n23:    def __init__(\n26:        self.__name__ = name\n30:    def __get__(self, obj: None, owner: None) -> te.Self: ...\n33:  "
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/caveman-session/default-r3/src/tessel/config.py\", \"offset\": 1, \"limit\": 20}",
+   "sub": false,
+   "result_chars": 344,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1\tfrom __future__ import annotations\n2\t\n3\timport errno\n4\timport json\n5\timport os\n6\timport types\n7\timport typing as t\n8\t\n9\tfrom werkzeug.utils import import_stri"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/caveman-session/default-r3/src/tessel/config.py\", \"offset\": 120, \"limit\": 68}",
+   "sub": false,
+   "result_chars": 2647,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "120\t                \" and as such configuration could not be loaded. Set\"\n121\t                \" this variable and make it point to a configuration\"\n122\t        "
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"from_prefixed_env\", \"output_mode\": \"content\", \"path\": \"$UL_SCRATCH/runs/main/caveman-session/default-r3/src\"}",
+   "sub": false,
+   "result_chars": 16,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "No matches found"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"load_env_prefixed\", \"output_mode\": \"content\", \"path\": \"$UL_SCRATCH/runs/main/caveman-session/default-r3\", \"glob\": \"!**/config.py\"}",
+   "sub": false,
+   "result_chars": 793,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "CHANGES.rst:483:-   Add ``Config.load_env_prefixed()`` to load config values from\ndocs/config.rst:549:prefix into the config using :meth:`~tessel.Config.load_en"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed_warning",
+  "resetsAt": 1792414800,
+  "rateLimitType": "seven_day",
+  "utilization": 0.82,
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "surpassedThreshold": 0.75,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.69,
+    "resetsAt": 1792053000
+   },
+   "seven_day": {
+    "utilization": 0.82,
+    "resetsAt": 1792414800
+   }
+  },
+  "overageEnabled": false
+ },
+ "_compact": [],
+ "_wall_s": 20.0,
+ "_t_start": "2026-10-15T03:43:26.080674+00:00",
+ "_t_end": "2026-10-15T03:43:46.113006+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": "c801165d-8384-492f-aaf3-b18f3b9f4832",
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/caveman-session/default-r3",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "In this repo, how are environment variables like TESSEL_SECRET_KEY or TESSEL_DB__HOST turned into config values, including type conversion and nested keys? Name the method and the conversion function, with file paths. Explain how it works, step by step."
+ },
+ "_mu_cum": {
+  "input": 76,
+  "output": 23956,
+  "cache_read": 2231538,
+  "cache_creation": 88377,
+  "cost": 0.8163737999999998,
+  "total": 2343947
+ },
+ "tok": {
+  "input": 8,
+  "output": 2053,
+  "cache_read": 383794,
+  "cache_creation": 4816,
+  "total": 390671,
+  "cost": 0.078189,
+  "method": "delta"
+ },
+ "_tok_usage_field": 390671,
+ "_ctx_last_call": 98663,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "plain",
+ "_turn": 10,
+ "_rep": 3,
+ "_target": "q6"
+}

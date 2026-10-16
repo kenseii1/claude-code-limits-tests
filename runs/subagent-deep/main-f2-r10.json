@@ -1,0 +1,200 @@
+{
+ "duration_api_ms": 29513,
+ "stop_reason": "end_turn",
+ "session_id": "951d66ba-a871-40e1-b1e5-7490e27d7b55",
+ "total_cost_usd": 0.1424447,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 710,
+  "cache_read_input_tokens": 30323,
+  "output_tokens": 145,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 710,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 145,
+    "cache_read_input_tokens": 30323,
+    "cache_creation_input_tokens": 710,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 710
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 20,
+   "outputTokens": 3408,
+   "thinkingTokens": 280,
+   "cacheReadInputTokens": 248727,
+   "cacheCreationInputTokens": 20863,
+   "webSearchRequests": 0,
+   "costUSD": 0.1424447,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 1,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "- **Installed:** Werkzeug **3.0.3**, at `/opt/anaconda3/lib/python3.12/site-packages/werkzeug/`. Flask 3.0.3 is installed alongside it.\n- **Required:** `werkzeug>=3.1.0`, from `pyproject.toml:29`.\n\nThe installed version is below the minimum, which is why `partitioned=` is rejected by `set_cookie()`.",
+ "ttft_ms": 1971,
+ "type": "result",
+ "duration_ms": 2010,
+ "uuid": "8ce38e38-bbc4-43f4-8aad-4cdcaf7076ee",
+ "ttft_stream_ms": 1036,
+ "time_to_request_ms": 44,
+ "first_content_frame_ms": 1037,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.299",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed_warning",
+  "resetsAt": 1792414800,
+  "rateLimitType": "seven_day",
+  "utilization": 0.63,
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.55,
+    "resetsAt": 1792017000
+   },
+   "seven_day": {
+    "utilization": 0.63,
+    "resetsAt": 1792414800
+   }
+  },
+  "overageEnabled": false
+ },
+ "_compact": [],
+ "_wall_s": 3.4,
+ "_t_start": "2026-10-14T17:43:57.605456+00:00",
+ "_t_end": "2026-10-14T17:44:00.965439+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": "951d66ba-a871-40e1-b1e5-7490e27d7b55",
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/subagent-deep/main-r10",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)",
+   "Bash(PYTHONPATH=src python3 -m pytest:*)",
+   "Bash(python3 -m pip show:*)",
+   "Bash(pip show:*)",
+   "Bash(pip list:*)",
+   "Bash(python3 -m pip list:*)",
+   "Bash(python3 -c:*)"
+  ],
+  "prompt": "Which Werkzeug version is installed in this environment, and what minimum version does the project's pyproject.toml require?"
+ },
+ "_mu_cum": {
+  "input": 20,
+  "output": 3408,
+  "cache_read": 248727,
+  "cache_creation": 20863,
+  "cost": 0.1424447,
+  "total": 273018
+ },
+ "tok": {
+  "input": 2,
+  "output": 145,
+  "cache_read": 30323,
+  "cache_creation": 710,
+  "total": 31180,
+  "cost": 0.007326,
+  "method": "delta"
+ },
+ "_tok_usage_field": 31180,
+ "_ctx_last_call": 31035,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "plain"
+}

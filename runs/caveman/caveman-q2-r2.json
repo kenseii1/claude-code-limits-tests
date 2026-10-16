@@ -1,0 +1,271 @@
+{
+ "duration_api_ms": 22931,
+ "stop_reason": "end_turn",
+ "session_id": "b8187be2-6dc7-4feb-91bd-cb99f6e6b56d",
+ "total_cost_usd": 0.12049030000000001,
+ "usage": {
+  "input_tokens": 12,
+  "cache_creation_input_tokens": 19546,
+  "cache_read_input_tokens": 134123,
+  "output_tokens": 2887,
+  "output_tokens_details": {
+   "thinking_tokens": 121
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 19546,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1135,
+    "cache_read_input_tokens": 29385,
+    "cache_creation_input_tokens": 445,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 445
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 12,
+   "outputTokens": 2887,
+   "cacheReadInputTokens": 134123,
+   "cacheCreationInputTokens": 19546,
+   "webSearchRequests": 0,
+   "costUSD": 0.12049030000000001,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 121,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 9,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "Tracing done, answering now.\n\n**Call order** (cookie write on normal request):\n\n1. `Tessel.__call__` — `src/tessel/app.py:1618`. Delegates to `wsgi_entry`.\n2. `Tessel.wsgi_entry` — `src/tessel/app.py:1566`. Builds ctx, `ctx.push()`, calls `run_full_request`.\n3. `Tessel.run_full_request` — `src/tessel/app.py:992`. Runs preprocess + view, then `finalize_request`.\n4. `Tessel.finalize_request` — `src/tessel/app.py:1021`. `make_response(rv)`, then `finalize_reply`.\n5. `Tessel.finalize_reply` — `src/tessel/app.py:1394`. Runs after-request funcs, then session persist.\n6. `AppContext._get_session` — `src/tessel/ctx.py:381`. Returns session object.\n7. `SessionInterface.is_null_session` — `src/tessel/sessions.py`. Skip if null.\n8. `SignedCookieSessionInterface.persist_session` — `src/tessel/sessions.py:337`. Writes cookie.\n9. Helpers it calls: `get_cookie_name/domain/path/secure/partitioned/samesite/httponly`, `cookie_needs_write` (`sessions.py:233`), `get_expiration_time` (`sessions.py:223`), `make_signer` (`sessions.py:303`).\n10. `Response.set_cookie` / `delete_cookie` (Werkzeug response). Then back in `wsgi_entry`: `response(environ, start_response)` sends headers, `ctx.pop(error)` runs.\n\n**How it works**\n\n1. WSGI server calls app. `wsgi_entry` creates and pushes request context.\n2. `run_full_request` dispatches view. View may read or write `session`.\n3. `finalize_request` turns return value into `Response`.\n4. `finalize_reply` runs after-request hooks first, so they can still change the session.\n5. If session is not null, `persist_session` runs (`app.py:1415-1416`).\n6. `persist_session` collects cookie settings from config.\n7. If `session.accessed`, adds `Vary: Cookie`.\n8. If session is empty and `session.modified`: `delete_cookie`, add `Vary: Cookie`, return. Empty and unmodified: return, no cookie.\n9. If `cookie_needs_write` is false, return. It is true when session modified, or permanent with `SESSION_REFRESH_EACH_REQUEST`.\n10. Compute `expires` (only for permanent sessions). Sign `dict(session)` with `URLSafeTimedSerializer` (salt `cookie-session`, uses `SECRET_KEY`, JSON serializer).\n11. `response.set_cookie(name, val, ...)` and add `Vary: Cookie`.\n12. `wsgi_entry` sends the response, so `Set-Cookie` goes out.\n\nNote: `restore_session` (`sessions.py:323`) is the read side at request start. Streaming generators run after headers are sent, so session changes there are not written (`helpers.py:81`).",
+ "ttft_ms": 2040,
+ "type": "result",
+ "duration_ms": 23108,
+ "uuid": "5c8d0114-67bb-4898-8334-b0c141389197",
+ "ttft_stream_ms": 832,
+ "time_to_request_ms": 44,
+ "first_content_frame_ms": 832,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init",
+  "system:thinking_tokens"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.300",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 31,
+  "skills_local": [
+   "caveman"
+  ],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"save_session|session_cookie|set_cookie|saveSession|Set-Cookie\", \"path\": \"$UL_SCRATCH/runs/main/caveman/caveman-q2-r2\", \"output_mode\": \"content\", \"head_limit\": 60}",
+   "sub": false,
+   "result_chars": 1617,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/helpers.py:81:    session in the generator, as the ``Set-Cookie`` header will already be sent.\nsrc/tessel/testing.py:182:            resp.headers.get"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/caveman/caveman-q2-r2/src/tessel/sessions.py\", \"offset\": 220, \"limit\": 190}",
+   "sub": false,
+   "result_chars": 6914,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "220\t        \"\"\"\n221\t        return app.config[\"SESSION_COOKIE_PARTITIONED\"]  # type: ignore[no-any-return]\n222\t\n223\t    def get_expiration_time(self, app: Tesse"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"save_session|process_response|def finalize_request|def full_dispatch_request|def wsgi_app|def make_response\", \"path\": \"$UL_SCRATCH/runs/main/caveman/caveman-q2-r2/src\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 211,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/helpers.py:151:def make_response(*args: t.Any) -> Response:\nsrc/tessel/app.py:1021:    def finalize_request(\nsrc/tessel/app.py:1224:    def make_resp"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"persist_session|def process_|def wsgi|def full_dispatch|finalize_request\\\\(|def __call__|\\\\.pop\\\\(|def dispatch_request|def handle_exception\", \"path\": \"$UL_SCRATCH/runs/main/caveman/caveman-q2-r2/src/tessel\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 1855,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/helpers.py:393:        flashes = session.pop(\"_flashes\") if \"_flashes\" in session else []\nsrc/tessel/testing.py:177:            app.session_interface"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/caveman/caveman-q2-r2/src/tessel/app.py\", \"offset\": 1380, \"limit\": 45}",
+   "sub": false,
+   "result_chars": 2157,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1380\t            if name in self.url_value_preprocessors:\n1381\t                for url_func in self.url_value_preprocessors[name]:\n1382\t                    url_"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/caveman/caveman-q2-r2/src/tessel/app.py\", \"offset\": 1000, \"limit\": 55}",
+   "sub": false,
+   "result_chars": 2342,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1000\t            import warnings\n1001\t\n1002\t            warnings.warn(\n1003\t                \"The 'should_ignore_error' method is deprecated and will\"\n1004\t     "
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/caveman/caveman-q2-r2/src/tessel/app.py\", \"offset\": 1560, \"limit\": 75}",
+   "sub": false,
+   "result_chars": 2726,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1560\t            environ = builder.get_environ()\n1561\t        finally:\n1562\t            builder.close()\n1563\t\n1564\t        return self.request_context(environ)\n"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"def run_full_request|def route_user_fault|def route_unhandled_fault|def _get_session\", \"path\": \"$UL_SCRATCH/runs/main/caveman/caveman-q2-r2/src/tessel\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 298,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/ctx.py:381:    def _get_session(self) -> SessionMixin:\nsrc/tessel/app.py:865:    def route_user_fault(\nsrc/tessel/app.py:897:    def route_unhandled_"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed_warning",
+  "resetsAt": 1792414800,
+  "rateLimitType": "seven_day",
+  "utilization": 0.78,
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "surpassedThreshold": 0.75,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.26,
+    "resetsAt": 1792053000
+   },
+   "seven_day": {
+    "utilization": 0.78,
+    "resetsAt": 1792414800
+   }
+  },
+  "overageEnabled": false
+ },
+ "_compact": [],
+ "_wall_s": 24.2,
+ "_t_start": "2026-10-15T03:34:41.949937+00:00",
+ "_t_end": "2026-10-15T03:35:06.121329+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/caveman/caveman-q2-r2",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "/caveman In this repo, how does the session cookie get written at the end of a request? List the functions involved in call order, with file paths. Explain how it works, step by step."
+ },
+ "_mu_cum": {
+  "input": 12,
+  "output": 2887,
+  "cache_read": 134123,
+  "cache_creation": 19546,
+  "cost": 0.12049030000000001,
+  "total": 156568
+ },
+ "tok": {
+  "input": 12,
+  "output": 2887,
+  "cache_read": 134123,
+  "cache_creation": 19546,
+  "cost": 0.12049030000000001,
+  "total": 156568,
+  "method": "single"
+ },
+ "_tok_usage_field": 156568,
+ "_ctx_last_call": 29832,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "caveman"
+}

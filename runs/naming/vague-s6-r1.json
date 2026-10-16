@@ -1,0 +1,204 @@
+{
+ "duration_api_ms": 5755,
+ "stop_reason": "end_turn",
+ "session_id": "95cbced1-b0d8-4185-918a-ed2f393b5ff5",
+ "total_cost_usd": 0.0656196,
+ "usage": {
+  "input_tokens": 4,
+  "cache_creation_input_tokens": 14148,
+  "cache_read_input_tokens": 29496,
+  "output_tokens": 607,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 14148,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 409,
+    "cache_read_input_tokens": 19212,
+    "cache_creation_input_tokens": 5220,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 5220
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 4,
+   "outputTokens": 607,
+   "cacheReadInputTokens": 29496,
+   "cacheCreationInputTokens": 14148,
+   "webSearchRequests": 0,
+   "costUSD": 0.0656196,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 0,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 2,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "**Where it's decided:** the `MAX_CONTENT_LENGTH` config key, defaulting to `None` (no limit) at `src/tessel/app.py:225`. `Request.max_content_length` in `src/tessel/wrappers.py:60-90` reads it for each request, and a request over the limit gets a 413.\n\n**Per request:** yes. `Request.max_content_length` has a setter (`wrappers.py:88-90`), so a view can set it before touching the body:\n\n```python\nfrom tessel import request\n\n@app.post(\"/upload\")\ndef upload():\n    request.max_content_length = 100 * 1024 * 1024  # this route only\n    f = request.files[\"file\"]\n```\n\nIt has to be set before `request.files`, `request.form`, or `request.get_data()` is first accessed, because the limit is checked when the body is read. `CHANGES.rst:83` notes the per-request override was added deliberately.\n\n`wrappers.py` also has `max_form_memory_size` and `max_form_parts` (around lines 95 and 122). They can raise 413 for `multipart/form-data` too, so check them if the 413 persists.\n\nIf a reverse proxy such as nginx sits in front, its own body-size limit can also return 413 before the request reaches the app.",
+ "ttft_ms": 1996,
+ "type": "result",
+ "duration_ms": 5845,
+ "uuid": "e1f0f0c2-5f0b-43f5-b161-729a301a2bb0",
+ "ttft_stream_ms": 817,
+ "time_to_request_ms": 49,
+ "first_content_frame_ms": 817,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.300",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"413|body-parser|bodyParser|client_max_body_size|MaxBytes|max_content_length|MAX_CONTENT_LENGTH|bodySizeLimit|limit:|express\\\\.json|multer|DATA_UPLOAD_MAX|maxRequestBodySize|bodyLimit\", \"output_mode\": \"content\", \"head_limit\": 40}",
+   "sub": false,
+   "result_chars": 8934,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/app.py:225:        \"MAX_CONTENT_LENGTH\": None,\nsrc/tessel/wrappers.py:55:    _max_content_length: int | None = None\nsrc/tessel/wrappers.py:60:    def"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed_warning",
+  "resetsAt": 1792414800,
+  "rateLimitType": "seven_day",
+  "utilization": 0.74,
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.85,
+    "resetsAt": 1792035000
+   },
+   "seven_day": {
+    "utilization": 0.74,
+    "resetsAt": 1792414800
+   }
+  },
+  "overageEnabled": false
+ },
+ "_compact": [],
+ "_wall_s": 6.9,
+ "_t_start": "2026-10-14T22:42:04.229188+00:00",
+ "_t_end": "2026-10-14T22:42:11.125907+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/naming/vague-s6-r1",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "Large uploads are rejected with 413 and we want a bigger limit on one route only. In this repo, where is the limit decided and can it be changed per request? Be brief."
+ },
+ "_mu_cum": {
+  "input": 4,
+  "output": 607,
+  "cache_read": 29496,
+  "cache_creation": 14148,
+  "cost": 0.0656196,
+  "total": 44255
+ },
+ "tok": {
+  "input": 4,
+  "output": 607,
+  "cache_read": 29496,
+  "cache_creation": 14148,
+  "cost": 0.0656196,
+  "total": 44255,
+  "method": "single"
+ },
+ "_tok_usage_field": 44255,
+ "_ctx_last_call": 24434,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "plain"
+}

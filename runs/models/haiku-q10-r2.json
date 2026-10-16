@@ -1,0 +1,340 @@
+{
+ "duration_api_ms": 22422,
+ "stop_reason": "end_turn",
+ "session_id": "dafb2e00-b0ff-451c-85b6-8d8cd16742d7",
+ "total_cost_usd": 0.009220379999999999,
+ "usage": {
+  "input_tokens": 16,
+  "cache_creation_input_tokens": 23983,
+  "cache_read_input_tokens": 204118,
+  "output_tokens": 4762,
+  "output_tokens_details": {
+   "thinking_tokens": 676
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 23983,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 999,
+    "cache_read_input_tokens": 32964,
+    "cache_creation_input_tokens": 1303,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 1303
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-haiku-5-5": {
+   "inputTokens": 16,
+   "outputTokens": 4762,
+   "cacheReadInputTokens": 204118,
+   "cacheCreationInputTokens": 23983,
+   "webSearchRequests": 0,
+   "costUSD": 0.009220379999999999,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 676,
+   "canonicalModel": "claude-haiku-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 17,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "**How `request`, `session` and `g` reach every template**\n\n- **`g` and `request`** are injected per render. `render_template` → `_render` (`src/tessel/templating.py:123`) calls `app.fill_template_scope()` (`src/tessel/app.py:588`). That runs the registered context injectors, starting with `_base_template_vars()` (`src/tessel/templating.py:21`), which puts `g` and, inside a request, `request` into the template context. It is registered as the default injector in `src/tessel/sansio/scaffold.py:182-184`.\n- **`session`** is not in the per-render dict. The Jinja environment gets `request`, `session` and `g` as globals in `create_jinja_environment` (`src/tessel/app.py:493-503`), so they are available even in imported templates. `session` is the `LocalProxy` from `src/tessel/globals.py:60`, and `_base_template_vars` skips it deliberately (comment at `templating.py:30`).\n- The proxies themselves are defined in `src/tessel/globals.py:40-61`, backed by the `app_ctx` ContextVar.\n\n**Adding your own variables**\n\n- **Per-render values:** decorate a function with `@app.ctx_injector` (`src/tessel/sansio/scaffold.py:550`). It returns a dict that is merged into the context for every template. Values passed to `render_template(**kwargs)` take precedence over injected ones (`src/tessel/app.py:607-616`).\n- **Bundle-scoped:** `@bp.ctx_injector` applies only to templates rendered from that bundle's views. `@bp.app_ctx_injector` (`src/tessel/sansio/bundles.py:644`) applies to every template in the app.\n- **Plain functions or constants as globals:** `@app.template_global()` (`src/tessel/sansio/app.py:780`) or `app.add_template_global(f, name=...)` (`src/tessel/sansio/app.py:811`), which write to `jinja_env.globals`. Bundles have the equivalent `@bp.app_template_global` (`src/tessel/sansio/bundles.py:558`).",
+ "ttft_ms": 1041,
+ "type": "result",
+ "duration_ms": 22610,
+ "uuid": "59708d4f-470a-47b6-8165-be98367c913a",
+ "ttft_stream_ms": 720,
+ "time_to_request_ms": 37,
+ "first_content_frame_ms": 720,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init",
+  "system:thinking_tokens"
+ ],
+ "_init": {
+  "model": "claude-haiku-5-5",
+  "version": "2.1.300",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 32,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"context_processor|template_global|add_template_global|jinja_env\\\\.globals|app\\\\.globals|inject_\", \"path\": \"$UL_SCRATCH/runs/main/models/haiku-q10-r2\", \"output_mode\": \"content\", \"-n\": true}",
+   "sub": false,
+   "result_chars": 6810,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/app.py:69:T_template_global = t.TypeVar(\"T_template_global\", bound=ft.TemplateGlobalCallable)\nsrc/tessel/app.py:1202:        self.inject_url_defaults"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"request|session|\\\\bg\\\\b\", \"path\": \"$UL_SCRATCH/runs/main/models/haiku-q10-r2\", \"glob\": \"*.py\", \"output_mode\": \"files_with_matches\"}",
+   "sub": false,
+   "result_chars": 1097,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "Found 44 files\ntests/type_check/typing_app_decorators.py\ntests/test_views.py\ntests/test_testing.py\ntests/test_templating.py\ntests/test_signals.py\ntests/test_ses"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"_default_template_ctx_processor|def update_template_context|template_context_processors|def context_processor|def inject_url_defaults|g=|\\\"g\\\"|\\\"request\\\"|\\\"session\\\"\", \"path\": \"$UL_SCRATCH/runs/main/models/haiku-q10-r2/src/tessel\", \"output_mode\": \"content\", \"-n\": true}",
+   "sub": false,
+   "result_chars": 2367,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/helpers.py:536:            etag=etag,\nsrc/tessel/app.py:183:        Defaults to None. Required when using ``host_matching=True``\nsrc/tessel/app.py:21"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"def context_processor|add_template_context_processor|def add_context_processor|template_context_processors\", \"path\": \"$UL_SCRATCH/runs/main/models/haiku-q10-r2/src/tessel\", \"output_mode\": \"content\", \"-n\": true}",
+   "sub": false,
+   "result_chars": 16,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "No matches found"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/models/haiku-q10-r2/src/tessel/templating.py\", \"limit\": 60}",
+   "sub": false,
+   "result_chars": 2036,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1\tfrom __future__ import annotations\n2\t\n3\timport typing as t\n4\t\n5\tfrom jinja2 import BaseLoader\n6\tfrom jinja2 import Environment as BaseEnvironment\n7\tfrom jinja"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/models/haiku-q10-r2/src/tessel/app.py\", \"offset\": 600, \"limit\": 40}",
+   "sub": false,
+   "result_chars": 1438,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "600\t        \"\"\"\n601\t        names: t.Iterable[str | None] = (None,)\n602\t\n603\t        # A template may be rendered outside a request context.\n604\t        if ctx."
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"context_processor\", \"path\": \"$UL_SCRATCH/runs/main/models/haiku-q10-r2/src/tessel\", \"output_mode\": \"content\", \"-n\": true}",
+   "sub": false,
+   "result_chars": 16,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "No matches found"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"template_ctx_injectors|def \\\\w*ctx_injector\\\\w*|def inject_\\\\w*|_base_template_vars|update_template_context\", \"path\": \"$UL_SCRATCH/runs/main/models/haiku-q10-r2/src/tessel\", \"output_mode\": \"content\", \"-n\": true}",
+   "sub": false,
+   "result_chars": 1074,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/app.py:612:            if name in self.template_ctx_injectors:\nsrc/tessel/app.py:613:                for func in self.template_ctx_injectors[name]:\ns"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/models/haiku-q10-r2/src/tessel/globals.py\"}",
+   "sub": false,
+   "result_chars": 2651,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1\tfrom __future__ import annotations\n2\t\n3\timport typing as t\n4\tfrom contextvars import ContextVar\n5\t\n6\tfrom werkzeug.local import LocalProxy\n7\t\n8\tif t.TYPE_CHEC"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"jinja_env\\\\.globals|globals\\\\.update|\\\"session\\\"|session=|\\\\.update\\\\(\\\\{\\\"session|def update_template_context|self\\\\.update_template_context\\\\(\", \"path\": \"$UL_SCRATCH/runs/main/models/haiku-q10-r2/src/tessel\", \"output_mode\": \"content\", \"-n\": true}",
+   "sub": false,
+   "result_chars": 382,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/ctx.py:367:            session=self._session,\nsrc/tessel/app.py:217:        \"SESSION_COOKIE_NAME\": \"session\",\nsrc/tessel/app.py:493:        rv.global"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/models/haiku-q10-r2/src/tessel/sansio/scaffold.py\", \"offset\": 545, \"limit\": 25}",
+   "sub": false,
+   "result_chars": 1031,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "545\t        \"\"\"\n546\t        self.teardown_request_funcs.setdefault(None, []).append(f)\n547\t        return f\n548\t\n549\t    @setupmethod\n550\t    def ctx_injector(\n"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/models/haiku-q10-r2/src/tessel/app.py\", \"offset\": 480, \"limit\": 30}",
+   "sub": false,
+   "result_chars": 1244,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "480\t\n481\t        if \"autoescape\" not in options:\n482\t            options[\"autoescape\"] = self.select_jinja_autoescape\n483\t\n484\t        if \"auto_reload\" not in o"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/models/haiku-q10-r2/src/tessel/sansio/bundles.py\", \"offset\": 640, \"limit\": 15}",
+   "sub": false,
+   "result_chars": 509,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "640\t        )\n641\t        return f\n642\t\n643\t    @setupmethod\n644\t    def app_ctx_injector(\n645\t        self, f: T_template_ctx_injector\n646\t    ) -> T_template_"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"update_template_context|_update_template_context|def _render\", \"path\": \"$UL_SCRATCH/runs/main/models/haiku-q10-r2/src/tessel\", \"output_mode\": \"content\", \"-n\": true}",
+   "sub": false,
+   "result_chars": 112,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/templating.py:123:def _render(ctx: AppContext, template: Template, context: dict[str, t.Any]) -> str:"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/models/haiku-q10-r2/src/tessel/app.py\", \"offset\": 582, \"limit\": 20}",
+   "sub": false,
+   "result_chars": 949,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "582\t            raise request.routing_exception  # type: ignore[misc]\n583\t\n584\t        from .debughelpers import FormDataRoutingRedirect\n585\t\n586\t        raise "
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/models/haiku-q10-r2/src/tessel/templating.py\", \"offset\": 100, \"limit\": 40}",
+   "sub": false,
+   "result_chars": 1373,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "100\t        if loader is not None:\n101\t            yield self.app, loader\n102\t\n103\t        for bundle in self.app.iter_bundles():\n104\t            loader = bundl"
+  }
+ ],
+ "_models_seen": [
+  "claude-haiku-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed_warning",
+  "resetsAt": 1792099800,
+  "rateLimitType": "five_hour",
+  "utilization": 0.9,
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.9,
+    "resetsAt": 1792099800
+   },
+   "seven_day": {
+    "utilization": 0.06,
+    "resetsAt": 1792681200
+   }
+  },
+  "overageEnabled": false
+ },
+ "_compact": [],
+ "_wall_s": 23.8,
+ "_t_start": "2026-10-15T16:43:04.085444+00:00",
+ "_t_end": "2026-10-15T16:43:27.861334+00:00",
+ "_cmd": {
+  "model": "haiku",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/models/haiku-q10-r2",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "In this repo, how do request, session and g become available inside every Jinja template, and how can an app add its own variables? Name the functions and the decorator involved, with file paths. Be brief."
+ },
+ "_mu_cum": {
+  "input": 16,
+  "output": 4762,
+  "cache_read": 204118,
+  "cache_creation": 23983,
+  "cost": 0.009220379999999999,
+  "total": 232879
+ },
+ "tok": {
+  "input": 16,
+  "output": 4762,
+  "cache_read": 204118,
+  "cache_creation": 23983,
+  "cost": 0.009220379999999999,
+  "total": 232879,
+  "method": "single"
+ },
+ "_tok_usage_field": 232879,
+ "_ctx_last_call": 34269,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "plain"
+}

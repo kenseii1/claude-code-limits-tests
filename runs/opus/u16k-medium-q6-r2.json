@@ -1,0 +1,213 @@
+{
+ "duration_api_ms": 11719,
+ "stop_reason": "end_turn",
+ "session_id": "35d3619a-6ee3-48c4-9dea-b0b8919d86bf",
+ "total_cost_usd": 0.18141020000000002,
+ "usage": {
+  "input_tokens": 6,
+  "cache_creation_input_tokens": 18676,
+  "cache_read_input_tokens": 64191,
+  "output_tokens": 957,
+  "output_tokens_details": {
+   "thinking_tokens": 203
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 18676,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 492,
+    "cache_read_input_tokens": 27936,
+    "cache_creation_input_tokens": 1024,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 1024
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-opus-5-5": {
+   "inputTokens": 6,
+   "outputTokens": 957,
+   "cacheReadInputTokens": 64191,
+   "cacheCreationInputTokens": 18676,
+   "webSearchRequests": 0,
+   "costUSD": 0.18141020000000002,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 203,
+   "canonicalModel": "claude-opus-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 3,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "[answer redacted: it followed the unrelated private rules file, see README]",
+ "ttft_ms": 2942,
+ "type": "result",
+ "duration_ms": 11792,
+ "uuid": "f03b2af7-00c9-4363-9a07-d4689d780d75",
+ "ttft_stream_ms": 850,
+ "time_to_request_ms": 35,
+ "first_content_frame_ms": 850,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init",
+  "system:thinking_tokens"
+ ],
+ "_init": {
+  "model": "claude-opus-5-5",
+  "version": "2.1.301",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 32,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"TESSEL_\", \"output_mode\": \"content\", \"head_limit\": 40}",
+   "sub": false,
+   "result_chars": 3236,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/helpers.py:30:    :envvar:`TESSEL_DEBUG` environment variable. The default is ``False``.\nsrc/tessel/helpers.py:32:    val = os.environ.get(\"TESSEL_DE"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/opus/u16k-medium-q6-r2/src/tessel/config.py\", \"offset\": 120, \"limit\": 60}",
+   "sub": false,
+   "result_chars": 2496,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "120\t                \" and as such configuration could not be loaded. Set\"\n121\t                \" this variable and make it point to a configuration\"\n122\t        "
+  }
+ ],
+ "_models_seen": [
+  "claude-opus-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed",
+  "resetsAt": 1792135800,
+  "rateLimitType": "five_hour",
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.09,
+    "resetsAt": 1792135800
+   },
+   "seven_day": {
+    "utilization": 0.17,
+    "resetsAt": 1792681200
+   }
+  }
+ },
+ "_compact": [],
+ "_wall_s": 12.9,
+ "_t_start": "2026-10-16T02:31:52.482691+00:00",
+ "_t_end": "2026-10-16T02:32:05.405406+00:00",
+ "_cmd": {
+  "model": "opus",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/opus/u16k-medium-q6-r2",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "In this repo, how are environment variables like TESSEL_SECRET_KEY or TESSEL_DB__HOST turned into config values, including type conversion and nested keys? Name the method and the conversion function, with file paths. Be brief."
+ },
+ "_mu_cum": {
+  "input": 6,
+  "output": 957,
+  "cache_read": 64191,
+  "cache_creation": 18676,
+  "cost": 0.18141020000000002,
+  "total": 83830
+ },
+ "tok": {
+  "input": 6,
+  "output": 957,
+  "cache_read": 64191,
+  "cache_creation": 18676,
+  "cost": 0.18141020000000002,
+  "total": 83830,
+  "method": "single"
+ },
+ "_tok_usage_field": 83830,
+ "_ctx_last_call": 28962,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "cm-16k",
+ "_grade_before_redaction": true
+}

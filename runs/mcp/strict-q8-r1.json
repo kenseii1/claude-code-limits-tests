@@ -1,0 +1,220 @@
+{
+ "duration_api_ms": 11656,
+ "stop_reason": "end_turn",
+ "session_id": "ba2fc07c-8184-4386-9def-de52caae2039",
+ "total_cost_usd": 0.060524999999999995,
+ "usage": {
+  "input_tokens": 6,
+  "cache_creation_input_tokens": 11287,
+  "cache_read_input_tokens": 49650,
+  "output_tokens": 1040,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 11287,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 560,
+    "cache_read_input_tokens": 19886,
+    "cache_creation_input_tokens": 1685,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 1685
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 6,
+   "outputTokens": 1040,
+   "cacheReadInputTokens": 49650,
+   "cacheCreationInputTokens": 11287,
+   "webSearchRequests": 0,
+   "costUSD": 0.060524999999999995,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 0,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 4,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "**Mechanism:** a `ContextVar` plus werkzeug `LocalProxy` objects. This is the same design as Flask's.\n\n**`src/tessel/globals.py`**\n- `_app_var` (line 40) is a `ContextVar[AppContext]` named `\"tessel.app_ctx\"`.\n- Each name is a `werkzeug.local.LocalProxy` over `_app_var`. On every access, the proxy reads the context variable's current value and forwards the operation to the attribute it names:\n  - `app_ctx` (line 41) is the `AppContext` itself.\n  - `active_app` (line 44) is `AppContext.app`, the `Tessel` app.\n  - `g` (line 47) is `AppContext.g`, the `_AppCtxGlobals` object.\n  - `request` (line 57) is `AppContext.request`, a `Request` from `wrappers.py`.\n  - `session` (line 60) is `AppContext.session`.\n- If nothing is bound, the proxy raises a \"Working outside of application context\" or \"outside of request context\" error. `request` and `session` use the request message.\n\n**`src/tessel/ctx.py`**\n- `AppContext` binds itself on push with `_app_var.set(self)` (line 433). On pop it calls `_app_var.reset(self._cv_token)` (line 498).\n- Because it is a `ContextVar`, each thread or async task sees its own value. Nested contexts restore the previous one.\n\nRequest data is stored on the same `AppContext`. The old separate `request_ctx` has been merged into `app_ctx`. The `request_ctx` name in `globals.py` now only returns `app_ctx`, with a deprecation warning.",
+ "ttft_ms": 3470,
+ "type": "result",
+ "duration_ms": 11770,
+ "uuid": "123ae7fe-212d-45a2-86bc-c57451ee275f",
+ "ttft_stream_ms": 2598,
+ "time_to_request_ms": 46,
+ "first_content_frame_ms": 2599,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.301",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 32,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"current_app|_cv_app|_cv_request|LocalProxy\", \"glob\": \"**/globals.py\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 517,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/globals.py:6:from werkzeug.local import LocalProxy\nsrc/tessel/globals.py:41:app_ctx: AppContextProxy = LocalProxy(  # type: ignore[assignment]\nsrc/te"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/mcp/strict-q8-r1/src/tessel/globals.py\"}",
+   "sub": false,
+   "result_chars": 2651,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1\tfrom __future__ import annotations\n2\t\n3\timport typing as t\n4\tfrom contextvars import ContextVar\n5\t\n6\tfrom werkzeug.local import LocalProxy\n7\t\n8\tif t.TYPE_CHEC"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"_cv_app|_cv_request|\\\\.set\\\\(|\\\\.reset\\\\(\", \"path\": \"$UL_SCRATCH/runs/main/mcp/strict-q8-r1/src/tessel\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 126,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/ctx.py:433:        self._cv_token = _app_var.set(self)\nsrc/tessel/ctx.py:498:        _app_var.reset(self._cv_token)"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed",
+  "resetsAt": 1792117800,
+  "rateLimitType": "five_hour",
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.36,
+    "resetsAt": 1792117800
+   },
+   "seven_day": {
+    "utilization": 0.11,
+    "resetsAt": 1792681200
+   }
+  }
+ },
+ "_compact": [],
+ "_wall_s": 12.9,
+ "_t_start": "2026-10-15T21:42:43.472329+00:00",
+ "_t_end": "2026-10-15T21:42:56.324801+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/mcp/strict-q8-r1",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "In this repo, how do active_app, g and request find the right object for the current context? Name the mechanism and the objects involved, with file paths. Be brief."
+ },
+ "_mu_cum": {
+  "input": 6,
+  "output": 1040,
+  "cache_read": 49650,
+  "cache_creation": 11287,
+  "cost": 0.060524999999999995,
+  "total": 61983
+ },
+ "tok": {
+  "input": 6,
+  "output": 1040,
+  "cache_read": 49650,
+  "cache_creation": 11287,
+  "cost": 0.060524999999999995,
+  "total": 61983,
+  "method": "single"
+ },
+ "_tok_usage_field": 61983,
+ "_ctx_last_call": 21573,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "plain"
+}

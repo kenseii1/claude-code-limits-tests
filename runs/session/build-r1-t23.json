@@ -1,0 +1,193 @@
+{
+ "duration_api_ms": 157375,
+ "stop_reason": "end_turn",
+ "session_id": "35715622-fb03-425f-ba07-695217399ba9",
+ "total_cost_usd": 0.9989731999999998,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 321,
+  "cache_read_input_tokens": 129331,
+  "output_tokens": 723,
+  "output_tokens_details": {
+   "thinking_tokens": 34
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 321,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 723,
+    "cache_read_input_tokens": 129331,
+    "cache_creation_input_tokens": 321,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 321
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 92,
+   "outputTokens": 15603,
+   "thinkingTokens": 200,
+   "cacheReadInputTokens": 3646312,
+   "cacheCreationInputTokens": 119532,
+   "webSearchRequests": 0,
+   "costUSD": 0.9989731999999998,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 1,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "`src/tessel/testing.py` contains the following (from the read earlier in this session; the file hasn't changed since).\n\n**`EnvironBuilder`** (L27) subclasses `werkzeug.test.EnvironBuilder` and takes its defaults from the app.\n- `__init__` (L49): builds `base_url` from `SERVER_NAME`, `APPLICATION_ROOT`, `PREFERRED_URL_SCHEME`, `subdomain` and `url_scheme`, and rejects combining those with `base_url`.\n- `json_dumps` (L88): serializes JSON request bodies with the app's JSON provider.\n\n**`TesselClient`** (L109) subclasses `werkzeug.test.Client`.\n- `__init__` (L125): sets up context-preservation state and default `environ_base` (`REMOTE_ADDR`, `HTTP_USER_AGENT`).\n- `session_transaction` (L135): context manager that opens the client's session for editing and persists it and its cookies on exit.\n- `_copy_environ` (L185): merges `environ_base` into a request's environ and hooks context preservation.\n- `_request_from_builder_args` (L193): builds a request through Tessel's `EnvironBuilder` from positional and keyword args.\n- `open` (L204): accepts a builder, environ dict, `Request` or args, manages preserved contexts, and sets `response.json_module` to the app's JSON provider.\n- `__enter__` (L249): turns on context preservation, and raises on nesting.\n- `__exit__` (L255): turns it off and closes the preserved contexts.\n\n**`TesselCliRunner`** (L265) subclasses `click.testing.CliRunner`.\n- `__init__` (L271): stores the app.\n- `invoke` (L275): runs a CLI command, defaulting to `app.cli` and passing a `LaunchInfo` that loads the app under test.\n\n**Module-level function**\n- `_get_werkzeug_version` (L100): returns the installed Werkzeug version, cached in `_werkzeug_version`.",
+ "ttft_ms": 1621,
+ "type": "result",
+ "duration_ms": 5731,
+ "uuid": "f7e6a4b8-256e-4448-afde-36c1d809120b",
+ "ttft_stream_ms": 1331,
+ "time_to_request_ms": 38,
+ "first_content_frame_ms": 1332,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.299",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed",
+  "resetsAt": 1791981000,
+  "rateLimitType": "five_hour",
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.84,
+    "resetsAt": 1791981000
+   },
+   "seven_day": {
+    "utilization": 0.49,
+    "resetsAt": 1792414800
+   }
+  }
+ },
+ "_compact": [],
+ "_wall_s": 6.8,
+ "_t_start": "2026-10-14T08:06:10.012100+00:00",
+ "_t_end": "2026-10-14T08:06:16.797582+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": "35715622-fb03-425f-ba07-695217399ba9",
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/session/chain-r1",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "Read all of src/tessel/testing.py and list its classes and methods with one line each."
+ },
+ "_mu_cum": {
+  "input": 92,
+  "output": 15603,
+  "cache_read": 3646312,
+  "cache_creation": 119532,
+  "cost": 0.9989731999999998,
+  "total": 3781539
+ },
+ "tok": {
+  "input": 2,
+  "output": 723,
+  "cache_read": 129331,
+  "cache_creation": 321,
+  "total": 130377,
+  "cost": 0.021451,
+  "method": "delta"
+ },
+ "_tok_usage_field": 130377,
+ "_ctx_last_call": 129654,
+ "_subagent_calls": 0,
+ "_tpl": "plain",
+ "_turn": 23,
+ "_rep": 1
+}

@@ -1,0 +1,193 @@
+{
+ "duration_api_ms": 47699,
+ "stop_reason": "end_turn",
+ "session_id": "0e258663-c5cc-43da-9a7c-0042b1b9d6d2",
+ "total_cost_usd": 0.2960155,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 1072,
+  "cache_read_input_tokens": 58306,
+  "output_tokens": 217,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 1072,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 217,
+    "cache_read_input_tokens": 58306,
+    "cache_creation_input_tokens": 1072,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 1072
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 26,
+   "outputTokens": 5343,
+   "thinkingTokens": 0,
+   "cacheReadInputTokens": 456015,
+   "cacheCreationInputTokens": 49233,
+   "webSearchRequests": 0,
+   "costUSD": 0.2960155,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 1,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "In `src/tessel/helpers.py:360-399`, `get_flashed_messages` filters with the `category_filter` argument.\n\n- If `category_filter` is non-empty, it keeps only the `(category, message)` tuples whose category is in the filter: `filter(lambda f: f[0] in category_filter, flashes)` (line 396).\n- `with_categories` is separate: it only controls the return shape, bare messages by default or `(category, message)` tuples if `True`.\n- The flashes are popped from the session once per request and cached on `app_ctx._flashes`, so repeated calls in the same request return the same messages. The filter is applied to that cached list each time.",
+ "ttft_ms": 2434,
+ "type": "result",
+ "duration_ms": 2469,
+ "uuid": "23585a75-bd52-4460-b494-1546ba5d5b23",
+ "ttft_stream_ms": 1256,
+ "time_to_request_ms": 37,
+ "first_content_frame_ms": 1256,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.299",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed",
+  "resetsAt": 1791981000,
+  "rateLimitType": "five_hour",
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.59,
+    "resetsAt": 1791981000
+   },
+   "seven_day": {
+    "utilization": 0.47,
+    "resetsAt": 1792414800
+   }
+  }
+ },
+ "_compact": [],
+ "_wall_s": 3.9,
+ "_t_start": "2026-10-14T08:01:17.484713+00:00",
+ "_t_end": "2026-10-14T08:01:21.391965+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": "0e258663-c5cc-43da-9a7c-0042b1b9d6d2",
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/session/chain-r2",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "How does get_flashed_messages filter by category? Brief, with file path."
+ },
+ "_mu_cum": {
+  "input": 26,
+  "output": 5343,
+  "cache_read": 456015,
+  "cache_creation": 49233,
+  "cost": 0.2960155,
+  "total": 510617
+ },
+ "tok": {
+  "input": 2,
+  "output": 217,
+  "cache_read": 58306,
+  "cache_creation": 1072,
+  "total": 59597,
+  "cost": 0.012293,
+  "method": "delta"
+ },
+ "_tok_usage_field": 59597,
+ "_ctx_last_call": 59380,
+ "_subagent_calls": 0,
+ "_tpl": "plain",
+ "_turn": 7,
+ "_rep": 2
+}

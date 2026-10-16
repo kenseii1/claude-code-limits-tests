@@ -1,0 +1,222 @@
+{
+ "duration_api_ms": 9527,
+ "stop_reason": "end_turn",
+ "session_id": "85294dee-c2d4-4330-baed-a04cafe6f5ff",
+ "total_cost_usd": 0.0948679,
+ "usage": {
+  "input_tokens": 6,
+  "cache_creation_input_tokens": 19331,
+  "cache_read_input_tokens": 57919,
+  "output_tokens": 1174,
+  "output_tokens_details": {
+   "thinking_tokens": 22
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 19331,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 513,
+    "cache_read_input_tokens": 28389,
+    "cache_creation_input_tokens": 1226,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 1226
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 6,
+   "outputTokens": 1174,
+   "cacheReadInputTokens": 57919,
+   "cacheCreationInputTokens": 19331,
+   "webSearchRequests": 0,
+   "costUSD": 0.0948679,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 22,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 4,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "**Where to look**\n\n- `src/tessel/app.py:1184-1190` in `Tessel.link_for`. This is the `RuntimeError` you're seeing. With no request context, it calls `self.build_url_binder(None)` and raises if that returns `None`.\n- `src/tessel/app.py:550-558` in `Tessel.build_url_binder`. With no request, it only returns an adapter when `config[\"SERVER_NAME\"]` is not `None`. Otherwise it returns `None`, which triggers the error above.\n\nYour background job has no request, so `SERVER_NAME` is unset and the binder comes back `None`.\n\n**Fix (config)**\n\n```python\napp.config[\"SERVER_NAME\"] = \"example.com\"          # required; add :port if non-default\napp.config[\"APPLICATION_ROOT\"] = \"/\"               # set if the app is mounted under a prefix\napp.config[\"PREFERRED_URL_SCHEME\"] = \"https\"       # defaults to \"http\"\n```\n\n`SERVER_NAME` is the one that actually fixes the crash. The other two control the path prefix and scheme of the generated URLs.\n\nOutside a request, `link_for` produces external URLs by default (`_external=True`, line 1194). Call it as `app.link_for(...)` directly; `tessel.link_for` expects an active app context.\n\nAlternatively, run the job inside `with app.test_request_context():`, which supplies a request-bound adapter (see `docs/appcontext.rst`). Setting `SERVER_NAME` is the cleaner option for a real background job.",
+ "ttft_ms": 1205,
+ "type": "result",
+ "duration_ms": 9627,
+ "uuid": "a44c8677-9892-4e9e-9855-aa09977cb6e2",
+ "ttft_stream_ms": 816,
+ "time_to_request_ms": 42,
+ "first_content_frame_ms": 818,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.300",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"link_for|build_url_binder|SERVER_NAME|url_for|test_request_context|PREFERRED_URL_SCHEME|APPLICATION_ROOT\", \"path\": \"$UL_SCRATCH/runs/main/naming/named-s2-r2\", \"output_mode\": \"content\", \"-n\": true}",
+   "sub": false,
+   "result_chars": 19981,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/views.py:158:                return redirect(link_for(\"counter\"))\nsrc/tessel/ctx.py:268:    app context if needed during setup, and :meth:`.Tessel.te"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/naming/named-s2-r2/src/tessel/app.py\", \"offset\": 1170, \"limit\": 30}",
+   "sub": false,
+   "result_chars": 1381,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1170\t\n1171\t            # When in a request, generate a URL without scheme and\n1172\t            # domain by default, unless a scheme is given.\n1173\t            i"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/naming/named-s2-r2/src/tessel/app.py\", \"offset\": 545, \"limit\": 20}",
+   "sub": false,
+   "result_chars": 850,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "545\t\n546\t            return self.url_map.bind_to_environ(\n547\t                request.environ, server_name=server_name, subdomain=subdomain\n548\t            )\n54"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed_warning",
+  "resetsAt": 1792414800,
+  "rateLimitType": "seven_day",
+  "utilization": 0.75,
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.89,
+    "resetsAt": 1792035000
+   },
+   "seven_day": {
+    "utilization": 0.75,
+    "resetsAt": 1792414800
+   }
+  },
+  "overageEnabled": false
+ },
+ "_compact": [],
+ "_wall_s": 10.7,
+ "_t_start": "2026-10-14T22:42:26.432841+00:00",
+ "_t_end": "2026-10-14T22:42:37.142579+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/naming/named-s2-r2",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "Look at Tessel.link_for and Tessel.build_url_binder in src/tessel/app.py. A background job that calls link_for crashes with 'Unable to build URLs outside an active request'. In this repo, where would you look and why, and what config fixes it? Be brief."
+ },
+ "_mu_cum": {
+  "input": 6,
+  "output": 1174,
+  "cache_read": 57919,
+  "cache_creation": 19331,
+  "cost": 0.0948679,
+  "total": 78430
+ },
+ "tok": {
+  "input": 6,
+  "output": 1174,
+  "cache_read": 57919,
+  "cache_creation": 19331,
+  "cost": 0.0948679,
+  "total": 78430,
+  "method": "single"
+ },
+ "_tok_usage_field": 78430,
+ "_ctx_last_call": 29617,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "plain"
+}

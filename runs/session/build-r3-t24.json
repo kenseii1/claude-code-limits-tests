@@ -1,0 +1,230 @@
+{
+ "duration_api_ms": 187257,
+ "stop_reason": "end_turn",
+ "session_id": "600996ac-5111-4cfe-9c21-b6a657c31c1d",
+ "total_cost_usd": 1.1291102000000002,
+ "usage": {
+  "input_tokens": 6,
+  "cache_creation_input_tokens": 5170,
+  "cache_read_input_tokens": 399235,
+  "output_tokens": 1366,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 5170,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 619,
+    "cache_read_input_tokens": 135534,
+    "cache_creation_input_tokens": 1129,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 1129
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 104,
+   "outputTokens": 17746,
+   "thinkingTokens": 294,
+   "cacheReadInputTokens": 4452702,
+   "cacheCreationInputTokens": 126543,
+   "webSearchRequests": 0,
+   "costUSD": 1.1291102000000002,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 5,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "`src/tessel/debughelpers.py` defines three exceptions.\n\n**`UnexpectedUnicodeError`** (L17, extends `AssertionError` and `UnicodeError`)\n- It is meant for better error reporting on unexpected unicode or binary data.\n- Nothing in `src/` raises it. It is only defined.\n\n**`DebugFilesKeyError`** (L23, extends `KeyError` and `AssertionError`)\n- **Raised when:**\n  - In debug mode, `request.files[key]` is missing but `key` exists in `request.form`.\n  - The usual cause is a form submitted without `enctype=\"multipart/form-data\"`.\n- **Raised by:**\n  - The patched `__getitem__` created in `attach_enctype_error_multidict` (L81) raises it.\n  - `Request._load_form_data` in `src/tessel/wrappers.py:208` attaches that patch.\n  - The patch is attached only when the app is in debug mode, the mimetype isn't `multipart/form-data`, and `files` is empty.\n- **Message:** it explains the missing `enctype` and lists any file names the browser sent as plain form values.\n\n**`FormDataRoutingRedirect`** (L50, extends `AssertionError`)\n- **Raised when:**\n  - In debug mode, routing wants to redirect (a `RequestRedirect`).\n  - The request method is not `GET`, `HEAD` or `OPTIONS`.\n  - The redirect status isn't 307 or 308, which would make the browser drop the method or body.\n- **Raised by:** `Tessel.raise_routing_exception` at `src/tessel/app.py:584-586`.\n- **Message:**\n  - It names the requested URL and the canonical URL.\n  - It hints at a trailing-slash mismatch when that is the cause.\n  - It says it is only raised in debug mode.",
+ "ttft_ms": 3193,
+ "type": "result",
+ "duration_ms": 14450,
+ "uuid": "f2d90bb5-5c13-47d1-b923-68cdee068cff",
+ "ttft_stream_ms": 1714,
+ "time_to_request_ms": 40,
+ "first_content_frame_ms": 1714,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.299",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/session/chain-r3/src/tessel/debughelpers.py\"}",
+   "sub": false,
+   "result_chars": 6654,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1\tfrom __future__ import annotations\n2\t\n3\timport typing as t\n4\t\n5\tfrom jinja2.loaders import BaseLoader\n6\tfrom werkzeug.routing import RequestRedirect\n7\t\n8\tfrom"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"UnexpectedUnicodeError|DebugFilesKeyError|FormDataRoutingRedirect|attach_enctype_error_multidict\", \"path\": \"$UL_SCRATCH/runs/main/session/chain-r3/src\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 762,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/debughelpers.py:17:class UnexpectedUnicodeError(AssertionError, UnicodeError):\nsrc/tessel/debughelpers.py:23:class DebugFilesKeyError(KeyError, Asser"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/session/chain-r3/src/tessel/wrappers.py\", \"offset\": 198, \"limit\": 18}",
+   "sub": false,
+   "result_chars": 701,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "198\t        super()._load_form_data()\n199\t\n200\t        # In debug mode we're replacing the files multidict with an ad-hoc\n201\t        # subclass that raises a d"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/session/chain-r3/src/tessel/app.py\", \"offset\": 560, \"limit\": 30}",
+   "sub": false,
+   "result_chars": 1181,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "560\t    def raise_routing_exception(self, request: Request) -> t.NoReturn:\n561\t        \"\"\"Intercept routing exceptions and possibly do something else.\n562\t\n563\t"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed",
+  "resetsAt": 1791981000,
+  "rateLimitType": "five_hour",
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.87,
+    "resetsAt": 1791981000
+   },
+   "seven_day": {
+    "utilization": 0.49,
+    "resetsAt": 1792414800
+   }
+  }
+ },
+ "_compact": [],
+ "_wall_s": 15.8,
+ "_t_start": "2026-10-14T08:06:27.503423+00:00",
+ "_t_end": "2026-10-14T08:06:43.317189+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": "600996ac-5111-4cfe-9c21-b6a657c31c1d",
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/session/chain-r3",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "Which exceptions does debughelpers.py define and when are they raised?"
+ },
+ "_mu_cum": {
+  "input": 104,
+  "output": 17746,
+  "cache_read": 4452702,
+  "cache_creation": 126543,
+  "cost": 1.1291102000000002,
+  "total": 4597095
+ },
+ "tok": {
+  "input": 6,
+  "output": 1366,
+  "cache_read": 399235,
+  "cache_creation": 5170,
+  "total": 405777,
+  "cost": 0.074275,
+  "method": "delta"
+ },
+ "_tok_usage_field": 405777,
+ "_ctx_last_call": 136665,
+ "_subagent_calls": 0,
+ "_tpl": "plain",
+ "_turn": 24,
+ "_rep": 3
+}

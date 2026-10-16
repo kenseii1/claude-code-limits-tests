@@ -1,0 +1,259 @@
+{
+ "duration_api_ms": 15234,
+ "stop_reason": "end_turn",
+ "session_id": "0af654e3-8d25-4e12-96ae-e8e0dc3d8a6d",
+ "total_cost_usd": 0.0861633,
+ "usage": {
+  "input_tokens": 12,
+  "cache_creation_input_tokens": 14317,
+  "cache_read_input_tokens": 120213,
+  "output_tokens": 1685,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 14317,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 537,
+    "cache_read_input_tokens": 23515,
+    "cache_creation_input_tokens": 1086,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 1086
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 12,
+   "outputTokens": 1685,
+   "cacheReadInputTokens": 120213,
+   "cacheCreationInputTokens": 14317,
+   "webSearchRequests": 0,
+   "costUSD": 0.0861633,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 0,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 8,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "Call order (all in `src/tessel/` unless noted):\n\n1. `Tessel.run_full_request` (`app.py` ~L1012–1019): runs `preprocess_request` → `run_view` inside a `try`; any `Exception` goes to the next step.\n2. `Tessel.route_user_fault` (`app.py:865`): if the exception is an `HTTPException`, it delegates to `route_http_fault`. Otherwise it picks a handler, and if none matches it re-raises.\n3. `Tessel.route_http_fault` (`app.py:830`): handles HTTP exceptions, using the picked handler if one exists.\n4. `Tessel._pick_fault_handler` (`sansio/app.py:869`): both of the above call this to choose the handler.\n   - Lookup is in `error_handler_spec[name][code]`, which is populated by `register_error_handler` (`sansio/scaffold.py:650`).\n   - Precedence, most specific first:\n     1. bundle handler for the status code\n     2. app handler for the status code\n     3. bundle handler for the exception class\n     4. app handler for the exception class\n   - Within each map, it walks the exception's MRO, so a subclass handler wins over a parent's.\n5. `Tessel.route_unhandled_fault` (`app.py:897`): fallback from `wsgi_app` (`app.py:1600`) if the exception escapes `run_full_request`, or if `route_user_fault` re-raises. It wraps the error in an `InternalServerError` and calls `_pick_fault_handler` again (L943), which finds a 500 handler or falls back to the default response.",
+ "ttft_ms": 1804,
+ "type": "result",
+ "duration_ms": 15369,
+ "uuid": "e902782e-a0f2-4773-8ad5-296960f23663",
+ "ttft_stream_ms": 1298,
+ "time_to_request_ms": 42,
+ "first_content_frame_ms": 1299,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.300",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"error_handler|exception_handler|handle_exception|def handle_error\", \"-i\": true, \"output_mode\": \"content\", \"head_limit\": 60}",
+   "sub": false,
+   "result_chars": 5030,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/app.py:948:        return self.finalize_request(ctx, server_error, from_error_handler=True)\nsrc/tessel/app.py:1025:        from_error_handler: bool ="
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"def (handle_user_exception|handle_exception|handle_http_exception|_find_error_handler|full_dispatch_request|wsgi_app|dispatch_request)\", \"path\": \"src/tessel\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 16,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "No matches found"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/flatmap/plain-q1-r2/src/tessel/sansio/app.py\", \"offset\": 850, \"limit\": 50}",
+   "sub": false,
+   "result_chars": 1955,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "850\t\n851\t        The return values of teardown functions are ignored.\n852\t\n853\t        .. versionadded:: 0.9\n854\t        \"\"\"\n855\t        self.on_app_teardown_fu"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"_pick_fault_handler|fault_handler\\\\(|def \\\\w*(fault|dispatch|wsgi_app)\\\\w*\", \"path\": \"src/tessel/app.py\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 446,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "830:    def route_http_fault(\n860:        handler = self._pick_fault_handler(e, ctx.request.bundles)\n865:    def route_user_fault(\n890:        handler = self._p"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"route_user_fault|route_unhandled_fault|route_http_fault\", \"path\": \"src/tessel\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 786,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/app.py:259:            cls.route_http_fault,\nsrc/tessel/app.py:260:            cls.route_user_fault,\nsrc/tessel/app.py:261:            cls.route_unha"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/flatmap/plain-q1-r2/src/tessel/app.py\", \"offset\": 1000, \"limit\": 25}",
+   "sub": false,
+   "result_chars": 934,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1000\t            import warnings\n1001\t\n1002\t            warnings.warn(\n1003\t                \"The 'should_ignore_error' method is deprecated and will\"\n1004\t     "
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/flatmap/plain-q1-r2/src/tessel/app.py\", \"offset\": 1585, \"limit\": 20}",
+   "sub": false,
+   "result_chars": 851,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1585\t            called depending on when an error occurs during dispatch.\n1586\t\n1587\t        :param environ: A WSGI environment.\n1588\t        :param start_resp"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed_warning",
+  "resetsAt": 1792414800,
+  "rateLimitType": "seven_day",
+  "utilization": 0.82,
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "surpassedThreshold": 0.75,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.72,
+    "resetsAt": 1792053000
+   },
+   "seven_day": {
+    "utilization": 0.82,
+    "resetsAt": 1792414800
+   }
+  },
+  "overageEnabled": false
+ },
+ "_compact": [],
+ "_wall_s": 16.3,
+ "_t_start": "2026-10-15T03:43:52.310081+00:00",
+ "_t_end": "2026-10-15T03:44:08.621091+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/flatmap/plain-q1-r2",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "In this repo, when a view raises an exception, how does Tessel decide which error handler runs? List the methods involved in call order, with file paths. Be brief."
+ },
+ "_mu_cum": {
+  "input": 12,
+  "output": 1685,
+  "cache_read": 120213,
+  "cache_creation": 14317,
+  "cost": 0.0861633,
+  "total": 136227
+ },
+ "tok": {
+  "input": 12,
+  "output": 1685,
+  "cache_read": 120213,
+  "cache_creation": 14317,
+  "cost": 0.0861633,
+  "total": 136227,
+  "method": "single"
+ },
+ "_tok_usage_field": 136227,
+ "_ctx_last_call": 24603,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "plain"
+}

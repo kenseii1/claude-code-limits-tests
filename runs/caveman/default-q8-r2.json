@@ -1,0 +1,241 @@
+{
+ "duration_api_ms": 15851,
+ "stop_reason": "end_turn",
+ "session_id": "3a971668-fcdc-41c9-ab98-82a78c90953d",
+ "total_cost_usd": 0.0907592,
+ "usage": {
+  "input_tokens": 8,
+  "cache_creation_input_tokens": 15469,
+  "cache_read_input_tokens": 70672,
+  "output_tokens": 2180,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 15469,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1248,
+    "cache_read_input_tokens": 21508,
+    "cache_creation_input_tokens": 4245,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 4245
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 8,
+   "outputTokens": 2180,
+   "cacheReadInputTokens": 70672,
+   "cacheCreationInputTokens": 15469,
+   "webSearchRequests": 0,
+   "costUSD": 0.0907592,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 0,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 6,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "**Mechanism:** a single `contextvars.ContextVar` holding the current `AppContext`, read through werkzeug `LocalProxy` objects.\n\n## Objects and files\n\n- `src/tessel/globals.py:40`: `_app_var: ContextVar[AppContext]`. This is the only piece of storage.\n- `src/tessel/globals.py:41-62`: the proxies, all `werkzeug.local.LocalProxy` bound to `_app_var`:\n  - `app_ctx` → the `AppContext` itself.\n  - `active_app` → `AppContext.app` (`\"app\"`).\n  - `g` → `AppContext.g` (`\"g\"`).\n  - `request` → `AppContext.request` (`\"request\"`).\n  - `session` → `AppContext.session` (`\"session\"`).\n- `src/tessel/ctx.py:260`: `AppContext` holds `app`, `g` (an `_AppCtxGlobals` instance), `_request` and `_session`. It also owns `push()` and `pop()`.\n- `src/tessel/app.py:1481-1616`: `app_context()`, `request_context()` and `wsgi_app()` create and push or pop contexts.\n\n## Step by step\n\n1. **Context creation.**\n   - `Tessel.wsgi_app` (`app.py:1592`) calls `request_context(environ)`.\n   - That builds an `AppContext` via `AppContext.from_environ` (`ctx.py:340`), which wraps the environ in `app.request_class`.\n   - In `AppContext.__init__` (`ctx.py:307-312`), `self.app = app` and `self.g = app.app_ctx_globals_class()`, so `g` is fresh for each context.\n2. **Push.**\n   - `ctx.push()` (`app.py:1596`, `ctx.py:416`) runs `self._cv_token = _app_var.set(self)` (`ctx.py:433`).\n   - This makes the context current for the running thread or async task, and the returned token remembers the previous value.\n   - `push()` also loads the session and matches the URL, with the context already active.\n   - Nested pushes of the same context only increment `_push_count`.\n3. **Lookup.**\n   - Code that touches `request.args`, `g.x` or `active_app.config` goes through a `LocalProxy`.\n   - On each attribute access the proxy calls `_app_var.get()` to get the current `AppContext`, then does `getattr(ctx, \"request\")` (or `\"app\"`, `\"g\"`).\n   - The proxy is therefore a lazy, per-access lookup, not a cached object.\n   - Because `ContextVar` is isolated per thread and per asyncio task, each concurrent request sees its own context.\n4. **No context.** If `_app_var` is unset, the proxy raises `RuntimeError` with the `unbound_message` (`globals.py:33`, `51`).\n   - `request` and `session` use the \"outside of request context\" message.\n   - For a context pushed without a request, `AppContext.request` raises `\"There is no request in this context.\"` (`ctx.py:376`).\n5. **Pop.**\n   - `ctx.pop()` (`ctx.py:446`) checks that this context is the active one.\n   - Once `_push_count` reaches 0 it runs the teardown functions and closes the request.\n   - It then calls `_app_var.reset(self._cv_token)` (`ctx.py:498`), which restores the previous context, or the unset state.\n   - This is why nested `with app.app_context():` blocks restore the outer context correctly.\n\n`globals.py:65` also keeps a deprecated `request_ctx` alias that just returns `app_ctx`. Request and app contexts were merged in 3.2, so one class and one ContextVar serve all five proxies.",
+ "ttft_ms": 1428,
+ "type": "result",
+ "duration_ms": 15989,
+ "uuid": "6dd3b4e1-d68b-4ba5-838b-d0642dd8ce3b",
+ "ttft_stream_ms": 919,
+ "time_to_request_ms": 38,
+ "first_content_frame_ms": 920,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.300",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"active_app|_cv_app|LocalProxy\", \"output_mode\": \"files_with_matches\", \"head_limit\": 30}",
+   "sub": false,
+   "result_chars": 580,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "Found 27 files\ntests/test_reqctx.py\ntests/test_cli.py\ntests/test_basic.py\ntests/test_appctx.py\nsrc/tessel/wrappers.py\nsrc/tessel/views.py\nsrc/tessel/logging.py\n"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/caveman/default-q8-r2/src/tessel/globals.py\"}",
+   "sub": false,
+   "result_chars": 2651,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1\tfrom __future__ import annotations\n2\t\n3\timport typing as t\n4\tfrom contextvars import ContextVar\n5\t\n6\tfrom werkzeug.local import LocalProxy\n7\t\n8\tif t.TYPE_CHEC"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"_cv_app|_cv_request|\\\\.set\\\\(|\\\\.reset\\\\(|def push|def pop|def __enter__|def __exit__|^class |def copy_current\", \"path\": \"$UL_SCRATCH/runs/main/caveman/default-q8-r2/src/tessel/ctx.py\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 415,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "30:class _AppCtxGlobals:\n79:    def pop(self, name: str, default: t.Any = _sentinel) -> t.Any:\n154:def copy_current_request_context(f: F) -> F:\n260:class AppCon"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/caveman/default-q8-r2/src/tessel/ctx.py\", \"offset\": 255, \"limit\": 260}",
+   "sub": false,
+   "result_chars": 10663,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "255\t    .. versionadded:: 0.9\n256\t    \"\"\"\n257\t    return _app_var.get(None) is not None\n258\t\n259\t\n260\tclass AppContext:\n261\t    \"\"\"An app context contains infor"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"app_context\\\\(|request_context\\\\(|def wsgi_app|\\\\.push\\\\(\\\\)|ctx\\\\.pop|AppContext\\\\(\", \"path\": \"$UL_SCRATCH/runs/main/caveman/default-q8-r2/src/tessel/app.py\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 501,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1481:    def app_context(self) -> AppContext:\n1492:            with app.app_context():\n1499:        return AppContext(self)\n1501:    def request_context(self, e"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed_warning",
+  "resetsAt": 1792414800,
+  "rateLimitType": "seven_day",
+  "utilization": 0.79,
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "surpassedThreshold": 0.75,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.31,
+    "resetsAt": 1792053000
+   },
+   "seven_day": {
+    "utilization": 0.79,
+    "resetsAt": 1792414800
+   }
+  },
+  "overageEnabled": false
+ },
+ "_compact": [],
+ "_wall_s": 16.8,
+ "_t_start": "2026-10-15T03:35:37.901838+00:00",
+ "_t_end": "2026-10-15T03:35:54.690626+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/caveman/default-q8-r2",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "In this repo, how do active_app, g and request find the right object for the current context? Name the mechanism and the objects involved, with file paths. Explain how it works, step by step."
+ },
+ "_mu_cum": {
+  "input": 8,
+  "output": 2180,
+  "cache_read": 70672,
+  "cache_creation": 15469,
+  "cost": 0.0907592,
+  "total": 88329
+ },
+ "tok": {
+  "input": 8,
+  "output": 2180,
+  "cache_read": 70672,
+  "cache_creation": 15469,
+  "cost": 0.0907592,
+  "total": 88329,
+  "method": "single"
+ },
+ "_tok_usage_field": 88329,
+ "_ctx_last_call": 25755,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "plain"
+}

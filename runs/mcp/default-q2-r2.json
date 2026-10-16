@@ -1,0 +1,291 @@
+{
+ "duration_api_ms": 29068,
+ "stop_reason": "end_turn",
+ "session_id": "07aec522-18db-4c25-b29f-a9b1203d7e8b",
+ "total_cost_usd": 0.1133779,
+ "usage": {
+  "input_tokens": 16,
+  "cache_creation_input_tokens": 17202,
+  "cache_read_input_tokens": 177479,
+  "output_tokens": 2679,
+  "output_tokens_details": {
+   "thinking_tokens": 90
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 17202,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 496,
+    "cache_read_input_tokens": 27017,
+    "cache_creation_input_tokens": 469,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 469
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 16,
+   "outputTokens": 2679,
+   "cacheReadInputTokens": 177479,
+   "cacheCreationInputTokens": 17202,
+   "webSearchRequests": 0,
+   "costUSD": 0.1133779,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 90,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 11,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "The session cookie is written in `finalize_reply`, near the end of response finalization. In call order:\n\n1. `Tessel.run_full_request` (`src/tessel/app.py:992`) dispatches the view. It calls `run_view` and, on an exception, `route_user_fault`. It then calls `finalize_request`.\n2. `Tessel.finalize_request` (`src/tessel/app.py:1021`) turns the view's return value into a response with `make_response`. It then calls `finalize_reply`.\n3. `Tessel.finalize_reply` (`src/tessel/app.py:1394`) runs the `after_request` callbacks. If the session isn't a null session, it calls `session_interface.persist_session(...)` at line 1416.\n4. `SignedCookieSessionInterface.persist_session` (`src/tessel/sessions.py:337`) does the writing:\n   - It adds `Vary: Cookie` if the session was accessed.\n   - If the session is empty and was modified, it calls `response.delete_cookie`.\n   - Otherwise, if `cookie_needs_write` is true, it signs the session data with `make_signer(app).dumps(...)` and calls `response.set_cookie(...)` at line 374.\n\nI didn't trace the caller of `run_full_request`. That should be the WSGI entry point, `__call__` at `app.py:1618`.\n\nThe test client has its own path in `src/tessel/testing.py:165-177`. It calls `restore_session` and `persist_session` directly.",
+ "ttft_ms": 2097,
+ "type": "result",
+ "duration_ms": 29300,
+ "uuid": "15f5dabc-a93c-404d-9c72-fedd2cae3ba3",
+ "ttft_stream_ms": 1104,
+ "time_to_request_ms": 56,
+ "first_content_frame_ms": 1104,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init",
+  "system:thinking_tokens"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.301",
+  "n_tools": 34,
+  "mcp_tools": 8,
+  "mcp_servers": [
+   [
+    "claude.ai Claude Docs",
+    "connected"
+   ]
+  ],
+  "n_skills": 32,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"(?i)set_cookie|set-cookie|save_session|saveSession|commitSession|session.*cookie\", \"output_mode\": \"files_with_matches\", \"head_limit\": 30}",
+   "sub": false,
+   "result_chars": 449,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "Found 20 files\ntests/test_testing.py\ntests/test_reqctx.py\ntests/test_basic.py\nsrc/tessel/testing.py\nsrc/tessel/sessions.py\nsrc/tessel/json/tag.py\nsrc/tessel/hel"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"def (save_session|process_response|finalize_request|make_response|full_dispatch_request|wsgi_app|do_teardown_request)|save_session\\\\(|process_response\\\\(|finalize_request\\\\(\", \"path\": \"$UL_SCRATCH/runs/main/mcp/default-q2-r2/src/tessel\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 435,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/helpers.py:151:def make_response(*args: t.Any) -> Response:\nsrc/tessel/app.py:948:        return self.finalize_request(ctx, server_error, from_error_"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"session_interface|save_session|def process_response|def _process_response|after_request\", \"path\": \"$UL_SCRATCH/runs/main/mcp/default-q2-r2/src/tessel\", \"output_mode\": \"content\", \"glob\": \"*.py\"}",
+   "sub": false,
+   "result_chars": 2847,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/testing.py:165:            sess = app.session_interface.restore_session(app, ctx.request)\nsrc/tessel/testing.py:173:        if app.session_interface."
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/mcp/default-q2-r2/src/tessel/app.py\", \"offset\": 1015, \"limit\": 40}",
+   "sub": false,
+   "result_chars": 1766,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1015\t            if rv is None:\n1016\t                rv = self.run_view(ctx)\n1017\t        except Exception as e:\n1018\t            rv = self.route_user_fault(ctx"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/mcp/default-q2-r2/src/tessel/app.py\", \"offset\": 1388, \"limit\": 32}",
+   "sub": false,
+   "result_chars": 1459,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1388\t\n1389\t                    if rv is not None:\n1390\t                        return rv  # type: ignore[no-any-return]\n1391\t\n1392\t        return None\n1393\t\n139"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"def persist_session|def save_session|set_cookie|delete_cookie\", \"path\": \"$UL_SCRATCH/runs/main/mcp/default-q2-r2/src/tessel/sessions.py\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 134,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "263:    def persist_session(\n337:    def persist_session(\n356:                response.delete_cookie(\n374:        response.set_cookie("
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"def (wsgi_app|full_dispatch|dispatch_request|handle_user_exception)|full_dispatch_request\\\\(|\\\\.wsgi_app\", \"path\": \"$UL_SCRATCH/runs/main/mcp/default-q2-r2/src/tessel/app.py\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 16,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "No matches found"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"finalize_request|def __call__|def handle_request|def run_view|def route_user_fault\", \"path\": \"$UL_SCRATCH/runs/main/mcp/default-q2-r2/src/tessel/app.py\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 328,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "265:            cls.finalize_request,\n865:    def route_user_fault(\n948:        return self.finalize_request(ctx, server_error, from_error_handler=True)\n966:   "
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/mcp/default-q2-r2/src/tessel/sessions.py\", \"offset\": 335, \"limit\": 55}",
+   "sub": false,
+   "result_chars": 1928,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "335\t            return self.session_class()\n336\t\n337\t    def persist_session(\n338\t        self, app: Tessel, session: SessionMixin, response: Response\n339\t    )"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/mcp/default-q2-r2/src/tessel/app.py\", \"offset\": 990, \"limit\": 12}",
+   "sub": false,
+   "result_chars": 540,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "990\t        return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]\n991\t\n992\t    def run_full_request(self, ctx:"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed",
+  "resetsAt": 1792117800,
+  "rateLimitType": "five_hour",
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.47,
+    "resetsAt": 1792117800
+   },
+   "seven_day": {
+    "utilization": 0.12,
+    "resetsAt": 1792681200
+   }
+  }
+ },
+ "_compact": [],
+ "_wall_s": 31.0,
+ "_t_start": "2026-10-15T21:44:32.032679+00:00",
+ "_t_end": "2026-10-15T21:45:03.079863+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "default",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/mcp/default-q2-r2",
+  "env": {
+   "MCP_CONNECTION_NONBLOCKING": "false"
+  },
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "In this repo, how does the session cookie get written at the end of a request? List the functions involved in call order, with file paths. Be brief."
+ },
+ "_mu_cum": {
+  "input": 16,
+  "output": 2679,
+  "cache_read": 177479,
+  "cache_creation": 17202,
+  "cost": 0.1133779,
+  "total": 197376
+ },
+ "tok": {
+  "input": 16,
+  "output": 2679,
+  "cache_read": 177479,
+  "cache_creation": 17202,
+  "cost": 0.1133779,
+  "total": 197376,
+  "method": "single"
+ },
+ "_tok_usage_field": 197376,
+ "_ctx_last_call": 27488,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "plain"
+}

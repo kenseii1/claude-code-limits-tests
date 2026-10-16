@@ -1,0 +1,256 @@
+{
+ "duration_api_ms": 21789,
+ "stop_reason": "end_turn",
+ "session_id": "9d38df5f-6a0d-437d-8314-d7720f09e313",
+ "total_cost_usd": 0.1771988,
+ "usage": {
+  "input_tokens": 10,
+  "cache_creation_input_tokens": 15145,
+  "cache_read_input_tokens": 93494,
+  "output_tokens": 1865,
+  "output_tokens_details": {
+   "thinking_tokens": 71
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 15145,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 675,
+    "cache_read_input_tokens": 22592,
+    "cache_creation_input_tokens": 2837,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 2837
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-opus-5-5": {
+   "inputTokens": 10,
+   "outputTokens": 1865,
+   "cacheReadInputTokens": 93494,
+   "cacheCreationInputTokens": 15145,
+   "webSearchRequests": 0,
+   "costUSD": 0.1771988,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 71,
+   "canonicalModel": "claude-opus-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 8,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "Call order, all in `src/tessel/`:\n\n1. **`Tessel.__call__`** (`app.py:1618`) calls `wsgi_entry`.\n2. **`Tessel.wsgi_entry`** (`app.py:1566`) pushes the context, then calls `run_full_request`. If an exception escapes, `route_unhandled_fault` (`app.py:897`) calls `finalize_request` instead, with `from_error_handler=True`.\n3. **`Tessel.run_full_request`** (`app.py:992`) runs `preprocess_request` and then `run_view`, then calls `finalize_request`.\n4. **`Tessel.finalize_request`** (`app.py:1021`) runs `make_response(rv)`, then `finalize_reply`.\n5. **`Tessel.finalize_reply`** (`app.py:1394`) runs the after-request functions first. Then, unless `session_interface.is_null_session(...)` returns true (`sessions.py:162`), it calls `persist_session`.\n6. **`SecureCookieSessionInterface.persist_session`** (`sessions.py:337`):\n   - Reads the cookie settings with the `get_cookie_*` helpers.\n   - Adds `Vary: Cookie` if the session was accessed.\n   - If the session is empty and was modified, it calls `response.delete_cookie(...)` and returns. If it's empty and unmodified, it just returns.\n   - Returns early if `cookie_needs_write(app, session)` is false.\n   - Otherwise it calls `get_expiration_time`, signs the data with `make_signer(app).dumps(dict(session))`, and writes it with **`response.set_cookie(...)`** (`sessions.py:374`).\n\nNote that this repo uses its own names (`wsgi_entry`, `run_full_request`, `finalize_reply`, `persist_session`), not Flask's `save_session` / `process_response`.",
+ "ttft_ms": 2472,
+ "type": "result",
+ "duration_ms": 21945,
+ "uuid": "729c9314-06ad-45f0-9042-5e448ed4ce2b",
+ "ttft_stream_ms": 1561,
+ "time_to_request_ms": 41,
+ "first_content_frame_ms": 1561,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-opus-5-5",
+  "version": "2.1.301",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 32,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"save_session|set_cookie\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 745,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/sessions.py:374:        response.set_cookie(\ndocs/web-security.rst:236:    response.set_cookie('username', 'tessel', secure=True, httponly=True, same"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/opus/none-medium-q2-r2/src/tessel/sessions.py\", \"offset\": 330, \"limit\": 60}",
+   "sub": false,
+   "result_chars": 2153,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "330\t        max_age = int(app.permanent_session_lifetime.total_seconds())\n331\t        try:\n332\t            data = s.loads(val, max_age=max_age)\n333\t            "
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"save_session|def process_response|def finalize_request|def full_dispatch_request|def wsgi_app|is_null_session|should_set_cookie\", \"path\": \"src/tessel\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 485,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/testing.py:173:        if app.session_interface.is_null_session(sess):\nsrc/tessel/app.py:1021:    def finalize_request(\nsrc/tessel/app.py:1415:      "
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"persist_session|def \\\\w+\\\\(|self\\\\.finalize_request|self\\\\.\\\\w*response\\\\(|cookie_needs_write\", \"path\": \"src/tessel/app.py\", \"output_mode\": \"content\", \"offset\": 0}",
+   "sub": false,
+   "result_chars": 2569,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "73:def _make_timedelta(value: timedelta | int | None) -> timedelta | None:\n85:def remove_ctx(f: F) -> F:\n86:    def wrapper(self: Tessel, *args: t.Any, **kwargs"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/opus/none-medium-q2-r2/src/tessel/app.py\", \"offset\": 992, \"limit\": 55}",
+   "sub": false,
+   "result_chars": 2354,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "992\t    def run_full_request(self, ctx: AppContext) -> Response:\n993\t        \"\"\"Dispatches the request and on top of that performs request\n994\t        pre and p"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/opus/none-medium-q2-r2/src/tessel/app.py\", \"offset\": 1394, \"limit\": 25}",
+   "sub": false,
+   "result_chars": 1296,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1394\t    def finalize_reply(self, ctx: AppContext, response: Response) -> Response:\n1395\t        \"\"\"Can be overridden in order to modify the response object\n139"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/opus/none-medium-q2-r2/src/tessel/app.py\", \"offset\": 1566, \"limit\": 60}",
+   "sub": false,
+   "result_chars": 2554,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1566\t    def wsgi_entry(\n1567\t        self, environ: WSGIEnvironment, start_response: StartResponse\n1568\t    ) -> cabc.Iterable[bytes]:\n1569\t        \"\"\"The actu"
+  }
+ ],
+ "_models_seen": [
+  "claude-opus-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed",
+  "resetsAt": 1792117800,
+  "rateLimitType": "five_hour",
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.62,
+    "resetsAt": 1792117800
+   },
+   "seven_day": {
+    "utilization": 0.13,
+    "resetsAt": 1792681200
+   }
+  }
+ },
+ "_compact": [],
+ "_wall_s": 23.0,
+ "_t_start": "2026-10-15T21:47:16.149760+00:00",
+ "_t_end": "2026-10-15T21:47:39.126163+00:00",
+ "_cmd": {
+  "model": "opus",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/opus/none-medium-q2-r2",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "In this repo, how does the session cookie get written at the end of a request? List the functions involved in call order, with file paths. Be brief."
+ },
+ "_mu_cum": {
+  "input": 10,
+  "output": 1865,
+  "cache_read": 93494,
+  "cache_creation": 15145,
+  "cost": 0.1771988,
+  "total": 110514
+ },
+ "tok": {
+  "input": 10,
+  "output": 1865,
+  "cache_read": 93494,
+  "cache_creation": 15145,
+  "cost": 0.1771988,
+  "total": 110514,
+  "method": "single"
+ },
+ "_tok_usage_field": 110514,
+ "_ctx_last_call": 25431,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "plain"
+}

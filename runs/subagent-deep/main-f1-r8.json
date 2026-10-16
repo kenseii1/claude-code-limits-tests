@@ -1,0 +1,200 @@
+{
+ "duration_api_ms": 34565,
+ "stop_reason": "end_turn",
+ "session_id": "008f6b49-9edf-4c19-b0f9-dafffbf5a96b",
+ "total_cost_usd": 0.16307780000000002,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 1913,
+  "cache_read_input_tokens": 33197,
+  "output_tokens": 791,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 1913,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 791,
+    "cache_read_input_tokens": 33197,
+    "cache_creation_input_tokens": 1913,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 1913
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 14,
+   "outputTokens": 4649,
+   "thinkingTokens": 776,
+   "cacheReadInputTokens": 167998,
+   "cacheCreationInputTokens": 24940,
+   "webSearchRequests": 0,
+   "costUSD": 0.16307780000000002,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 1,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "Four failing tests are not caused by the `partitioned=` TypeError. The first two I saw in full, and the other two I could only partly confirm because Bash was denied before I could rerun them.\n\n1. **`tests/test_helpers.py::TestStreaming::test_async_view`**\n   - **Why it fails:** `asgiref` isn't installed, so `Tessel.async_to_sync` (`src/tessel/app.py:1096`) raises `RuntimeError: Install Tessel with the 'async' extra in order to use async views.`\n   - **Confidence:** confirmed from the full traceback.\n\n2. **`tests/test_request.py::test_limit_config`**\n   - **Why it fails:** with no app context, `Request.max_content_length`, `max_form_memory_size` and `max_form_parts` (`src/tessel/wrappers.py:84,111,138`) fall through to Werkzeug's defaults. The test expects the 3.1 defaults (500_000 and 1_000). The installed Werkzeug 3.0.3 returns `None` for at least one, hence `assert None ...`.\n   - **Confidence:** partly inferred. This is also a Werkzeug version issue, but a different one from the `partitioned` argument. I didn't see which assertion line failed.\n\n3. **`tests/test_helpers.py::test_open_resource_exceptions[a]`**\n   - **Why it fails:** the error was a truncated `pytest.Pytes...` message that I couldn't read in full.\n   - **Likely cause:** `Tessel.open_resource` (`app.py:435`) correctly raises `ValueError` for mode `\"a\"`, so the code looks right. My guess is a pytest warning from an earlier test (such as an unclosed file) being attributed to this test and turned into an error.\n   - **Confidence:** unverified.\n\n4. **`tests/test_reqctx.py::test_session_dynamic_cookie_name`**\n   - **Status:** this one probably does belong to the main cause, but I didn't confirm it.\n   - **Evidence:** its `/set` POST returned an HTML error page instead of `value set`. That fits the session cookie TypeError, but the logged traceback was cut off before the exception line.\n\nIf I could rerun the last two with Bash, `pytest -k \"open_resource_exceptions or limit_config or dynamic_cookie_name\" --tb=long` would settle them.",
+ "ttft_ms": 5743,
+ "type": "result",
+ "duration_ms": 5774,
+ "uuid": "bbe18f34-5558-40d9-9418-4342b073bfef",
+ "ttft_stream_ms": 1202,
+ "time_to_request_ms": 39,
+ "first_content_frame_ms": 1202,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.299",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed_warning",
+  "resetsAt": 1792414800,
+  "rateLimitType": "seven_day",
+  "utilization": 0.62,
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.43,
+    "resetsAt": 1792017000
+   },
+   "seven_day": {
+    "utilization": 0.62,
+    "resetsAt": 1792414800
+   }
+  },
+  "overageEnabled": false
+ },
+ "_compact": [],
+ "_wall_s": 6.9,
+ "_t_start": "2026-10-14T17:41:00.827372+00:00",
+ "_t_end": "2026-10-14T17:41:07.730872+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": "008f6b49-9edf-4c19-b0f9-dafffbf5a96b",
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/subagent-deep/main-r8",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)",
+   "Bash(PYTHONPATH=src python3 -m pytest:*)",
+   "Bash(python3 -m pip show:*)",
+   "Bash(pip show:*)",
+   "Bash(pip list:*)",
+   "Bash(python3 -m pip list:*)",
+   "Bash(python3 -c:*)"
+  ],
+  "prompt": "Which of the failing tests are NOT caused by that main root cause? Name them and say briefly why each fails."
+ },
+ "_mu_cum": {
+  "input": 14,
+  "output": 4649,
+  "cache_read": 167998,
+  "cache_creation": 24940,
+  "cost": 0.16307780000000002,
+  "total": 197601
+ },
+ "tok": {
+  "input": 2,
+  "output": 791,
+  "cache_read": 33197,
+  "cache_creation": 1913,
+  "total": 35903,
+  "cost": 0.018886,
+  "method": "delta"
+ },
+ "_tok_usage_field": 35903,
+ "_ctx_last_call": 35112,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "plain"
+}

@@ -1,0 +1,240 @@
+{
+ "duration_api_ms": 12658,
+ "stop_reason": "end_turn",
+ "session_id": "dab61247-a36e-4033-86a9-c1b87da3f528",
+ "total_cost_usd": 0.0920035,
+ "usage": {
+  "input_tokens": 8,
+  "cache_creation_input_tokens": 17217,
+  "cache_read_input_tokens": 73395,
+  "output_tokens": 1578,
+  "output_tokens_details": {
+   "thinking_tokens": 42
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 17217,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 531,
+    "cache_read_input_tokens": 22556,
+    "cache_creation_input_tokens": 4945,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 4945
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 8,
+   "outputTokens": 1578,
+   "cacheReadInputTokens": 73395,
+   "cacheCreationInputTokens": 17217,
+   "webSearchRequests": 0,
+   "costUSD": 0.0920035,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 42,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 6,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "Order of calls, from the server's call to your view (Tessel's own names, in `src/tessel/`):\n\n1. **`Tessel.__call__`** (`app.py:1618`) just delegates to `wsgi_entry`.\n2. **`Tessel.wsgi_entry`** (`app.py:1566`) is the real WSGI app. It runs steps 3–5 below.\n3. **`Tessel.request_context(environ)`** (`app.py:1501`) calls `AppContext.from_environ` (`ctx.py`) to build the context.\n4. **`AppContext.push`** (`ctx.py:416`):\n   - sets the context var and sends the `appcontext_pushed` signal;\n   - opens the session with `_get_session`;\n   - calls `match_request` (`ctx.py:405`) to do URL routing, storing `url_rule`/`view_args` or a `routing_exception`.\n5. **`Tessel.run_full_request`** (`app.py:992`):\n   - sends the `request_started` signal;\n   - calls `preprocess_request` (`app.py:1366`), which runs the before-request functions. If one returns a value, the view is skipped.\n6. **`Tessel.run_view`** (`app.py:966`):\n   - raises any stored routing exception;\n   - auto-replies to OPTIONS;\n   - calls `self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)` (`app.py:990`), which runs your view.\n\nAfter the view, `finalize_request` (`app.py:1021`) builds the response, and `ctx.pop` runs teardown.",
+ "ttft_ms": 1584,
+ "type": "result",
+ "duration_ms": 12925,
+ "uuid": "ece7479a-fe3f-45e6-900d-c701a3bfd798",
+ "ttft_stream_ms": 917,
+ "time_to_request_ms": 39,
+ "first_content_frame_ms": 918,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.300",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"def (wsgi_app|full_dispatch_request|dispatch_request|preprocess_request|__call__|handle_request|process_request)\\\\b\", \"output_mode\": \"content\", \"head_limit\": 40}",
+   "sub": false,
+   "result_chars": 4350,
+   "vendor_hits": 31,
+   "is_error": false,
+   "result_head": "src/tessel/app.py:1366:    def preprocess_request(self, ctx: AppContext) -> ft.ResponseReturnValue | None:\nsrc/tessel/app.py:1618:    def __call__(\ntests/test_b"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"    def (wsgi_app|full_dispatch_request|dispatch_request|preprocess_request|__call__|request_context|app_context|push|match_request|make_response|finalize_request|process_response)\\\\b|ensure_sync\\\\(\", \"path\": \"$UL_SCRATCH/runs/main/deny/noise-q5-r2/src/tessel\", \"output_mode\": ",
+   "sub": false,
+   "result_chars": 1991,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/views.py:110:                return active_app.ensure_sync(self.run_view)(**kwargs)  # type: ignore[no-any-return]\nsrc/tessel/views.py:116:          "
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/deny/noise-q5-r2/src/tessel/app.py\", \"offset\": 1500, \"limit\": 140}",
+   "sub": false,
+   "result_chars": 5729,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1500\t\n1501\t    def request_context(self, environ: WSGIEnvironment) -> AppContext:\n1502\t        \"\"\"Create an :class:`.AppContext` with request information repres"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/deny/noise-q5-r2/src/tessel/app.py\", \"offset\": 955, \"limit\": 70}",
+   "sub": false,
+   "result_chars": 3147,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "955\t        \"\"\"Logs an exception.  This is called by :meth:`route_unhandled_fault`\n956\t        if debugging is disabled and right before the handler is called.\n"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/deny/noise-q5-r2/src/tessel/ctx.py\", \"offset\": 400, \"limit\": 70}",
+   "sub": false,
+   "result_chars": 3112,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "400\t        \"\"\"\n401\t        session = self._get_session()\n402\t        session.accessed = True\n403\t        return session\n404\t\n405\t    def match_request(self) ->"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed_warning",
+  "resetsAt": 1792414800,
+  "rateLimitType": "seven_day",
+  "utilization": 0.72,
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.6,
+    "resetsAt": 1792035000
+   },
+   "seven_day": {
+    "utilization": 0.72,
+    "resetsAt": 1792414800
+   }
+  },
+  "overageEnabled": false
+ },
+ "_compact": [],
+ "_wall_s": 14.0,
+ "_t_start": "2026-10-14T22:37:48.298240+00:00",
+ "_t_end": "2026-10-14T22:38:02.263640+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/deny/noise-q5-r2",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "In this repo, what happens between the WSGI server calling the app and the view function running? List the main methods in order, with file paths. Be brief."
+ },
+ "_mu_cum": {
+  "input": 8,
+  "output": 1578,
+  "cache_read": 73395,
+  "cache_creation": 17217,
+  "cost": 0.0920035,
+  "total": 92198
+ },
+ "tok": {
+  "input": 8,
+  "output": 1578,
+  "cache_read": 73395,
+  "cache_creation": 17217,
+  "cost": 0.0920035,
+  "total": 92198,
+  "method": "single"
+ },
+ "_tok_usage_field": 92198,
+ "_ctx_last_call": 27503,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "noise"
+}

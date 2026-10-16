@@ -1,0 +1,213 @@
+{
+ "duration_api_ms": 5492,
+ "stop_reason": "end_turn",
+ "session_id": "44ba6c4c-a141-4425-b581-fb869f4cd906",
+ "total_cost_usd": 0.0557959,
+ "usage": {
+  "input_tokens": 6,
+  "cache_creation_input_tokens": 11355,
+  "cache_read_input_tokens": 50139,
+  "output_tokens": 535,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 11355,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 240,
+    "cache_read_input_tokens": 20619,
+    "cache_creation_input_tokens": 1020,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 1020
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 6,
+   "outputTokens": 535,
+   "cacheReadInputTokens": 50139,
+   "cacheCreationInputTokens": 11355,
+   "webSearchRequests": 0,
+   "costUSD": 0.0557959,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 0,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 3,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "- **Method:** `load_env_prefixed(prefix=\"TESSEL\", *, loads=json.loads)` in `src/tessel/config.py:126`.\n- **Conversion function:** `json.loads` by default, passed in as the `loads` parameter. If it raises, the value stays a plain string.\n- **Prefix:** keys starting with `TESSEL_` are loaded in sorted order, with the prefix stripped (`TESSEL_SECRET_KEY` becomes `SECRET_KEY`).\n- **Nested keys:** a double underscore splits the key. `TESSEL_DB__HOST` sets `config[\"DB\"][\"HOST\"]`, and missing intermediate dicts are created as `{}`.",
+ "ttft_ms": 1330,
+ "type": "result",
+ "duration_ms": 5735,
+ "uuid": "39b03a47-d52e-4bb3-a3a0-689a58a27acb",
+ "ttft_stream_ms": 914,
+ "time_to_request_ms": 39,
+ "first_content_frame_ms": 915,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.300",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"TESSEL_|__\", \"output_mode\": \"content\", \"head_limit\": 40}",
+   "sub": false,
+   "result_chars": 2856,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/views.py:1:from __future__ import annotations\nsrc/tessel/views.py:99:        are forwarded to the view class ``__init__`` method.\nsrc/tessel/views.py"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/deny/noise-q6-r1/src/tessel/config.py\", \"offset\": 120, \"limit\": 60}",
+   "sub": false,
+   "result_chars": 2496,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "120\t                \" and as such configuration could not be loaded. Set\"\n121\t                \" this variable and make it point to a configuration\"\n122\t        "
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed_warning",
+  "resetsAt": 1792414800,
+  "rateLimitType": "seven_day",
+  "utilization": 0.74,
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.76,
+    "resetsAt": 1792035000
+   },
+   "seven_day": {
+    "utilization": 0.74,
+    "resetsAt": 1792414800
+   }
+  },
+  "overageEnabled": false
+ },
+ "_compact": [],
+ "_wall_s": 6.8,
+ "_t_start": "2026-10-14T22:40:16.460859+00:00",
+ "_t_end": "2026-10-14T22:40:23.290731+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/deny/noise-q6-r1",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "In this repo, how are environment variables like TESSEL_SECRET_KEY or TESSEL_DB__HOST turned into config values, including type conversion and nested keys? Name the method and the conversion function, with file paths. Be brief."
+ },
+ "_mu_cum": {
+  "input": 6,
+  "output": 535,
+  "cache_read": 50139,
+  "cache_creation": 11355,
+  "cost": 0.0557959,
+  "total": 62035
+ },
+ "tok": {
+  "input": 6,
+  "output": 535,
+  "cache_read": 50139,
+  "cache_creation": 11355,
+  "cost": 0.0557959,
+  "total": 62035,
+  "method": "single"
+ },
+ "_tok_usage_field": 62035,
+ "_ctx_last_call": 21641,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "noise"
+}

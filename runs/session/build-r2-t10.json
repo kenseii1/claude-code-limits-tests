@@ -1,0 +1,203 @@
+{
+ "duration_api_ms": 70819,
+ "stop_reason": "end_turn",
+ "session_id": "0e258663-c5cc-43da-9a7c-0042b1b9d6d2",
+ "total_cost_usd": 0.42666229999999994,
+ "usage": {
+  "input_tokens": 4,
+  "cache_creation_input_tokens": 10314,
+  "cache_read_input_tokens": 132144,
+  "output_tokens": 1170,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 10314,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1027,
+    "cache_read_input_tokens": 66239,
+    "cache_creation_input_tokens": 9980,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 9980
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 38,
+   "outputTokens": 7843,
+   "thinkingTokens": 112,
+   "cacheReadInputTokens": 837603,
+   "cacheCreationInputTokens": 66099,
+   "webSearchRequests": 0,
+   "costUSD": 0.42666229999999994,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 2,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "`tests/test_cli.py` covers these CLI features, grouped:\n\n**App discovery and loading**\n- `locate_main_app` finds an app by name (`app`, `application`, or any single instance), or via `create_app`/`make_app` factories. It raises on no app, multiple apps, a bad factory signature, or a factory raising `TypeError`.\n- `prepare_import` converts paths to module names for plain modules, packages, `__init__`, nested packages, dotted names and non-Python files, and updates `sys.path`.\n- `locate_app` accepts `module:name` and factory calls with arguments, tolerating whitespace and trailing commas. It raises `NoAppException` for missing modules, bad names or syntax, wrong arguments, a factory returning no app, nested import errors and non-Python files. `raise_if_not_found=False` suppresses only direct import errors.\n- `LaunchInfo.load_app` handles an import path, an absolute file path, a `create_app` callable, the `wsgi.py`/`app.py` fallback in the current directory, and caching of the loaded app.\n\n**Groups, app context and debug**\n- App context is active in `@needs_app_scope` commands, `AppGroup` commands and subgroups, `TesselGroup` commands, and `app.cli` parameter callbacks.\n- `TesselGroup` honours `set_debug_flag` and can be nested inside another click group.\n- `testapp.cli.name` equals the app's name.\n- Load errors: a missing command prints a `TESSEL_APP` hint with usage and exits with code 2, while `--help` echoes the loading error or exception to stderr.\n\n**`--version`**\n- `get_version` outputs the Python, Tessel and Werkzeug versions.\n\n**`routes` command**\n- Default endpoint ordering, plus `-s endpoint|methods|rule|match`.\n- HEAD and OPTIONS are hidden unless `--all-methods` is passed.\n- The \"No routes were registered.\" message.\n- Subdomain and host columns appear for subdomain and host-matching apps.\n\n**Dotenv**\n- `load_dotenv` precedence: `.env` over `.tesselenv`, existing environment variables not overwritten, UTF-8 values, and non-existent files not loading.\n- An explicit file path doesn't change the working directory.\n- Missing `python-dotenv` is tolerated.\n- `TESSEL_SKIP_DOTENV` disables loading.\n\n**`run` command options**\n- `--cert`/`--key` pairing in either order, and an error if only one is given.\n- `--cert adhoc` requires `cryptography` and rejects `--key`.\n- `--cert` as an importable `SSLContext`, rejecting `--key` and failing on bad import names.\n- A missing `ssl` module raises an error.\n- `--exclude-patterns` is parsed into a list.\n\n**Bundle CLI**\n- Bundle commands register under the bundle name, a custom `cli_group`, merged into the app with `cli_group=None`, or an override at `register_bundle`.\n- An empty bundle CLI group is not registered.",
+ "ttft_ms": 2209,
+ "type": "result",
+ "duration_ms": 9751,
+ "uuid": "4c49777c-bb95-4020-879d-c196aa208e28",
+ "ttft_stream_ms": 1147,
+ "time_to_request_ms": 43,
+ "first_content_frame_ms": 1147,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.299",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/session/chain-r2/tests/test_cli.py\"}",
+   "sub": false,
+   "result_chars": 23084,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1\t# This file was part of Tessel-CLI and was modified under the terms of\n2\t# its Revised BSD License. Copyright © 2015 CERN.\n3\timport importlib.metadata\n4\timpor"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed",
+  "resetsAt": 1791981000,
+  "rateLimitType": "five_hour",
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.6,
+    "resetsAt": 1791981000
+   },
+   "seven_day": {
+    "utilization": 0.47,
+    "resetsAt": 1792414800
+   }
+  }
+ },
+ "_compact": [],
+ "_wall_s": 10.9,
+ "_t_start": "2026-10-14T08:01:37.194495+00:00",
+ "_t_end": "2026-10-14T08:01:48.113885+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": "0e258663-c5cc-43da-9a7c-0042b1b9d6d2",
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/session/chain-r2",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "Read the whole test file tests/test_cli.py and tell me which CLI features it covers, as a short grouped list."
+ },
+ "_mu_cum": {
+  "input": 38,
+  "output": 7843,
+  "cache_read": 837603,
+  "cache_creation": 66099,
+  "cost": 0.42666229999999994,
+  "total": 911583
+ },
+ "tok": {
+  "input": 4,
+  "output": 1170,
+  "cache_read": 132144,
+  "cache_creation": 10314,
+  "total": 143632,
+  "cost": 0.066178,
+  "method": "delta"
+ },
+ "_tok_usage_field": 143632,
+ "_ctx_last_call": 76221,
+ "_subagent_calls": 0,
+ "_tpl": "plain",
+ "_turn": 10,
+ "_rep": 2
+}

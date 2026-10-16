@@ -1,0 +1,249 @@
+{
+ "duration_api_ms": 20795,
+ "stop_reason": "end_turn",
+ "session_id": "ccb9072a-3d2f-4d07-9b41-300b2f878f85",
+ "total_cost_usd": 0.24467700000000003,
+ "usage": {
+  "input_tokens": 10,
+  "cache_creation_input_tokens": 22142,
+  "cache_read_input_tokens": 125705,
+  "output_tokens": 2118,
+  "output_tokens_details": {
+   "thinking_tokens": 196
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 22142,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 843,
+    "cache_read_input_tokens": 30873,
+    "cache_creation_input_tokens": 1553,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 1553
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-opus-5-5": {
+   "inputTokens": 10,
+   "outputTokens": 2118,
+   "cacheReadInputTokens": 125705,
+   "cacheCreationInputTokens": 22142,
+   "webSearchRequests": 0,
+   "costUSD": 0.24467700000000003,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 196,
+   "canonicalModel": "claude-opus-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 7,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "[answer redacted: it followed the unrelated private rules file, see README]",
+ "ttft_ms": 2123,
+ "type": "result",
+ "duration_ms": 20931,
+ "uuid": "1bc11621-d731-4406-91ae-2a96e8481c35",
+ "ttft_stream_ms": 782,
+ "time_to_request_ms": 40,
+ "first_content_frame_ms": 782,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init",
+  "system:thinking_tokens"
+ ],
+ "_init": {
+  "model": "claude-opus-5-5",
+  "version": "2.1.301",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 32,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"active_app|_cv_app|ContextVar|LocalProxy\", \"output_mode\": \"content\", \"head_limit\": 60}",
+   "sub": false,
+   "result_chars": 4867,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/views.py:6:from .globals import active_app\nsrc/tessel/views.py:110:                return active_app.ensure_sync(self.run_view)(**kwargs)  # type: ig"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/opus/u16k-medium-q8-r2/src/tessel/globals.py\"}",
+   "sub": false,
+   "result_chars": 2651,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1\tfrom __future__ import annotations\n2\t\n3\timport typing as t\n4\tfrom contextvars import ContextVar\n5\t\n6\tfrom werkzeug.local import LocalProxy\n7\t\n8\tif t.TYPE_CHEC"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"_app_var|_request_var|_cv_|\\\\.set\\\\(|\\\\.reset\\\\(|class (AppContext|RequestContext)|def (push|pop)\", \"path\": \"$UL_SCRATCH/runs/main/opus/u16k-medium-q8-r2/src/tessel/ctx.py\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 820,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "12:from .globals import _app_var\n79:    def pop(self, name: str, default: t.Any = _sentinel) -> t.Any:\n112:        ctx = _app_var.get(None)\n139:    ctx = _app_v"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"\\\\.push\\\\(\\\\)|def (app_context|request_context|wsgi_app)|self\\\\.(g|request|session|app) *[:=]\", \"path\": \"$UL_SCRATCH/runs/main/opus/u16k-medium-q8-r2/src/tessel\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 631,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/testing.py:85:        self.app = app\nsrc/tessel/testing.py:272:        self.app = app\nsrc/tessel/templating.py:46:        self.app = app\nsrc/tessel/t"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/opus/u16k-medium-q8-r2/src/tessel/ctx.py\", \"offset\": 300, \"limit\": 60}",
+   "sub": false,
+   "result_chars": 2403,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "300\t    def __init__(\n301\t        self,\n302\t        app: Tessel,\n303\t        *,\n304\t        request: Request | None = None,\n305\t        session: SessionMixin | "
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/opus/u16k-medium-q8-r2/src/tessel/app.py\", \"offset\": 1585, \"limit\": 20}",
+   "sub": false,
+   "result_chars": 851,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1585\t            called depending on when an error occurs during dispatch.\n1586\t\n1587\t        :param environ: A WSGI environment.\n1588\t        :param start_resp"
+  }
+ ],
+ "_models_seen": [
+  "claude-opus-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed",
+  "resetsAt": 1792117800,
+  "rateLimitType": "five_hour",
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.77,
+    "resetsAt": 1792117800
+   },
+   "seven_day": {
+    "utilization": 0.14,
+    "resetsAt": 1792681200
+   }
+  }
+ },
+ "_compact": [],
+ "_wall_s": 21.8,
+ "_t_start": "2026-10-15T21:49:15.597736+00:00",
+ "_t_end": "2026-10-15T21:49:37.406046+00:00",
+ "_cmd": {
+  "model": "opus",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/opus/u16k-medium-q8-r2",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "In this repo, how do active_app, g and request find the right object for the current context? Name the mechanism and the objects involved, with file paths. Be brief."
+ },
+ "_mu_cum": {
+  "input": 10,
+  "output": 2118,
+  "cache_read": 125705,
+  "cache_creation": 22142,
+  "cost": 0.24467700000000003,
+  "total": 149975
+ },
+ "tok": {
+  "input": 10,
+  "output": 2118,
+  "cache_read": 125705,
+  "cache_creation": 22142,
+  "cost": 0.24467700000000003,
+  "total": 149975,
+  "method": "single"
+ },
+ "_tok_usage_field": 149975,
+ "_ctx_last_call": 32428,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "cm-16k",
+ "_grade_before_redaction": true
+}

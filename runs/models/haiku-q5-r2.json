@@ -1,0 +1,266 @@
+{
+ "duration_api_ms": 16988,
+ "stop_reason": "end_turn",
+ "session_id": "9c0db506-96a9-4f87-9354-6d9bdd1c9a13",
+ "total_cost_usd": 0.00657176,
+ "usage": {
+  "input_tokens": 10,
+  "cache_creation_input_tokens": 19223,
+  "cache_read_input_tokens": 105866,
+  "output_tokens": 3335,
+  "output_tokens_details": {
+   "thinking_tokens": 845
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 19223,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1251,
+    "cache_read_input_tokens": 28275,
+    "cache_creation_input_tokens": 1232,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 1232
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-haiku-5-5": {
+   "inputTokens": 10,
+   "outputTokens": 3335,
+   "cacheReadInputTokens": 105866,
+   "cacheCreationInputTokens": 19223,
+   "webSearchRequests": 0,
+   "costUSD": 0.00657176,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 845,
+   "canonicalModel": "claude-haiku-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 9,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "The request goes through these methods in order (paths are under `src/tessel/`):\n\n1. **`Tessel.__call__`**, `app.py:1618`. The WSGI server calls the app object, which delegates to `wsgi_entry`.\n2. **`Tessel.wsgi_entry`**, `app.py:1566`. Creates the context with `self.request_context(environ)`.\n3. **`Tessel.request_context`**, `app.py:1501`. Calls `AppContext.from_environ`, which builds the request object via `app.request_class(environ)`. `AppContext.__init__` (`ctx.py:300`) builds the URL adapter through `Tessel.build_url_binder` (`app.py:507`).\n4. **`AppContext.push`**, `ctx.py:416`. Sets the active context, sends `appcontext_pushed`, loads the session, then calls `match_request()`.\n5. **`AppContext.match_request`**, `ctx.py:405`. Runs `url_adapter.match(return_rule=True)` and stores `url_rule` and `view_args`, or stores a routing exception on the request.\n6. **`Tessel.run_full_request`**, `app.py:992`. Sends `request_started`, then calls `preprocess_request` inside a try block.\n7. **`Tessel.preprocess_request`**, `app.py:1366`. Runs `url_value_preprocessors`, then `before_request_funcs` for app and bundles. A non-None return value skips the view.\n8. **`Tessel.run_view`**, `app.py:966`. Raises any stored routing exception, answers automatic OPTIONS requests, then calls `self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)`.\n\n`ensure_sync` (`app.py:1065`) wraps async views so they run synchronously. Any exception raised in steps 7–8 goes to `route_user_fault` (`app.py:865`).",
+ "ttft_ms": 1402,
+ "type": "result",
+ "duration_ms": 18564,
+ "uuid": "872e8af7-423e-431e-8689-685ceb0c9613",
+ "ttft_stream_ms": 1179,
+ "time_to_request_ms": 38,
+ "first_content_frame_ms": 1180,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init",
+  "system:thinking_tokens"
+ ],
+ "_init": {
+  "model": "claude-haiku-5-5",
+  "version": "2.1.300",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 32,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Bash",
+   "input": "{\"command\": \"ls -la && find . -name \\\"*.py\\\" -not -path \\\"*/node_modules/*\\\" -not -path \\\"*/.venv/*\\\" | head -100\", \"description\": \"List repo contents and Python files\"}",
+   "sub": false,
+   "result_chars": 3681,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "total 760\ndrwxr-xr-x  17 user  wheel     544 Oct 15 19:42 .\ndrwxr-xr-x  38 user  wheel    1216 Oct 15 19:42 ..\ndrwxr-xr-x   4 user  wheel     128 Oct 1"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"def (__call__|wsgi_app|full_dispatch_request|preprocess_request|dispatch_request|request_context|push|match_request|create_url_adapter|make_default_options_response|finalize_request|try_trigger_before_first_request_functions|process_response|do_teardown_request)\\\\b\", \"path\": \"$TMPDIR/...",
+   "sub": false,
+   "result_chars": 548,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/ctx.py:405:    def match_request(self) -> None:\nsrc/tessel/ctx.py:416:    def push(self) -> None:\nsrc/tessel/app.py:1021:    def finalize_request(\nsr"
+  },
+  {
+   "tool": "Bash",
+   "input": "{\"command\": \"grep -n \\\"def \\\\|wsgi_app\\\\|request_context\\\\|self.view_functions\\\\[\\\" src/tessel/app.py | head -80\", \"description\": \"Outline method definitions in app.py\"}",
+   "sub": false,
+   "result_chars": 2582,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "73:def _make_timedelta(value: timedelta | int | None) -> timedelta | None:\n85:def remove_ctx(f: F) -> F:\n86:    def wrapper(self: Tessel, *args: t.Any, **kwargs"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/models/haiku-q5-r2/src/tessel/app.py\", \"offset\": 966, \"limit\": 60}",
+   "sub": false,
+   "result_chars": 2734,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "966\t    def run_view(self, ctx: AppContext) -> ft.ResponseReturnValue:\n967\t        \"\"\"Does the request dispatching.  Matches the URL and returns the\n968\t       "
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/models/haiku-q5-r2/src/tessel/app.py\", \"offset\": 1366, \"limit\": 30}",
+   "sub": false,
+   "result_chars": 1449,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1366\t    def preprocess_request(self, ctx: AppContext) -> ft.ResponseReturnValue | None:\n1367\t        \"\"\"Called before the request is dispatched. Calls\n1368\t   "
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/models/haiku-q5-r2/src/tessel/app.py\", \"offset\": 1566, \"limit\": 70}",
+   "sub": false,
+   "result_chars": 2560,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1566\t    def wsgi_entry(\n1567\t        self, environ: WSGIEnvironment, start_response: StartResponse\n1568\t    ) -> cabc.Iterable[bytes]:\n1569\t        \"\"\"The actu"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/models/haiku-q5-r2/src/tessel/ctx.py\", \"offset\": 405, \"limit\": 30}",
+   "sub": false,
+   "result_chars": 1352,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "405\t    def match_request(self) -> None:\n406\t        \"\"\"Apply routing to the current request, storing either the matched\n407\t        endpoint and args, or a rou"
+  },
+  {
+   "tool": "Bash",
+   "input": "{\"command\": \"sed -n 435,450p src/tessel/ctx.py; echo ---; sed -n 1501,1516p src/tessel/app.py; echo ---; grep -n \\\"match_request()\\\\|build_url_binder\\\\|create_url_adapter\\\\|def __init__\\\" src/tessel/ctx.py; echo ---; grep -n \\\"push\\\\|self.app.request_class\\\\|request_class\\\" src/tessel/ctx.py | head; echo ---; grep -n \\\"def run_full_request\\\\|def route_user_fault\\\\|self.run_full_request\\\" src/tesse",
+   "sub": false,
+   "result_chars": 2320,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "        if self._request is not None:\n            # Open the session at the moment that the request context is available.\n            # This allows a custom res"
+  }
+ ],
+ "_models_seen": [
+  "claude-haiku-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed",
+  "resetsAt": 1792099800,
+  "rateLimitType": "five_hour",
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.84,
+    "resetsAt": 1792099800
+   },
+   "seven_day": {
+    "utilization": 0.06,
+    "resetsAt": 1792681200
+   }
+  }
+ },
+ "_compact": [],
+ "_wall_s": 19.6,
+ "_t_start": "2026-10-15T16:42:19.968148+00:00",
+ "_t_end": "2026-10-15T16:42:39.588455+00:00",
+ "_cmd": {
+  "model": "haiku",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/models/haiku-q5-r2",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "In this repo, what happens between the WSGI server calling the app and the view function running? List the main methods in order, with file paths. Be brief."
+ },
+ "_mu_cum": {
+  "input": 10,
+  "output": 3335,
+  "cache_read": 105866,
+  "cache_creation": 19223,
+  "cost": 0.00657176,
+  "total": 128434
+ },
+ "tok": {
+  "input": 10,
+  "output": 3335,
+  "cache_read": 105866,
+  "cache_creation": 19223,
+  "cost": 0.00657176,
+  "total": 128434,
+  "method": "single"
+ },
+ "_tok_usage_field": 128434,
+ "_ctx_last_call": 29509,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "plain"
+}

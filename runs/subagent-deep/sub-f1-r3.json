@@ -1,0 +1,202 @@
+{
+ "duration_api_ms": 44531,
+ "stop_reason": "end_turn",
+ "session_id": "79e84458-baba-4ab7-b82e-f66ff59ef536",
+ "total_cost_usd": 0.1762781,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 951,
+  "cache_read_input_tokens": 21089,
+  "output_tokens": 443,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 951,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 443,
+    "cache_read_input_tokens": 21089,
+    "cache_creation_input_tokens": 951,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 951
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 26,
+   "outputTokens": 5552,
+   "thinkingTokens": 372,
+   "cacheReadInputTokens": 270736,
+   "cacheCreationInputTokens": 30331,
+   "webSearchRequests": 0,
+   "costUSD": 0.1762781,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 1,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "Three tests fail for reasons other than the `partitioned` kwarg (from the subagent's report):\n\n1. **`tests/test_helpers.py::TestStreaming::test_async_view`**: `asgiref` isn't installed (the `async` extra), so `src/tessel/app.py:1090-1096` raises `RuntimeError: Install Tessel with the 'async' extra`.\n\n2. **`tests/test_request.py::test_limit_config`**: it expects `max_form_memory_size` to default to `500_000`. Werkzeug 3.0.3 defaults to `None`, and `src/tessel/wrappers.py:110-111` just passes that through. This is also an old-Werkzeug problem, but it's a different missing feature than `partitioned`.\n\n3. **`tests/test_helpers.py::test_open_resource_exceptions[a]`**: it fails only in the full run and passes alone. The subagent's best guess is that an unclosed `stream_with_context` generator from `test_stream_keeps_session` triggers an unraisable-exception failure here. That would make it indirect fallout of the main cause, but it's unconfirmed: the exact error message wasn't captured.\n\nCounting the first two as clearly separate, 22 of the 24 fail from the main cause directly or via the teardown/leak chain. The third is probably downstream of it.",
+ "ttft_ms": 3871,
+ "type": "result",
+ "duration_ms": 3914,
+ "uuid": "5a4bb360-e230-4c70-8b37-3606ca0190e2",
+ "ttft_stream_ms": 1061,
+ "time_to_request_ms": 42,
+ "first_content_frame_ms": 1062,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.299",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed_warning",
+  "resetsAt": 1792414800,
+  "rateLimitType": "seven_day",
+  "utilization": 0.61,
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.28,
+    "resetsAt": 1792017000
+   },
+   "seven_day": {
+    "utilization": 0.61,
+    "resetsAt": 1792414800
+   }
+  },
+  "overageEnabled": false
+ },
+ "_compact": [],
+ "_wall_s": 5.2,
+ "_t_start": "2026-10-14T17:37:29.156481+00:00",
+ "_t_end": "2026-10-14T17:37:34.349931+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": "79e84458-baba-4ab7-b82e-f66ff59ef536",
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/subagent-deep/sub-r3",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)",
+   "Bash(PYTHONPATH=src python3 -m pytest:*)",
+   "Bash(python3 -m pip show:*)",
+   "Bash(pip show:*)",
+   "Bash(pip list:*)",
+   "Bash(python3 -m pip list:*)",
+   "Bash(python3 -c:*)",
+   "Agent",
+   "Task"
+  ],
+  "prompt": "Which of the failing tests are NOT caused by that main root cause? Name them and say briefly why each fails."
+ },
+ "_mu_cum": {
+  "input": 26,
+  "output": 5552,
+  "cache_read": 270736,
+  "cache_creation": 30331,
+  "cost": 0.1762781,
+  "total": 306645
+ },
+ "tok": {
+  "input": 2,
+  "output": 443,
+  "cache_read": 21089,
+  "cache_creation": 951,
+  "total": 22485,
+  "cost": 0.010347,
+  "method": "delta"
+ },
+ "_tok_usage_field": 22485,
+ "_ctx_last_call": 22042,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "plain"
+}

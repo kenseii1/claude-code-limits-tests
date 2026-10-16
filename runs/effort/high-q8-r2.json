@@ -1,0 +1,238 @@
+{
+ "duration_api_ms": 16668,
+ "stop_reason": "end_turn",
+ "session_id": "ff70b8f7-11b7-4c94-9b86-9c0c85c0471c",
+ "total_cost_usd": 0.08578050000000001,
+ "usage": {
+  "input_tokens": 10,
+  "cache_creation_input_tokens": 14642,
+  "cache_read_input_tokens": 98825,
+  "output_tokens": 1731,
+  "output_tokens_details": {
+   "thinking_tokens": 31
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 14642,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 694,
+    "cache_read_input_tokens": 23818,
+    "cache_creation_input_tokens": 1108,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 1108
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 10,
+   "outputTokens": 1731,
+   "cacheReadInputTokens": 98825,
+   "cacheCreationInputTokens": 14642,
+   "webSearchRequests": 0,
+   "costUSD": 0.08578050000000001,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 31,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 6,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "They use a context-local proxy: werkzeug `LocalProxy` objects backed by a single `ContextVar`.\n\n**`src/tessel/globals.py`**\n- `_app_var: ContextVar[AppContext]` (line 40) holds the current context.\n- `active_app`, `g`, `request`, `session` and `app_ctx` are all `LocalProxy` objects over that same `_app_var`. The first two are on lines 44–49 and the other three are on lines 41–62. Each one reads a different attribute off the `AppContext` currently stored in the var:\n  - `active_app` reads `ctx.app`, the `Tessel` instance.\n  - `g` reads `ctx.g`, an `_AppCtxGlobals` instance.\n  - `request` reads `ctx.request`, a `Request`.\n  - `session` reads `ctx.session`.\n  - `app_ctx` is the `AppContext` itself.\n- If nothing is bound, the proxies raise `unbound_message`. That is `_no_app_msg` for `active_app`, `g` and `app_ctx`, and `_no_req_msg` for `request` and `session`.\n\n**`src/tessel/ctx.py`**\n- `AppContext` (line 260) is the object that gets looked up. Its `__init__` sets `self.app` (line 307) and `self.g` (line 312, built from `app.app_ctx_globals_class()`).\n- `AppContext.push()` calls `_app_var.set(self)` and stores the token (line 433).\n- `AppContext.pop()` calls `_app_var.reset(self._cv_token)` (line 498).\n- `has_app_context()` and `has_request_context()` read `_app_var.get(None)` directly (line 232 for the latter).\n\nA context is pushed at the start of each request or CLI command and popped at the end. Because `ContextVar` is isolated per thread and per async task, each one sees its own context.\n\nThe old separate `request_ctx` has been merged into `app_ctx`. The module `__getattr__` in `globals.py` (lines 65–75) keeps it as a deprecated alias.",
+ "ttft_ms": 2318,
+ "type": "result",
+ "duration_ms": 16837,
+ "uuid": "20e031fc-67c1-4cd0-8bdd-2297e59bbdcd",
+ "ttft_stream_ms": 1279,
+ "time_to_request_ms": 68,
+ "first_content_frame_ms": 1279,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.300",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 32,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"current_app|active_app|^g\\\\b|^request\\\\b|LocalProxy|ContextVar\", \"output_mode\": \"content\", \"glob\": \"**/*.py\", \"head_limit\": 60}",
+   "sub": false,
+   "result_chars": 4874,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/views.py:6:from .globals import active_app\nsrc/tessel/views.py:110:                return active_app.ensure_sync(self.run_view)(**kwargs)  # type: ig"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/effort/high-q8-r2/src/tessel/globals.py\"}",
+   "sub": false,
+   "result_chars": 2651,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1\tfrom __future__ import annotations\n2\t\n3\timport typing as t\n4\tfrom contextvars import ContextVar\n5\t\n6\tfrom werkzeug.local import LocalProxy\n7\t\n8\tif t.TYPE_CHEC"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"_cv_app|_cv_request|\\\\.set\\\\(|\\\\.reset\\\\(|class \\\\w+Context|def push|def pop\", \"path\": \"$UL_SCRATCH/runs/main/effort/high-q8-r2/src/tessel/ctx.py\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 279,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "79:    def pop(self, name: str, default: t.Any = _sentinel) -> t.Any:\n260:class AppContext:\n416:    def push(self) -> None:\n433:        self._cv_token = _app_va"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"self\\\\.(app|g|request|session)\\\\b\\\\s*[:=]\", \"path\": \"$UL_SCRATCH/runs/main/effort/high-q8-r2/src/tessel/ctx.py\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 91,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "307:        self.app = app\n312:        self.g: _AppCtxGlobals = app.app_ctx_globals_class()"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"request|session\", \"path\": \"$UL_SCRATCH/runs/main/effort/high-q8-r2/src/tessel/ctx.py\", \"output_mode\": \"content\", \"offset\": 0, \"head_limit\": 40, \"-n\": true}",
+   "sub": false,
+   "result_chars": 2624,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "22:    from .sessions import SessionMixin\n118:def after_this_request(\n121:    \"\"\"Decorate a function to run after the current request. The behavior is the\n122: "
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed",
+  "resetsAt": 1792099800,
+  "rateLimitType": "five_hour",
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.12,
+    "resetsAt": 1792099800
+   },
+   "seven_day": {
+    "utilization": 0.01,
+    "resetsAt": 1792681200
+   }
+  }
+ },
+ "_compact": [],
+ "_wall_s": 17.7,
+ "_t_start": "2026-10-15T16:33:32.095879+00:00",
+ "_t_end": "2026-10-15T16:33:49.794564+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "high",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/effort/high-q8-r2",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "In this repo, how do active_app, g and request find the right object for the current context? Name the mechanism and the objects involved, with file paths. Be brief."
+ },
+ "_mu_cum": {
+  "input": 10,
+  "output": 1731,
+  "cache_read": 98825,
+  "cache_creation": 14642,
+  "cost": 0.08578050000000001,
+  "total": 115208
+ },
+ "tok": {
+  "input": 10,
+  "output": 1731,
+  "cache_read": 98825,
+  "cache_creation": 14642,
+  "cost": 0.08578050000000001,
+  "total": 115208,
+  "method": "single"
+ },
+ "_tok_usage_field": 115208,
+ "_ctx_last_call": 24928,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "plain"
+}

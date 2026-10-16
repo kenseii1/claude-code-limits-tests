@@ -1,0 +1,200 @@
+{
+ "duration_api_ms": 28088,
+ "stop_reason": "end_turn",
+ "session_id": "ef66db48-274c-4445-896a-3c7c632ecf75",
+ "total_cost_usd": 0.14283210000000002,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 583,
+  "cache_read_input_tokens": 30498,
+  "output_tokens": 167,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 583,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 167,
+    "cache_read_input_tokens": 30498,
+    "cache_creation_input_tokens": 583,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 583
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 22,
+   "outputTokens": 3169,
+   "thinkingTokens": 253,
+   "cacheReadInputTokens": 274541,
+   "cacheCreationInputTokens": 20911,
+   "webSearchRequests": 0,
+   "costUSD": 0.14283210000000002,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 1,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "**Installed:** Werkzeug 3.0.3 (reported by `werkzeug.__version__`, at `/opt/anaconda3/lib/python3.12/site-packages/werkzeug`).\n\n**Required:** `werkzeug>=3.1.0`, from `pyproject.toml:29`.\n\n`pyproject.toml` also pins `werkzeug==3.1.0` (line 202) and a Werkzeug main-branch tarball (line 221), likely in test/dev dependency groups.",
+ "ttft_ms": 1926,
+ "type": "result",
+ "duration_ms": 1969,
+ "uuid": "3172ad13-386d-4ef1-9333-38c02b64fb21",
+ "ttft_stream_ms": 1040,
+ "time_to_request_ms": 40,
+ "first_content_frame_ms": 1040,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.299",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed_warning",
+  "resetsAt": 1792414800,
+  "rateLimitType": "seven_day",
+  "utilization": 0.61,
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.32,
+    "resetsAt": 1792017000
+   },
+   "seven_day": {
+    "utilization": 0.61,
+    "resetsAt": 1792414800
+   }
+  },
+  "overageEnabled": false
+ },
+ "_compact": [],
+ "_wall_s": 3.2,
+ "_t_start": "2026-10-14T17:38:27.183776+00:00",
+ "_t_end": "2026-10-14T17:38:30.419230+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": "ef66db48-274c-4445-896a-3c7c632ecf75",
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/subagent-deep/main-r3",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)",
+   "Bash(PYTHONPATH=src python3 -m pytest:*)",
+   "Bash(python3 -m pip show:*)",
+   "Bash(pip show:*)",
+   "Bash(pip list:*)",
+   "Bash(python3 -m pip list:*)",
+   "Bash(python3 -c:*)"
+  ],
+  "prompt": "Which Werkzeug version is installed in this environment, and what minimum version does the project's pyproject.toml require?"
+ },
+ "_mu_cum": {
+  "input": 22,
+  "output": 3169,
+  "cache_read": 274541,
+  "cache_creation": 20911,
+  "cost": 0.14283210000000002,
+  "total": 298643
+ },
+ "tok": {
+  "input": 2,
+  "output": 167,
+  "cache_read": 30498,
+  "cache_creation": 583,
+  "total": 31250,
+  "cost": 0.007056,
+  "method": "delta"
+ },
+ "_tok_usage_field": 31250,
+ "_ctx_last_call": 31083,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "plain"
+}

@@ -1,0 +1,229 @@
+{
+ "duration_api_ms": 14640,
+ "stop_reason": "end_turn",
+ "session_id": "27b13f2c-46ab-4427-ac7f-38cb042e8329",
+ "total_cost_usd": 0.1918106,
+ "usage": {
+  "input_tokens": 10,
+  "cache_creation_input_tokens": 17847,
+  "cache_read_input_tokens": 103173,
+  "output_tokens": 1418,
+  "output_tokens_details": {
+   "thinking_tokens": 53
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 17847,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 747,
+    "cache_read_input_tokens": 26955,
+    "cache_creation_input_tokens": 1176,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 1176
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-opus-5-5": {
+   "inputTokens": 10,
+   "outputTokens": 1418,
+   "cacheReadInputTokens": 103173,
+   "cacheCreationInputTokens": 17847,
+   "webSearchRequests": 0,
+   "costUSD": 0.1918106,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 53,
+   "canonicalModel": "claude-opus-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 5,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "It's a record-then-replay pattern. All of it is in `src/tessel/sansio/`:\n\n1. **Recording (at definition time).** `Bundle.attach_route_rule` (`bundles.py:413`), which `@bundle.route` uses, doesn't touch any app. It calls `Bundle.record` (`bundles.py:224`) with a lambda. That lambda is stored in `self.deferred_functions` and will later call `state.attach_route_rule(...)`.\n\n2. **Registration entry point.** `App.register_bundle` (`app.py:571`) calls `bundle.register(self, options)` (`app.py:596`).\n\n3. **`Bundle.register`** (`bundles.py:273`):\n   - It checks for name conflicts and adds the bundle to `app.bundles`.\n   - It calls `make_setup_state` (`bundles.py:246`), which builds a `BundleSetupState` (`bundles.py:34`). That object works out the `url_prefix`, `subdomain`, name/`name_prefix` and `url_defaults`, with registration options taking priority over the bundle's own defaults.\n   - If the bundle has a static folder, it adds the static route.\n   - It runs every function in `deferred_functions` with that state (`bundles.py:334`).\n   - It then registers nested bundles recursively. Their prefixes and subdomains are combined with the parent's, and the parent's name becomes their `name_prefix`.\n\n4. **`BundleSetupState.attach_route_rule`** (`bundles.py:87`) adds the URL prefix to the rule and sets the default subdomain. It merges in the defaults and turns the endpoint into a dotted name (`name_prefix.name.endpoint`). Then it calls **`App.attach_route_rule`** (`app.py:606`).\n\n5. **`App.attach_route_rule`** works out the HTTP methods, including automatic OPTIONS. It builds a `url_rule_class` rule, calls `self.url_map.add(rule_obj)`, and stores the view in `view_functions`.\n\nOne related detail: `Bundle._merge_bundle_funcs` (`bundles.py:379`) copies the bundle's own `view_functions`, handlers and hooks onto the app under the bundle's name.",
+ "ttft_ms": 1363,
+ "type": "result",
+ "duration_ms": 14903,
+ "uuid": "60c0ade2-4d2a-48e7-b7b5-1745adceb8cf",
+ "ttft_stream_ms": 812,
+ "time_to_request_ms": 184,
+ "first_content_frame_ms": 813,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-opus-5-5",
+  "version": "2.1.300",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 32,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"def register\\\\b|def add_url_rule|deferred_functions|def make_setup_state|def register_blueprint\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 613,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/json/tag.py:256:    def register(\nsrc/tessel/sansio/bundles.py:204:        self.deferred_functions: list[DeferredSetupFunction] = []\nsrc/tessel/sansi"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/models/opus-q4-r2/src/tessel/sansio/bundles.py\", \"offset\": 30, \"limit\": 420}",
+   "sub": false,
+   "result_chars": 18134,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "30\t    \"T_url_value_preprocessor\", bound=ft.URLValuePreprocessorCallable\n31\t)\n32\t\n33\t\n34\tclass BundleSetupState:\n35\t    \"\"\"Temporary holder object for registeri"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"def register_bundle|\\\\.register\\\\(self|def attach_route_rule\", \"path\": \"src/tessel\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 511,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/sansio/scaffold.py:376:    def attach_route_rule(\nsrc/tessel/sansio/app.py:571:    def register_bundle(self, bundle: Bundle, **options: t.Any) -> Non"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/models/opus-q4-r2/src/tessel/sansio/app.py\", \"offset\": 606, \"limit\": 60}",
+   "sub": false,
+   "result_chars": 2612,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "606\t    def attach_route_rule(\n607\t        self,\n608\t        rule: str,\n609\t        endpoint: str | None = None,\n610\t        view_func: ft.RouteCallable | None "
+  }
+ ],
+ "_models_seen": [
+  "claude-opus-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed",
+  "resetsAt": 1792099800,
+  "rateLimitType": "five_hour",
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.71,
+    "resetsAt": 1792099800
+   },
+   "seven_day": {
+    "utilization": 0.05,
+    "resetsAt": 1792681200
+   }
+  }
+ },
+ "_compact": [],
+ "_wall_s": 16.0,
+ "_t_start": "2026-10-15T16:40:48.897138+00:00",
+ "_t_end": "2026-10-15T16:41:04.856159+00:00",
+ "_cmd": {
+  "model": "opus",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/models/opus-q4-r2",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "In this repo, how does a bundle get its URL rules onto the app when it is registered? Name the classes and methods involved, with file paths. Be brief."
+ },
+ "_mu_cum": {
+  "input": 10,
+  "output": 1418,
+  "cache_read": 103173,
+  "cache_creation": 17847,
+  "cost": 0.1918106,
+  "total": 122448
+ },
+ "tok": {
+  "input": 10,
+  "output": 1418,
+  "cache_read": 103173,
+  "cache_creation": 17847,
+  "cost": 0.1918106,
+  "total": 122448,
+  "method": "single"
+ },
+ "_tok_usage_field": 122448,
+ "_ctx_last_call": 28133,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "plain"
+}

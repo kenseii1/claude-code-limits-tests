@@ -1,0 +1,229 @@
+{
+ "duration_api_ms": 166721,
+ "stop_reason": "end_turn",
+ "session_id": "44add762-fce5-4ca0-812d-ea4617408ef7",
+ "total_cost_usd": 0.6924974000000002,
+ "usage": {
+  "input_tokens": 6,
+  "cache_creation_input_tokens": 5956,
+  "cache_read_input_tokens": 242262,
+  "output_tokens": 2191,
+  "output_tokens_details": {
+   "thinking_tokens": 55
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 5956,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1570,
+    "cache_read_input_tokens": 81965,
+    "cache_creation_input_tokens": 3217,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 3217
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 72,
+   "outputTokens": 21047,
+   "thinkingTokens": 263,
+   "cacheReadInputTokens": 1822914,
+   "cacheCreationInputTokens": 74898,
+   "webSearchRequests": 0,
+   "costUSD": 0.6924974000000002,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 4,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "The cookie is written in `finalize_reply`, after the after-request functions, by `SignedCookieSessionInterface.persist_session`. I read the code and did not run it. Paths are relative to `src/tessel/`.\n\n**Call order**\n\n1. `Tessel.run_full_request` (`app.py:992`)\n2. `Tessel.finalize_request` (`app.py:1021`)\n3. `Tessel.make_response` (`app.py:1224`)\n4. `Tessel.finalize_reply` (`app.py:1394`)\n5. `SessionInterface.is_null_session` (`sessions.py:162`)\n6. `SignedCookieSessionInterface.persist_session` (`sessions.py:337`)\n7. Inside `persist_session`:\n   - the `get_cookie_*` helpers (`sessions.py:171`–`215`)\n   - `SessionInterface.cookie_needs_write` (`sessions.py:233`)\n   - `SessionInterface.get_expiration_time` (`sessions.py:~220`)\n   - `SignedCookieSessionInterface.make_signer` (`sessions.py:303`)\n   - `URLSafeTimedSerializer.dumps`, which calls `TypedCookieSerializer.dumps`\n   - `response.set_cookie` or `response.delete_cookie`\n\n**Step by step**\n\n1. `run_full_request` gets the view's return value (or an error handler's) and calls `finalize_request(ctx, rv)`.\n\n2. `finalize_request` turns `rv` into a `Response` with `make_response`, then calls `finalize_reply(ctx, response)`.\n\n3. `finalize_reply` first runs the after-request functions: the per-context ones from `ctx._after_request_functions`, then the registered ones for the bundles and the app, in reverse registration order (`app.py:1407`–`1413`). These run before the session is saved, so they can still modify it.\n\n4. It then checks `is_null_session(ctx._get_session())` (`app.py:1415`). A null session means there is no usable secret key, so nothing is persisted. Otherwise it calls `persist_session(self, session, response)` (`app.py:1416`).\n\n5. `persist_session` reads the cookie settings: name, domain, path, secure, partitioned, samesite and httponly.\n\n6. If `session.accessed` is true, it adds `Vary: Cookie` to the response (`sessions.py:349`).\n\n7. If the session is empty (`sessions.py:354`):\n   - If it was modified, it calls `response.delete_cookie(...)` and adds `Vary: Cookie`.\n   - It returns without writing a cookie either way.\n\n8. If the session is not empty, `cookie_needs_write` decides (`sessions.py:233`). It returns `session.modified`, or `session.permanent and SESSION_REFRESH_EACH_REQUEST`. If false, it returns and sets no cookie.\n\n9. Otherwise it computes `expires` with `get_expiration_time`. That is now plus `permanent_session_lifetime` for a permanent session, and `None` for a browser-session cookie.\n\n10. It builds the value with `self.make_signer(app).dumps(dict(session))` (`sessions.py:373`).\n    - `make_signer` returns a `URLSafeTimedSerializer` built from `app.secret_key`, `SECRET_KEY_HISTORY` fallbacks, `salt=\"cookie-session\"` and the `TypedCookieSerializer`.\n    - `TypedCookieSerializer.dumps` tags non-JSON types, then itsdangerous signs and URL-safe encodes the result.\n\n11. `response.set_cookie(name, val, expires=..., httponly=..., ...)` writes the `Set-Cookie` header, and `Vary: Cookie` is added.\n\n12. `finalize_reply` returns the response. `finalize_request` sends `request_finished`, and `wsgi_entry` hands the response to the WSGI server.\n\n**Caveats**\n\n- The class is `SignedCookieSessionInterface` (`sessions.py:284`). In my earlier session answer I wrote `SecureCookieSessionInterface`, which was wrong.\n- An unmodified, non-permanent session sets no cookie. Only reading it adds `Vary: Cookie`.\n- `make_signer` has `# type: ignore[union-attr]` at `sessions.py:373`. If there is a non-null session but no key, `make_signer` returns `None` and `.dumps` would fail. In practice a missing key gives a null session, which step 4 skips.",
+ "ttft_ms": 2794,
+ "type": "result",
+ "duration_ms": 16278,
+ "uuid": "8ec3c9b5-6024-442d-8333-7a59452e3af0",
+ "ttft_stream_ms": 1069,
+ "time_to_request_ms": 51,
+ "first_content_frame_ms": 1069,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init",
+  "system:thinking_tokens"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.300",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 31,
+  "skills_local": [
+   "caveman"
+  ],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"save_session|def finalize_reply|should_set_cookie|is_null_session|def get_cookie_|def process_response|def make_null_session|vary\", \"path\": \"$UL_SCRATCH/runs/main/caveman-session/caveman-r2/src/tessel\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 1409,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/testing.py:173:        if app.session_interface.is_null_session(sess):\nsrc/tessel/sessions.py:139:    #: :meth:`is_null_session` method will perform "
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/caveman-session/caveman-r2/src/tessel/app.py\", \"offset\": 1406, \"limit\": 25}",
+   "sub": false,
+   "result_chars": 1175,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1406\t        \"\"\"\n1407\t        for func in ctx._after_request_functions:\n1408\t            response = self.ensure_sync(func)(response)\n1409\t\n1410\t        for name"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/caveman-session/caveman-r2/src/tessel/sessions.py\", \"offset\": 225, \"limit\": 170}",
+   "sub": false,
+   "result_chars": 6629,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "225\t        or ``None`` if the session is linked to the browser session.  The\n226\t        default implementation returns now + the permanent session\n227\t       "
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed_warning",
+  "resetsAt": 1792414800,
+  "rateLimitType": "seven_day",
+  "utilization": 0.81,
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "surpassedThreshold": 0.75,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.65,
+    "resetsAt": 1792053000
+   },
+   "seven_day": {
+    "utilization": 0.81,
+    "resetsAt": 1792414800
+   }
+  },
+  "overageEnabled": false
+ },
+ "_compact": [],
+ "_wall_s": 17.2,
+ "_t_start": "2026-10-15T03:42:32.716772+00:00",
+ "_t_end": "2026-10-15T03:42:49.881015+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": "44add762-fce5-4ca0-812d-ea4617408ef7",
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/caveman-session/caveman-r2",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "In this repo, how does the session cookie get written at the end of a request? List the functions involved in call order, with file paths. Explain how it works, step by step."
+ },
+ "_mu_cum": {
+  "input": 72,
+  "output": 21047,
+  "cache_read": 1822914,
+  "cache_creation": 74898,
+  "cost": 0.6924974000000002,
+  "total": 1918931
+ },
+ "tok": {
+  "input": 6,
+  "output": 2191,
+  "cache_read": 242262,
+  "cache_creation": 5956,
+  "total": 250415,
+  "cost": 0.069972,
+  "method": "delta"
+ },
+ "_tok_usage_field": 250415,
+ "_ctx_last_call": 85184,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "caveman",
+ "_turn": 9,
+ "_rep": 2,
+ "_target": "q2"
+}

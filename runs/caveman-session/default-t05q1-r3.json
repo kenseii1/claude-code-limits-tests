@@ -1,0 +1,271 @@
+{
+ "duration_api_ms": 92435,
+ "stop_reason": "end_turn",
+ "session_id": "c801165d-8384-492f-aaf3-b18f3b9f4832",
+ "total_cost_usd": 0.4084024,
+ "usage": {
+  "input_tokens": 12,
+  "cache_creation_input_tokens": 12913,
+  "cache_read_input_tokens": 338322,
+  "output_tokens": 3455,
+  "output_tokens_details": {
+   "thinking_tokens": 52
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 12913,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1724,
+    "cache_read_input_tokens": 63315,
+    "cache_creation_input_tokens": 1082,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 1082
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 40,
+   "outputTokens": 11527,
+   "thinkingTokens": 52,
+   "cacheReadInputTokens": 766004,
+   "cacheCreationInputTokens": 54113,
+   "webSearchRequests": 0,
+   "costUSD": 0.4084024,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 9,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "Tracing the error-handling path is done; here is the write-up.\n\n## Methods in call order\n\n| # | Method | File |\n|---|---|---|\n| 1 | `Tessel.wsgi_entry` | `src/tessel/app.py:1566` |\n| 2 | `Tessel.run_full_request` | `src/tessel/app.py:992` |\n| 3 | `Tessel.run_view` (raises) | `src/tessel/app.py:966` |\n| 4 | `Tessel.route_user_fault` | `src/tessel/app.py:865` |\n| 5 | `Tessel.route_http_fault` (HTTP exceptions only) | `src/tessel/app.py:830` |\n| 6 | `App._pick_fault_handler` | `src/tessel/sansio/app.py:869` |\n| 7 | `Tessel.finalize_request` | `src/tessel/app.py:1021` |\n| 8 | `Tessel.route_unhandled_fault` (fallback) | `src/tessel/app.py:897` |\n\nRegistration side: `Scaffold.fault_handler` → `register_error_handler` → `_get_exc_class_and_code`, all in `src/tessel/sansio/scaffold.py` (`:606`, `:650`, `:665`).\n\n## Step by step\n\n1. **Entry.** `wsgi_entry` pushes the context and calls `run_full_request(ctx)` inside a `try`.\n2. **Catch.** `run_full_request` wraps `preprocess_request` and `run_view` in `try/except Exception`. On error it calls `route_user_fault(ctx, e)` (`:1017-1018`).\n3. **Classify** (`route_user_fault`).\n   - A `BadRequestKeyError` gets `show_exception` set in debug or when `TRAP_BAD_REQUEST_ERRORS` is on.\n   - If `e` is an `HTTPException` and `trap_http_exception(e)` is false, it goes to `route_http_fault` (`:887-888`).\n   - Otherwise it calls `_pick_fault_handler(e, ctx.request.bundles)` (`:890`).\n   - If no handler is found, it re-raises with the bare `raise` (`:893`).\n4. **HTTP branch** (`route_http_fault`).\n   - If `e.code is None` (proxy exceptions) it returns `e` unchanged.\n   - `RoutingException` (for example slash redirects) is also returned unchanged and never reaches handlers.\n   - Otherwise it calls `_pick_fault_handler`. If that finds nothing it returns the exception itself, which becomes the response.\n5. **Selection** (`_pick_fault_handler`, `sansio/app.py:869`).\n   - `_get_exc_class_and_code(type(e))` gives `(exc_class, code)`. The code is `None` for non-HTTP exceptions.\n   - `names = (*bundles, None)` means the bundles handling the request come first, then the app.\n   - The outer loop tries `code` first, then `None` (class-only handlers).\n   - The inner loop goes through `names`, so a bundle beats the app at the same specificity.\n   - For each `error_handler_spec[name][c]` map, it walks `exc_class.__mro__` and returns the first hit. The most specific class wins, and a handler on a base class like `HTTPException` works as a catch-all.\n   - Resulting priority: bundle by code, app by code, bundle by class, app by class.\n6. **Invoke.** `self.ensure_sync(handler)(e)` runs the handler, and async handlers are wrapped. Its return value becomes `rv`.\n7. **Finalize.** Back in `run_full_request`, `finalize_request(ctx, rv)` converts `rv` to a response, runs postprocessing and sends `request_finished`.\n8. **Unhandled path.**\n   - If no handler matched, or the handler or finalization raised, `wsgi_entry` catches the exception (`:1598-1600`) and calls `route_unhandled_fault`.\n   - That sends `got_request_exception`.\n   - If `PROPAGATE_EXCEPTIONS` (default: `testing or debug`) is true, it re-raises for the debugger.\n   - Otherwise it logs the exception, wraps it in `InternalServerError(original_exception=e)` and looks up a handler for it with `_pick_fault_handler`.\n   - It finalizes with `from_error_handler=True`, so failures during finalization are logged rather than raised.\n\n## How handlers get into `error_handler_spec`\n\n- `@app.fault_handler(404)` or `@app.fault_handler(MyError)` calls `register_error_handler`, which stores `error_handler_spec[None][code][exc_class] = f` (`scaffold.py:662`). Here `code` is `None` for non-HTTP exceptions.\n- On a bundle, the spec key is the bundle name.\n- `Bundle.app_fault_handler` (`sansio/bundles.py:656`) registers on the app instead.\n- When a bundle is attached to the app, its specs are merged into `app.error_handler_spec` (`sansio/bundles.py:388-397`).",
+ "ttft_ms": 2896,
+ "type": "result",
+ "duration_ms": 29439,
+ "uuid": "3c9f4093-a77f-442b-bdfb-9b233cc622ae",
+ "ttft_stream_ms": 1074,
+ "time_to_request_ms": 45,
+ "first_content_frame_ms": 1074,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.300",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"def (handle_user_exception|handle_http_exception|handle_exception|_find_error_handler|full_dispatch_request|wsgi_app|finalize_request|dispatch_request|fault_handler|attach_fault_handler|_get_exc_class_and_code|process_response)\", \"output_mode\": \"content\", \"path\": \"$UL_SCRATCH/",
+   "sub": false,
+   "result_chars": 172,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/sansio/scaffold.py:606:    def fault_handler(\nsrc/tessel/sansio/scaffold.py:665:    def _get_exc_class_and_code(\nsrc/tessel/app.py:1021:    def final"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"fault_handler|error_handler_spec|find_handler|_find_\", \"output_mode\": \"content\", \"path\": \"$UL_SCRATCH/runs/main/caveman-session/default-r3/src/tessel/app.py\"}",
+   "sub": false,
+   "result_chars": 223,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "860:        handler = self._pick_fault_handler(e, ctx.request.bundles)\n890:        handler = self._pick_fault_handler(e, ctx.request.bundles)\n943:        handle"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"fault_handler|error_handler_spec|find_handler|_find_|def _get_exc\", \"output_mode\": \"content\", \"path\": \"$UL_SCRATCH/runs/main/caveman-session/default-r3/src/tessel/sansio\"}",
+   "sub": false,
+   "result_chars": 2095,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/sansio/scaffold.py:118:        #: To register an error handler, use the :meth:`fault_handler`\nsrc/tessel/sansio/scaffold.py:123:        self.error_ha"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/caveman-session/default-r3/src/tessel/app.py\", \"offset\": 820, \"limit\": 330}",
+   "sub": false,
+   "result_chars": 14481,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "820\t\n821\t        .. versionadded:: 1.0\n822\t        \"\"\"\n823\t        cls = self.test_cli_runner_class\n824\t\n825\t        if cls is None:\n826\t            from .testi"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/caveman-session/default-r3/src/tessel/sansio/app.py\", \"offset\": 865, \"limit\": 40}",
+   "sub": false,
+   "result_chars": 1863,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "865\t        \"\"\"\n866\t        self.shell_ctx_injectors.append(f)\n867\t        return f\n868\t\n869\t    def _pick_fault_handler(\n870\t        self, e: Exception, bundle"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/caveman-session/default-r3/src/tessel/sansio/scaffold.py\", \"offset\": 604, \"limit\": 112}",
+   "sub": false,
+   "result_chars": 4617,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "604\t\n605\t    @setupmethod\n606\t    def fault_handler(\n607\t        self, code_or_exception: type[Exception] | int\n608\t    ) -> t.Callable[[T_error_handler], T_err"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"route_unhandled_fault|run_full_request\", \"output_mode\": \"content\", \"path\": \"$UL_SCRATCH/runs/main/caveman-session/default-r3/src/tessel/app.py\"}",
+   "sub": false,
+   "result_chars": 496,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "261:            cls.route_unhandled_fault,\n264:            cls.run_full_request,\n897:    def route_unhandled_fault(self, ctx: AppContext, e: Exception) -> Respo"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/caveman-session/default-r3/src/tessel/app.py\", \"offset\": 1560, \"limit\": 60}",
+   "sub": false,
+   "result_chars": 2414,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1560\t            environ = builder.get_environ()\n1561\t        finally:\n1562\t            builder.close()\n1563\t\n1564\t        return self.request_context(environ)\n"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed_warning",
+  "resetsAt": 1792414800,
+  "rateLimitType": "seven_day",
+  "utilization": 0.8,
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "surpassedThreshold": 0.75,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.51,
+    "resetsAt": 1792053000
+   },
+   "seven_day": {
+    "utilization": 0.8,
+    "resetsAt": 1792414800
+   }
+  },
+  "overageEnabled": false
+ },
+ "_compact": [],
+ "_wall_s": 30.4,
+ "_t_start": "2026-10-15T03:39:16.718712+00:00",
+ "_t_end": "2026-10-15T03:39:47.107724+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": "c801165d-8384-492f-aaf3-b18f3b9f4832",
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/caveman-session/default-r3",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "In this repo, when a view raises an exception, how does Tessel decide which error handler runs? List the methods involved in call order, with file paths. Explain how it works, step by step."
+ },
+ "_mu_cum": {
+  "input": 40,
+  "output": 11527,
+  "cache_read": 766004,
+  "cache_creation": 54113,
+  "cost": 0.4084024,
+  "total": 831684
+ },
+ "tok": {
+  "input": 12,
+  "output": 3455,
+  "cache_read": 338322,
+  "cache_creation": 12913,
+  "total": 354702,
+  "cost": 0.120058,
+  "method": "delta"
+ },
+ "_tok_usage_field": 354702,
+ "_ctx_last_call": 64399,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "plain",
+ "_turn": 5,
+ "_rep": 3,
+ "_target": "q1"
+}

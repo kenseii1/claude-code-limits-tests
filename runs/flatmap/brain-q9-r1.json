@@ -1,0 +1,223 @@
+{
+ "duration_api_ms": 10413,
+ "stop_reason": "end_turn",
+ "session_id": "f493e8d4-b931-4a17-837e-ba31030431cd",
+ "total_cost_usd": 0.07168359999999999,
+ "usage": {
+  "input_tokens": 8,
+  "cache_creation_input_tokens": 13287,
+  "cache_read_input_tokens": 70896,
+  "output_tokens": 1143,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 13287,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 575,
+    "cache_read_input_tokens": 20546,
+    "cache_creation_input_tokens": 3025,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 3025
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 8,
+   "outputTokens": 1143,
+   "cacheReadInputTokens": 70896,
+   "cacheCreationInputTokens": 13287,
+   "webSearchRequests": 0,
+   "costUSD": 0.07168359999999999,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 0,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 4,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "All of this is in `src/tessel/views.py`. The `brain/` notes don't cover class-based views, so I read the source directly.\n\n**Making the view function**\n- You subclass `VerbView`, which extends `View`, and define `get()` and `post()`.\n- `VerbView.__init_subclass__` runs at class creation. It scans the class for the names in `http_method_funcs` and sets `cls.methods = {\"GET\", \"POST\", ...}`. It also merges in any `methods` inherited from base classes.\n- `View.to_view_func(name, *class_args, **class_kwargs)` is a classmethod that builds the plain function `view(**kwargs)`.\n  - By default it creates a new instance per request, via `view.view_class(...)`. With `init_every_request = False` it shares one instance.\n  - Either way, it calls `active_app.ensure_sync(self.run_view)(**kwargs)`.\n  - It applies any `decorators`, then attaches `view_class`, `methods`, `provide_automatic_options`, `__name__`, `__doc__` and `__module__` to the function.\n- You register it with `app.attach_route_rule(path, view_func=CounterAPI.to_view_func(\"counter\"))`. The route picks up `view.methods`, so only those HTTP methods are allowed on the rule.\n\n**Routing a method to the handler**\n- `VerbView.run_view(**kwargs)` does `getattr(self, request.method.lower(), None)`, using the `request` proxy from `globals`.\n- If the request is HEAD and there is no `head` method, it falls back to `get`.\n- It asserts that a handler was found, then calls it through `active_app.ensure_sync(meth)(**kwargs)`, passing the URL variables.",
+ "ttft_ms": 2095,
+ "type": "result",
+ "duration_ms": 10522,
+ "uuid": "98e4e152-030a-484e-8793-d6ebe68cc094",
+ "ttft_stream_ms": 1110,
+ "time_to_request_ms": 47,
+ "first_content_frame_ms": 1110,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.300",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"as_view|dispatch_request|methods\", \"path\": \"$UL_SCRATCH/runs/main/flatmap/brain-q9-r1/brain\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 310,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "brain/cli.md:23:- `routes_command` (`tessel routes`): `--sort`, `--all-methods`.\nbrain/architecture.md:47:methods that lack the new `ctx: AppContext` second par"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"as_view|dispatch_request|class .*View\", \"path\": \"$UL_SCRATCH/runs/main/flatmap/brain-q9-r1/src/tessel\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 190,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/views.py:16:class View:\nsrc/tessel/views.py:27:        class Hello(View):\nsrc/tessel/views.py:138:class VerbView(View):\nsrc/tessel/views.py:152:     "
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/flatmap/brain-q9-r1/src/tessel/views.py\"}",
+   "sub": false,
+   "result_chars": 7601,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "1\tfrom __future__ import annotations\n2\t\n3\timport typing as t\n4\t\n5\tfrom . import typing as ft\n6\tfrom .globals import active_app\n7\tfrom .globals import request\n8\t"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed_warning",
+  "resetsAt": 1792414800,
+  "rateLimitType": "seven_day",
+  "utilization": 0.83,
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "surpassedThreshold": 0.75,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.8,
+    "resetsAt": 1792053000
+   },
+   "seven_day": {
+    "utilization": 0.83,
+    "resetsAt": 1792414800
+   }
+  },
+  "overageEnabled": false
+ },
+ "_compact": [],
+ "_wall_s": 11.6,
+ "_t_start": "2026-10-15T03:45:04.794458+00:00",
+ "_t_end": "2026-10-15T03:45:16.362677+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/flatmap/brain-q9-r1",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "In this repo, how does a class-based view with get() and post() methods become a view function and route each HTTP method to the right handler? Name the classes and methods, with file paths. Be brief."
+ },
+ "_mu_cum": {
+  "input": 8,
+  "output": 1143,
+  "cache_read": 70896,
+  "cache_creation": 13287,
+  "cost": 0.07168359999999999,
+  "total": 85334
+ },
+ "tok": {
+  "input": 8,
+  "output": 1143,
+  "cache_read": 70896,
+  "cache_creation": 13287,
+  "cost": 0.07168359999999999,
+  "total": 85334,
+  "method": "single"
+ },
+ "_tok_usage_field": 85334,
+ "_ctx_last_call": 23573,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "brain"
+}

@@ -1,0 +1,282 @@
+{
+ "duration_api_ms": 27668,
+ "stop_reason": "end_turn",
+ "session_id": "0c167543-3226-4332-9f0e-d94381a6f344",
+ "total_cost_usd": 0.10150340000000001,
+ "usage": {
+  "input_tokens": 14,
+  "cache_creation_input_tokens": 15301,
+  "cache_read_input_tokens": 140414,
+  "output_tokens": 2623,
+  "output_tokens_details": {
+   "thinking_tokens": 89
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 15301,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 678,
+    "cache_read_input_tokens": 26071,
+    "cache_creation_input_tokens": 1262,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 1262
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 14,
+   "outputTokens": 2623,
+   "cacheReadInputTokens": 140414,
+   "cacheCreationInputTokens": 15301,
+   "webSearchRequests": 0,
+   "costUSD": 0.10150340000000001,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 89,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 10,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "URL rules are deferred on the bundle at definition time, then replayed onto the app at registration.\n\n1. **Definition time:** `Bundle.attach_route_rule` (`src/tessel/sansio/bundles.py:413`) doesn't touch the app. It validates the endpoint and view names, then calls `self.record(lambda s: s.attach_route_rule(...))`. `Bundle.record` (`:224`) appends that callback to `self.deferred_functions`. The `@bundle.route` decorator goes through this path via `Scaffold.attach_route_rule` in `src/tessel/sansio/scaffold.py:376`.\n\n2. **Registration entry point:** `App.register_bundle` (`src/tessel/sansio/app.py:571`) just calls `bundle.register(self, options)`.\n\n3. **Replay:** `Bundle.register` (`src/tessel/sansio/bundles.py:273`) does the following:\n   - Records the bundle in `app.bundles[name]`.\n   - Builds a `BundleSetupState` with `make_setup_state` (`:246`).\n   - Adds the static-file rule through `state.attach_route_rule` if the bundle has a static folder.\n   - Runs `for deferred in self.deferred_functions: deferred(state)` (`:334`).\n\n4. **Applying to the app:** `BundleSetupState.attach_route_rule` (`src/tessel/sansio/bundles.py:87`) does the following:\n   - Joins `url_prefix` onto the rule.\n   - Sets the default `subdomain`.\n   - Merges `url_defaults`.\n   - Builds the endpoint as `{name_prefix}.{name}.{endpoint}`.\n   - Calls `self.app.attach_route_rule(...)`, which is `App.attach_route_rule` at `src/tessel/sansio/app.py:606` and creates the actual URL rule.\n\n`src/tessel/bundles.py` only defines a thin `Bundle(SansioBundle)` subclass and isn't involved in this flow.",
+ "ttft_ms": 6841,
+ "type": "result",
+ "duration_ms": 27880,
+ "uuid": "fafbb9c8-d573-49f9-8ba9-616992e6c480",
+ "ttft_stream_ms": 6125,
+ "time_to_request_ms": 37,
+ "first_content_frame_ms": 6126,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init",
+  "system:thinking_tokens"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.299",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"class \\\\w*Bundle|registerBundle|function register\\\\(|getUrlRules|urlRules|UrlRules\", \"output_mode\": \"files_with_matches\", \"head_limit\": 30}",
+   "sub": false,
+   "result_chars": 106,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "Found 4 files\ntests/test_bundles.py\ntests/test_async.py\nsrc/tessel/sansio/bundles.py\nsrc/tessel/bundles.py"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"def register|def _record|def add_url_rule|def make_setup_state|class |url_rule|deferred\", \"path\": \"$UL_SCRATCH/runs/main/session/chain-r1/src/tessel/sansio/bundles.py\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 880,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "34:class BundleSetupState:\n36:    application.  An instance of this class is created by the\n119:class Bundle(Scaffold):\n129:    Decorating a function with a bun"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"def register|def _record|def add_url_rule|def make_setup_state|class |url_rule\", \"path\": \"$UL_SCRATCH/runs/main/session/chain-r1/src/tessel/bundles.py\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 30,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "18:class Bundle(SansioBundle):"
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"def add_url_rule|def record|_record|app.add_url_rule\", \"path\": \"$UL_SCRATCH/runs/main/session/chain-r1/src/tessel/sansio/bundles.py\", \"output_mode\": \"content\", \"-n\": true}",
+   "sub": false,
+   "result_chars": 130,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "224:    def record(self, func: DeferredSetupFunction) -> None:\n233:    def record_once(self, func: DeferredSetupFunction) -> None:"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/session/chain-r1/src/tessel/sansio/bundles.py\", \"offset\": 34, \"limit\": 90}",
+   "sub": false,
+   "result_chars": 3508,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "34\tclass BundleSetupState:\n35\t    \"\"\"Temporary holder object for registering a bundle with the\n36\t    application.  An instance of this class is created by the\n"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/session/chain-r1/src/tessel/sansio/bundles.py\", \"offset\": 270, \"limit\": 70}",
+   "sub": false,
+   "result_chars": 3061,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "270\t            raise ValueError(\"Cannot register a bundle on itself\")\n271\t        self._bundles.append((bundle, options))\n272\t\n273\t    def register(self, app: "
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"def attach_route_rule|def register_bundle\", \"path\": \"$UL_SCRATCH/runs/main/session/chain-r1/src\", \"output_mode\": \"content\", \"-n\": true, \"-A\": 12}",
+   "sub": false,
+   "result_chars": 5582,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/sansio/bundles.py:87:    def attach_route_rule(\nsrc/tessel/sansio/bundles.py-88-        self,\nsrc/tessel/sansio/bundles.py-89-        rule: str,\nsrc/"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/session/chain-r1/src/tessel/sansio/bundles.py\", \"offset\": 424, \"limit\": 25}",
+   "sub": false,
+   "result_chars": 1070,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "424\t        The URL rule is prefixed with the bundle's URL prefix. The endpoint name,\n425\t        used with :func:`link_for`, is prefixed with the bundle's name"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/session/chain-r1/src/tessel/sansio/app.py\", \"offset\": 584, \"limit\": 22}",
+   "sub": false,
+   "result_chars": 866,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "584\t        :param options: Additional keyword arguments are passed to\n585\t            :class:`~tessel.bundles.BundleSetupState`. They can be\n586\t            ac"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed",
+  "resetsAt": 1791981000,
+  "rateLimitType": "five_hour",
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.56,
+    "resetsAt": 1791981000
+   },
+   "seven_day": {
+    "utilization": 0.47,
+    "resetsAt": 1792414800
+   }
+  }
+ },
+ "_compact": [],
+ "_wall_s": 29.0,
+ "_t_start": "2026-10-14T08:00:26.359563+00:00",
+ "_t_end": "2026-10-14T08:00:55.381358+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/session/chain-r1",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "In this repo, how does a bundle get its URL rules onto the app when it is registered? Name the classes and methods involved, with file paths. Be brief."
+ },
+ "_mu_cum": {
+  "input": 14,
+  "output": 2623,
+  "cache_read": 140414,
+  "cache_creation": 15301,
+  "cost": 0.10150340000000001,
+  "total": 158352
+ },
+ "tok": {
+  "input": 14,
+  "output": 2623,
+  "cache_read": 140414,
+  "cache_creation": 15301,
+  "cost": 0.10150340000000001,
+  "total": 158352,
+  "method": "single"
+ },
+ "_tok_usage_field": 158352,
+ "_ctx_last_call": 27335,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "plain",
+ "_ctx_before": 51109,
+ "_N": 5,
+ "_arm": "clear",
+ "_pos": 1,
+ "_target": "q4",
+ "_rep": 1,
+ "_parent_sid": "35715622-fb03-425f-ba07-695217399ba9"
+}

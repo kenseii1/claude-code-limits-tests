@@ -1,0 +1,233 @@
+{
+ "duration_api_ms": 12796,
+ "stop_reason": "end_turn",
+ "session_id": "f54a0548-ec36-4355-84ba-4949862e353f",
+ "total_cost_usd": 0.0722779,
+ "usage": {
+  "input_tokens": 8,
+  "cache_creation_input_tokens": 12835,
+  "cache_read_input_tokens": 70919,
+  "output_tokens": 1383,
+  "output_tokens_details": {
+   "thinking_tokens": 164
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 12835,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 531,
+    "cache_read_input_tokens": 21759,
+    "cache_creation_input_tokens": 1360,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 1360
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "modelUsage": {
+  "claude-sonnet-5-5": {
+   "inputTokens": 8,
+   "outputTokens": 1383,
+   "cacheReadInputTokens": 70919,
+   "cacheCreationInputTokens": 12835,
+   "webSearchRequests": 0,
+   "costUSD": 0.0722779,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 164,
+   "canonicalModel": "claude-sonnet-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "permission_denials": [],
+ "terminal_reason": "completed",
+ "fast_mode_state": "off",
+ "fast_mode_disabled_reason": "sdk_opt_in_required",
+ "subagent_stats": {
+  "spawned": 0,
+  "requested": {
+   "background": 0,
+   "foreground": 0,
+   "unset": 0
+  },
+  "started_in_background": 0,
+  "max_depth": 0,
+  "spawned_by_subagents": 0,
+  "completed": 0,
+  "failed": 0,
+  "killed": {
+   "parent": 0,
+   "user": 0,
+   "system": 0
+  },
+  "refused": {
+   "depth_limit": 0,
+   "concurrency_limit": 0,
+   "budget": 0
+  },
+  "by_type": {}
+ },
+ "safety_stops": 0,
+ "is_error": false,
+ "num_turns": 5,
+ "subtype": "success",
+ "api_error_status": null,
+ "result": "This looks like expected behavior rather than a bug in either function.\n\n**Why it happens**\n\n- `route_http_fault` (`src/tessel/app.py:860`) calls `_pick_fault_handler(e, ctx.request.bundles)`.\n- `_pick_fault_handler` (`src/tessel/sansio/app.py:869`) builds `names = (*bundles, None)`, so it looks in the bundle handlers first, then the app-level ones.\n- For an unknown URL, routing never matched an endpoint. `request.bundle` is derived from `request.endpoint` (`src/tessel/wrappers.py:162-195`), so it is `None` and `request.bundles` is `[]`.\n- The lookup therefore only checks `error_handler_spec[None]`. Your bundle-scoped 404 handler is never consulted, and the default 404 page is returned.\n\n**Where I'd look**\n\n1. **Where the 404 handler is registered.** A bundle-level `errorhandler(404)` only fires for requests that matched one of that bundle's endpoints, such as a `abort(404)` inside a bundle view.\n2. **The app-level registration path.** If you want it to cover unmatched URLs, register it app-wide, for example with `app_errorhandler` if the bundle API has one, or directly on the app.\n3. **`error_handler_spec` population.** It's worth confirming that the handler landed under the bundle's name and under code 404, not under `None`.\n\nFixing this for real means registering at app level. Making bundles catch unmatched URLs would need prefix-based bundle resolution, which the code doesn't do today.",
+ "ttft_ms": 1620,
+ "type": "result",
+ "duration_ms": 12924,
+ "uuid": "6f14bd28-5eee-4f4a-a506-6f5c9d0f37b5",
+ "ttft_stream_ms": 1036,
+ "time_to_request_ms": 29,
+ "first_content_frame_ms": 1037,
+ "queued_turn_count": 0,
+ "result_index": 0,
+ "_events": [
+  "rate_limit_event:None",
+  "result:success",
+  "system:init",
+  "system:thinking_tokens"
+ ],
+ "_init": {
+  "model": "claude-sonnet-5-5",
+  "version": "2.1.300",
+  "n_tools": 26,
+  "mcp_tools": 0,
+  "mcp_servers": [],
+  "n_skills": 30,
+  "skills_local": [],
+  "agents": [
+   "claude",
+   "Explore",
+   "general-purpose",
+   "Plan",
+   "statusline-setup"
+  ],
+  "permissionMode": "dontAsk"
+ },
+ "_trace": [
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"_pick_fault_handler|def route_http_fault\", \"output_mode\": \"content\"}",
+   "sub": false,
+   "result_chars": 383,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/app.py:830:    def route_http_fault(\nsrc/tessel/app.py:860:        handler = self._pick_fault_handler(e, ctx.request.bundles)\nsrc/tessel/app.py:890: "
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/naming/named-s3-r2/src/tessel/sansio/app.py\", \"offset\": 860, \"limit\": 60}",
+   "sub": false,
+   "result_chars": 2517,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "860\t        self, f: T_shell_ctx_injector\n861\t    ) -> T_shell_ctx_injector:\n862\t        \"\"\"Registers a shell context processor function.\n863\t\n864\t        .. ve"
+  },
+  {
+   "tool": "Read",
+   "input": "{\"file_path\": \"$UL_SCRATCH/runs/main/naming/named-s3-r2/src/tessel/app.py\", \"offset\": 825, \"limit\": 50}",
+   "sub": false,
+   "result_chars": 2159,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "825\t        if cls is None:\n826\t            from .testing import TesselCliRunner as cls\n827\t\n828\t        return cls(self, **kwargs)  # type: ignore\n829\t\n830\t   "
+  },
+  {
+   "tool": "Grep",
+   "input": "{\"pattern\": \"def bundles|def bundle\\\\b\", \"output_mode\": \"content\", \"-A\": 22, \"path\": \"$UL_SCRATCH/runs/main/naming/named-s3-r2/src\"}",
+   "sub": false,
+   "result_chars": 2351,
+   "vendor_hits": 0,
+   "is_error": false,
+   "result_head": "src/tessel/wrappers.py:162:    def bundle(self) -> str | None:\nsrc/tessel/wrappers.py-163-        \"\"\"The registered name of the current bundle.\nsrc/tessel/wrapp"
+  }
+ ],
+ "_models_seen": [
+  "claude-sonnet-5-5"
+ ],
+ "_rate_limit": {
+  "status": "allowed_warning",
+  "resetsAt": 1792035000,
+  "rateLimitType": "five_hour",
+  "utilization": 0.9,
+  "overageStatus": "rejected",
+  "overageDisabledReason": "org_level_disabled",
+  "isUsingOverage": false,
+  "surpassedThreshold": 0.9,
+  "unifiedWindows": {
+   "five_hour": {
+    "utilization": 0.9,
+    "resetsAt": 1792035000
+   },
+   "seven_day": {
+    "utilization": 0.75,
+    "resetsAt": 1792414800
+   }
+  },
+  "overageEnabled": false
+ },
+ "_compact": [],
+ "_wall_s": 14.0,
+ "_t_start": "2026-10-14T22:42:42.467356+00:00",
+ "_t_end": "2026-10-14T22:42:56.484739+00:00",
+ "_cmd": {
+  "model": "sonnet",
+  "effort": "medium",
+  "args": [],
+  "mcp": "strict",
+  "resume": null,
+  "fork": false,
+  "cwd": "$UL_SCRATCH/runs/main/naming/named-s3-r2",
+  "env": null,
+  "tools": [
+   "Read",
+   "Grep",
+   "Glob",
+   "Bash(ls:*)",
+   "Bash(grep:*)",
+   "Bash(find:*)",
+   "Bash(cat:*)",
+   "Bash(head:*)",
+   "Bash(wc:*)",
+   "Bash(rg:*)"
+  ],
+  "prompt": "Look at App._pick_fault_handler in src/tessel/sansio/app.py and Tessel.route_http_fault in src/tessel/app.py. We registered a 404 error handler on a bundle, but for unknown URLs the default 404 page shows instead. In this repo, where would you look and why? Be brief."
+ },
+ "_mu_cum": {
+  "input": 8,
+  "output": 1383,
+  "cache_read": 70919,
+  "cache_creation": 12835,
+  "cost": 0.0722779,
+  "total": 85145
+ },
+ "tok": {
+  "input": 8,
+  "output": 1383,
+  "cache_read": 70919,
+  "cache_creation": 12835,
+  "cost": 0.0722779,
+  "total": 85145,
+  "method": "single"
+ },
+ "_tok_usage_field": 85145,
+ "_ctx_last_call": 23121,
+ "_subagent_calls": 0,
+ "_correct": true,
+ "_tpl": "plain"
+}
